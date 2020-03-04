@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">NoWakeLock</string>
+    <string name="xposeddescription">唤醒查看器</string>
 </resources>
