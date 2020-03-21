@@ -1,7 +1,9 @@
-package com.js.nowakelock
+package com.js.nowakelock.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.js.nowakelock.R
+import com.js.nowakelock.XposedHook.DataRepository
 import org.koin.android.ext.android.inject
 
 

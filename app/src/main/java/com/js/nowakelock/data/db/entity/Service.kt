@@ -1,13 +1,13 @@
-package com.js.nowakelock.db.entity
+package com.js.nowakelock.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Alarm(
+data class Service(
     @PrimaryKey(autoGenerate = true)
     var id: Int,
-    var alarmName: String = "",
+    var serviceName: String = "",
     var flag: Boolean = true,
     var count: Int
 )

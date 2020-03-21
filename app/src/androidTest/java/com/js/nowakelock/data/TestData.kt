@@ -1,13 +1,15 @@
-package com.js.nowakelock.db
+package com.js.nowakelock.data
 
-import com.js.nowakelock.db.entity.AppInfo
-import com.js.nowakelock.db.entity.WakeLock
+import com.js.nowakelock.data.db.entity.AppInfo
+import com.js.nowakelock.data.db.entity.WakeLock
 
 class TestData {
     companion object {
-        var appInfos = getInfos()
+        var appInfos =
+            getInfos()
 
-        var wakeLocks = getwakeLocks()
+        var wakeLocks =
+            getwakeLocks()
 
         val packageName = "p1"
 
@@ -15,7 +17,13 @@ class TestData {
             val appInfos: MutableList<AppInfo> = mutableListOf()
 
             for (i in 1..10 step 1) {
-                appInfos.add(AppInfo("p$i", i, "$i"))
+                appInfos.add(
+                    AppInfo(
+                        "p$i",
+                        i,
+                        "$i"
+                    )
+                )
             }
             return appInfos
         }

@@ -1,21 +1,22 @@
-package com.js.nowakelock.db
+package com.js.nowakelock.data.db
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.js.nowakelock.db.dao.AppInfoDao
-import com.js.nowakelock.db.dao.WakeLockDao
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertTrue
+import com.js.nowakelock.LiveDataTestUtil
+import com.js.nowakelock.data.db.dao.AppInfoDao
+import com.js.nowakelock.data.db.dao.WakeLockDao
+import com.js.nowakelock.data.TestData
 import kotlinx.coroutines.runBlocking
 import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
 class AppDatabaseTest {
-
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -49,8 +50,8 @@ class AppDatabaseTest {
             wakeLockDao.loadAllWakeLocks(TestData.packageName)
         }
 
-        assertTrue(appinfos.isEmpty())
-        assertTrue(wakeLocks.isEmpty())
+        assertTrue(LiveDataTestUtil.getValue(appinfos).isEmpty())
+        assertTrue(LiveDataTestUtil.getValue(wakeLocks).isEmpty())
     }
 
     @Test
@@ -63,11 +64,11 @@ class AppDatabaseTest {
         }
 
         assertEquals(runBlocking {
-            appInfoDao.loadAllAppInfos()
+            LiveDataTestUtil.getValue(appInfoDao.loadAllAppInfos())
         }, TestData.appInfos)
 
         assertEquals(runBlocking {
-            wakeLockDao.loadAllWakeLocks(TestData.packageName)
+            LiveDataTestUtil.getValue(wakeLockDao.loadAllWakeLocks(TestData.packageName))
         }, TestData.wakeLocks)
     }
 
@@ -160,8 +161,8 @@ class AppDatabaseTest {
             wakeLockDao.loadAllWakeLocks(TestData.packageName)
         }
 
-        assertTrue(appinfos.isEmpty())
-        assertTrue(wakeLocks.isEmpty())
+        assertTrue(LiveDataTestUtil.getValue(appinfos).isEmpty())
+        assertTrue(LiveDataTestUtil.getValue(wakeLocks).isEmpty())
     }
 
 

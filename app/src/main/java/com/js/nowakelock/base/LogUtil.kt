@@ -3,7 +3,6 @@ package com.js.nowakelock.base
 import android.util.Log
 
 class LogUtil {
-
     companion object {
         private val VERBOSE = 1 //啰嗦，等级最低的
 

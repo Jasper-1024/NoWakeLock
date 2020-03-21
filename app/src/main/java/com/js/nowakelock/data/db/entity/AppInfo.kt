@@ -1,4 +1,4 @@
-package com.js.nowakelock.db.entity
+package com.js.nowakelock.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -17,7 +17,7 @@ data class AppInfo(
     var persistent: Boolean = false,
     var flag: Boolean = true,
     var count: Int = 0,
-    var blockCount: Int = 0,
-    @Ignore
-    var wakeLocks: HashMap<String, WakeLock> = HashMap()
+    var blockCount: Int = 0
+//    @Ignore
+//    var wakeLocks: HashMap<String, WakeLock> = HashMap()
 )

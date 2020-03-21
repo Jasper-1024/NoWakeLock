@@ -1,13 +1,19 @@
-package com.js.nowakelock.db.dao
+package com.js.nowakelock.data.db.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.js.nowakelock.db.entity.WakeLock
+import com.js.nowakelock.data.db.entity.WakeLock
 
 @Dao
 interface WakeLockDao {
     @Query("select * from wakeLock where WakeLock_packageName = :packageName")
-    suspend fun loadAllWakeLocks(packageName: String): List<WakeLock>
+    fun loadAllWakeLocks(packageName: String): LiveData<List<WakeLock>>
+
+    @Query("select * from wakeLock where WakeLock_packageName = :packageName")
+    suspend fun loadAllWakeLockByPn(packageName: String): List<WakeLock>
+
+    @Query("select * from wakeLock")
+    fun loadAllWakeLock(): List<WakeLock>
 
     @Query("select * from wakeLock where wakeLockName = :wakelockName")
     suspend fun loadWakeLock(wakelockName: String): WakeLock

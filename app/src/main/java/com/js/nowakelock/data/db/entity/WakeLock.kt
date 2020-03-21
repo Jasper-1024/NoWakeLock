@@ -1,4 +1,4 @@
-package com.js.nowakelock.db.entity
+package com.js.nowakelock.data.db.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
