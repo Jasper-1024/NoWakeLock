@@ -1,4 +1,4 @@
-package com.js.nowakelock.data.repository
+package com.js.nowakelock.data.db
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
@@ -6,7 +6,6 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.js.nowakelock.LiveDataTestUtil
 import com.js.nowakelock.data.TestData
-import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.dao.AppInfoDao
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -16,11 +15,11 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class AppInfoRepositoryTest {
+class AppInfoDaoTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var aR: AppInfoRepository
+    private lateinit var aIDao: AppInfoDao
     private lateinit var db: AppDatabase
 
     @Before
@@ -29,7 +28,7 @@ class AppInfoRepositoryTest {
         db = Room.inMemoryDatabaseBuilder(
             context, AppDatabase::class.java
         ).build()
-        aR = AppInfoRepository(db.appInfoDao())
+        aIDao = db.appInfoDao()
     }
 
     @After
@@ -38,28 +37,34 @@ class AppInfoRepositoryTest {
     }
 
     @Test
-    fun getAppLists() {
-        val appInfos = aR.getAppLists()
+    fun load_without_Insert() {
+        val appInfos = aIDao.loadAllAppInfos()
         assertTrue(LiveDataTestUtil.getValue(appInfos).isEmpty())
-        runBlocking { db.appInfoDao().insertAll(TestData.appInfos) }
-
-        assertEquals(LiveDataTestUtil.getValue(appInfos).size, 10)
     }
 
     @Test
-    fun sync() {
-        val appInfos = aR.getAppLists()
-        assertTrue(LiveDataTestUtil.getValue(appInfos).isEmpty())
-        runBlocking { aR.syncAppInfos() }
-        assertTrue(LiveDataTestUtil.getValue(appInfos).isNotEmpty())
+    @Throws(Exception::class)
+    fun loadAll() {
+
+        runBlocking {
+            aIDao.insertAll(TestData.appInfos)
+        }
+
+        assertEquals(runBlocking {
+            LiveDataTestUtil.getValue(aIDao.loadAllAppInfos())
+        }, TestData.appInfos)
     }
 
-    companion object {
-        @Volatile
-        private var instance: AppInfoRepository? = null
-        fun getInstance(appInfoDao: AppInfoDao) =
-            instance ?: synchronized(this) {
-                instance ?: AppInfoRepository(appInfoDao).also { instance = it }
-            }
+    @Test
+    @Throws(Exception::class)
+    fun load() {
+        runBlocking {
+            aIDao.insert(TestData.appInfos[0])
+        }
+
+        assertEquals(
+            runBlocking { aIDao.loadAppInfo(TestData.appInfos[0].packageName) },
+            TestData.appInfos[0]
+        )
     }
 }

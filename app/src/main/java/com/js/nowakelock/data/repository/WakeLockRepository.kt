@@ -1,19 +1,19 @@
 package com.js.nowakelock.data.repository
 
 import androidx.lifecycle.Observer
-import com.js.nowakelock.data.db.AppDatabase
+import com.js.nowakelock.data.db.dao.WakeLockDao
 import com.js.nowakelock.data.db.entity.WakeLock
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class WakeLockRepository(private var database: AppDatabase) {
+class WakeLockRepository(private var wakeLockDao: WakeLockDao) {
     /*cach data*/
     private var wakeLocksHM = HashMap<String, WakeLock>()
 
     /*cach data*/
     private var packageNamesHS = HashSet<String>()
 
-    fun getWakeLocks(packageName: String) = database.wakeLockDao().loadAllWakeLocks(packageName)
+    fun getWakeLocks(packageName: String) = wakeLockDao.loadAllWakeLocks(packageName)
 
     /**upCount*/
     suspend fun upCount(pN: String, wN: String) = withContext(Dispatchers.Default) {
@@ -37,7 +37,7 @@ class WakeLockRepository(private var database: AppDatabase) {
 
     /**set wakeLocksHM -> database */
     suspend fun insertAll() =
-        withContext(Dispatchers.IO) { database.wakeLockDao().insertAll(wakeLocksHM.values) }
+        withContext(Dispatchers.IO) { wakeLockDao.insertAll(wakeLocksHM.values) }
 
     /**is app install at system?*/
     fun isInstalledApp(packageName: String): Boolean = packageNamesHS.contains(packageName)
@@ -46,7 +46,7 @@ class WakeLockRepository(private var database: AppDatabase) {
      * before use WakeLockRepository, must setup first.
      * */
     private fun setObserve() {
-        val packageNames = database.appInfoDao().loadPackageNames2()
+        val packageNames = wakeLockDao.loadPackageNames()
         val observer = Observer<List<String>> { packageNames ->
             packageNamesHS.clear()
             packageNamesHS.addAll(packageNames)
@@ -58,7 +58,7 @@ class WakeLockRepository(private var database: AppDatabase) {
      * before use WakeLockRepository, must setup first.
      * */
     private fun loadWakeLocksHM() {
-        val wakeLocks = database.wakeLockDao().loadAllWakeLock()
+        val wakeLocks = wakeLockDao.loadAllWakeLocks()
         wakeLocks.forEach {
             wakeLocksHM[it.wakeLockName] = it
         }
@@ -70,4 +70,18 @@ class WakeLockRepository(private var database: AppDatabase) {
         wakeLocksHM[wakeLock.wakeLockName] = wakeLock
         return wakeLock
     }
+
+//    companion object {
+//        @Volatile
+//        private var instance: WakeLockRepository? = null
+//        fun getInstance(wakeLockDao: WakeLockDao) =
+//            instance ?: synchronized(this) {
+//                instance ?: WakeLockRepository(wakeLockDao).also {
+//                    it.loadWakeLocksHM()
+//                    it.setObserve()
+//                    instance = it
+//                }
+//            }
+//    }
+
 }

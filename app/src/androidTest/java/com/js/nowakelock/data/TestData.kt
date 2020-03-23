@@ -11,7 +11,7 @@ class TestData {
         var wakeLocks =
             getwakeLocks()
 
-        val packageName = "p1"
+        val pN = "p1"
 
         fun getInfos(): MutableList<AppInfo> {
             val appInfos: MutableList<AppInfo> = mutableListOf()
@@ -32,7 +32,7 @@ class TestData {
             val tmp: MutableList<WakeLock> = mutableListOf()
 
             for (i in 1..10 step 1) {
-                tmp.add(WakeLock("p1", "w$i"))
+                tmp.add(WakeLock("p1", "w$i", count = 1))
             }
             return tmp
         }

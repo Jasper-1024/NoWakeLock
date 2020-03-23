@@ -3,6 +3,7 @@ package com.js.nowakelock.data.db.entity
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.js.nowakelock.base.BaseItem
 
 @Entity(tableName = "appInfo")
 data class AppInfo(
@@ -20,4 +21,10 @@ data class AppInfo(
     var blockCount: Int = 0
 //    @Ignore
 //    var wakeLocks: HashMap<String, WakeLock> = HashMap()
-)
+) : BaseItem {
+    @Ignore
+    override fun getID() = packageName
+
+    @Ignore
+    override fun getContent(): Int = count
+}

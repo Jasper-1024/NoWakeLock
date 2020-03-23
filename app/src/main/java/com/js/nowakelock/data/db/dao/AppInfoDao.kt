@@ -15,27 +15,31 @@ interface AppInfoDao {
 
     @Query("select packageName from appInfo")
     suspend fun loadPackageNames(): List<String>
+//
+//    @Query("select packageName from appInfo")
+//    fun loadPackageNames2(): LiveData<List<String>>
+//
+//    @Query("update appInfo set count = count+1 where packageName = :packageName")
+//    suspend fun upCount(packageName: String)
+//
+//    @Query("update appInfo set blockCount = blockCount+1 where packageName = :packageName")
+//    suspend fun upBlockCount(packageName: String)
+//
+//    @Query("update appInfo set count = :count where packageName = :packageName")
+//    suspend fun upCount(packageName: String, count: Int)
+//
+//    @Query("update appInfo set blockCount = :blockCount where packageName = :packageName")
+//    suspend fun upBlockCount(packageName: String, blockCount: Int)
+//
+//    @Query("update appInfo set count = 0 where packageName = :packageName")
+//    suspend fun rstCount(packageName: String)
+//
+//    @Query("update appInfo set blockCount = 0 where packageName = :packageName")
+//    suspend fun rstBlockCount(packageName: String)
 
-    @Query("select packageName from appInfo")
-    fun loadPackageNames2(): LiveData<List<String>>
-
-    @Query("update appInfo set count = count+1 where packageName = :packageName")
-    suspend fun upCount(packageName: String)
-
-    @Query("update appInfo set blockCount = blockCount+1 where packageName = :packageName")
-    suspend fun upBlockCount(packageName: String)
-
-    @Query("update appInfo set count = :count where packageName = :packageName")
-    suspend fun upCount(packageName: String, count: Int)
-
-    @Query("update appInfo set blockCount = :blockCount where packageName = :packageName")
-    suspend fun upBlockCount(packageName: String, blockCount: Int)
-
-    @Query("update appInfo set count = 0 where packageName = :packageName")
-    suspend fun rstCount(packageName: String)
-
-    @Query("update appInfo set blockCount = 0 where packageName = :packageName")
-    suspend fun rstBlockCount(packageName: String)
+//    /**new test*/
+//    @Query("update appInfo set count = (select sum(WakeLock_count) from wakeLock where WakeLock_packageName = :packageName) where packageName = :packageName")
+//    suspend fun updateCount(packageName: String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(appInfos: MutableCollection<AppInfo>)

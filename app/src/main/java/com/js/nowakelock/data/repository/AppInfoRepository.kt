@@ -7,10 +7,8 @@ import android.content.pm.PackageManager.MATCH_ALL
 import androidx.collection.ArrayMap
 import com.js.nowakelock.BasicApp
 import com.js.nowakelock.base.LogUtil
-import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.dao.AppInfoDao
 import com.js.nowakelock.data.db.entity.AppInfo
-import com.js.nowakelock.data.db.entity.WakeLock
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -32,34 +30,35 @@ class AppInfoRepository(private var appInfoDao: AppInfoDao) {
         deleteAll(getDiff(dbAppInfos, sysAppInfos.keys.toList()))
     }
 
-    /**TODO: save wakeLocksHM to db
-     * calculate appinfos`s Count/BlockCount
-     *  */
-    suspend fun updateCounts() = withContext(Dispatchers.IO) {
-        suspend fun calculateCount(wakeLocks: List<WakeLock>): Int =
-            withContext(Dispatchers.Default) {
-                var count = 0
-                wakeLocks.forEach {
-                    count += it.count
-                }
-                return@withContext count
-            }
-
-        suspend fun calculateBlockCount(wakeLocks: List<WakeLock>): Int =
-            withContext(Dispatchers.Default) {
-                var blockCount = 0
-                wakeLocks.forEach {
-                    blockCount += it.blockCount
-                }
-                return@withContext blockCount
-            }
-
-//        getDBPackageNames().forEach {
-//            val wakeLocks = database.wakeLockDao().loadAllWakeLockByPn(it)
-//            appInfoDao.upCount(it, calculateCount(wakeLocks))
-//            appInfoDao.upBlockCount(it, calculateBlockCount(wakeLocks))
-//        }
-    }
+//    /**TO//DO: save wakeLocksHM to db
+//     * calculate appinfos`s Count/BlockCount
+//     *  */
+//    suspend fun updateCounts() = withContext(Dispatchers.IO) {
+//        suspend fun calculateCount(wakeLocks: List<WakeLock>): Int =
+//            withContext(Dispatchers.Default) {
+//                var count = 0
+//                wakeLocks.forEach {
+//                    count += it.count
+//                }
+//                return@withContext count
+//            }
+//
+//        suspend fun calculateBlockCount(wakeLocks: List<WakeLock>): Int =
+//            withContext(Dispatchers.Default) {
+//                var blockCount = 0
+//                wakeLocks.forEach {
+//                    blockCount += it.blockCount
+//                }
+//                return@withContext blockCount
+//            }
+//
+////        getDBPackageNames().forEach {
+////            val wakeLocks = database.wakeLockDao().loadAllWakeLockByPn(it)
+////            appInfoDao.upCount(it, calculateCount(wakeLocks))
+////            appInfoDao.upBlockCount(it, calculateBlockCount(wakeLocks))
+////        }
+//    }
+//
 
     /**take difference*/
     private suspend fun getDiff(a: List<String>, b: List<String>): Set<String> =

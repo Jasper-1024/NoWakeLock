@@ -6,11 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.js.nowakelock.R
+import com.js.nowakelock.viewmodel.WakeLockViewModel
+import org.koin.android.ext.android.inject
 
 /**
  * A simple [Fragment] subclass.
  */
 class WakeLockFragment : Fragment() {
+    val ViewModel: WakeLockViewModel by inject<WakeLockViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

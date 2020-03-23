@@ -1,10 +1,8 @@
 package com.js.nowakelock.data.db.entity
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
+import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import androidx.room.PrimaryKey
+import com.js.nowakelock.base.BaseItem
 
 @Entity(
     tableName = "wakeLock",
@@ -12,7 +10,7 @@ import androidx.room.PrimaryKey
         ForeignKey(
             entity = AppInfo::class,
             parentColumns = arrayOf("packageName"),
-            childColumns = arrayOf("WakeLock_packageName"),
+            childColumns = arrayOf("wakeLock_packageName"),
             onDelete = CASCADE
         )
     )
@@ -20,11 +18,19 @@ import androidx.room.PrimaryKey
 data class WakeLock(
 //    @PrimaryKey(autoGenerate = true)
 //    var id: Int,
-    @ColumnInfo(name = "WakeLock_packageName")
+    @ColumnInfo(name = "wakeLock_packageName")
     var packageName: String = "",
     @PrimaryKey
     var wakeLockName: String = "",
     var flag: Boolean = true,
+    @ColumnInfo(name = "wakeLock_count")
     var count: Int = 0,
+    @ColumnInfo(name = "wakeLock_blockCount")
     var blockCount: Int = 0
-)
+) : BaseItem {
+    @Ignore
+    override fun getID() = wakeLockName
+
+    @Ignore
+    override fun getContent(): Int = count
+}
