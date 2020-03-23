@@ -17,4 +17,6 @@ class AppListViewModel(private var appInfoRepository: AppInfoRepository) : ViewM
             appInfoRepository.syncAppInfos()
         }
     }
+
+    fun syncAppInfos() = viewModelScope.launch { appInfoRepository.syncAppInfos() }
 }

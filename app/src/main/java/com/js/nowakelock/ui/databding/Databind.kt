@@ -1,8 +1,11 @@
 package com.js.nowakelock.ui.databding
 
 import android.R
+import android.annotation.SuppressLint
 import android.net.Uri
+import android.widget.AutoCompleteTextView
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
@@ -20,4 +23,10 @@ fun LoadIcon(imageView: ImageView, appInfo: AppInfo) {
         .load(uri)
         .apply(options)
         .into(imageView)
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("loadCount")
+fun loadCount(textView: TextView, appInfo: AppInfo) {
+    textView.text = appInfo.count.toString() + "  " + appInfo.blockCount.toString()
 }

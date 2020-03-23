@@ -1,6 +1,6 @@
 package com.js.nowakelock.base
 
-open interface BaseItem {
+interface BaseItem {
     fun getID(): String = ""
     fun getContent(): Int = 0
 }
