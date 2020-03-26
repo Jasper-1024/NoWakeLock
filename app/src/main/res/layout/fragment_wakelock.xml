@@ -6,10 +6,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.AppList.AppListFragment">
+        tools:context=".ui.wakeLock.WakeLockFragment">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/appinfo_refresh"
+            android:id="@+id/wakelock_refresh"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -19,12 +19,12 @@
             tools:ignore="MissingConstraints">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/appinfo_list"
+                android:id="@+id/wakelock_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:padding="8dp"
                 android:paddingTop="8dp"
-                android:layout_marginTop="8dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

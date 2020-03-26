@@ -8,11 +8,16 @@
         <variable
             name="item"
             type="com.js.nowakelock.data.db.entity.AppInfo" />
+
+        <variable
+            name="handler"
+            type="com.js.nowakelock.ui.appList.AppListHandler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="@{(theView)->handler.onClick(theView,item)}"
         android:padding="8dp">
 
         <ImageView
@@ -50,7 +55,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/appListIcon"
             app:layout_constraintTop_toBottomOf="@+id/appListPackageName"
-            app:loadCount="@{item}"
+            app:loadAppInfoCount="@{item}"
             tools:ignore="MissingConstraints,SmallSp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

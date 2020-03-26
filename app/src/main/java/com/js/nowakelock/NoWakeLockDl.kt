@@ -23,8 +23,8 @@ var noWakeLockModule = module {
     viewModel {
         AppListViewModel(get(named("AR")))
     }
-    viewModel {
-        WakeLockViewModel(get(named("WLR")))
+    viewModel { (packageName: String) ->
+        WakeLockViewModel(get(named("WLR")), packageName)
     }
 //    single {
 //        DataRepository(

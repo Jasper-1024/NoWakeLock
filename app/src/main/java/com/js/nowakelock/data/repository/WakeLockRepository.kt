@@ -4,9 +4,21 @@ import androidx.lifecycle.Observer
 import com.js.nowakelock.data.db.dao.WakeLockDao
 import com.js.nowakelock.data.db.entity.WakeLock
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class WakeLockRepository(private var wakeLockDao: WakeLockDao) {
+
+    init {
+        GlobalScope.launch {
+            setObserve()//packageNamesHS
+            loadWakeLocksHM()//WakeLocksHM
+        }
+    }
+
+//    private val TAG = "WakeLockRepository"
+
     /*cach data*/
     private var wakeLocksHM = HashMap<String, WakeLock>()
 
@@ -30,9 +42,11 @@ class WakeLockRepository(private var wakeLockDao: WakeLockDao) {
         wakeLock.blockCount++
     }
 
-    /***/
+    /**rst Count / BlockCount*/
     suspend fun rstCount(pN: String, wN: String) = withContext(Dispatchers.Default) {
         val wakeLock = wakeLocksHM[wN] ?: ciWakeLock(pN, wN)
+        wakeLock.count = 0
+        wakeLock.blockCount = 0
     }
 
     /**set wakeLocksHM -> database */
@@ -42,29 +56,41 @@ class WakeLockRepository(private var wakeLockDao: WakeLockDao) {
     /**is app install at system?*/
     fun isInstalledApp(packageName: String): Boolean = packageNamesHS.contains(packageName)
 
+    suspend fun init() {
+        setObserve()//packageNamesHS
+        loadWakeLocksHM()//WakeLocksHM
+    }
+
     /**set packageNamesHS`s observe
      * before use WakeLockRepository, must setup first.
      * */
-    private fun setObserve() {
+    private suspend fun setObserve() = withContext(Dispatchers.IO) {
         val packageNames = wakeLockDao.loadPackageNames()
-        val observer = Observer<List<String>> { packageNames ->
+        val observer = Observer<List<String>> { pNs ->
             packageNamesHS.clear()
-            packageNamesHS.addAll(packageNames)
+            packageNamesHS.addAll(pNs)
         }
-        packageNames.observeForever(observer)
+        withContext(Dispatchers.Main) {
+            packageNames.observeForever(observer)
+        }
+//        LogUtil.d(TAG,"setObserve")
     }
 
     /**load WakeLocksHM
      * before use WakeLockRepository, must setup first.
      * */
-    private fun loadWakeLocksHM() {
+    private suspend fun loadWakeLocksHM() = withContext(Dispatchers.IO) {
         val wakeLocks = wakeLockDao.loadAllWakeLocks()
-        wakeLocks.forEach {
-            wakeLocksHM[it.wakeLockName] = it
+        //only set once
+        if (!wakeLocks.isEmpty() and wakeLocksHM.isEmpty()) {
+            wakeLocksHM.clear()
+            wakeLocks.forEach {
+                wakeLocksHM[it.wakeLockName] = it
+            }
         }
     }
 
-    /**creat and insert now wakelock*/
+    /**creat and insert new wakelock*/
     private fun ciWakeLock(pN: String, wN: String): WakeLock {
         val wakeLock = WakeLock(pN, wN)
         wakeLocksHM[wakeLock.wakeLockName] = wakeLock
