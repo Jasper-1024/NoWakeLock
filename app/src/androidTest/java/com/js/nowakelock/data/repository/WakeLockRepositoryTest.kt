@@ -27,7 +27,9 @@ class WakeLockRepositoryTest {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
             context, AppDatabase::class.java
-        ).build()
+        ) // allowing main thread queries, just for testing
+            .allowMainThreadQueries()
+            .build()
         wLR = WakeLockRepository(db.wakeLockDao())
     }
 

@@ -82,9 +82,9 @@ class WakeLockRepository(private var wakeLockDao: WakeLockDao) {
             packageNamesHS.clear()
             packageNamesHS.addAll(pNs)
         }
-//        withContext(Dispatchers.Main) {
+        withContext(Dispatchers.Main) {
         packageNames.observeForever(observer)
-//        }
+        }
 //        LogUtil.d("test1", "setObserve")
     }
 
