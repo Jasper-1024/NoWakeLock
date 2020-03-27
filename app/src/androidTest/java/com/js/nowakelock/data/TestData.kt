@@ -32,7 +32,7 @@ class TestData {
             val tmp: MutableList<WakeLock> = mutableListOf()
 
             for (i in 1..10 step 1) {
-                tmp.add(WakeLock("p1", "w$i", count = 1))
+                tmp.add(WakeLock(pN, "w$i", count = 1))
             }
             return tmp
         }
