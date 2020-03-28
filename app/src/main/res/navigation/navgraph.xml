@@ -8,20 +8,32 @@
     <fragment
         android:id="@+id/appListFragment"
         android:name="com.js.nowakelock.ui.appList.AppListFragment"
-        android:label="AppListFragment">
+        android:label="@string/app_name">
         <action
             android:id="@+id/action_appListFragment_to_wakeLockFragment"
-            app:destination="@id/wakeLockFragment" />
+            app:destination="@id/wakeLockFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
 
     <fragment
         android:id="@+id/wakeLockFragment"
         android:name="com.js.nowakelock.ui.wakeLock.WakeLockFragment"
-        android:label="fragment_wake_lock"
+        android:label="{AppName}"
         tools:layout="@layout/fragment_wakelock">
         <argument
             android:name="PackageName"
             android:defaultValue='""'
             app:argType="string" />
+        <argument
+            android:name="AppName"
+            android:defaultValue='""'
+            app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.js.nowakelock.ui.settings.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>

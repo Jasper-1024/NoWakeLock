@@ -49,16 +49,20 @@ class WakeLockRepository(private var wakeLockDao: WakeLockDao) {
 
     /**upBlockCount*/
     suspend fun upBlockCount(pN: String, wN: String) = withContext(Dispatchers.Default) {
-        val wakeLock = wakeLocksHM[wN] ?: ciWakeLock(pN, wN)
-        wakeLock.count++
-        wakeLock.blockCount++
+        if (isInstalledApp(pN)) {
+            val wakeLock = wakeLocksHM[wN] ?: ciWakeLock(pN, wN)
+            wakeLock.count++
+            wakeLock.blockCount++
+        }
     }
 
     /**rst Count / BlockCount*/
     suspend fun rstCount(pN: String, wN: String) = withContext(Dispatchers.Default) {
-        val wakeLock = wakeLocksHM[wN] ?: ciWakeLock(pN, wN)
-        wakeLock.count = 0
-        wakeLock.blockCount = 0
+        if (isInstalledApp(pN)) {
+            val wakeLock = wakeLocksHM[wN] ?: ciWakeLock(pN, wN)
+            wakeLock.count = 0
+            wakeLock.blockCount = 0
+        }
     }
 
     /**set wakeLocksHM -> database */
@@ -79,13 +83,14 @@ class WakeLockRepository(private var wakeLockDao: WakeLockDao) {
     suspend fun setObserve() = withContext(Dispatchers.IO) {
         val packageNames = wakeLockDao.loadPackageNames()
         val observer = Observer<List<String>> { pNs ->
+            LogUtil.d("test1", pNs.toString())
             packageNamesHS.clear()
             packageNamesHS.addAll(pNs)
         }
         withContext(Dispatchers.Main) {
-        packageNames.observeForever(observer)
+            packageNames.observeForever(observer)
         }
-//        LogUtil.d("test1", "setObserve")
+//        LogUtil.d("test1", "setObserve2")
     }
 
     /**load WakeLocksHM

@@ -1,0 +1,23 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:key="theme"
+        android:title="@string/theme"
+        app:iconSpaceReserved="false">
+
+        <ListPreference
+            android:defaultValue="light"
+            android:entries="@array/theme_list_titles"
+            android:entryValues="@array/theme_list_values"
+            android:iconSpaceReserved="false"
+            android:key="theme_list"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/theme_list"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
+

@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">NoWakeLock</string>
-    <string name="xposeddescription">唤醒查看器</string>
-    <string name="wakelock_fragment">wakelock_fragment</string>
-    <string name="button">Button</string>
+    <string name="xposeddescription">Just for block wakelock</string>
+    <string name="navigation_view_header_title">NoWakeLock</string>
+    <string name="test">Test</string>
+    <string name="settings">Settings</string>
+    <string name="theme">Theme</string>
+    <string name="theme_list">General theme</string>
+    <string name="light_theme_name">Light</string>
+    <string name="dark_theme_name">Dark</string>
+    <string name="black_theme_name">Black (AMOLED)</string>
 </resources>

@@ -11,7 +11,11 @@ class AppListHandler : BaseHandler() {
 //        Toast.makeText(BasicApp.context, "click ${appInfo.appName}", Toast.LENGTH_SHORT).show()
         //send packageName to wakelockfragment and start wankelockfragment
         val direction =
-            AppListFragmentDirections.actionAppListFragmentToWakeLockFragment(appInfo.packageName)
+            AppListFragmentDirections.actionAppListFragmentToWakeLockFragment(
+                appInfo.packageName,
+                appInfo.appName
+            )
+
         view.findNavController().navigate(direction)
     }
 }

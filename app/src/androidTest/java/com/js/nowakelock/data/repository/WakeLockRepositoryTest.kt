@@ -5,6 +5,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.js.nowakelock.LiveDataTestUtil
+import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.data.TestData
 import com.js.nowakelock.data.db.AppDatabase
 import kotlinx.coroutines.runBlocking
@@ -13,6 +14,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 class WakeLockRepositoryTest {
 
@@ -42,13 +45,16 @@ class WakeLockRepositoryTest {
     fun upCount() {
 
         runBlocking {
-            db.appInfoDao().insert(TestData.appInfos[0])
+            db.appInfoDao().insertAll(TestData.appInfos)
         }
 
         runBlocking {
             wLR.upCount(TestData.pN, "w1")
             wLR.upCount(TestData.pN, "w1")
         }
+        CountDownLatch(1).await(2, TimeUnit.SECONDS)
+
+//        LogUtil.d("test13",wLR.packageNamesHS.toString())
         assertEquals(wLR.wakeLocksHM["w1"]?.count, 2)
     }
 
@@ -63,6 +69,7 @@ class WakeLockRepositoryTest {
             wLR.upBlockCount(TestData.pN, "w1")
             wLR.upBlockCount(TestData.pN, "w1")
         }
+
         assertEquals(wLR.wakeLocksHM["w1"]?.count, 2)
         assertEquals(wLR.wakeLocksHM["w1"]?.blockCount, 2)
     }
