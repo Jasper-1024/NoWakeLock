@@ -5,7 +5,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.js.nowakelock.LiveDataTestUtil
-import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.data.TestData
 import com.js.nowakelock.data.db.AppDatabase
 import kotlinx.coroutines.runBlocking
@@ -17,12 +16,12 @@ import org.junit.Test
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
-class WakeLockRepositoryTest {
+class mWakeLockRepository2Test {
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var wLR: WakeLockRepository
+    private lateinit var wLR: mWakeLockRepository2
     private lateinit var db: AppDatabase
 
     @Before
@@ -33,7 +32,7 @@ class WakeLockRepositoryTest {
         ) // allowing main thread queries, just for testing
             .allowMainThreadQueries()
             .build()
-        wLR = WakeLockRepository(db.wakeLockDao())
+        wLR = mWakeLockRepository2(db.wakeLockDao())
     }
 
     @After

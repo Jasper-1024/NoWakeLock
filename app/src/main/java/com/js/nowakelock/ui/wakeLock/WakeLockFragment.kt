@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +26,7 @@ class WakeLockFragment : Fragment() {
 
     //args ,which get PackageName
     private val args: WakeLockFragmentArgs by navArgs()
+    private lateinit var packageName: String
 
     private val viewModel by inject<WakeLockViewModel> { parametersOf(args.PackageName) }
     private lateinit var binding: FragmentWakelockBinding
@@ -35,6 +35,8 @@ class WakeLockFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //init
+        packageName = args.PackageName
         binding = FragmentWakelockBinding.inflate(inflater, container, false)
         context ?: return binding.root //if already create
         //set recyclerview
@@ -56,7 +58,7 @@ class WakeLockFragment : Fragment() {
         val observer = Observer<List<WakeLock>> { albinos ->
             adapter.submitList(albinos)
         }
-        viewModel.wakelocks.observe(viewLifecycleOwner, observer)
+        viewModel.getwakelocks(packageName).observe(viewLifecycleOwner, observer)
     }
 
     private fun setItemDecoration(recyclerView: RecyclerView) = recyclerView.addItemDecoration(
@@ -73,7 +75,7 @@ class WakeLockFragment : Fragment() {
         swipeRefreshLayout.setColorSchemeColors(Color.BLUE)
         //binding
         swipeRefreshLayout.setOnRefreshListener {
-            viewModel.syncWakeLocks()
+            viewModel.syncWakeLocks(packageName)
             swipeRefreshLayout.isRefreshing = false
         }
     }

@@ -16,11 +16,11 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class AppInfoRepositoryTest {
+class mAppInfoRepositoryTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var aR: AppInfoRepository
+    private lateinit var aR: mAppInfoRepository
     private lateinit var db: AppDatabase
 
     @Before
@@ -29,7 +29,7 @@ class AppInfoRepositoryTest {
         db = Room.inMemoryDatabaseBuilder(
             context, AppDatabase::class.java
         ).build()
-        aR = AppInfoRepository(db.appInfoDao())
+        aR = mAppInfoRepository(db.appInfoDao())
     }
 
     @After
@@ -56,10 +56,10 @@ class AppInfoRepositoryTest {
 
     companion object {
         @Volatile
-        private var instance: AppInfoRepository? = null
+        private var instance: mAppInfoRepository? = null
         fun getInstance(appInfoDao: AppInfoDao) =
             instance ?: synchronized(this) {
-                instance ?: AppInfoRepository(appInfoDao).also { instance = it }
+                instance ?: mAppInfoRepository(appInfoDao).also { instance = it }
             }
     }
 }

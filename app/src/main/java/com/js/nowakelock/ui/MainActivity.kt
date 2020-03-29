@@ -40,10 +40,10 @@ class MainActivity : AppCompatActivity() {
         findViewById<NavigationView>(R.id.nav_view)
             .setupWithNavController(navController)
 
-        //start BackService
-        startBackService()
-        //set NotificationChannel
-        createNotificationChannel()
+//        //start BackService
+//        startBackService()
+//        //set NotificationChannel
+//        createNotificationChannel()
     }
 
     private fun setupNavigationDrawer() {
@@ -53,26 +53,26 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    private fun startBackService() {
-        val service = Intent(this, Service::class.java)
-        startService(service)
-    }
-
-    //for android version 8 and 8.1
-    private fun createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.channel_name)
-            val descriptionText = getString(R.string.channel_description)
-            val importance = NotificationManager.IMPORTANCE_MIN
-            val channel = NotificationChannel(getString(R.string.channel_id), name, importance).apply {
-                description = descriptionText
-            }
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
+//    private fun startBackService() {
+//        val service = Intent(this, Service::class.java)
+//        startService(service)
+//    }
+//
+//    //for android version 8 and 8.1
+//    private fun createNotificationChannel() {
+//        // Create the NotificationChannel, but only on API 26+ because
+//        // the NotificationChannel class is new and not in the support library
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val name = getString(R.string.channel_name)
+//            val descriptionText = getString(R.string.channel_description)
+//            val importance = NotificationManager.IMPORTANCE_MIN
+//            val channel = NotificationChannel(getString(R.string.channel_id), name, importance).apply {
+//                description = descriptionText
+//            }
+//            // Register the channel with the system
+//            val notificationManager: NotificationManager =
+//                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//            notificationManager.createNotificationChannel(channel)
+//        }
+//    }
 }

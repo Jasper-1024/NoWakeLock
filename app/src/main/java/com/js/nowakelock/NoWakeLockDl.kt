@@ -3,6 +3,8 @@ package com.js.nowakelock
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.repository.AppInfoRepository
 import com.js.nowakelock.data.repository.WakeLockRepository
+import com.js.nowakelock.data.repository.mAppInfoRepository
+import com.js.nowakelock.data.repository.mWakeLockRepository
 import com.js.nowakelock.viewmodel.AppListViewModel
 import com.js.nowakelock.viewmodel.WakeLockViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -10,22 +12,25 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 var noWakeLockModule = module {
-    single(named("AR")) {
-        AppInfoRepository(
+    single<AppInfoRepository>(named("AR")) {
+        mAppInfoRepository(
             AppDatabase.getInstance(BasicApp.context).appInfoDao()
         )
     }
-    single(named("WLR")) {
-        WakeLockRepository(
+    single<WakeLockRepository>(named("WLR")) {
+        mWakeLockRepository(
             AppDatabase.getInstance(BasicApp.context).wakeLockDao()
         )
     }
     viewModel {
         AppListViewModel(get(named("AR")))
     }
-    viewModel { (packageName: String) ->
-        WakeLockViewModel(get(named("WLR")), packageName)
+    viewModel {
+        WakeLockViewModel(get(named("WLR")))
     }
+//    viewModel { (packageName: String) ->
+//        WakeLockViewModel(get(named("WLR")), packageName)
+//    }
 //    single {
 //        DataRepository(
 //            AppDatabase.getInstance(

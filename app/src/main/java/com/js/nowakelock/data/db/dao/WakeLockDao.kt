@@ -16,8 +16,14 @@ interface WakeLockDao {
     @Query("select * from wakeLock where wakeLockName = :wakelockName")
     suspend fun loadWakeLock(wakelockName: String): WakeLock
 
+    @Query("select flag from wakeLock where wakeLockName = :wakelockName")
+    suspend fun loadFlag(wakelockName: String): Boolean
+
     @Query("select packageName from appInfo")
     fun loadPackageNames(): LiveData<List<String>>
+
+    @Query("select COUNT(*) from wakeLock where wakeLock_packageName = :packageName")
+    suspend fun countWakeLocks(packageName: String): Int
 
     @Query("update appInfo set count = (select sum(wakeLock_count) from wakeLock where wakeLock_packageName = :packageName) where packageName = :packageName")
     suspend fun updateAppInfoCount(packageName: String)
@@ -31,17 +37,17 @@ interface WakeLockDao {
 //    @Query("select * from wakeLock")
 //    fun loadAllWakeLock(): List<WakeLock>
 
-//    @Query("update wakeLock set WakeLock_count = WakeLock_count+1 where wakeLockName = :wakelockName")
-//    suspend fun upCount(wakelockName: String)
-//
-//    @Query("update wakeLock set blockCount = blockCount+1 where wakeLockName = :wakelockName")
-//    suspend fun upBlockCount(wakelockName: String)
-//
-//    @Query("update wakeLock set WakeLock_count = 0 where wakeLockName = :wakelockName")
-//    suspend fun rstCount(wakelockName: String)
-//
-//    @Query("update wakeLock set blockCount = 0 where wakeLockName = :wakelockName")
-//    suspend fun rstBlockCount(wakelockName: String)
+    @Query("update wakeLock set WakeLock_count = WakeLock_count+1 where wakeLockName = :wakelockName")
+    suspend fun upCount(wakelockName: String)
+
+    @Query("update wakeLock set wakeLock_blockCount = wakeLock_blockCount+1 where wakeLockName = :wakelockName")
+    suspend fun upBlockCount(wakelockName: String)
+
+    @Query("update wakeLock set WakeLock_count = 0 where wakeLockName = :wakelockName")
+    suspend fun rstCount(wakelockName: String)
+
+    @Query("update wakeLock set wakeLock_blockCount = 0 where wakeLockName = :wakelockName")
+    suspend fun rstBlockCount(wakelockName: String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(wakeLocks: MutableCollection<WakeLock>)

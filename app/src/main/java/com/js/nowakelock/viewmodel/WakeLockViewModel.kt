@@ -2,12 +2,12 @@ package com.js.nowakelock.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.data.repository.WakeLockRepository
 import kotlinx.coroutines.launch
 
 class WakeLockViewModel(
-    private var wakeLockRepository: WakeLockRepository,
-    packageName: String
+    private var WakeLockRepository: WakeLockRepository
 ) : ViewModel() {
 //    init {
 //        viewModelScope.launch {
@@ -17,9 +17,10 @@ class WakeLockViewModel(
 
     val TAG = "WakeLockViewModel"
 
-    val wakelocks = wakeLockRepository.getWakeLocks(packageName)
+    fun getwakelocks(packageName: String) = WakeLockRepository.getWakeLocks(packageName)
 
-    fun syncWakeLocks() = viewModelScope.launch {
-        wakeLockRepository.insertAll()
+    fun syncWakeLocks(packageName: String) = viewModelScope.launch {
+//        LogUtil.d("test1",packageName)
+        WakeLockRepository.syncWakelocks(packageName)
     }
 }
