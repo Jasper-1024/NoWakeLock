@@ -15,7 +15,6 @@ import com.js.nowakelock.R
 import com.js.nowakelock.data.db.entity.WakeLock
 import com.js.nowakelock.databinding.FragmentWakelockBinding
 import com.js.nowakelock.ui.databding.RecycleAdapter
-import com.js.nowakelock.viewmodel.WakeLockViewModel
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 

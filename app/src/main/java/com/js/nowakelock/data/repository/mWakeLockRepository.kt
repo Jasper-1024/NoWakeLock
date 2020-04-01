@@ -1,6 +1,7 @@
 package com.js.nowakelock.data.repository
 
 import com.js.nowakelock.data.db.dao.WakeLockDao
+import com.js.nowakelock.data.db.entity.WakeLock
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -8,14 +9,43 @@ class mWakeLockRepository(private var wakeLockDao: WakeLockDao) : WakeLockReposi
 
     override fun getWakeLocks(packageName: String) = wakeLockDao.loadAllWakeLocks(packageName)
 
-    override suspend fun getFlag(pN: String, wN: String): Boolean =
-        withContext(Dispatchers.IO) { wakeLockDao.loadFlag(wN) }
+    override suspend fun getFlag(pN: String, wN: String): Boolean {
+        return wakeLockDao.loadFlag(wN)
+    }
 
-    override suspend fun upCount(pN: String, wN: String) =
-        withContext(Dispatchers.IO) { wakeLockDao.upCount(wN) }
+    override suspend fun upCount(pN: String, wN: String) {
+        val tmp = withContext(Dispatchers.IO) {
+            wakeLockDao.loadwakelockName(wN)
+        }
+        if (tmp == "") {
+            withContext(Dispatchers.IO) {
+                wakeLockDao.insert(WakeLock(pN, wN, count = 1))
+            }
+        } else {
+            withContext(Dispatchers.IO) {
+                wakeLockDao.upCount(wN)
+                wakeLockDao.upCountP(pN)
+            }
+        }
+    }
 
-    override suspend fun upBlockCount(pN: String, wN: String) =
-        withContext(Dispatchers.IO) { wakeLockDao.upBlockCount(wN) }
+    override suspend fun upBlockCount(pN: String, wN: String) {
+        val tmp = withContext(Dispatchers.IO) {
+            wakeLockDao.loadwakelockName(wN)
+        }
+        if (tmp == "") {
+            withContext(Dispatchers.IO) {
+                wakeLockDao.insert(WakeLock(pN, wN, count = 1, blockCount = 1))
+            }
+        } else {
+            withContext(Dispatchers.IO) {
+                wakeLockDao.upCount(wN)
+                wakeLockDao.upCountP(pN)
+                wakeLockDao.upBlockCount(wN)
+                wakeLockDao.upBlockCountP(pN)
+            }
+        }
+    }
 
     override suspend fun rstCount(pN: String, wN: String) =
         withContext(Dispatchers.IO) { wakeLockDao.rstCount(wN) }

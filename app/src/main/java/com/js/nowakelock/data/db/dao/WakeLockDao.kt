@@ -16,11 +16,8 @@ interface WakeLockDao {
     @Query("select * from wakeLock where wakeLockName = :wakelockName")
     suspend fun loadWakeLock(wakelockName: String): WakeLock
 
-    @Query("select flag from wakeLock where wakeLockName = :wakelockName")
-    suspend fun loadFlag(wakelockName: String): Boolean
-
-    @Query("select packageName from appInfo")
-    fun loadPackageNames(): LiveData<List<String>>
+//    @Query("select packageName from appInfo")
+//    fun loadPackageNames(): LiveData<List<String>>
 
     @Query("select COUNT(*) from wakeLock where wakeLock_packageName = :packageName")
     suspend fun countWakeLocks(packageName: String): Int
@@ -37,11 +34,24 @@ interface WakeLockDao {
 //    @Query("select * from wakeLock")
 //    fun loadAllWakeLock(): List<WakeLock>
 
+    //Determine if it exists
+    @Query("select wakeLockName from wakeLock where wakeLockName = :wakelockName")
+    suspend fun loadwakelockName(wakelockName: String): String
+
+    @Query("select flag from wakeLock where wakeLockName = :wakelockName")
+    suspend fun loadFlag(wakelockName: String): Boolean
+
     @Query("update wakeLock set WakeLock_count = WakeLock_count+1 where wakeLockName = :wakelockName")
     suspend fun upCount(wakelockName: String)
 
+    @Query("update appInfo set count = count+1 where packageName = :packageName")
+    suspend fun upCountP(packageName: String)
+
     @Query("update wakeLock set wakeLock_blockCount = wakeLock_blockCount+1 where wakeLockName = :wakelockName")
     suspend fun upBlockCount(wakelockName: String)
+
+    @Query("update appInfo set blockCount = blockCount+1 where packageName = :packageName")
+    suspend fun upBlockCountP(packageName: String)
 
     @Query("update wakeLock set WakeLock_count = 0 where wakeLockName = :wakelockName")
     suspend fun rstCount(wakelockName: String)
