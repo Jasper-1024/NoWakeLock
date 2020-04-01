@@ -1,4 +1,4 @@
-package com.js.nowakelock.viewmodel
+package com.js.nowakelock.ui.appList
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

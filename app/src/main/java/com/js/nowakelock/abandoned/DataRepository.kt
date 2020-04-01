@@ -1,14 +1,6 @@
-package com.js.nowakelock.XposedHook
+package com.js.nowakelock.abandoned
 
-import android.content.pm.ApplicationInfo
-import android.content.pm.PackageManager
-import androidx.annotation.VisibleForTesting
-import com.js.nowakelock.BasicApp
 import com.js.nowakelock.data.db.AppDatabase
-import com.js.nowakelock.data.db.entity.AppInfo
-import com.js.nowakelock.data.db.entity.WakeLock
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class DataRepository(private var database: AppDatabase) {
 

@@ -14,7 +14,6 @@ import com.js.nowakelock.R
 import com.js.nowakelock.data.db.entity.AppInfo
 import com.js.nowakelock.databinding.FragmentApplistBinding
 import com.js.nowakelock.ui.databding.RecycleAdapter
-import com.js.nowakelock.viewmodel.AppListViewModel
 import org.koin.android.ext.android.inject
 
 /**
@@ -53,7 +52,7 @@ class AppListFragment : Fragment() {
         //color
         swipeRefreshLayout.setColorSchemeColors(Color.BLUE)
         //binding
-        swipeRefreshLayout.setOnRefreshListener() {
+        swipeRefreshLayout.setOnRefreshListener {
             viewModel.syncAppInfos()
             swipeRefreshLayout.isRefreshing = false
         }

@@ -1,4 +1,4 @@
-package com.js.nowakelock.viewmodel
+package com.js.nowakelock.ui.wakeLock
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

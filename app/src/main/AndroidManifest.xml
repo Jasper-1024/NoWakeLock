@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.js.nowakelock">
+
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
@@ -12,7 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
-            android:name=".service.Service"
+            android:name=".service.NWLService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <provider
+            android:name="com.js.nowakelock.service.provider.NoWakeLockContentProvider"
+            android:authorities="com.js.nowakelock"
             android:enabled="true"
             android:exported="true" />
 
