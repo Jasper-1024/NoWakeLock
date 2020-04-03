@@ -1,24 +1,27 @@
 package com.js.nowakelock.xposedhook
 
-<<<<<<< HEAD
 import android.app.AndroidAppHelper
+import android.content.ContentResolver
+import android.content.ContentValues
 import android.content.Context
-=======
->>>>>>> origin/dev
+import android.net.Uri
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.IXposedHookZygoteInit
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
+import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
+import de.robv.android.xposed.XposedHelpers.findAndHookMethod
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 
 open class XposedModule : IXposedHookZygoteInit, IXposedHookLoadPackage {
-<<<<<<< HEAD
-    //Context
-    lateinit var context: Context
-=======
     private val TAG = "Xposed.NoWakeLock"
->>>>>>> origin/dev
+    private lateinit var pN: String
+
+    private lateinit var context: Context
+
+//    private val authority = "com.js.nowakelock"
+//    private lateinit var mContentResolver: ContentResolver
 
     override fun initZygote(startupParam: StartupParam?) {
         XposedBridge.log("$TAG initZygote")
@@ -26,73 +29,52 @@ open class XposedModule : IXposedHookZygoteInit, IXposedHookLoadPackage {
 
     @Throws(Throwable::class)
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
-<<<<<<< HEAD
-        val pN = lpparam.packageName
-        log("$TAG $pN:hook start")
-        //get Context
-        context = AndroidAppHelper.currentApplication()
-        //get cR
-        mcR = cR.getInstance(context)
+        pN = lpparam.packageName
+        XposedBridge.log("$TAG $pN: handleLoadPackage")
 
-//        hookWakeLocks(lpparam)
+//        findAndHookMethod("android.app.Application", lpparam.classLoader, "attach",
+//            Context::class.java, object : XC_MethodHook() {
+//                @Throws(Throwable::class)
+//                override fun afterHookedMethod(param: MethodHookParam) {
+//                    super.afterHookedMethod(param)
+//                    XposedBridge.log("$TAG $pN: Application")
+//
+//                    context = param.args[0] as Context
+//                }
+//            })
 
-        if (mcR.run(pN)) {
-            log("$TAG $pN:hookWakeLocks 1")
-            try {
-                log("$TAG $pN:hookWakeLocks 2")
-                hookWakeLocks(lpparam)
-            } catch (e: Error) {
-                XposedBridge.log("$TAG $pN hookWakeLocks err: $e")
-            }
-=======
-        XposedBridge.log("$TAG ${lpparam.packageName}")
-        try {
-//            findAndHookMethod(
-//                "android.app.Application",
-//                lpparam.classLoader,
-//                "onCreate",
-//                object : XC_MethodHook() {
-//                    @Throws(Throwable::class)
-//                    override fun afterHookedMethod(param: MethodHookParam) {
-//                        XposedBridge.log("$TAG ${lpparam.packageName} afterHookedMethod")
-//                        bind(param as Application)
-//                        super.afterHookedMethod(param)
+//                    mContentResolver = context!!.contentResolver
+//                    val url = Uri.parse("content://$authority/test")
+//                    val newValues = ContentValues().apply {
+//                        put("PackageName", "example.user")
+//                        put("WakelockName", "en_US")
 //                    }
-//                })
-////            XposedBridge.hookAllMethods(
-////                Application::class.java,
-////                "onCreate",
-////                object : XC_MethodHook() {
-////                    @Throws(Throwable::class)
-////                    protected fun after(param: MethodHookParam?) {
-////                        XposedBridge.log("$TAG ${lpparam.packageName}  ")
-////                    }
-////                })
-//            XposedBridge.hookAllMethods(Activity::class.java, "onResume", object : XC_MethodHook() {
-//                @Throws(Throwable::class)
-//                protected fun before(param: MethodHookParam) {
-//                    bind((param.thisObject as Activity)!!)
-//                    XposedBridge.log("$TAG ${lpparam.packageName} 1")
-//                }
 //
-//                @Throws(Throwable::class)
-//                protected fun after(param: MethodHookParam?) {
-//                }
-//            })
-//            XposedBridge.hookAllMethods(Activity::class.java, "onPause", object : XC_MethodHook() {
-//                @Throws(Throwable::class)
-//                protected fun before(param: MethodHookParam) {
-//                    unbind((param.thisObject as Activity)!!)
-//                    XposedBridge.log("$TAG ${lpparam.packageName} 2")
-//                }
+//                    try {
+//                        val tmp = mContentResolver.insert(url, newValues)
+//                        XposedBridge.log("$TAG $pN: mContentResolver $tmp")
+//                    } catch (e: Exception) {
+//                        XposedBridge.log("$TAG $pN: err $e")
+//                    }
+
+
+        hookWakeLocks(lpparam, AndroidAppHelper.currentApplication())
+
+//        mContentResolver = AndroidAppHelper.currentApplication().applicationContext.contentResolver
+//        mContentResolver = context?.contentResolver
 //
-//                @Throws(Throwable::class)
-//                protected fun after(param: MethodHookParam?) {
-//                }
-//            })
-        } catch (e: Error) {
-            XposedBridge.log("$TAG ${lpparam.packageName} $e")
->>>>>>> origin/dev
-        }
+//        val url = Uri.parse("content://$authority/test")
+//        val newValues = ContentValues().apply {
+//            put("PackageName", "example.user")
+//            put("WakelockName", "en_US")
+//        }
+//
+//        try {
+//            val tmp = mContentResolver.insert(url, newValues)
+//            XposedBridge.log("$TAG $pN: mContentResolver $tmp")
+//        } catch (e: Exception) {
+//            XposedBridge.log("$TAG $pN: err $e")
+//        }
+
     }
 }

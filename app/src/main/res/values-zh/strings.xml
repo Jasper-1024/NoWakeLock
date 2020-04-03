@@ -3,6 +3,7 @@
     <string name="xposeddescription">唤醒查看器(或许还能阻止)</string>
     <string name="navigation_view_header_title">NoWakeLock</string>
     <string name="test">Test</string>
+    <string name="android">Android 系统</string>
     <string name="settings">设置</string>
     <string name="theme">主题</string>
     <string name="theme_list">全局主题</string>

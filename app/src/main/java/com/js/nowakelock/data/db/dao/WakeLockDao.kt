@@ -1,5 +1,6 @@
 package com.js.nowakelock.data.db.dao
 
+import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.js.nowakelock.data.db.entity.WakeLock
@@ -38,20 +39,20 @@ interface WakeLockDao {
     @Query("select wakeLockName from wakeLock where wakeLockName = :wakelockName")
     suspend fun loadwakelockName(wakelockName: String): String
 
-    @Query("select flag from wakeLock where wakeLockName = :wakelockName")
-    suspend fun loadFlag(wakelockName: String): Boolean
+//    @Query("select flag from wakeLock where wakeLockName = :wakelockName")
+//    suspend fun loadFlag(wakelockName: String): Boolean
 
     @Query("update wakeLock set WakeLock_count = WakeLock_count+1 where wakeLockName = :wakelockName")
-    suspend fun upCount(wakelockName: String)
+    fun upCount(wakelockName: String)
 
     @Query("update appInfo set count = count+1 where packageName = :packageName")
-    suspend fun upCountP(packageName: String)
+    fun upCountP(packageName: String)
 
     @Query("update wakeLock set wakeLock_blockCount = wakeLock_blockCount+1 where wakeLockName = :wakelockName")
-    suspend fun upBlockCount(wakelockName: String)
+    fun upBlockCount(wakelockName: String)
 
     @Query("update appInfo set blockCount = blockCount+1 where packageName = :packageName")
-    suspend fun upBlockCountP(packageName: String)
+    fun upBlockCountP(packageName: String)
 
     @Query("update wakeLock set WakeLock_count = 0 where wakeLockName = :wakelockName")
     suspend fun rstCount(wakelockName: String)
@@ -63,11 +64,35 @@ interface WakeLockDao {
     suspend fun insertAll(wakeLocks: MutableCollection<WakeLock>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(wakeLock: WakeLock)
+    fun insert(wakeLock: WakeLock)
 
     @Delete
     suspend fun deleteAll(wakeLocks: MutableCollection<WakeLock>)
 
     @Delete
     suspend fun delete(wakeLock: WakeLock)
+
+    /**
+     * Select wakelock flag
+     *
+     * @return A [Cursor] of wakelock flag (default true)
+     */
+    @Query("select flag from wakeLock where wakeLockName = :wakelockName")
+    fun loadFlag(wakelockName: String): Cursor?
+
+    /**
+     * whether app install or not
+     *
+     * @return A [String] of packageName
+     */
+    @Query("select packageName from appInfo where packageName = :packageName")
+    fun loadPackageName(packageName: String): String?
+
+    /**
+     * whether wakeLockName exit or not
+     *
+     * @return A [String] of wakeLockName
+     */
+    @Query("select wakeLockName from wakeLock where wakeLockName = :wakelockName")
+    fun loadWakelockName(wakelockName: String): String?
 }

@@ -12,13 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service
-            android:name=".service.NWLService"
-            android:enabled="true"
-            android:exported="true" />
-
         <provider
-            android:name="com.js.nowakelock.service.provider.NoWakeLockContentProvider"
+            android:name=".data.provider.NWLContentProvider"
             android:authorities="com.js.nowakelock"
             android:enabled="true"
             android:exported="true" />

@@ -1,6 +1,8 @@
 package com.js.nowakelock.ui
 
-import android.content.Intent
+import android.annotation.SuppressLint
+import android.content.Context
+import android.os.AsyncTask
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -10,7 +12,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.js.nowakelock.R
-import com.js.nowakelock.service.NWLService
+import com.js.nowakelock.base.LogUtil
+import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
@@ -40,6 +43,10 @@ class MainActivity : AppCompatActivity() {
 //        startBackService()
 //        //set NotificationChannel
 //        createNotificationChannel()
+
+//        test()
+//        fixPermission(this.createDeviceProtectedStorageContext())
+        getString(R.string.android)
     }
 
     private fun setupNavigationDrawer() {
@@ -49,8 +56,65 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    private fun startBackService() {
-        val service = Intent(this, NWLService::class.java)
-        startService(service)
-    }
+    //    private fun startBackService() {
+//        val service = Intent(this, NWLService::class.java)
+//        startService(service)
+//    }
+//    @SuppressLint("SetWorldReadable")
+//    private fun test() {
+//        val context1 = this.createDeviceProtectedStorageContext()
+////        val dir = context1.dataDir
+////        if (dir.exists()) {
+////            dir.setExecutable(true, false)
+////            dir.setReadable(true, false)
+////        }
+//        LogUtil.d(
+//            "Xposed.NoWakeLock",
+//            "${context1.filesDir} ${context1.dataDir} ${context1.cacheDir} ${context1.codeCacheDir}"
+//        )
+//
+//        val sharedPref = context1.getSharedPreferences("test1", Context.MODE_PRIVATE)
+//
+//        with(sharedPref.edit()) {
+//            putString("test", "test")
+//            apply()
+//        }
+//    }
+
+//    @SuppressLint("SetWorldReadable")
+//    fun fixPermission(context: Context) {
+//        AsyncTask.execute {
+//            // data dir
+//            val filesFolder: File =
+//                context.applicationContext.dataDir
+//
+//            if (filesFolder.exists()) {
+//                filesFolder.setExecutable(true, false)
+//                filesFolder.setReadable(true, false)
+//                filesFolder.listFiles()?.forEach { it ->
+//                    it.setExecutable(true, false)
+//                    it.setReadable(true, false)
+//                    if (it.isDirectory) {
+//                        it.listFiles()?.forEach {
+//                            it.setExecutable(true, false)
+//                            it.setReadable(true, false)
+//                        }
+//                    }
+//                }
+//            }
+//
+//        }
+//
+//        val sharedPrefsFolder =
+//            File(context.dataDir.absolutePath + "/shared_prefs")
+//        if (sharedPrefsFolder.exists()) {
+//            sharedPrefsFolder.setExecutable(true, false)
+//            sharedPrefsFolder.setReadable(true, false)
+//            val f = File(sharedPrefsFolder.absolutePath + "/" + "test1" + ".xml")
+//            if (f.exists()) {
+//                f.setReadable(true, false)
+//            }
+//        }
+//
+//    }
 }

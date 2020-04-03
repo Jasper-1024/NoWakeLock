@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.content.pm.PackageManager.MATCH_ALL
 import androidx.collection.ArrayMap
 import com.js.nowakelock.BasicApp
+import com.js.nowakelock.R
 import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.data.db.dao.AppInfoDao
 import com.js.nowakelock.data.db.entity.AppInfo
@@ -76,6 +77,7 @@ class mAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository
         }
     }
 
+    @SuppressLint("RestrictedApi")
     private suspend fun insertAll(
         packageNames: Set<String>,
         applicationInfos: ArrayMap<String, ApplicationInfo>
@@ -91,6 +93,12 @@ class mAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository
                     }
                 }
                 appInfoDao.insertAll(appInfos)
+                appInfoDao.insert(
+                    AppInfo(
+                        packageName = "android",
+                        appName = BasicApp.context.getString(R.string.android)
+                    )
+                )
             }
         }
     }

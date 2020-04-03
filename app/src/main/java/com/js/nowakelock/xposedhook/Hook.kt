@@ -1,5 +1,6 @@
 package com.js.nowakelock.xposedhook
 
+import android.content.Context
 import android.os.IBinder
 import android.os.WorkSource
 import de.robv.android.xposed.XC_MethodHook
@@ -7,9 +8,9 @@ import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 val TAG = "Xposed.NoWakeLock"
-lateinit var mcR: cR
 
-fun hookWakeLocks(lpparam: LoadPackageParam) {
+
+fun hookWakeLocks(lpparam: LoadPackageParam, context: Context) {
     XposedHelpers.findAndHookMethod("com.android.server.power.PowerManagerService",
         lpparam.classLoader,
         "acquireWakeLockInternal",
@@ -28,7 +29,7 @@ fun hookWakeLocks(lpparam: LoadPackageParam) {
                 val wN = param.args[2] as String
                 val lock = param.args[0] as IBinder
                 val uId = param.args[6] as Int
-                handleWakeLockAcquire(param, pN, wN, lock, uId)
+                handleWakeLockAcquire(param, pN, wN, lock, uId, context)
             }
         })
 
@@ -51,9 +52,15 @@ fun handleWakeLockAcquire(
     pN: String,
     wN: String,
     lock: IBinder,
-    uId: Int
+    uId: Int,
+    context: Context
 ) {
-    log("$TAG $pN:hookWakeLocks wakelock $wN Acquire")
+    log("$TAG $pN: AC $wN")
+    try {
+        XpCR.getInstance(context).upCount(pN, wN)
+    } catch (e: Exception) {
+        log("$TAG $pN: AE $wN $e")
+    }
     //record
 //    mcR.upCount(pN, wN)
     //if block

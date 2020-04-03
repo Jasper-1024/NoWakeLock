@@ -2,7 +2,6 @@ package com.js.nowakelock
 
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.repository.*
-import com.js.nowakelock.service.ServiceModel
 import com.js.nowakelock.ui.appList.AppListViewModel
 import com.js.nowakelock.ui.wakeLock.WakeLockViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -26,9 +25,6 @@ var noWakeLockModule = module {
     }
     viewModel {
         WakeLockViewModel(get(named("WLR")))
-    }
-    viewModel {
-        ServiceModel(get(named("WLR")))
     }
 //    viewModel { (packageName: String) ->
 //        WakeLockViewModel(get(named("WLR")), packageName)
