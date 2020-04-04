@@ -50,7 +50,7 @@ class XpCR(context: Context) {
                     log("$TAG $packageName: $wakelockName upCount ")
                 }
             } catch (e: Exception) {
-                log("$TAG $packageName: $wakelockName upCount Err : $e ")
+//                log("$TAG $packageName: $wakelockName upCount Err : $e ")
             }
         }
     }

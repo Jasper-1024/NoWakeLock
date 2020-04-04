@@ -6,6 +6,7 @@ import android.os.WorkSource
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import java.util.*
 
 val TAG = "Xposed.NoWakeLock"
 
@@ -25,11 +26,24 @@ fun hookWakeLocks(lpparam: LoadPackageParam, context: Context) {
         object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun beforeHookedMethod(param: MethodHookParam) {
-                val pN = param.args[3] as String
-                val wN = param.args[2] as String
-                val lock = param.args[0] as IBinder
-                val uId = param.args[6] as Int
-                handleWakeLockAcquire(param, pN, wN, lock, uId, context)
+
+                try {
+                    val lock = param.args[0] as IBinder
+                    val flags = param.args[1] as Int
+                    val wN = param.args[2] as String
+                    val pN = param.args[3] as String
+                    val ws = param.args[4] as WorkSource?
+//                    val historyTag = param.args[5] as String
+                    val uId = param.args[6] as Int
+                    val pid = param.args[7] as Int
+                    log("$TAG wakeLock: pN = $pN , tag=\"$wN\" , lock= \"${Objects.hashCode(lock)}\"," +
+                            "flags=0x${Integer.toHexString(flags)} , ws = \"${ws}\", " +
+                            "uid= $uId , pid = $pid")
+                }catch (e:Exception){
+                    log("$TAG acquireWakeLockInternal: err $e")
+                }
+
+//                handleWakeLockAcquire(param, pN, wN, lock, uId, context)
             }
         })
 

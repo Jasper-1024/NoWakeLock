@@ -30,7 +30,7 @@ open class XposedModule : IXposedHookZygoteInit, IXposedHookLoadPackage {
     @Throws(Throwable::class)
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
         pN = lpparam.packageName
-        XposedBridge.log("$TAG $pN: handleLoadPackage")
+//        XposedBridge.log("$TAG $pN: handleLoadPackage")
 
 //        findAndHookMethod("android.app.Application", lpparam.classLoader, "attach",
 //            Context::class.java, object : XC_MethodHook() {
