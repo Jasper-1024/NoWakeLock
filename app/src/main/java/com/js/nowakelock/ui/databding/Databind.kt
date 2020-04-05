@@ -9,6 +9,7 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.request.RequestOptions
+import com.js.nowakelock.BasicApp
 import com.js.nowakelock.data.db.entity.AppInfo
 import com.js.nowakelock.data.db.entity.WakeLock
 
@@ -36,5 +37,7 @@ fun loadAppInfoCount(textView: TextView, appInfo: AppInfo) {
 @BindingAdapter("loadWakeLockCount")
 fun loadWakeLockCount(textView: TextView, wakeLock: WakeLock) {
     val (_, _, _, count, blockCount) = wakeLock
-    textView.text = "Count: $count BlockCount: $blockCount"
+    textView.text =
+        "${BasicApp.context.getString(com.js.nowakelock.R.string.Count)}: $count " +
+                "${BasicApp.context.getString(com.js.nowakelock.R.string.BlockCount)}: $blockCount"
 }

@@ -15,4 +15,6 @@ interface WakeLockRepository {
     suspend fun rstCount(pN: String, wN: String)
 
     suspend fun syncWakelocks(pN: String)
+
+    suspend fun setWakeLockFlag(wakeLock: WakeLock)
 }

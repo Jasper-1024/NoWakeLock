@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <item
         android:id="@+id/settingsFragment"
-        android:icon="@drawable/ic_settings_black_24dp"
+        android:icon="@drawable/ic_settings_24dp"
         android:title="@string/settings"
         tools:ignore="ExtraText" />
 

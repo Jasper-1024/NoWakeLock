@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
@@ -11,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
+import com.js.nowakelock.BasicApp
 import com.js.nowakelock.R
 import com.js.nowakelock.base.LogUtil
 import java.io.File
@@ -47,6 +49,11 @@ class MainActivity : AppCompatActivity() {
 //        test()
 //        fixPermission(this.createDeviceProtectedStorageContext())
         getString(R.string.android)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.options_menu, menu)
+        return true
     }
 
     private fun setupNavigationDrawer() {

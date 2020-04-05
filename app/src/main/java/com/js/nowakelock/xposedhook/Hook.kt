@@ -27,23 +27,24 @@ fun hookWakeLocks(lpparam: LoadPackageParam, context: Context) {
             @Throws(Throwable::class)
             override fun beforeHookedMethod(param: MethodHookParam) {
 
-                try {
-                    val lock = param.args[0] as IBinder
-                    val flags = param.args[1] as Int
-                    val wN = param.args[2] as String
-                    val pN = param.args[3] as String
-                    val ws = param.args[4] as WorkSource?
+                val lock = param.args[0] as IBinder
+                val flags = param.args[1] as Int
+                val wN = param.args[2] as String
+                val pN = param.args[3] as String
+                val ws = param.args[4] as WorkSource?
 //                    val historyTag = param.args[5] as String
-                    val uId = param.args[6] as Int
-                    val pid = param.args[7] as Int
-                    log("$TAG wakeLock: pN = $pN , tag=\"$wN\" , lock= \"${Objects.hashCode(lock)}\"," +
-                            "flags=0x${Integer.toHexString(flags)} , ws = \"${ws}\", " +
-                            "uid= $uId , pid = $pid")
-                }catch (e:Exception){
-                    log("$TAG acquireWakeLockInternal: err $e")
-                }
+                val uId = param.args[6] as Int
+                val pid = param.args[7] as Int
 
-//                handleWakeLockAcquire(param, pN, wN, lock, uId, context)
+//                try {
+//                    log("$TAG wakeLock: pN = $pN , tag=\"$wN\" , lock= \"${Objects.hashCode(lock)}\"," +
+//                            "flags=0x${Integer.toHexString(flags)} , ws = \"${ws}\", " +
+//                            "uid= $uId , pid = $pid")
+//                }catch (e:Exception){
+//                    log("$TAG acquireWakeLockInternal: err $e")
+//                }
+
+                handleWakeLockAcquire(param, pN, wN, lock, uId, context)
             }
         })
 
@@ -69,11 +70,11 @@ fun handleWakeLockAcquire(
     uId: Int,
     context: Context
 ) {
-    log("$TAG $pN: AC $wN")
+    log("$TAG $pN: $wN")
     try {
         XpCR.getInstance(context).upCount(pN, wN)
     } catch (e: Exception) {
-        log("$TAG $pN: AE $wN $e")
+//        log("$TAG $pN: AE $wN $e")
     }
     //record
 //    mcR.upCount(pN, wN)

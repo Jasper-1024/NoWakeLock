@@ -15,4 +15,11 @@
     <string name="channel_id" translatable="false">nowakelock</string>
     <string name="notofication_title">Background Services</string>
     <string name="notofication_text">NoWakeLock need a service to meantain database.Just ignore this notification or hiding it</string>
+    <string name="Count">Count</string>
+    <string name="BlockCount">BlockCount</string>
+    <string name="search_title">Search</string>
+    <string name="menu_filter">filter</string>
+    <string name="menu_filter_user">show user app</string>
+    <string name="menu_filter_system">show system app</string>
+    <string name="menu_filter_all">show all app</string>
 </resources>

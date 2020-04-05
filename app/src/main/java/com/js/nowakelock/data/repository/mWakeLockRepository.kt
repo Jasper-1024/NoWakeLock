@@ -54,8 +54,12 @@ class mWakeLockRepository(private var wakeLockDao: WakeLockDao) : WakeLockReposi
         //not empty then do something
         if (wakeLockDao.countWakeLocks(pN) != 0) {
             wakeLockDao.updateAppInfoCount(pN)
-            wakeLockDao.upBlockCount(pN)
+            wakeLockDao.updateAppInfoBlockCount(pN)
         }
+    }
+
+    override suspend fun setWakeLockFlag(wakeLock: WakeLock) = withContext(Dispatchers.IO) {
+        wakeLockDao.insert(wakeLock)
     }
 
 }

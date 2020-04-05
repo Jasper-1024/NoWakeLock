@@ -32,7 +32,7 @@ class AppListFragment : Fragment() {
         binding = FragmentApplistBinding.inflate(inflater, container, false)
         context ?: return binding.root
         //adapter
-        val handler = AppListHandler()
+        val handler = AppListHandler(viewModel)
         val adapter = RecycleAdapter(R.layout.item_appinfo, handler)
         binding.appinfoList.adapter = adapter
         subscribeUi(adapter)

@@ -39,7 +39,7 @@ class WakeLockFragment : Fragment() {
         binding = FragmentWakelockBinding.inflate(inflater, container, false)
         context ?: return binding.root //if already create
         //set recyclerview
-        val handler = WakeLockHandler()
+        val handler = WakeLockHandler(viewModel)
         val adapter = RecycleAdapter(R.layout.item_wakelock, handler)
         binding.wakelockList.adapter = adapter
         subscribeUi(adapter)

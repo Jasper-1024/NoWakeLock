@@ -71,7 +71,7 @@ class NWLContentProvider : ContentProvider() {
                 return when (code) {
                     0 -> throw IllegalArgumentException("$pN: App not install")
                     1 -> {
-                        db.wakeLockDao().insert(WakeLock(pN, wN))
+                        db.wakeLockDao().insert(WakeLock(pN, wN, count = 1, blockCount = 0))
                         uri
                     }
                     2 -> {
@@ -86,7 +86,7 @@ class NWLContentProvider : ContentProvider() {
                 return when (code) {
                     0 -> throw IllegalArgumentException("$pN: App not install")
                     1 -> {
-                        db.wakeLockDao().insert(WakeLock(pN, wN))
+                        db.wakeLockDao().insert(WakeLock(pN, wN, count = 1, blockCount = 1))
                         uri
                     }
                     2 -> {

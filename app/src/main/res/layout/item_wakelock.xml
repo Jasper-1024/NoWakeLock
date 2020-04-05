@@ -17,7 +17,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{(theView)->handler.onClick(theView,item)}"
         android:padding="8dp">
 
 
@@ -26,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:gravity="center_vertical"
             android:text="@{item.wakeLockName}"
             android:textSize="18sp"
@@ -39,12 +38,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/wakelockListFlag"
-            app:layout_constraintStart_toEndOf="@+id/wakelockListName"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wakelockListName"
             app:loadWakeLockCount="@{item}"
             tools:ignore="MissingConstraints" />
 
@@ -52,10 +49,13 @@
             android:id="@+id/wakelockListFlag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="4dp"
             android:checked="@={item.flag}"
             android:text=""
+            android:onClick="@{(theView)->handler.onClick(theView,item)}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
