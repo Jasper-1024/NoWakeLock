@@ -2,6 +2,7 @@ package com.js.nowakelock
 
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.repository.*
+import com.js.nowakelock.ui.mainActivity.MainViewModel
 import com.js.nowakelock.ui.appList.AppListViewModel
 import com.js.nowakelock.ui.wakeLock.WakeLockViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -20,6 +21,9 @@ var noWakeLockModule = module {
         )
     }
 
+    viewModel {
+        MainViewModel()
+    }
     viewModel {
         AppListViewModel(get(named("AR")))
     }

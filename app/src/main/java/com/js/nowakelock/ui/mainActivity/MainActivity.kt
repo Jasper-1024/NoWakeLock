@@ -1,26 +1,28 @@
-package com.js.nowakelock.ui
+package com.js.nowakelock.ui.mainActivity
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.os.AsyncTask
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
-import com.js.nowakelock.BasicApp
 import com.js.nowakelock.R
 import com.js.nowakelock.base.LogUtil
-import java.io.File
+import org.koin.android.ext.android.inject
 
 
 class MainActivity : AppCompatActivity() {
+
     //    var dataRepository = inject<DataRepository>()
 //    var test1 = inject<AppInfoRepository>()
+    private lateinit var viewModel: MainViewModel
+
     private lateinit var drawerLayout: DrawerLayout
 
 
@@ -41,6 +43,10 @@ class MainActivity : AppCompatActivity() {
         findViewById<NavigationView>(R.id.nav_view)
             .setupWithNavController(navController)
 
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        //get appListStatus
+        viewModel.appListStatus.value = loadAppListStatus()
+
         //start BackService
 //        startBackService()
 //        //set NotificationChannel
@@ -48,7 +54,14 @@ class MainActivity : AppCompatActivity() {
 
 //        test()
 //        fixPermission(this.createDeviceProtectedStorageContext())
-        getString(R.string.android)
+//        getString(R.string.android)
+    }
+
+    override fun onDestroy() {
+        viewModel.appListStatus.value?.let {
+            saveAppListStats(viewModel.appListStatus.value!!)
+        }
+        super.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -62,6 +75,42 @@ class MainActivity : AppCompatActivity() {
                 setStatusBarBackground(R.color.colorPrimaryDark)
             }
     }
+
+    private fun loadAppListStatus(): Int {
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+        return sharedPref.getInt("AppListStatus", 1)
+    }
+
+    private fun saveAppListStats(appListStatus: Int) {
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+        sharedPref.edit().putInt("AppListStatus", appListStatus).apply()
+    }
+
+    //menu handler
+    fun statusUser(menu: MenuItem) = viewModel.appListStatus.postValue(1)
+    fun statusSystem(menu: MenuItem) = viewModel.appListStatus.postValue(2)
+    fun statusCount(menu: MenuItem) = viewModel.appListStatus.postValue(3)
+    fun statusAll(menu: MenuItem) = viewModel.appListStatus.postValue(4)
+
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        // Handle item selection
+//        return when (item.itemId) {
+//            R.id.menu_filter_user -> {
+//                LogUtil.d("test1", "4")
+//                viewModel.appListStatus.postValue(1)
+//                true
+//            }
+//            R.id.menu_filter_system -> {
+//                viewModel.appListStatus.postValue(2)
+//                true
+//            }
+//            R.id.menu_filter_all -> {
+//                viewModel.appListStatus.postValue(3)
+//                true
+//            }
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
 
     //    private fun startBackService() {
 //        val service = Intent(this, NWLService::class.java)
