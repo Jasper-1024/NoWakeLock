@@ -18,8 +18,8 @@
     <string name="BlockCount">阻止</string>
     <string name="search_title">搜索</string>
     <string name="menu_filter">显示</string>
-    <string name="menu_filter_user">显示用户应用</string>
-    <string name="menu_filter_system">显示系统应用</string>
-    <string name="menu_filter_all">显示所有应用</string>
+    <string name="menu_filter_user">用户应用</string>
+    <string name="menu_filter_system">系统应用</string>
+    <string name="menu_filter_all">所有应用</string>
     <string name="menu_filter_count">唤醒次数排序</string>
 </resources>

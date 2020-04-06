@@ -15,6 +15,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@{item.system? @color/SystemApp : @color/UserApp}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="@{(theView)->handler.onClick(theView,item)}"

@@ -26,7 +26,11 @@ data class WakeLock(
     @ColumnInfo(name = "wakeLock_count")
     var count: Int = 0,
     @ColumnInfo(name = "wakeLock_blockCount")
-    var blockCount: Int = 0
+    var blockCount: Int = 0,
+    @ColumnInfo(name = "wakeLock_countTime")
+    var countTime: Long = 0,
+    @ColumnInfo(name = "wakeLock_blockCountTime")
+    var blockCountTime: Long = 0
 ) : BaseItem {
     @Ignore
     override fun getID() = wakeLockName

@@ -12,10 +12,10 @@ data class AppInfo(
     var uid: Int = 0,
     var appName: String = "",
     var icon: Int = 0,
-    var label: String = "",
     var system: Boolean = false,
     var enabled: Boolean = false,
     var persistent: Boolean = false,
+    var label: String = "",
     var flag: Boolean = true,
     var count: Int = 0,
     var blockCount: Int = 0

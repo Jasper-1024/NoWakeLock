@@ -41,3 +41,8 @@ fun loadWakeLockCount(textView: TextView, wakeLock: WakeLock) {
         "${BasicApp.context.getString(com.js.nowakelock.R.string.Count)}: $count " +
                 "${BasicApp.context.getString(com.js.nowakelock.R.string.BlockCount)}: $blockCount"
 }
+
+@BindingAdapter("test")
+fun test(textView: TextView, tmp: Int) {
+    textView.text = tmp.toString()
+}

@@ -14,7 +14,6 @@
 
     <style name="ToolBar" parent="ThemeOverlay.AppCompat.DayNight.ActionBar">
         <!-- Customize your theme here. -->
-
     </style>
 
     <style name="NavigationView" parent="ThemeOverlay.AppCompat.DayNight">

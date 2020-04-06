@@ -2,6 +2,7 @@ package com.js.nowakelock.ui.mainActivity
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -19,8 +20,14 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
 
-    //    var dataRepository = inject<DataRepository>()
+//      var dataRepository = inject<DataRepository>()
 //    var test1 = inject<AppInfoRepository>()
+
+    companion object {
+        val appListStatus = "appListStatus"
+    }
+
+
     private lateinit var viewModel: MainViewModel
 
     private lateinit var drawerLayout: DrawerLayout
@@ -45,7 +52,9 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         //get appListStatus
-        viewModel.appListStatus.value = loadAppListStatus()
+        savedInstanceState?.let {
+            viewModel.appListStatus.value = it.getInt(appListStatus)
+        }
 
         //start BackService
 //        startBackService()
@@ -57,12 +66,18 @@ class MainActivity : AppCompatActivity() {
 //        getString(R.string.android)
     }
 
-    override fun onDestroy() {
-        viewModel.appListStatus.value?.let {
-            saveAppListStats(viewModel.appListStatus.value!!)
-        }
-        super.onDestroy()
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(appListStatus, viewModel.appListStatus.value!!)
+        super.onSaveInstanceState(outState)
     }
+
+//    override fun onDestroy() {
+//        viewModel.appListStatus.value?.let {
+//            saveAppListStats(viewModel.appListStatus.value!!)
+//            LogUtil.d("test1",viewModel.appListStatus.value.toString())
+//        }
+//        super.onDestroy()
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.options_menu, menu)
@@ -76,15 +91,17 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    private fun loadAppListStatus(): Int {
-        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
-        return sharedPref.getInt("AppListStatus", 1)
-    }
-
-    private fun saveAppListStats(appListStatus: Int) {
-        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
-        sharedPref.edit().putInt("AppListStatus", appListStatus).apply()
-    }
+//    private fun loadAppListStatus(): Int {
+//        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+//        LogUtil.d("test1","ss ${sharedPref.getInt("AppListStatus", 1)}")
+//        return sharedPref.getInt("AppListStatus", 1)
+//    }
+//
+//    private fun saveAppListStats(appListStatus: Int) {
+//        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+//        sharedPref.edit().putInt("AppListStatus", appListStatus).apply()
+//    }
+//
 
     //menu handler
     fun statusUser(menu: MenuItem) = viewModel.appListStatus.postValue(1)

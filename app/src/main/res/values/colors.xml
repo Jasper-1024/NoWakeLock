@@ -13,4 +13,9 @@
 
     <color name="colorGrey">#757575</color>
 
+    <color name="lightColorSystem">#20B10000</color>
+    <color name="darkColorSystem">#40B10000</color>
+    <color name="SystemApp">#30B10000</color>
+    <color name="UserApp">#00000000</color>
+
 </resources>

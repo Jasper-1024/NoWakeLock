@@ -1,16 +1,12 @@
 package com.js.nowakelock.xposedhook
 
 import android.app.AndroidAppHelper
-import android.content.ContentResolver
-import android.content.ContentValues
 import android.content.Context
-import android.net.Uri
+import android.os.Process
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.IXposedHookZygoteInit
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
-import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
-import de.robv.android.xposed.XposedHelpers.findAndHookMethod
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 
@@ -30,7 +26,7 @@ open class XposedModule : IXposedHookZygoteInit, IXposedHookLoadPackage {
     @Throws(Throwable::class)
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
         pN = lpparam.packageName
-//        XposedBridge.log("$TAG $pN: handleLoadPackage")
+//        XposedBridge.log("$TAG $pN: handleLoadPackage ,uid ${Process.myUid()}")
 
 //        findAndHookMethod("android.app.Application", lpparam.classLoader, "attach",
 //            Context::class.java, object : XC_MethodHook() {
