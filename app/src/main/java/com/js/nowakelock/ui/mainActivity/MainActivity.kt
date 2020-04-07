@@ -3,11 +3,13 @@ package com.js.nowakelock.ui.mainActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -38,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             .setupWithNavController(navController)
     }
 
-
+    //ToolBar menu
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.options_menu, menu)
         return true
@@ -52,10 +54,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     //menu handler
-    fun statusUser(menu: MenuItem) = viewModel.appListStatus.postValue(1)
-    fun statusSystem(menu: MenuItem) = viewModel.appListStatus.postValue(2)
-    fun statusCount(menu: MenuItem) = viewModel.appListStatus.postValue(3)
-    fun statusAll(menu: MenuItem) = viewModel.appListStatus.postValue(4)
+    fun statusUser(menu: MenuItem) {
+        viewModel.appListStatus.postValue(1)
+        menu.isChecked = true
+    }
+
+    fun statusSystem(menu: MenuItem) {
+        viewModel.appListStatus.postValue(2)
+        menu.isChecked = true
+    }
+
+    fun statusCount(menu: MenuItem) {
+        viewModel.appListStatus.postValue(3)
+        menu.isChecked = true
+    }
+
+    fun statusAll(menu: MenuItem) {
+        viewModel.appListStatus.postValue(4)
+        menu.isChecked = true
+    }
+
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         // Search
@@ -80,4 +98,14 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
+//    private fun visibilityNavElements(navController: NavController) {
+//
+//        navController.addOnDestinationChangedListener { _, destination, _ ->
+//            when (destination.id) {
+//                R.id.missionPhotoFragment -> navController. menu.visibility = View.GONE
+//                else -> bottom_nav?.visibility = View.VISIBLE
+//            }
+//        }
+//    }
 }

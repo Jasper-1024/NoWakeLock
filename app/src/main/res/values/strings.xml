@@ -10,6 +10,7 @@
     <string name="light_theme_name">Light</string>
     <string name="dark_theme_name">Dark</string>
     <string name="black_theme_name">Black (AMOLED)</string>
+    <string name="system_theme_name">Follow System</string>
     <string name="channel_name">Background Services</string>
     <string name="channel_description">Just ignore this notification or hiding it</string>
     <string name="channel_id" translatable="false">nowakelock</string>
