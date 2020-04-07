@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -39,29 +38,32 @@ class AppListFragment : Fragment() {
         binding = FragmentApplistBinding.inflate(inflater, container, false)
         context ?: return binding.root
 
-//        mainViewModel = activity?.run {
-//            ViewModelProviders(this).get[MainViewModel::class.java]
-//        } ?: throw Exception("Invalid Activity")
-
         mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-
 
         //adapter
         val handler = AppListHandler(viewModel)
         adapter = RecycleAdapter(R.layout.item_appinfo, handler)
         binding.appinfoList.adapter = adapter
-        subscribeUi()
+
         //分割线
         setItemDecoration(binding.appinfoList)
 
         //set SwipeRefresh
         setSwipeRefreshLayout(binding.appinfoRefresh)
 
-        //appListStatus
-        subscribeStatus()
 
         setHasOptionsMenu(true)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        //
+        subscribeUi()
+        //appListStatus
+        subscribeStatus()
+        //searchView
+        subscribSearch()
     }
 
     private fun setSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout) {
@@ -78,27 +80,29 @@ class AppListFragment : Fragment() {
 
     private fun subscribeUi() {
         val observer = Observer<List<AppInfo>> { albinos ->
-            loadAppList(albinos, mainViewModel.appListStatus.value)
+            loadAppList(albinos, mainViewModel.appListStatus.value, mainViewModel.searchText.value)
         }
         viewModel.appInfos.observe(viewLifecycleOwner, observer)
     }
 
     private fun subscribeStatus() {
         val observer = Observer<Int> { status ->
-            loadAppList(viewModel.appInfos.value, status)
+            loadAppList(viewModel.appInfos.value, status, mainViewModel.searchText.value)
         }
-        mainViewModel.appListStatus.observe(this as LifecycleOwner, observer)
+        mainViewModel.appListStatus.observe(viewLifecycleOwner, observer)
     }
 
-    private fun loadAppList(appInfos: List<AppInfo>?, status: Int?) {
-        if (appInfos != null && status != null) {
+    private fun subscribSearch() {
+        val observer = Observer<String> { query ->
+            loadAppList(viewModel.appInfos.value, mainViewModel.appListStatus.value, query)
+        }
+        mainViewModel.searchText.observe(viewLifecycleOwner, observer)
+    }
+
+    private fun loadAppList(appInfos: List<AppInfo>?, status: Int? = 1, query: String? = "") {
+        if (appInfos != null && status != null && query != null) {
             viewLifecycleOwner.lifecycleScope.launch {
-                when (status) {
-                    1 -> adapter.submitList(viewModel.userAppList(appInfos))
-                    2 -> adapter.submitList(viewModel.systemAppList(appInfos))
-                    3 -> adapter.submitList(viewModel.countAppList(appInfos))
-                    4 -> adapter.submitList(viewModel.appList(appInfos))
-                }
+                adapter.submitList(viewModel.AppList(appInfos, status, query))
             }
         }
     }

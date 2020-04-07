@@ -22,9 +22,6 @@ var noWakeLockModule = module {
     }
 
     viewModel {
-        MainViewModel()
-    }
-    viewModel {
         AppListViewModel(get(named("AR")))
     }
     viewModel {

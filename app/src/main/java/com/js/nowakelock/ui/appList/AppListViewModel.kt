@@ -25,35 +25,41 @@ class AppListViewModel(private var AppInfoRepository: AppInfoRepository) : ViewM
 
     fun syncAppInfos() = viewModelScope.launch { AppInfoRepository.syncAppInfos() }
 
-    suspend fun userAppList(appInfos: List<AppInfo>): List<AppInfo> =
+    suspend fun AppList(appInfos: List<AppInfo>, status: Int, query: String): List<AppInfo> =
         withContext(Dispatchers.Default) {
-            return@withContext appInfos.filter { !it.system }
-                .sortedWith(Comparator { s1, s2 ->
-                    Collator.getInstance(Locale.getDefault()).compare(s1.appName, s2.appName)
-                })
+            return@withContext appInfos
+                .appStatus(status)
+                .search(query)
+                .sortByName()
         }
 
-    suspend fun systemAppList(appInfos: List<AppInfo>): List<AppInfo> =
-        withContext(Dispatchers.Default) {
-            return@withContext appInfos.filter { it.system }
-                .sortedWith(Comparator { s1, s2 ->
-                    Collator.getInstance(Locale.getDefault()).compare(s1.appName, s2.appName)
-                })
+    fun List<AppInfo>.appStatus(status: Int): List<AppInfo> {
+        return when (status) {
+            1 -> this.filter { !it.system }
+            2 -> this.filter { it.system }
+            3 -> this.sortedBy { it.count }
+            4 -> this.filter { true }
+            else -> this
         }
+    }
 
-    suspend fun countAppList(appInfos: List<AppInfo>): List<AppInfo> =
-        withContext(Dispatchers.Default) {
-            return@withContext appInfos.sortedWith(Comparator { s1, s2 ->
-                Collator.getInstance(
-                    Locale.getDefault()
-                ).compare(s1.appName, s2.appName)
-            }).sortedBy { it.count }
+    fun List<AppInfo>.search(query: String): List<AppInfo> {
+        /*lowerCase and no " " */
+        val q = query.toLowerCase(Locale.ROOT).trim { it <= ' ' }
+        if (q == "") {
+            return this
         }
+        return this.filter {
+            it.appName.toLowerCase(Locale.ROOT).contains(q)
+                    || it.packageName.toLowerCase(Locale.ROOT).contains(q)
+        }
+    }
 
-    suspend fun appList(appInfos: List<AppInfo>): List<AppInfo> =
-        withContext(Dispatchers.Default) {
-            return@withContext appInfos.sortedWith(Comparator { s1, s2 ->
-                Collator.getInstance(Locale.getDefault()).compare(s1.appName, s2.appName)
-            })
-        }
+    fun List<AppInfo>.sortByName(): List<AppInfo> {
+        return this.sortedWith(Comparator { s1, s2 ->
+            Collator.getInstance(Locale.getDefault()).compare(s1.appName, s2.appName)
+        })
+    }
+
+
 }
