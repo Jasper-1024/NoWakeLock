@@ -3,10 +3,8 @@ package com.js.nowakelock.data.repository
 import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.content.pm.PackageManager.MATCH_ALL
 import androidx.collection.ArrayMap
 import com.js.nowakelock.BasicApp
-import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.data.db.dao.AppInfoDao
 import com.js.nowakelock.data.db.entity.AppInfo
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +27,8 @@ class mAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository
 
         insertAll(sysAppInfos.keys subtract dbAppInfos.keys, sysAppInfos)
         deleteAll(dbAppInfos.keys subtract sysAppInfos.keys, dbAppInfos)
+
+        updateCount(appInfoDao.loadWLPackageNames())
     }
 
     private suspend fun insertAll(
@@ -114,5 +114,11 @@ class mAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository
         )
     }
 
+    private suspend fun updateCount(packageNames: List<String>) = withContext(Dispatchers.IO) {
+        packageNames.forEach {
+            appInfoDao.updateAppInfoCount(it)
+            appInfoDao.updateAppInfoBlockCount(it)
+        }
+    }
 
 }

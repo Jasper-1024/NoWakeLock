@@ -6,6 +6,10 @@ import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
 import android.os.AsyncTask
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class XpCR(context: Context) {
 
@@ -33,13 +37,35 @@ class XpCR(context: Context) {
     fun getFlag(packageName: String, wakelockName: String): Boolean {
         val url = Uri.parse("content://$authority/flag")
         val tmp = mContentResolver.query(url, arrayOf(""), wakelockName, null, null)
-//        var test = tmp.get
-        TODO("RETURN FLAG")
+        log(tmp.toString())
+        return true
     }
 
     fun upCount(packageName: String, wakelockName: String) {
-        AsyncTask.execute {
+//        AsyncTask.execute {
+        GlobalScope.launch(Dispatchers.Default) {
             val url = Uri.parse("content://$authority/upCount")
+            val newValues = ContentValues().apply {
+                put(PackageName, packageName)
+                put(WakelockName, wakelockName)
+            }
+            withContext(Dispatchers.IO) {
+                try {
+                    val tmp = mContentResolver.insert(url, newValues)
+                    if (tmp == url) {
+                        log("$TAG $packageName: $wakelockName upCount ")
+                    }
+                } catch (e: Exception) {
+                    log("$TAG $packageName: $wakelockName upCount Err : $e ")
+                }
+            }
+        }
+//        }
+    }
+
+    fun upBlockCount(packageName: String, wakelockName: String) {
+        AsyncTask.execute {
+            val url = Uri.parse("content://$authority/upBlockCount")
             val newValues = ContentValues().apply {
                 put(PackageName, packageName)
                 put(WakelockName, wakelockName)
@@ -47,27 +73,11 @@ class XpCR(context: Context) {
             try {
                 val tmp = mContentResolver.insert(url, newValues)
                 if (tmp == url) {
-                    log("$TAG $packageName: $wakelockName upCount ")
+                    log("$TAG $packageName: $wakelockName upBlockCount ")
                 }
             } catch (e: Exception) {
-//                log("$TAG $packageName: $wakelockName upCount Err : $e ")
+                log("$TAG $packageName: $wakelockName upBlockCount Err : $e ")
             }
-        }
-    }
-
-    fun upBlockCount(packageName: String, wakelockName: String) {
-        val url = Uri.parse("content://$authority/upBlockCount")
-        val newValues = ContentValues().apply {
-            put(PackageName, packageName)
-            put(WakelockName, wakelockName)
-        }
-        try {
-            val tmp = mContentResolver.insert(url, newValues)
-            if (tmp == url) {
-                log("$TAG $packageName: $wakelockName upBlockCount ")
-            }
-        } catch (e: Exception) {
-            log("$TAG $packageName: $wakelockName upBlockCount Err : $e ")
         }
     }
 

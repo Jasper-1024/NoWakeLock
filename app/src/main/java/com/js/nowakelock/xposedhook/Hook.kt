@@ -73,6 +73,11 @@ fun handleWakeLockAcquire(
     log("$TAG $pN: $wN")
     try {
         XpCR.getInstance(context).upCount(pN, wN)
+//        XpCR.getInstance(context).getFlag(pN,wN)
+//        if (!XpCR.getInstance(context).getFlag(pN,wN)){
+//            param.result = null
+//            XpCR.getInstance(context).upBlockCount(pN,wN)
+//        }
     } catch (e: Exception) {
 //        log("$TAG $pN: AE $wN $e")
     }

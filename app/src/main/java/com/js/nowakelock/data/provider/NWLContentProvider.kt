@@ -5,7 +5,6 @@ import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
-import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.entity.WakeLock
 
@@ -54,7 +53,6 @@ class NWLContentProvider : ContentProvider() {
         when (sUriMatcher.match(uri)) {
             flag -> return db.wakeLockDao().loadFlag(selection)
             else -> throw IllegalArgumentException("Unknown URI: $uri")
-
         }
     }
 
@@ -66,44 +64,43 @@ class NWLContentProvider : ContentProvider() {
         val pN = values.getAsString(PackageName)
         val code = getStatus(pN, wN)
         //获取url匹配代码
+//        GlobalScope.launch(Dispatchers.IO) {
         when (sUriMatcher.match(uri)) {
             upCount -> {
-                return when (code) {
-                    0 -> throw IllegalArgumentException("$pN: App not install")
+                when (code) {
+//                        0 -> throw IllegalArgumentException("$pN: App not install")
                     1 -> {
                         db.wakeLockDao().insert(WakeLock(pN, wN, count = 1, blockCount = 0))
-                        uri
                     }
                     2 -> {
                         db.wakeLockDao().upCount(wN)
                         db.wakeLockDao().upCountP(pN)
-                        uri
                     }
-                    else -> throw IllegalArgumentException("Unknown URI: $uri")
+//                    else -> throw IllegalArgumentException("Unknown URI: $uri")
                 }
             }
             upBlockCount -> {
-                return when (code) {
-                    0 -> throw IllegalArgumentException("$pN: App not install")
+                when (code) {
+//                        0 -> throw IllegalArgumentException("$pN: App not install")
                     1 -> {
                         db.wakeLockDao().insert(WakeLock(pN, wN, count = 1, blockCount = 1))
-                        uri
                     }
                     2 -> {
                         db.wakeLockDao().upCount(wN)
                         db.wakeLockDao().upCountP(pN)
                         db.wakeLockDao().upBlockCount(wN)
                         db.wakeLockDao().upBlockCountP(pN)
-                        uri
                     }
-                    else -> throw IllegalArgumentException("Unknown URI: $uri")
+//                        else -> throw IllegalArgumentException("Unknown URI: $uri")
                 }
             }
-            test -> return Uri.parse("test $pN $wN")
-            else -> {
-                throw IllegalArgumentException("Unknown URI: $uri")
-            }
+            test -> Uri.parse("test $pN $wN")
+//            else -> {
+//                throw IllegalArgumentException("Unknown URI: $uri")
+//            }
+//            }
         }
+        return uri
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {

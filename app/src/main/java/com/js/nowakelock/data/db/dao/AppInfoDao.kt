@@ -15,6 +15,15 @@ interface AppInfoDao {
 
     @Query("select packageName from appInfo")
     suspend fun loadPackageNames(): List<String>
+
+    @Query("select wakeLock_packageName from wakeLock")
+    suspend fun loadWLPackageNames(): List<String>
+
+    @Query("update appInfo set count = (select sum(wakeLock_count) from wakeLock where wakeLock_packageName = :packageName) where packageName = :packageName")
+    suspend fun updateAppInfoCount(packageName: String)
+
+    @Query("update appInfo set blockCount = (select sum(wakeLock_blockCount) from wakeLock where wakeLock_packageName = :packageName) where packageName = :packageName")
+    suspend fun updateAppInfoBlockCount(packageName: String)
 //
 //    @Query("select packageName from appInfo")
 //    fun loadPackageNames2(): LiveData<List<String>>
