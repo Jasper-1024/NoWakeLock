@@ -9,7 +9,7 @@ import com.js.nowakelock.base.LogUtil
 class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
     val TAG = "MainViewModel"
 
-    val appListStatus: MutableLiveData<Int> by lazy {
+    val status: MutableLiveData<Int> by lazy {
         MutableLiveData<Int>(1)
     }
 

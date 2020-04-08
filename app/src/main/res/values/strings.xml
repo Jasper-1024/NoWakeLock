@@ -24,4 +24,5 @@
     <string name="menu_filter_system">show system app</string>
     <string name="menu_filter_all">show all app</string>
     <string name="menu_filter_count">order by count</string>
+    <string name="menu_filter_name">order by wakelock name</string>
 </resources>

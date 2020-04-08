@@ -28,17 +28,17 @@ class AppListViewModel(private var AppInfoRepository: AppInfoRepository) : ViewM
     suspend fun AppList(appInfos: List<AppInfo>, status: Int, query: String): List<AppInfo> =
         withContext(Dispatchers.Default) {
             return@withContext appInfos
-                .appStatus(status)
+                .status(status)
                 .search(query)
-                .sortByName()
+                .sortByName(status)
         }
 
-    fun List<AppInfo>.appStatus(status: Int): List<AppInfo> {
+    fun List<AppInfo>.status(status: Int): List<AppInfo> {
         return when (status) {
             1 -> this.filter { !it.system }
             2 -> this.filter { it.system }
-            3 -> this.sortedBy { it.count }
-            4 -> this.filter { true }
+            3 -> this.filter { true }
+            4 -> this.sortedByDescending { it.count }
             else -> this
         }
     }
@@ -55,10 +55,14 @@ class AppListViewModel(private var AppInfoRepository: AppInfoRepository) : ViewM
         }
     }
 
-    fun List<AppInfo>.sortByName(): List<AppInfo> {
-        return this.sortedWith(Comparator { s1, s2 ->
-            Collator.getInstance(Locale.getDefault()).compare(s1.appName, s2.appName)
-        })
+    fun List<AppInfo>.sortByName(status: Int): List<AppInfo> {
+        return if (status != 4) {
+            this.sortedWith(Comparator { s1, s2 ->
+                Collator.getInstance(Locale.getDefault()).compare(s1.appName, s2.appName)
+            })
+        } else {
+            this
+        }
     }
 
 

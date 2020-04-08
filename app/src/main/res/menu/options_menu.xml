@@ -20,13 +20,17 @@
                     android:onClick="statusSystem"
                     android:title="@string/menu_filter_system" />
                 <item
+                    android:id="@+id/menu_filter_all"
+                    android:onClick="statusAll"
+                    android:title="@string/menu_filter_all" />
+                <item
                     android:id="@+id/menu_filter_count"
                     android:onClick="statusCount"
                     android:title="@string/menu_filter_count" />
                 <item
-                    android:id="@+id/menu_filter_all"
-                    android:onClick="statusAll"
-                    android:title="@string/menu_filter_all" />
+                    android:id="@+id/menu_filter_name"
+                    android:onClick="statusName"
+                    android:title="@string/menu_filter_name" />
             </group>
         </menu>
     </item>

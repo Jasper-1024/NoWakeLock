@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.js.nowakelock.R
+import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.data.db.entity.AppInfo
 import com.js.nowakelock.databinding.FragmentApplistBinding
 import com.js.nowakelock.ui.databding.RecycleAdapter
@@ -25,18 +26,17 @@ import org.koin.android.ext.android.inject
 class AppListFragment : Fragment() {
 
     private val viewModel: AppListViewModel by inject<AppListViewModel>()
-    lateinit var binding: FragmentApplistBinding
-    lateinit var adapter: RecycleAdapter
-    lateinit var mainViewModel: MainViewModel
+    private lateinit var binding: FragmentApplistBinding
+    private lateinit var adapter: RecycleAdapter
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        return inflater.inflate(R.layout.fragment_app_list2, container, false)
         binding = FragmentApplistBinding.inflate(inflater, container, false)
-        context ?: return binding.root
-
+        context ?: return binding.root  //if already create
+        //get MainViewModel
         mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
 
         //adapter
@@ -50,14 +50,13 @@ class AppListFragment : Fragment() {
         //set SwipeRefresh
         setSwipeRefreshLayout(binding.appinfoRefresh)
 
-
         setHasOptionsMenu(true)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //
+        //adapter
         subscribeUi()
         //appListStatus
         subscribeStatus()
@@ -65,35 +64,24 @@ class AppListFragment : Fragment() {
         subscribSearch()
     }
 
-    private fun setSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout) {
-        //
-        swipeRefreshLayout.setDistanceToTriggerSync(300)
-        //color
-        swipeRefreshLayout.setColorSchemeColors(Color.BLUE)
-        //binding
-        swipeRefreshLayout.setOnRefreshListener {
-            viewModel.syncAppInfos()
-            swipeRefreshLayout.isRefreshing = false
-        }
-    }
-
     private fun subscribeUi() {
         val observer = Observer<List<AppInfo>> { albinos ->
-            loadAppList(albinos, mainViewModel.appListStatus.value, mainViewModel.searchText.value)
+            loadAppList(albinos, mainViewModel.status.value, mainViewModel.searchText.value)
         }
         viewModel.appInfos.observe(viewLifecycleOwner, observer)
     }
 
     private fun subscribeStatus() {
         val observer = Observer<Int> { status ->
+            LogUtil.d("test1", status.toString())
             loadAppList(viewModel.appInfos.value, status, mainViewModel.searchText.value)
         }
-        mainViewModel.appListStatus.observe(viewLifecycleOwner, observer)
+        mainViewModel.status.observe(viewLifecycleOwner, observer)
     }
 
     private fun subscribSearch() {
         val observer = Observer<String> { query ->
-            loadAppList(viewModel.appInfos.value, mainViewModel.appListStatus.value, query)
+            loadAppList(viewModel.appInfos.value, mainViewModel.status.value, query)
         }
         mainViewModel.searchText.observe(viewLifecycleOwner, observer)
     }
@@ -106,11 +94,31 @@ class AppListFragment : Fragment() {
         }
     }
 
+    //SwipeRefresh
+    private fun setSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout) {
+        //
+        swipeRefreshLayout.setDistanceToTriggerSync(300)
+        //color
+        swipeRefreshLayout.setColorSchemeColors(Color.BLUE)
+        //binding
+        swipeRefreshLayout.setOnRefreshListener {
+            viewModel.syncAppInfos()
+            swipeRefreshLayout.isRefreshing = false
+        }
+    }
+
     private fun setItemDecoration(recyclerView: RecyclerView) = recyclerView.addItemDecoration(
         DividerItemDecoration(
             recyclerView.context,
             DividerItemDecoration.VERTICAL
         )
     )
+
+    //set toolbar menu
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        val filterName = menu.findItem(R.id.menu_filter_name)
+        filterName.isVisible = false
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
 }

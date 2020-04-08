@@ -60,22 +60,27 @@ class MainActivity : AppCompatActivity() {
 
     //menu handler
     fun statusUser(menu: MenuItem) {
-        viewModel.appListStatus.postValue(1)
+        viewModel.status.postValue(1)
         menu.isChecked = true
     }
 
     fun statusSystem(menu: MenuItem) {
-        viewModel.appListStatus.postValue(2)
-        menu.isChecked = true
-    }
-
-    fun statusCount(menu: MenuItem) {
-        viewModel.appListStatus.postValue(3)
+        viewModel.status.postValue(2)
         menu.isChecked = true
     }
 
     fun statusAll(menu: MenuItem) {
-        viewModel.appListStatus.postValue(4)
+        viewModel.status.postValue(3)
+        menu.isChecked = true
+    }
+
+    fun statusCount(menu: MenuItem) {
+        viewModel.status.postValue(4)
+        menu.isChecked = true
+    }
+
+    fun statusName(menu: MenuItem) {
+        viewModel.status.postValue(5)
         menu.isChecked = true
     }
 
