@@ -2,9 +2,7 @@ package com.js.nowakelock.ui.wakeLock
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
@@ -77,5 +75,11 @@ class WakeLockFragment : Fragment() {
             viewModel.syncWakeLocks(packageName)
             swipeRefreshLayout.isRefreshing = false
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        val filter = menu.findItem(R.id.menu_filter)
+        filter.isVisible = false
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }

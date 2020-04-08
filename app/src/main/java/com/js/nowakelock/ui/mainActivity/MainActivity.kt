@@ -3,42 +3,47 @@ package com.js.nowakelock.ui.mainActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.js.nowakelock.R
+import com.js.nowakelock.base.LogUtil
 
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<MainViewModel>()
     private lateinit var drawerLayout: DrawerLayout
+    private lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupNavigationDrawer()
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
 
         //Toolbar
+        toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         toolbar.setupWithNavController(navController, appBarConfiguration)
 
         //NavigationView
         findViewById<NavigationView>(R.id.nav_view)
             .setupWithNavController(navController)
+
+//        findViewById<NavigationView>(R.id.nav_view)
+//            .setNavigationItemSelectedListener(this)
+//        visibilityNavElements(navController)
     }
+
 
     //ToolBar menu
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -99,12 +104,32 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+//    override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
+//        val id = menuItem.itemId
+//        LogUtil.d("test1","123")
+//        findViewById<DrawerLayout>(R.id.drawer_layout).closeDrawers()
+//        when (id) {
+//            R.id.settingsFragment -> findNavController(R.id.nav_host_fragment).navigate(R.id.settingsFragment)
+//        }
+//        return true
+//    }
+
 //    private fun visibilityNavElements(navController: NavController) {
-//
 //        navController.addOnDestinationChangedListener { _, destination, _ ->
 //            when (destination.id) {
-//                R.id.missionPhotoFragment -> navController. menu.visibility = View.GONE
-//                else -> bottom_nav?.visibility = View.VISIBLE
+//                R.id.settingsFragment -> {
+//                    LogUtil.d("test1","222")
+//                    val t = toolbar.menu.findItem(R.id.menu_filter)
+//                    t.isVisible = false
+////                    toolbar.menu.findItem(R.id.menu_filter).isVisible = false
+////                    toolbar.menu.findItem(R.id.search).isVisible = false
+////                    menuInflater.inflate(R.menu.options_menu, toolbar.menu)
+//                }
+//                else -> {
+////                    toolbar.menu.findItem(R.id.menu_filter).isVisible = true
+////                    toolbar.menu.findItem(R.id.search).isVisible = true
+////                    menuInflater.inflate(R.menu.options_menu, toolbar.menu)
+//                }
 //            }
 //        }
 //    }

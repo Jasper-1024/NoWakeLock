@@ -2,9 +2,7 @@ package com.js.nowakelock.ui.appList
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +17,7 @@ import com.js.nowakelock.ui.databding.RecycleAdapter
 import com.js.nowakelock.ui.mainActivity.MainViewModel
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+
 
 /**
  * A simple [Fragment] subclass.
@@ -113,4 +112,5 @@ class AppListFragment : Fragment() {
             DividerItemDecoration.VERTICAL
         )
     )
+
 }
