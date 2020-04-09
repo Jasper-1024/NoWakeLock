@@ -21,14 +21,14 @@
     <fragment
         android:id="@+id/wakeLockFragment"
         android:name="com.js.nowakelock.ui.wakeLock.WakeLockFragment"
-        android:label="{AppName}"
+        android:label="{label}"
         tools:layout="@layout/fragment_wakelock">
         <argument
             android:name="PackageName"
             android:defaultValue='""'
             app:argType="string" />
         <argument
-            android:name="AppName"
+            android:name="label"
             android:defaultValue='""'
             app:argType="string" />
     </fragment>

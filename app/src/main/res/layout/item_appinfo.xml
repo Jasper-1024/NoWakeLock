@@ -40,7 +40,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:gravity="center_vertical"
-            android:text="@{item.appName}"
+            android:text="@{item.label}"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/appListIcon"
             app:layout_constraintTop_toTopOf="parent"

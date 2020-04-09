@@ -13,7 +13,7 @@ class AppListHandler(private val viewModel: AppListViewModel) : BaseHandler() {
         val direction =
             AppListFragmentDirections.actionAppListFragmentToWakeLockFragment(
                 appInfo.packageName,
-                appInfo.appName
+                appInfo.label
             )
 
         view.findNavController().navigate(direction)

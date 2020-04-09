@@ -50,7 +50,7 @@ class AppListViewModel(private var AppInfoRepository: AppInfoRepository) : ViewM
             return this
         }
         return this.filter {
-            it.appName.toLowerCase(Locale.ROOT).contains(q)
+            it.label.toLowerCase(Locale.ROOT).contains(q)
                     || it.packageName.toLowerCase(Locale.ROOT).contains(q)
         }
     }
@@ -58,7 +58,7 @@ class AppListViewModel(private var AppInfoRepository: AppInfoRepository) : ViewM
     fun List<AppInfo>.sortByName(status: Int): List<AppInfo> {
         return if (status != 4) {
             this.sortedWith(Comparator { s1, s2 ->
-                Collator.getInstance(Locale.getDefault()).compare(s1.appName, s2.appName)
+                Collator.getInstance(Locale.getDefault()).compare(s1.label, s2.label)
             })
         } else {
             this

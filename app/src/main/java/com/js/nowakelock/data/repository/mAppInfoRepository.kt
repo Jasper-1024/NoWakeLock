@@ -18,7 +18,7 @@ class mAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository
     private val TAG = "test_AR"
 
     /**get all dadabase appinfos*/
-    override fun getAppLists() = appInfoDao.loadAllAppInfos()
+    override fun getAppLists() = appInfoDao.loadAppInfos()
 
     /**Sync installed apps*/
     override suspend fun syncAppInfos() {
@@ -61,15 +61,7 @@ class mAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository
             val sysAppInfo = ArrayMap<String, AppInfo>()
 
             pm.getInstalledApplications(0).forEach {
-                //just in case some app use the same processName
-                if (sysAppInfo[it.processName] == null) {
-                    sysAppInfo[it.processName] = getAppInfo(it)
-//                    LogUtil.d("test1","${it.processName}  ${pm.getApplicationLabel(it)}")
-                } else {
-                    sysAppInfo[pm.getApplicationLabel(it) as String] =
-                        getAppInfo(it, pm.getApplicationLabel(it) as String)
-//                    LogUtil.d("test2","${pm.getApplicationLabel(it)}")
-                }
+                sysAppInfo[it.packageName] = getAppInfo(it)
             }
 
             return@withContext sysAppInfo
@@ -79,20 +71,13 @@ class mAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository
     private suspend fun getDBPackageNames(): ArrayMap<String, AppInfo> =
         withContext(Dispatchers.IO) {
             val dbAppInfos = ArrayMap<String, AppInfo>()
-            appInfoDao.loadPackageNames().forEach {
-                dbAppInfos[it] = appInfoDao.loadAppInfo(it)
+            appInfoDao.loadAllAppInfos().forEach {
+                dbAppInfos[it.packageName] = it
             }
             return@withContext dbAppInfos
         }
 
-//    @SuppressLint("WrongConstant")
-//    private fun getAppInfo(packageName: String): AppInfo =
-//        getAppInfo(pm.getApplicationInfo(packageName, MATCH_ALL))
-
-    private fun getAppInfo(ai: ApplicationInfo): AppInfo =
-        getAppInfo(ai, ai.processName)
-
-    private fun getAppInfo(ai: ApplicationInfo, pN: String): AppInfo {
+    private fun getAppInfo(ai: ApplicationInfo): AppInfo {
         /*属性*/
         val esetting = pm.getApplicationEnabledSetting(ai.packageName)
         val enabled = ai.enabled &&
@@ -104,13 +89,14 @@ class mAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository
                 (ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0
 
         return AppInfo(
-            pN,
+            ai.packageName,
             ai.uid,
             pm.getApplicationLabel(ai) as String,
             ai.icon,
             system,
             enabled,
-            persistent
+            persistent,
+            ai.processName
         )
     }
 

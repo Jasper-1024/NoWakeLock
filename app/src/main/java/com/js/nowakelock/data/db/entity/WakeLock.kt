@@ -5,15 +5,15 @@ import androidx.room.ForeignKey.CASCADE
 import com.js.nowakelock.base.BaseItem
 
 @Entity(
-    tableName = "wakeLock",
-    foreignKeys = arrayOf(
-        ForeignKey(
-            entity = AppInfo::class,
-            parentColumns = arrayOf("packageName"),
-            childColumns = arrayOf("wakeLock_packageName"),
-            onDelete = CASCADE
-        )
-    )
+    tableName = "wakeLock"
+//    foreignKeys = arrayOf(
+//        ForeignKey(
+//            entity = AppInfo::class,
+//            parentColumns = arrayOf("packageName"),
+//            childColumns = arrayOf("wakeLock_packageName"),
+//            onDelete = CASCADE
+//        )
+//    )
 )
 data class WakeLock(
 //    @PrimaryKey(autoGenerate = true)
@@ -30,7 +30,12 @@ data class WakeLock(
     @ColumnInfo(name = "wakeLock_countTime")
     var countTime: Long = 0,
     @ColumnInfo(name = "wakeLock_blockCountTime")
-    var blockCountTime: Long = 0
+    var blockCountTime: Long = 0,
+    //xposed used
+    @Ignore
+    var active: Boolean = false,
+    @Ignore
+    var lastApplyTime: Long = 0
 ) : BaseItem {
     @Ignore
     override fun getID() = wakeLockName

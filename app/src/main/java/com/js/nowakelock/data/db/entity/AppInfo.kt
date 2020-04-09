@@ -10,15 +10,17 @@ data class AppInfo(
     @PrimaryKey
     var packageName: String = "",
     var uid: Int = 0,
-    var appName: String = "",
+    var label: String = "",
     var icon: Int = 0,
     var system: Boolean = false,
     var enabled: Boolean = false,
     var persistent: Boolean = false,
-    var label: String = "",
+    var processName: String = "",
     var flag: Boolean = true,
     var count: Int = 0,
-    var blockCount: Int = 0
+    var blockCount: Int = 0,
+    var countTime: Long = 0,
+    var blockCountTime: Long = 0
 //    @Ignore
 //    var wakeLocks: HashMap<String, WakeLock> = HashMap()
 ) : BaseItem {
