@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
+import android.os.Bundle
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.entity.WakeLock
 
@@ -45,15 +46,16 @@ class NWLContentProvider : ContentProvider() {
         uri: Uri, projection: Array<String>?, selection: String?,
         selectionArgs: Array<String>?, sortOrder: String?
     ): Cursor? {
-        if (selection == null) throw NullPointerException()
-        if (context == null) {
-            return null
-        }
-        //获取url匹配代码
-        when (sUriMatcher.match(uri)) {
-            flag -> return db.wakeLockDao().loadFlag(selection)
-            else -> throw IllegalArgumentException("Unknown URI: $uri")
-        }
+//        if (selection == null) throw NullPointerException()
+//        if (context == null) {
+//            return null
+//        }
+//        //获取url匹配代码
+//        when (sUriMatcher.match(uri)) {
+//            flag -> return db.wakeLockDao().loadFlag(selection)
+//            else -> throw IllegalArgumentException("Unknown URI: $uri")
+//        }
+        return null
     }
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
@@ -103,22 +105,35 @@ class NWLContentProvider : ContentProvider() {
         return uri
     }
 
+    override fun call(method: String, arg: String?, extras: Bundle?): Bundle? {
+        //no need handler
+        if (extras == null) {
+            return null
+        }
+        return context?.let { ProviderHandler.getInstance(it).getMethod(method, extras) }
+    }
+
+//        val bundle = Bundle()
+//        bundle.putBoolean(method, true)
+//        return super.call(method, arg, extras)
+//        LogUtil.d("test1", method)
+//        LogUtil.d("test1", mService?.serviceModel!!.TAG)
+//        return bundle
+
+
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
-        TODO("Implement this to handle requests to delete one or more rows")
+        return 0
     }
 
     override fun getType(uri: Uri): String? {
-        TODO(
-            "Implement this to handle requests for the MIME type of the data" +
-                    "at the given URI"
-        )
+        return null
     }
 
     override fun update(
         uri: Uri, values: ContentValues?, selection: String?,
         selectionArgs: Array<String>?
     ): Int {
-        TODO("Implement this to handle requests to update one or more rows.")
+        return 0
     }
 
     private fun getStatus(pN: String, wN: String): Int {

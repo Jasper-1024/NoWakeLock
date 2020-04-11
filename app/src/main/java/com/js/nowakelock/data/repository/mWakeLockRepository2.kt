@@ -68,7 +68,7 @@ import kotlinx.coroutines.withContext
 //    }
 //
 //    override suspend fun syncWakelocks(pN: String) {
-//        TODO("Not yet implemented")
+//
 //    }
 //
 //    /**set wakeLocksHM -> database */

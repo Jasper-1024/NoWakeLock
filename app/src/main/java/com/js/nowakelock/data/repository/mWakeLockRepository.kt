@@ -9,6 +9,14 @@ class mWakeLockRepository(private var wakeLockDao: WakeLockDao) : WakeLockReposi
 
     override fun getWakeLocks(packageName: String) = wakeLockDao.loadAllWakeLocks(packageName)
 
+    override suspend fun syncWakelocks(pN: String) = withContext(Dispatchers.IO) {
+        //not empty then do something
+        if (wakeLockDao.countWakeLocks(pN) != 0) {
+            wakeLockDao.updateAppInfoCount(pN)
+            wakeLockDao.updateAppInfoBlockCount(pN)
+        }
+    }
+
 //    override suspend fun getFlag(pN: String, wN: String): Boolean {
 //        return wakeLockDao.loadFlag(wN)
 //    }
@@ -47,19 +55,11 @@ class mWakeLockRepository(private var wakeLockDao: WakeLockDao) : WakeLockReposi
 //        }
 //    }
 
-    override suspend fun rstCount(pN: String, wN: String) =
-        withContext(Dispatchers.IO) { wakeLockDao.rstCount(wN) }
+//    override suspend fun rstCount(pN: String, wN: String) =
+//        withContext(Dispatchers.IO) { wakeLockDao.rstCount(wN) }
 
-    override suspend fun syncWakelocks(pN: String) = withContext(Dispatchers.IO) {
-        //not empty then do something
-        if (wakeLockDao.countWakeLocks(pN) != 0) {
-            wakeLockDao.updateAppInfoCount(pN)
-            wakeLockDao.updateAppInfoBlockCount(pN)
-        }
-    }
-
-    override suspend fun setWakeLockFlag(wakeLock: WakeLock) = withContext(Dispatchers.IO) {
-        wakeLockDao.insert(wakeLock)
-    }
+//    override suspend fun setWakeLockFlag(wakeLock: WakeLock) = withContext(Dispatchers.IO) {
+//        wakeLockDao.insert(wakeLock)
+//    }
 
 }

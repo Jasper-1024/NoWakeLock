@@ -60,8 +60,6 @@ interface WakeLockDao {
     @Query("update wakeLock set wakeLock_blockCount = 0 where wakeLockName = :wakelockName")
     suspend fun rstBlockCount(wakelockName: String)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(wakeLocks: MutableCollection<WakeLock>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(wakeLock: WakeLock)
@@ -72,13 +70,13 @@ interface WakeLockDao {
     @Delete
     suspend fun delete(wakeLock: WakeLock)
 
-    /**
-     * Select wakelock flag
-     *
-     * @return A [Cursor] of wakelock flag (default true)
-     */
-    @Query("select flag from wakeLock where wakeLockName = :wakelockName")
-    fun loadFlag(wakelockName: String): Cursor?
+//    /**
+//     * Select wakelock flag
+//     *
+//     * @return A [Cursor] of wakelock flag (default true)
+//     */
+//    @Query("select flag from wakeLock where wakeLockName = :wakelockName")
+//    fun loadFlag(wakelockName: String): Cursor?
 
     /**
      * whether app install or not
@@ -95,4 +93,12 @@ interface WakeLockDao {
      */
     @Query("select wakeLockName from wakeLock where wakeLockName = :wakelockName")
     fun loadWakelockName(wakelockName: String): String?
+
+    /**
+     * insert all wakeLocks
+     *
+     * @return null
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(wakeLocks: MutableCollection<WakeLock>)
 }

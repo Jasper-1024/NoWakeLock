@@ -39,6 +39,7 @@ class AppListViewModel(private var AppInfoRepository: AppInfoRepository) : ViewM
             2 -> this.filter { it.system }
             3 -> this.filter { true }
             4 -> this.sortedByDescending { it.count }
+            6 -> this.sortedByDescending { it.countTime }
             else -> this
         }
     }

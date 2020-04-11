@@ -1,6 +1,8 @@
 package com.js.nowakelock.xposedhook
 
+import android.content.ContentValues
 import android.content.Context
+import android.net.Uri
 import android.os.IBinder
 import android.os.Process.myPid
 import android.os.SystemClock
@@ -9,6 +11,10 @@ import com.js.nowakelock.data.db.entity.WakeLock
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -18,6 +24,9 @@ class xptest {
 
         var wls = HashMap<String, WakeLock>()
         var iwN = HashMap<IBinder, String>()
+
+        private var updateFrequency: Long = 300000 //Save every five minutes
+
 
         fun hookWakeLocks(lpparam: XC_LoadPackage.LoadPackageParam) {
             XposedHelpers.findAndHookMethod("com.android.server.power.PowerManagerService",
@@ -63,6 +72,8 @@ class xptest {
                         }
 
                         handleWakeLockAcquire(param, pN, wN, lock, uId, context)
+
+                        log("$TAG wakeLock: pN = $pN ,wls ${wls.size},iwN ${iwN.size}")
                     }
                 })
 
@@ -145,6 +156,26 @@ class xptest {
         private fun handleRE(wN: String, rE: List<String>): Boolean {
             return true
             TODO("handel Regular Expression")
+        }
+
+        private fun updateStats(context: Context) {
+//            GlobalScope.launch(Dispatchers.Default) {
+//                val url = Uri.parse("content://$authority/upCount")
+//                val newValues = ContentValues().apply {
+//                    put(PackageName, packageName)
+//                    put(WakelockName, wakelockName)
+//                }
+//                withContext(Dispatchers.IO) {
+//                    try {
+//                        val tmp = mContentResolver.insert(url, newValues)
+//                        if (tmp == url) {
+//                            log("$TAG $packageName: $wakelockName upCount ")
+//                        }
+//                    } catch (e: Exception) {
+//                        log("$TAG $packageName: $wakelockName upCount Err : $e ")
+//                    }
+//                }
+//            }
         }
     }
 

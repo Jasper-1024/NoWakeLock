@@ -16,13 +16,10 @@ import com.js.nowakelock.base.BaseItem
 //    )
 )
 data class WakeLock(
-//    @PrimaryKey(autoGenerate = true)
-//    var id: Int,
     @ColumnInfo(name = "wakeLock_packageName")
     var packageName: String = "",
     @PrimaryKey
     var wakeLockName: String = "",
-    var flag: Boolean = true,
     @ColumnInfo(name = "wakeLock_count")
     var count: Int = 0,
     @ColumnInfo(name = "wakeLock_blockCount")
@@ -31,11 +28,15 @@ data class WakeLock(
     var countTime: Long = 0,
     @ColumnInfo(name = "wakeLock_blockCountTime")
     var blockCountTime: Long = 0,
-    //xposed used
+    @Ignore
+    var flag: Boolean = true,//for SharedPreferences
+    //for xposed
     @Ignore
     var active: Boolean = false,
     @Ignore
-    var lastApplyTime: Long = 0
+    var lastApplyTime: Long = 0,
+    @Ignore
+    var lastAllowTime: Long = 0
 ) : BaseItem {
     @Ignore
     override fun getID() = wakeLockName

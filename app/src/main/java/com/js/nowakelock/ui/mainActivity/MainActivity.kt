@@ -84,6 +84,11 @@ class MainActivity : AppCompatActivity() {
         menu.isChecked = true
     }
 
+    fun statusCountTime(menu: MenuItem) {
+        viewModel.status.postValue(6)
+        menu.isChecked = true
+    }
+
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         // Search
