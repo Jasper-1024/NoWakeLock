@@ -16,10 +16,12 @@ import com.js.nowakelock.base.BaseItem
 //    )
 )
 data class WakeLock(
-    @ColumnInfo(name = "wakeLock_packageName")
-    var packageName: String = "",
     @PrimaryKey
     var wakeLockName: String = "",
+    @ColumnInfo(name = "wakeLock_packageName")
+    var packageName: String = "",
+    @ColumnInfo(name = "wakeLock_uid")
+    var uid: Int = 0,
     @ColumnInfo(name = "wakeLock_count")
     var count: Int = 0,
     @ColumnInfo(name = "wakeLock_blockCount")

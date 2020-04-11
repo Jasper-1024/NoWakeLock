@@ -15,7 +15,7 @@ interface WakeLockDao {
     fun loadAllWakeLocks(packageName: String): LiveData<List<WakeLock>>
 
     @Query("select * from wakeLock where wakeLockName = :wakelockName")
-    suspend fun loadWakeLock(wakelockName: String): WakeLock
+    suspend fun loadWakeLock(wakelockName: String): WakeLock?
 
 //    @Query("select packageName from appInfo")
 //    fun loadPackageNames(): LiveData<List<String>>

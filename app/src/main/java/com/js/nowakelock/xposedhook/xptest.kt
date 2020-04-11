@@ -99,7 +99,7 @@ class xptest {
             uId: Int,
             context: Context
         ) {
-            val wakeLock: WakeLock = wls[wN] ?: WakeLock(pN, wN)
+            val wakeLock: WakeLock = wls[wN] ?: WakeLock(wN, pN, uId)
             wls[wN] = wakeLock
             //set index
             iwN[lock] = wN

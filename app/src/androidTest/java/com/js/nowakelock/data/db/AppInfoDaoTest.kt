@@ -36,24 +36,24 @@ class AppInfoDaoTest {
         db.close()
     }
 
-    @Test
-    fun load_without_Insert() {
-        val appInfos = aIDao.loadAllAppInfos()
-        assertTrue(LiveDataTestUtil.getValue(appInfos).isEmpty())
-    }
+//    @Test
+//    fun load_without_Insert() {
+//        val appInfos = aIDao.loadAllAppInfos()
+//        assertTrue(LiveDataTestUtil.getValue(appInfos).isEmpty())
+//    }
 
-    @Test
-    @Throws(Exception::class)
-    fun loadAll() {
-
-        runBlocking {
-            aIDao.insertAll(TestData.appInfos)
-        }
-
-        assertEquals(runBlocking {
-            LiveDataTestUtil.getValue(aIDao.loadAllAppInfos())
-        }, TestData.appInfos)
-    }
+//    @Test
+//    @Throws(Exception::class)
+//    fun loadAll() {
+//
+//        runBlocking {
+//            aIDao.insertAll(TestData.appInfos)
+//        }
+//
+//        assertEquals(runBlocking {
+//            LiveDataTestUtil.getValue(aIDao.loadAllAppInfos())
+//        }, TestData.appInfos)
+//    }
 
     @Test
     @Throws(Exception::class)

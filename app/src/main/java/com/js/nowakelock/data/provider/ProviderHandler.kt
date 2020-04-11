@@ -2,22 +2,21 @@ package com.js.nowakelock.data.provider
 
 import android.content.Context
 import android.os.Bundle
+import androidx.annotation.VisibleForTesting
 import com.js.nowakelock.base.LogUtil
+import com.js.nowakelock.base.WLUtil
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.entity.WakeLock
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class ProviderHandler(
-    private val context: Context
+    context: Context
 ) {
+    private val TAG = "ProviderHandler"
 
     private var db: AppDatabase = AppDatabase.getInstance(context)
 
-    private val wls = "WakeLockList"
-    private val packageName = "PackageName"
-    private val wakelockName = "WakelockName"
-    private val flaG = "Flag"
 
     companion object {
         @Volatile
@@ -30,34 +29,38 @@ class ProviderHandler(
 
     fun getMethod(methodName: String, bundle: Bundle): Bundle? {
         return when (methodName) {
-            "saveWLS" -> saveWLS(bundle)
+            "saveWL" -> saveWL(bundle)
 //            "getFlag" -> getFlag(bundle)
 //            "upCount" -> upCount(bundle)
 //            "upBlockCount" -> upBlockCount(bundle)
-//            "test" -> test(bundle)
+            "test" -> test(bundle)
             else -> null
         }
     }
 
-    private fun wls(bundle: Bundle) = bundle.get(wls) as MutableCollection<WakeLock>?
+    //update db wakelock
+    @Synchronized
+    private fun saveWL(bundle: Bundle): Bundle? {
+        val tmi = WLUtil.getWakeLock(bundle)
 
-//    private fun pN(bundle: Bundle) = bundle.get(packageName) as String?
-//    private fun wN(bundle: Bundle) = bundle.get(wakelockName) as String?
-//    private fun fL(bundle: Bundle) = bundle.get(flaG) as Boolean?
-
-    private fun saveWLS(bundle: Bundle): Bundle? {
-        val wls = wls(bundle)
-        wls?.let {
-            try {
-                GlobalScope.launch {
-                    db.wakeLockDao().insertAll(it)
+        tmi.let {
+            GlobalScope.launch {
+                try {
+                    val tmp: WakeLock = db.wakeLockDao().loadWakeLock(it.wakeLockName)
+                        ?: WakeLock(it.wakeLockName, it.packageName, it.uid)
+                    tmp.count += it.count
+                    tmp.countTime += it.countTime
+                    tmp.blockCount += it.blockCount
+                    tmp.blockCountTime += it.blockCountTime
+                    db.wakeLockDao().insert(tmp)
+                } catch (e: Exception) {
+                    LogUtil.d(TAG, e.toString())
                 }
-            } catch (e: Exception) {
-                LogUtil.d("test1", e.toString())
             }
         }
         return null
     }
+
 
     //    private fun getFlag(bundle: Bundle): Bundle? {
 //        val flag = serviceModel.getFlag(pN(bundle), wN(bundle))
@@ -78,22 +81,18 @@ class ProviderHandler(
 //        return null
 //    }
 //
-//    @VisibleForTesting
-//    fun test(bundle: Bundle): Bundle? {
+    @VisibleForTesting
+    fun test(bundle: Bundle): Bundle? {
 //        val pn = pN(bundle)
 //        val wn = wN(bundle)
 //        val flag = fL(bundle)
-//
-//        LogUtil.d("test1", "$pn,$wn,$flag")
-//
-////        val tmp2 = serviceModel.test(pn, wn)
-//
-//        val tmp = Bundle()
-//        tmp.let {
-//            it.putString(packageName, pn)
-//            it.putString(wakelockName, wn)
-////            it.putBoolean(flaG, tmp2)
-//        }
-//        return tmp
-//    }
+
+        val test = bundle.get("Test") as String?
+
+        LogUtil.d(TAG, "$test")
+
+        val tmp = Bundle()
+        tmp.putString("Test", "Test")
+        return tmp
+    }
 }
