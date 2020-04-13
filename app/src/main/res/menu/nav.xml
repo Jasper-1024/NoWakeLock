@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/wakeLockFragment"
+        android:icon="@drawable/ic_wakelock_24dp"
+        android:title="@string/WakeLock"
+        tools:ignore="ExtraText" />
+
+    <item
+        android:id="@+id/appListFragment"
+        android:icon="@drawable/ic_apps_24dp"
+        android:title="@string/Apps"
+        android:visible="true"
+        tools:ignore="ExtraText" />
+
     <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings_24dp"

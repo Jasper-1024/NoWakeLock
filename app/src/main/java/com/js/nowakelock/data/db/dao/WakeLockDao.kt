@@ -9,10 +9,10 @@ import com.js.nowakelock.data.db.entity.WakeLock
 interface WakeLockDao {
 
     @Query("select * from wakeLock")
-    fun loadAllWakeLocks(): List<WakeLock>
+    fun loadWakeLocks(): LiveData<List<WakeLock>>
 
     @Query("select * from wakeLock where wakeLock_packageName = :packageName")
-    fun loadAllWakeLocks(packageName: String): LiveData<List<WakeLock>>
+    fun loadWakeLocks(packageName: String): LiveData<List<WakeLock>>
 
     @Query("select * from wakeLock where wakeLockName = :wakelockName")
     suspend fun loadWakeLock(wakelockName: String): WakeLock?

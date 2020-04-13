@@ -5,6 +5,8 @@ import com.js.nowakelock.data.db.entity.WakeLock
 
 interface WakeLockRepository {
 
+    fun getWakeLocks(): LiveData<List<WakeLock>>
+
     fun getWakeLocks(packageName: String): LiveData<List<WakeLock>>
 
     suspend fun syncWakelocks(pN: String)

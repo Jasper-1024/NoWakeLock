@@ -17,6 +17,8 @@
     <string name="notofication_text">NoWakeLock 需要使用后台服务来维护数据库,请忽略或隐藏这条通知.</string>
     <string name="Count">总计</string>
     <string name="BlockCount">阻止</string>
+    <string name="CountTime">唤醒时间</string>
+    <string name="BlockCountTime">阻止时间</string>
     <string name="search_title">搜索</string>
     <string name="menu_filter">显示</string>
     <string name="menu_filter_user">用户应用</string>
@@ -25,4 +27,6 @@
     <string name="menu_filter_count">唤醒次数排序</string>
     <string name="menu_filter_name">唤醒锁名称排序</string>
     <string name="menu_filter_countime">唤醒时间排序</string>
+    <string name="WakeLock">唤醒锁</string>
+    <string name="Apps">应用</string>
 </resources>

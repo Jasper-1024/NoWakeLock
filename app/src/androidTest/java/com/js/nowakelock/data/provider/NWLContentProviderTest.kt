@@ -90,13 +90,13 @@ class NWLContentProviderTest {
 //        if (bundle != null) {
 //            LogUtil.d("test1", bundle.toString())
 //        }
-        try {
-            var tmp =
-                runBlocking { db.wakeLockDao().loadWakeLock(TestData.wakeLocks[0].wakeLockName) }
-            LogUtil.d("test1", "$tmp")
-        } catch (e: Exception) {
-            LogUtil.d("test1", e.toString())
-        }
+//        try {
+//            var tmp =
+//                runBlocking { db.wakeLockDao().loadWakeLock(TestData.wakeLocks[0].wakeLockName) }
+//            LogUtil.d("test1", "$tmp")
+//        } catch (e: Exception) {
+//            LogUtil.d("test1", e.toString())
+//        }
 
 
 //        assertEquals(bundle!!.getString("Test"), "Test")

@@ -1,4 +1,4 @@
-package com.js.nowakelock.ui.wakeLock
+package com.js.nowakelock.ui.appList.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -11,14 +11,20 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.Collator
 import java.util.*
-import kotlin.Comparator
 
-class WakeLockViewModel(
-    wakeLockRepository: WakeLockRepository
+class ALWakeLockViewModel(
+    private var packageName: String,
+    private var WakeLockRepository: WakeLockRepository
 ) : ViewModel() {
-    val TAG = "WakeLockViewModel"
 
-    var wakeLocks: LiveData<List<WakeLock>> = wakeLockRepository.getWakeLocks()
+    val TAG = "ALWakeLockViewModel"
+
+    var wakeLocks: LiveData<List<WakeLock>> = WakeLockRepository.getWakeLocks(packageName)
+
+    fun syncWakeLocks() = viewModelScope.launch {
+//        LogUtil.d("test1",packageName)
+        WakeLockRepository.syncWakelocks(packageName)
+    }
 
     //save wakelock flag
     fun setWakeLockFlag(wakeLock: WakeLock) = viewModelScope.launch(Dispatchers.IO) {
@@ -74,4 +80,5 @@ class WakeLockViewModel(
             Collator.getInstance(Locale.getDefault()).compare(s1.wakeLockName, s2.wakeLockName)
         })
     }
+
 }

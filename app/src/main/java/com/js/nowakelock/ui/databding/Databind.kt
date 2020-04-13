@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.request.RequestOptions
 import com.js.nowakelock.BasicApp
+import com.js.nowakelock.base.TimeUtil
 import com.js.nowakelock.data.db.entity.AppInfo
 import com.js.nowakelock.data.db.entity.WakeLock
 
@@ -42,7 +43,23 @@ fun loadWakeLockCount(textView: TextView, wakeLock: WakeLock) {
                 "${BasicApp.context.getString(com.js.nowakelock.R.string.BlockCount)}: $blockCount"
 }
 
+@SuppressLint("SetTextI18n")
+@BindingAdapter("loadWakeLockCountTime")
+fun loadWakeLockCountTime(textView: TextView, wakeLock: WakeLock) {
+    val (_, _, _, _, _, countTime, blockCountTime) = wakeLock
+    textView.text =
+        "${BasicApp.context.getString(com.js.nowakelock.R.string.CountTime)}: ${TimeUtil.getTime(
+            countTime
+        )} " +
+                "${BasicApp.context.getString(com.js.nowakelock.R.string.BlockCountTime)}: ${TimeUtil.getTime(
+                    blockCountTime
+                )}"
+}
+
 @BindingAdapter("test")
 fun test(textView: TextView, tmp: Int) {
     textView.text = tmp.toString()
 }
+
+
+

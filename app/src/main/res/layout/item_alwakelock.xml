@@ -11,7 +11,7 @@
 
         <variable
             name="handler"
-            type="com.js.nowakelock.ui.wakeLock.WakeLockHandler" />
+            type="com.js.nowakelock.ui.appList.list.ALWakeLockHandler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

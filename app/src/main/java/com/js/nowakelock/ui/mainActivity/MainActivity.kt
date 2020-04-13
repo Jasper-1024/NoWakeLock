@@ -13,7 +13,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.js.nowakelock.R
-import com.js.nowakelock.base.LogUtil
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,7 +27,14 @@ class MainActivity : AppCompatActivity() {
         setupNavigationDrawer()
 
         val navController = findNavController(R.id.nav_host_fragment)
-        val appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
+        val appBarConfiguration =
+            AppBarConfiguration(
+                setOf(
+                    R.id.wakeLockFragment,
+                    R.id.appListFragment,
+                    R.id.settingsFragment
+                ), drawerLayout
+            )
 
         //Toolbar
         toolbar = findViewById(R.id.toolbar)
@@ -38,6 +44,9 @@ class MainActivity : AppCompatActivity() {
         //NavigationView
         findViewById<NavigationView>(R.id.nav_view)
             .setupWithNavController(navController)
+
+        //start watching file , but not work
+//        SP.getInstance().startFileObserver()
 
 //        findViewById<NavigationView>(R.id.nav_view)
 //            .setNavigationItemSelectedListener(this)

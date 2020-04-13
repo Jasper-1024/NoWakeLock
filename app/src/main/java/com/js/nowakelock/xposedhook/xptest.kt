@@ -1,20 +1,18 @@
 package com.js.nowakelock.xposedhook
 
-import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.IBinder
 import android.os.Process.myPid
 import android.os.SystemClock
 import android.os.WorkSource
+import com.js.nowakelock.base.WLUtil
 import com.js.nowakelock.data.db.entity.WakeLock
+import com.js.nowakelock.data.sp.SP
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -22,10 +20,12 @@ import kotlin.collections.HashMap
 class xptest {
     companion object {
 
-        var wls = HashMap<String, WakeLock>()
-        var iwN = HashMap<IBinder, String>()
+        var wls = HashMap<IBinder, WakeLock>()
 
-        private var updateFrequency: Long = 300000 //Save every five minutes
+        private var updateSetting: Long = 60000 //Save every minutes
+        private var updateSettingTime: Long = 60000 //Save every minutes
+        private var updateFrequency: Long = 120000 //Save every two minutes
+        private var updateTime: Long = 0
 
 
         fun hookWakeLocks(lpparam: XC_LoadPackage.LoadPackageParam) {
@@ -44,6 +44,8 @@ class xptest {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
 
+                        XpUtil.init()
+
                         val lock = param.args[0] as IBinder
                         val flags = param.args[1] as Int
                         val wN = param.args[2] as String
@@ -51,29 +53,27 @@ class xptest {
                         val ws = param.args[4] as WorkSource?
 //                    val historyTag = param.args[5] as String
                         val uId = param.args[6] as Int
-                        val pid = param.args[7] as Int
+//                        val pid = param.args[7] as Int
 
                         val context = XposedHelpers.getObjectField(
                             param.thisObject,
                             "mContext"
                         ) as Context
 
-                        try {
-                            log(
-                                "$TAG wakeLock: pN = $pN , tag=\"$wN\" , lock= \"${Objects.hashCode(
-                                    lock
-                                )}\"," +
-                                        "flags=0x${Integer.toHexString(flags)} , ws = \"${ws}\", " +
-                                        "uid= $uId , pid = $pid, mypid ${myPid()}"
-                            )
-                            log("$TAG wakeLock: pN = $pN ,mypid ${myPid()}")
-                        } catch (e: Exception) {
-                            log("$TAG acquireWakeLockInternal: err $e")
-                        }
+//                        try {
+//                            log(
+//                                "$TAG wakeLock: pN = $pN , tag=\"$wN\" , lock= \"${Objects.hashCode(
+//                                    lock
+//                                )}\"," +
+//                                        "flags=0x${Integer.toHexString(flags)} , ws = \"${ws}\", " +
+//                                        "uid= $uId , pid = $pid, mypid ${myPid()}"
+//                            )
+//                            log("$TAG wakeLock: pN = $pN ,mypid ${myPid()}")
+//                        } catch (e: Exception) {
+//                            log("$TAG acquireWakeLockInternal: err $e")
+//                        }
 
                         handleWakeLockAcquire(param, pN, wN, lock, uId, context)
-
-                        log("$TAG wakeLock: pN = $pN ,wls ${wls.size},iwN ${iwN.size}")
                     }
                 })
 
@@ -85,8 +85,12 @@ class xptest {
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
+                        val context = XposedHelpers.getObjectField(
+                            param.thisObject,
+                            "mContext"
+                        ) as Context
                         val lock = param.args[0] as IBinder
-                        handleWakeLockRelease(param, lock)
+                        handleWakeLockRelease(param, lock, context)
                     }
                 })
         }
@@ -99,84 +103,122 @@ class xptest {
             uId: Int,
             context: Context
         ) {
-            val wakeLock: WakeLock = wls[wN] ?: WakeLock(wN, pN, uId)
-            wls[wN] = wakeLock
-            //set index
-            iwN[lock] = wN
+            val wakeLock: WakeLock = wls[lock] ?: WakeLock(wN, pN, uId)
+            wls[lock] = wakeLock //add
 
             // get right flag
-            val flag = wakeLock.flag && handleRE(wN, ArrayList<String>())
+            val flag = getFlag(wN, ArrayList<String>())
 
-            //if not active
-            if (!wakeLock.active) {
-                wakeLock.active = true
-            }
             // update count / countTime
             wLup(wakeLock)
 
             // if block wakelock
             if (!flag) {
+                log("$TAG $pN wakeLock:$wN block")
                 //block wakelock
                 param.result = null
                 //update blockCount / blockCountTime
                 wLupBlock(wakeLock)
+            } else {
+                wakeLock.lastAllowTime = SystemClock.elapsedRealtime()
             }
             wakeLock.lastApplyTime = SystemClock.elapsedRealtime()
+            handleTimer(context)
         }
 
-        fun handleWakeLockRelease(param: XC_MethodHook.MethodHookParam, lock: IBinder) {
-            val wN = iwN[lock] ?: return
-            val wakeLock = wls[wN] ?: return
-            //get flag ,disable active
-            val flag = wakeLock.flag && handleRE(wN, ArrayList<String>())
-            wakeLock.active = false
-            //remove index
-            iwN.remove(lock)
+        fun handleWakeLockRelease(
+            param: XC_MethodHook.MethodHookParam,
+            lock: IBinder,
+            context: Context
+        ) {
+            val wakeLock = wls[lock] ?: return
+            //get flag
+            val flag = getFlag(wakeLock.wakeLockName, ArrayList<String>())
+
             //update Time
-            wakeLock.countTime += (SystemClock.elapsedRealtime() - wakeLock.lastApplyTime)
-            if (!flag) {
-                wakeLock.blockCountTime += (SystemClock.elapsedRealtime() - wakeLock.lastApplyTime)
+            wLupTime(wakeLock)
+            if (!flag) {//up BlockTime
+                wlupBTime(wakeLock)
+            }
+            //record
+            record(context, wakeLock)
+
+            //remove index
+            wls.remove(lock)
+            handleTimer(context)
+        }
+
+        fun handleTimer(context: Context) {
+            val now = SystemClock.elapsedRealtime()
+            if (now - updateTime > updateFrequency) {
+                wls.keys.forEach {
+                    wls[it]?.let { it1 ->
+                        val flag = getFlag(it1.wakeLockName, ArrayList<String>())
+                        wLupTime(it1)
+                        if (!flag) {//up BlockTime
+                            wlupBTime(it1)
+                        }
+                        record(context, it1)
+                        it1.lastApplyTime = now
+                    }
+                }
+                updateTime = now
+//                log("$TAG wakeLock: update db")
+            }
+            if (now - updateSettingTime > updateSetting) {
+                XpUtil.reload()
+                updateSettingTime = now
+//                log("$TAG wakeLock: update setting")
             }
         }
 
         private fun wLup(wakeLock: WakeLock) {
             wakeLock.count++
+            wLupTime(wakeLock)
+        }
+
+        private fun wLupBlock(wakeLock: WakeLock) {
+            wakeLock.blockCount++
+            wlupBTime(wakeLock)
+        }
+
+        private fun wLupTime(wakeLock: WakeLock) {
             if (wakeLock.lastApplyTime != 0.toLong()) {
                 wakeLock.countTime += (SystemClock.elapsedRealtime() - wakeLock.lastApplyTime)
             }
         }
 
-        private fun wLupBlock(wakeLock: WakeLock) {
-            wakeLock.blockCount++
+        private fun wlupBTime(wakeLock: WakeLock) {
             if (wakeLock.lastApplyTime != 0.toLong()) {
                 wakeLock.blockCountTime += (SystemClock.elapsedRealtime() - wakeLock.lastApplyTime)
             }
         }
+
+        private fun getFlag(wN: String, list: List<String>): Boolean =
+            XpUtil.getFlag(wN) //&& handleRE(wN, list)
+
 
         private fun handleRE(wN: String, rE: List<String>): Boolean {
             return true
             TODO("handel Regular Expression")
         }
 
-        private fun updateStats(context: Context) {
-//            GlobalScope.launch(Dispatchers.Default) {
-//                val url = Uri.parse("content://$authority/upCount")
-//                val newValues = ContentValues().apply {
-//                    put(PackageName, packageName)
-//                    put(WakelockName, wakelockName)
-//                }
-//                withContext(Dispatchers.IO) {
-//                    try {
-//                        val tmp = mContentResolver.insert(url, newValues)
-//                        if (tmp == url) {
-//                            log("$TAG $packageName: $wakelockName upCount ")
-//                        }
-//                    } catch (e: Exception) {
-//                        log("$TAG $packageName: $wakelockName upCount Err : $e ")
-//                    }
-//                }
-//            }
+
+        fun record(context: Context, wakeLock: WakeLock) {
+            val method = "saveWL"
+            val url = Uri.parse("content://${XpUtil.authority}")
+            val contentResolver = context.contentResolver
+            AsyncTask.execute {
+                try {
+                    contentResolver.call(url, method, null, WLUtil.getBundle(wakeLock))
+                } catch (e: Exception) {
+                    log("$TAG : record ${wakeLock.wakeLockName} ${wakeLock.packageName} err: $e")
+                }
+            }
         }
+
+
     }
 
 }
+

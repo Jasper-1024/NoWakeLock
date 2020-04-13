@@ -10,7 +10,7 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
     val TAG = "MainViewModel"
 
     val status: MutableLiveData<Int> by lazy {
-        MutableLiveData<Int>(1)
+        MutableLiveData<Int>(5)
     }
 
     val searchText: MutableLiveData<String> by lazy {

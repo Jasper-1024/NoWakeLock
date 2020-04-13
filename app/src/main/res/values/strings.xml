@@ -18,6 +18,8 @@
     <string name="notofication_text">NoWakeLock need a service to meantain database.Just ignore this notification or hiding it</string>
     <string name="Count">Count</string>
     <string name="BlockCount">BlockCount</string>
+    <string name="CountTime">CountTime</string>
+    <string name="BlockCountTime">BlockCountTime</string>
     <string name="search_title">Search</string>
     <string name="menu_filter">filter</string>
     <string name="menu_filter_user">show user app</string>
@@ -26,4 +28,9 @@
     <string name="menu_filter_count">order by count</string>
     <string name="menu_filter_name">order by wakelock name</string>
     <string name="menu_filter_countime">order by wake time</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="WakeLock">WakeLock</string>
+    <string name="Apps">Apps</string>
 </resources>
