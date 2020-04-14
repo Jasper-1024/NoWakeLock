@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.js.nowakelock.R
-import com.js.nowakelock.base.LogUtil
+import com.js.nowakelock.base.cache
 import com.js.nowakelock.data.db.entity.AppInfo
 import com.js.nowakelock.databinding.FragmentApplistBinding
 import com.js.nowakelock.ui.databding.RecycleAdapter
@@ -60,36 +60,27 @@ class AppListFragment : Fragment() {
         subscribeUi()
         //appListStatus
         subscribeStatus()
-        //searchView
-        subscribSearch()
     }
 
     private fun subscribeUi() {
         val observer = Observer<List<AppInfo>> { albinos ->
-            loadAppList(albinos, mainViewModel.status.value, mainViewModel.searchText.value)
+            loadAppList(albinos, mainViewModel.status.value)
         }
         viewModel.appInfos.observe(viewLifecycleOwner, observer)
     }
 
     private fun subscribeStatus() {
-        val observer = Observer<Int> { status ->
-            LogUtil.d("test1", status.toString())
-            loadAppList(viewModel.appInfos.value, status, mainViewModel.searchText.value)
+        val observer = Observer<cache> { status ->
+            loadAppList(viewModel.appInfos.value, status)
         }
         mainViewModel.status.observe(viewLifecycleOwner, observer)
     }
 
-    private fun subscribSearch() {
-        val observer = Observer<String> { query ->
-            loadAppList(viewModel.appInfos.value, mainViewModel.status.value, query)
-        }
-        mainViewModel.searchText.observe(viewLifecycleOwner, observer)
-    }
 
-    private fun loadAppList(appInfos: List<AppInfo>?, status: Int? = 1, query: String? = "") {
-        if (appInfos != null && status != null && query != null) {
+    private fun loadAppList(appInfos: List<AppInfo>?, catch: cache?) {
+        if (appInfos != null && catch != null) {
             viewLifecycleOwner.lifecycleScope.launch {
-                adapter.submitList(viewModel.AppList(appInfos, status, query))
+                adapter.submitList(viewModel.list(appInfos, catch))
             }
         }
     }
@@ -113,12 +104,5 @@ class AppListFragment : Fragment() {
             DividerItemDecoration.VERTICAL
         )
     )
-
-    //set toolbar menu
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        val filterName = menu.findItem(R.id.menu_filter_name)
-        filterName.isVisible = false
-        super.onCreateOptionsMenu(menu, inflater)
-    }
 
 }

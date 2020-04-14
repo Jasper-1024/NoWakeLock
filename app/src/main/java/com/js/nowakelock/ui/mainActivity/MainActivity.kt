@@ -8,11 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.js.nowakelock.R
+import com.js.nowakelock.base.LogUtil
 
 
 class MainActivity : AppCompatActivity() {
@@ -31,8 +33,7 @@ class MainActivity : AppCompatActivity() {
             AppBarConfiguration(
                 setOf(
                     R.id.wakeLockFragment,
-                    R.id.appListFragment,
-                    R.id.settingsFragment
+                    R.id.appListFragment
                 ), drawerLayout
             )
 
@@ -48,8 +49,6 @@ class MainActivity : AppCompatActivity() {
         //start watching file , but not work
 //        SP.getInstance().startFileObserver()
 
-//        findViewById<NavigationView>(R.id.nav_view)
-//            .setNavigationItemSelectedListener(this)
 //        visibilityNavElements(navController)
     }
 
@@ -67,37 +66,45 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    //menu handler
+    //handler status menu
     fun statusUser(menu: MenuItem) {
-        viewModel.status.postValue(1)
+        viewModel.postapp(1)
         menu.isChecked = true
     }
 
     fun statusSystem(menu: MenuItem) {
-        viewModel.status.postValue(2)
+        viewModel.postapp(2)
         menu.isChecked = true
     }
 
     fun statusAll(menu: MenuItem) {
-        viewModel.status.postValue(3)
+        viewModel.postapp(3)
         menu.isChecked = true
     }
 
-    fun statusCount(menu: MenuItem) {
-        viewModel.status.postValue(4)
-        menu.isChecked = true
+    //handler sort menu
+    fun sortName(menu: MenuItem) {
+        viewModel.postsort(1)
+        setSortCheck(menu)
     }
 
-    fun statusName(menu: MenuItem) {
-        viewModel.status.postValue(5)
-        menu.isChecked = true
+    fun sortCount(menu: MenuItem) {
+        viewModel.postsort(2)
+        setSortCheck(menu)
     }
 
-    fun statusCountTime(menu: MenuItem) {
-        viewModel.status.postValue(6)
-        menu.isChecked = true
+
+    fun sortCountTime(menu: MenuItem) {
+        viewModel.postsort(3)
+        setSortCheck(menu)
     }
 
+    fun setSortCheck(item: MenuItem) {
+        toolbar.menu.findItem(R.id.menu_sort_name).isChecked = false
+        toolbar.menu.findItem(R.id.menu_sort_count).isChecked = false
+        toolbar.menu.findItem(R.id.menu_sort_countime).isChecked = false
+        item.isChecked = true
+    }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         // Search
@@ -110,14 +117,14 @@ class MainActivity : AppCompatActivity() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
 //                Log.i("test1", "Search submit=$query")
-                viewModel.searchText.postValue(query)
+                viewModel.postquery(query)
                 searchView.clearFocus()
                 return true
             }
 
             override fun onQueryTextChange(query: String): Boolean {
 //                Log.i("test1", "Search change=$query")
-                viewModel.searchText.postValue(query)
+                viewModel.postquery(query)
                 return true
             }
         })
@@ -136,7 +143,7 @@ class MainActivity : AppCompatActivity() {
 //    private fun visibilityNavElements(navController: NavController) {
 //        navController.addOnDestinationChangedListener { _, destination, _ ->
 //            when (destination.id) {
-//                R.id.settingsFragment -> {
+//                R.id.appListFragment -> {
 //                    LogUtil.d("test1","222")
 //                    val t = toolbar.menu.findItem(R.id.menu_filter)
 //                    t.isVisible = false

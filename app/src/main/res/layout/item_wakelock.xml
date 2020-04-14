@@ -53,8 +53,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/wakelockCount"
-            app:loadWakeLockCountTime="@{item}"
-            tools:ignore="MissingConstraints" />
+            app:loadWakeLockCountTime="@{item}" />
 
         <Switch
             android:id="@+id/wakelockListFlag"
