@@ -13,6 +13,7 @@ import com.js.nowakelock.BasicApp
 import com.js.nowakelock.base.getTime
 import com.js.nowakelock.data.db.entity.AppInfo
 import com.js.nowakelock.data.db.entity.WakeLock
+import com.js.nowakelock.ui.help.Help
 
 @BindingAdapter("loadIcon")
 fun LoadIcon(imageView: ImageView, appInfo: AppInfo) {
@@ -61,6 +62,12 @@ fun loadWakeLockCountTime(textView: TextView, wakeLock: WakeLock) {
 fun test(textView: TextView, tmp: Long) {
     textView.text = "${tmp / 1000}s"
 }
+
+//@SuppressLint("SetTextI18n")
+//@BindingAdapter("help_contact")
+//fun help_contact(textView: TextView, help: Help) {
+//    textView.text = "contact"
+//}
 
 
 

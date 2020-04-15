@@ -35,4 +35,10 @@
         <![CDATA[<br><br>]]>其他信息参见 <![CDATA[<a href="https://github.com/Jasper-1024/NoWakeLock/blob/dev/README/README_zh_cn.md"> 应用介绍 </a>]]>;
            <![CDATA[<a href="https://github.com/Jasper-1024/NoWakeLock/blob/dev/README/FAQ_zh_cn.md">常见问答</a>]]>;
     </string>
+    <string name="help_contact">联系:\n
+            如果您在使用过程中有任何疑问或遇到 BUG,您可以邮件我,或者发起新的 Issue.\n
+        \n
+        Issue : https://github.com/Jasper-1024/NoWakeLock/issues \n
+        \n
+        JasperHale: ljy087621@gmail.com</string>
 </resources>

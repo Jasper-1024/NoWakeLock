@@ -38,4 +38,5 @@
         <![CDATA[<br><br>]]>for other information <![CDATA[<a href="https://github.com/Jasper-1024/NoWakeLock/blob/dev/README.md"> Application Introduction </a>]]>;
            <![CDATA[<a href="https://github.com/Jasper-1024/NoWakeLock/blob/dev/README/FAQ.md">FAQ</a>]]>;
     </string>
+    <string name="help_contact">sd</string>
 </resources>
