@@ -2,7 +2,6 @@ package com.js.nowakelock.xposedhook
 
 import android.content.Context
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.IBinder
 import android.os.SystemClock
 import android.os.WorkSource
@@ -11,17 +10,19 @@ import com.js.nowakelock.data.db.entity.WakeLock
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class xptest {
     companion object {
 
+        @Volatile
         var wls = HashMap<IBinder, WakeLock>()
 
-        private var updateSetting: Long = 120000 //Save every minutes
+        private var updateSetting: Long = 60000 //Save every minutes
         private var updateSettingTime: Long = 0
-        private var updateFrequency: Long = 300000 //Save every five minutes
+        private var updateFrequency: Long = 180000 //Save every five minutes
         private var updateTime: Long = 0
 
 
@@ -138,30 +139,34 @@ class xptest {
                 wlupBTime(wakeLock)
             }
             //record
-            GlobalScope.launch {
+            GlobalScope.launch(Dispatchers.IO) {
                 record(context, wakeLock)
             }
-
+            handleTimer(context)
             //remove index
             wls.remove(lock)
-            handleTimer(context)
         }
 
+        @Synchronized
         fun handleTimer(context: Context) {
             val now = SystemClock.elapsedRealtime()
 
             if (now - updateTime > updateFrequency) {
-                GlobalScope.launch {
-                    wls.keys.forEach {
-                        wls[it]?.let { it1 ->
-                            val flag = getFlag(it1.wakeLockName, ArrayList<String>())
-                            wLupTime(it1)
-                            if (!flag) {//up BlockTime
-                                wlupBTime(it1)
+                GlobalScope.launch(Dispatchers.Default) {
+                    try {
+                        wls.keys.forEach {
+                            wls[it]?.let { it1 ->
+                                val flag = getFlag(it1.wakeLockName, ArrayList<String>())
+                                wLupTime(it1)
+                                if (!flag) {//up BlockTime
+                                    wlupBTime(it1)
+                                }
+                                record(context, it1)
+                                it1.lastApplyTime = now
                             }
-                            record(context, it1)
-                            it1.lastApplyTime = now
                         }
+                    } catch (e: Exception) {
+                        log("$TAG: handleTimer err: $e")
                     }
                 }
                 updateTime = now

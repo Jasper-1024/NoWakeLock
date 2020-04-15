@@ -1,11 +1,6 @@
 package com.js.nowakelock.xposedhook
 
-import android.content.Context
-import android.net.Uri
-import android.os.AsyncTask
 import com.js.nowakelock.BuildConfig
-import com.js.nowakelock.base.WLUtil
-import com.js.nowakelock.data.db.entity.WakeLock
 import de.robv.android.xposed.XSharedPreferences
 import de.robv.android.xposed.XposedBridge
 import java.io.File
@@ -43,7 +38,11 @@ class XpUtil {
         }
 
         fun reload() {
-            pref?.reload()
+            try {
+                pref?.reload()
+            } catch (e: Exception) {
+                log("$TAG : XpUtil pref reload err: $e")
+            }
         }
 
         fun load() {

@@ -22,22 +22,22 @@ open class XposedModule : IXposedHookZygoteInit, IXposedHookLoadPackage {
         pN = lpparam.packageName
 //        XposedBridge.log("$TAG $pN: handleLoadPackage ,mypid ${Process.myUid()}")
 
-        XpUtil.init()
+//        XpUtil.init()
 
         if (lpparam.packageName == "android") {
 //            XposedBridge.log("$TAG $pN:2 handleLoadPackage ,uid ${Process.myUid()}")
 //            hookWakeLocks(lpparam, AndroidAppHelper.currentApplication())
             xptest.hookWakeLocks(lpparam)
         }
-        if (lpparam.packageName.equals(BuildConfig.APPLICATION_ID)) {
-
-            // don't use YourActivity.class here
-
-            findAndHookMethod(
-                "${BuildConfig.APPLICATION_ID}.MainActivity", lpparam.classLoader,
-
-                "isModuleActive", XC_MethodReplacement.returnConstant(true)
-            )
-        }
+//        if (lpparam.packageName.equals(BuildConfig.APPLICATION_ID)) {
+//
+//            // don't use YourActivity.class here
+//
+//            findAndHookMethod(
+//                "${BuildConfig.APPLICATION_ID}.MainActivity", lpparam.classLoader,
+//
+//                "isModuleActive", XC_MethodReplacement.returnConstant(true)
+//            )
+//        }
     }
 }
