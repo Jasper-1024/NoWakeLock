@@ -13,20 +13,21 @@
 ## 功能
 
 * 已完成
-  * wakelock 唤醒锁计数.
+  * 分应用 wakelock 唤醒锁计数.
   * wakelock 限制
   * 亮/暗色模式适配
 
-* 开发中
+* 计划
+  * wakelock 唤醒间隔限制
   * wakelock 唤醒锁计时
   * alarm 记录
   * alarm 限制
-  * 分应用展示
+  * 应用正则过滤.
 
-## 安装
+## 兼容性
 
-* NoWakeLock 目前只在 Github releases 和 酷安 发布,其他市场均非本人发布.
-* BUG 反馈,新功能讨论,请提交对应 issue .
+* NoWakeLock 适用于 Android N 及以后版本.Android N 以前版本请使用 [Amplify](https://github.com/mh0rst/Amplify).
+* NoWakeLock 仅在 Android Q EdXposed 框架下进行了测试.
 
 ## 编译
 
@@ -36,14 +37,16 @@
 
 * [init](https://github.com/Jasper-1024/NoWakeLock/tree/init): 预览版
 
-## BUG
+## 安装
 
-* 只能记录 wakelock 无法限制 wakelock
-  * 参照 [GravityBox-q](https://github.com/GravityBox/GravityBox/tree/q) IPC 使用 XSharedPreferences ,受限于 SELinux 必须将 SELinux 设置为宽松,才可以正常读取.
-  * 后面计划将使用 XSharedPreferences 部分也替换为 ContentProvider 实现,但是实现相同效果较为困难.
+* [Github releases](https://github.com/Jasper-1024/NoWakeLock/releases), 包括测试版.
+* ~~[酷安](none)~~, 稳定版.(还未就绪)
+* ~~[Play](none)~~,修改其他应用违反 Play 政策,可能无法上架.
 
-* Setting 界面的 ToolBar menu 无法隐藏.
-  * 已经做了隐藏设置,但是 UI 无法生效,可能和 PreferenceFragmentCompat 实现有关,待研究.
+## 支持
+
+* 仅支持在上述渠道下载的 NoWakeLock
+* 请提交 [ISSUE](https://github.com/Jasper-1024/NoWakeLock/issues)
 
 ## 贡献者
 
@@ -52,3 +55,11 @@
 ## 许可证
 
 * NoWakeLock 以 GNU GPLv3 ([许可](https://github.com/Jasper-1024/NoWakeLock/blob/master/LICENSE)) 发布.
+
+## 致谢
+
+* NoWakelock 编写中参考了需多开源应用.这里表示致谢.
+
+* [Amplify](https://github.com/mh0rst/Amplify).
+* [XPrivacyLua](https://github.com/M66B/XPrivacyLua)
+* [GravityBox](https://github.com/GravityBox/GravityBox)
