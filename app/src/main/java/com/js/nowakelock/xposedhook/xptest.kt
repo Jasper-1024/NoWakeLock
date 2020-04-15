@@ -19,9 +19,9 @@ class xptest {
 
         var wls = HashMap<IBinder, WakeLock>()
 
-        private var updateSetting: Long = 60000 //Save every minutes
-        private var updateSettingTime: Long = 60000 //Save every minutes
-        private var updateFrequency: Long = 120000 //Save every two minutes
+        private var updateSetting: Long = 120000 //Save every minutes
+        private var updateSettingTime: Long = 0
+        private var updateFrequency: Long = 300000 //Save every five minutes
         private var updateTime: Long = 0
 
 

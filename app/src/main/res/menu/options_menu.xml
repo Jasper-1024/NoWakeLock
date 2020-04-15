@@ -37,6 +37,7 @@
                 <item
                     android:id="@+id/menu_sort_countime"
                     android:checkable="true"
+                    android:visible="false"
                     android:onClick="sortCountTime"
                     android:title="@string/menu_filter_countime" />
 
