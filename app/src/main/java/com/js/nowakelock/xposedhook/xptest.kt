@@ -4,18 +4,15 @@ import android.content.Context
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.IBinder
-import android.os.Process.myPid
 import android.os.SystemClock
 import android.os.WorkSource
 import com.js.nowakelock.base.WLUtil
 import com.js.nowakelock.data.db.entity.WakeLock
-import com.js.nowakelock.data.sp.SP
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class xptest {
     companion object {
@@ -112,8 +109,8 @@ class xptest {
             // update count / countTime
             wLup(wakeLock)
 
-            // if block wakelock
-            if (!flag) {
+            // if block wakelock or not allowTimeinterval
+            if (!flag && (SystemClock.elapsedRealtime() - wakeLock.lastAllowTime) < wakeLock.allowTimeinterval) {
                 log("$TAG $pN wakeLock:$wN block")
                 //block wakelock
                 param.result = null
@@ -141,7 +138,9 @@ class xptest {
                 wlupBTime(wakeLock)
             }
             //record
-            record(context, wakeLock)
+            GlobalScope.launch {
+                record(context, wakeLock)
+            }
 
             //remove index
             wls.remove(lock)
@@ -150,21 +149,25 @@ class xptest {
 
         fun handleTimer(context: Context) {
             val now = SystemClock.elapsedRealtime()
+
             if (now - updateTime > updateFrequency) {
-                wls.keys.forEach {
-                    wls[it]?.let { it1 ->
-                        val flag = getFlag(it1.wakeLockName, ArrayList<String>())
-                        wLupTime(it1)
-                        if (!flag) {//up BlockTime
-                            wlupBTime(it1)
+                GlobalScope.launch {
+                    wls.keys.forEach {
+                        wls[it]?.let { it1 ->
+                            val flag = getFlag(it1.wakeLockName, ArrayList<String>())
+                            wLupTime(it1)
+                            if (!flag) {//up BlockTime
+                                wlupBTime(it1)
+                            }
+                            record(context, it1)
+                            it1.lastApplyTime = now
                         }
-                        record(context, it1)
-                        it1.lastApplyTime = now
                     }
                 }
                 updateTime = now
 //                log("$TAG wakeLock: update db")
             }
+
             if (now - updateSettingTime > updateSetting) {
                 XpUtil.reload()
                 updateSettingTime = now
@@ -208,12 +211,10 @@ class xptest {
             val method = "saveWL"
             val url = Uri.parse("content://${XpUtil.authority}")
             val contentResolver = context.contentResolver
-            AsyncTask.execute {
-                try {
-                    contentResolver.call(url, method, null, WLUtil.getBundle(wakeLock))
-                } catch (e: Exception) {
-                    log("$TAG : record ${wakeLock.wakeLockName} ${wakeLock.packageName} err: $e")
-                }
+            try {
+                contentResolver.call(url, method, null, WLUtil.getBundle(wakeLock))
+            } catch (e: Exception) {
+                log("$TAG : record ${wakeLock.wakeLockName} ${wakeLock.packageName} err: $e")
             }
         }
 

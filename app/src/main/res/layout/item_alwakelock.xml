@@ -72,6 +72,22 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
 
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:autofillHints=""
+            android:ems="10"
+            android:inputType="number"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/wakelockListFlag"
+            app:layout_constraintTop_toTopOf="parent"
+            app:test="@{item.allowTimeinterval}"
+            tools:ignore="MissingConstraints" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

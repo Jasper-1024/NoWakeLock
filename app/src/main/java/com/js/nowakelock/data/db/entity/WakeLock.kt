@@ -30,8 +30,11 @@ data class WakeLock(
     var countTime: Long = 0,
     @ColumnInfo(name = "wakeLock_blockCountTime")
     var blockCountTime: Long = 0,
+    //for SharedPreferences
     @Ignore
-    var flag: Boolean = true,//for SharedPreferences
+    var flag: Boolean = true,
+    @Ignore
+    var allowTimeinterval: Long = 216000000,// 1h
     //for xposed
     @Ignore
     var active: Boolean = false,

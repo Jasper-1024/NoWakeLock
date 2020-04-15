@@ -19,6 +19,12 @@ import com.js.nowakelock.base.LogUtil
 
 class MainActivity : AppCompatActivity() {
 
+//    companion object{
+//        fun isModuleActive():Boolean{
+//            return false
+//        }
+//    }
+
     private val viewModel by viewModels<MainViewModel>()
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var toolbar: Toolbar

@@ -56,9 +56,10 @@ fun loadWakeLockCountTime(textView: TextView, wakeLock: WakeLock) {
                 )}"
 }
 
+@SuppressLint("SetTextI18n")
 @BindingAdapter("test")
-fun test(textView: TextView, tmp: Int) {
-    textView.text = tmp.toString()
+fun test(textView: TextView, tmp: Long) {
+    textView.text = "${tmp / 1000}s"
 }
 
 
