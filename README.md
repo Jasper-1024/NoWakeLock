@@ -38,7 +38,7 @@
 
 * [dev](https://github.com/Jasper-1024/NoWakeLock/tree/dev): Beta version, may not be stable.
 
-* [init](https://github.com/Jasper-1024/NoWakeLock/tree/init): preview version
+* [feature](https://github.com/Jasper-1024/NoWakeLock/tree/feature): Alpha version
 
 ## Installation
 
