@@ -4,6 +4,7 @@ import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.js.nowakelock.data.db.entity.WakeLock
+import com.js.nowakelock.data.db.entity.WakeLock_st
 
 @Dao
 interface WakeLockDao {
@@ -101,4 +102,15 @@ interface WakeLockDao {
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(wakeLocks: MutableCollection<WakeLock>)
+
+    /**
+     * get wakeLock_st
+     *
+     * @return wakeLock_st
+     */
+    @Query("select * from wakeLock_st where wakeLockName_st = :wakelockName")
+    suspend fun loadWakeLock_st(wakelockName: String): WakeLock_st?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert_st(wNLock_st: WakeLock_st)
 }

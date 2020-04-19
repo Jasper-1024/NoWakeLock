@@ -8,8 +8,9 @@ import com.js.nowakelock.data.db.dao.AppInfoDao
 import com.js.nowakelock.data.db.dao.WakeLockDao
 import com.js.nowakelock.data.db.entity.AppInfo
 import com.js.nowakelock.data.db.entity.WakeLock
+import com.js.nowakelock.data.db.entity.WakeLock_st
 
-@Database(entities = [AppInfo::class, WakeLock::class], version = 1)
+@Database(entities = [AppInfo::class, WakeLock::class, WakeLock_st::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun appInfoDao(): AppInfoDao
     abstract fun wakeLockDao(): WakeLockDao

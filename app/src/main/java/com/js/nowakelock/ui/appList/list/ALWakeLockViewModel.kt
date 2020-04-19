@@ -7,8 +7,8 @@ import com.js.nowakelock.base.cache
 import com.js.nowakelock.base.search
 import com.js.nowakelock.base.sort
 import com.js.nowakelock.data.db.entity.WakeLock
+import com.js.nowakelock.data.db.entity.WakeLock_st
 import com.js.nowakelock.data.repository.WakeLockRepository
-import com.js.nowakelock.data.sp.SP
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -29,9 +29,16 @@ class ALWakeLockViewModel(
         WakeLockRepository.syncWakelocks(packageName)
     }
 
-    //save wakelock flag
-    fun setWakeLockFlag(wakeLock: WakeLock) = viewModelScope.launch(Dispatchers.IO) {
-        SP.getInstance().setFlag(wakeLock.wakeLockName, wakeLock.flag)
+    //save wakelock_st
+    fun setWakeLock_st(wakeLock: WakeLock) = viewModelScope.launch(Dispatchers.IO) {
+//        SP.getInstance().setFlag(wakeLock.wakeLockName, wakeLock.flag)
+        WakeLockRepository.setWakeLock_st(
+            WakeLock_st(
+                wakeLock.wakeLockName,
+                wakeLock.flag,
+                wakeLock.allowTimeinterval
+            )
+        )
     }
 
     suspend fun list(wakeLocks: List<WakeLock>, catch: cache): List<WakeLock> =
@@ -42,9 +49,11 @@ class ALWakeLockViewModel(
         }
 
     // get all WakeLock flag
-    fun List<WakeLock>.flag(): List<WakeLock> {
+    suspend fun List<WakeLock>.flag(): List<WakeLock> {
         return this.map {
-            it.flag = SP.getInstance().getFlag(it.wakeLockName)
+            val tmp = WakeLockRepository.getWakeLock_st(it.wakeLockName)
+            it.flag = tmp.flag
+            it.allowTimeinterval = tmp.allowTimeinterval
             it
         }
     }

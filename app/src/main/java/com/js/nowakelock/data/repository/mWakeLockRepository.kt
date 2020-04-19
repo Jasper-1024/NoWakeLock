@@ -3,6 +3,7 @@ package com.js.nowakelock.data.repository
 import androidx.lifecycle.LiveData
 import com.js.nowakelock.data.db.dao.WakeLockDao
 import com.js.nowakelock.data.db.entity.WakeLock
+import com.js.nowakelock.data.db.entity.WakeLock_st
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -18,6 +19,14 @@ class mWakeLockRepository(private var wakeLockDao: WakeLockDao) : WakeLockReposi
             wakeLockDao.updateAppInfoCount(pN)
             wakeLockDao.updateAppInfoBlockCount(pN)
         }
+    }
+
+    override suspend fun getWakeLock_st(wN: String): WakeLock_st = withContext(Dispatchers.IO) {
+        return@withContext wakeLockDao.loadWakeLock_st(wN) ?: WakeLock_st(wN)
+    }
+
+    override suspend fun setWakeLock_st(wN_st: WakeLock_st) = withContext(Dispatchers.IO) {
+        wakeLockDao.insert_st(wN_st)
     }
 
 //    override suspend fun getFlag(pN: String, wN: String): Boolean {
