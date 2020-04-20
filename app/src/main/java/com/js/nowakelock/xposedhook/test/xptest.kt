@@ -1,4 +1,4 @@
-package com.js.nowakelock.xposedhook
+package com.js.nowakelock.xposedhook.test
 
 import android.content.Context
 import android.net.Uri
@@ -7,6 +7,8 @@ import android.os.SystemClock
 import android.os.WorkSource
 import com.js.nowakelock.base.WLUtil
 import com.js.nowakelock.data.db.entity.WakeLock
+import com.js.nowakelock.xposedhook.TAG
+import com.js.nowakelock.xposedhook.log
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -18,12 +20,18 @@ class xptest {
     companion object {
 
         @Volatile
-        var wls = HashMap<IBinder, WakeLock>()
+        var wls = HashMap<IBinder, WakeLock>()//active wakelock
 
+        @Volatile
+        var lastAllowTiem = HashMap<String, Long>()//wakelock last allow time
+
+        // update Setting  interval
         private var updateSetting: Long = 60000 //Save every minutes
         private var updateSettingTime: Long = 0
-        private var updateFrequency: Long = 180000 //Save every five minutes
-        private var updateTime: Long = 0
+
+        //update DB interval
+        private var updateDB: Long = 180000 //Save every five minutes
+        private var updateDBTime: Long = 0
 
 
         fun hookWakeLocks(lpparam: XC_LoadPackage.LoadPackageParam) {
@@ -42,7 +50,7 @@ class xptest {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
 
-                        XpUtil.init()
+                        XpUtil2.init()
 
                         val lock = param.args[0] as IBinder
                         val flags = param.args[1] as Int
@@ -71,7 +79,14 @@ class xptest {
 //                            log("$TAG acquireWakeLockInternal: err $e")
 //                        }
 
-                        handleWakeLockAcquire(param, pN, wN, lock, uId, context)
+                        handleWakeLockAcquire(
+                            param,
+                            pN,
+                            wN,
+                            lock,
+                            uId,
+                            context
+                        )
                     }
                 })
 
@@ -88,7 +103,11 @@ class xptest {
                             "mContext"
                         ) as Context
                         val lock = param.args[0] as IBinder
-                        handleWakeLockRelease(param, lock, context)
+                        handleWakeLockRelease(
+                            param,
+                            lock,
+                            context
+                        )
                     }
                 })
         }
@@ -101,11 +120,16 @@ class xptest {
             uId: Int,
             context: Context
         ) {
+            // get wakelock
             val wakeLock: WakeLock = wls[lock] ?: WakeLock(wN, pN, uId)
-            wls[lock] = wakeLock //add
+            wls[lock] = wakeLock //add wakelock ,just in case.
 
             // get right flag
-            val flag = getFlag(wN, ArrayList<String>())
+            val flag =
+                getFlag(
+                    wN,
+                    ArrayList<String>()
+                )
 
             // update count / countTime
             wLup(wakeLock)
@@ -116,12 +140,16 @@ class xptest {
                 //block wakelock
                 param.result = null
                 //update blockCount / blockCountTime
-                wLupBlock(wakeLock)
+                wLupBlock(
+                    wakeLock
+                )
             } else {
                 wakeLock.lastAllowTime = SystemClock.elapsedRealtime()
             }
             wakeLock.lastApplyTime = SystemClock.elapsedRealtime()
-            handleTimer(context)
+            handleTimer(
+                context
+            )
         }
 
         fun handleWakeLockRelease(
@@ -131,18 +159,29 @@ class xptest {
         ) {
             val wakeLock = wls[lock] ?: return
             //get flag
-            val flag = getFlag(wakeLock.wakeLockName, ArrayList<String>())
+            val flag =
+                getFlag(
+                    wakeLock.wakeLockName,
+                    ArrayList<String>()
+                )
 
             //update Time
             wLupTime(wakeLock)
             if (!flag) {//up BlockTime
-                wlupBTime(wakeLock)
+                wlupBTime(
+                    wakeLock
+                )
             }
             //record
             GlobalScope.launch(Dispatchers.IO) {
-                record(context, wakeLock)
+                record(
+                    context,
+                    wakeLock
+                )
             }
-            handleTimer(context)
+            handleTimer(
+                context
+            )
             //remove index
             wls.remove(lock)
         }
@@ -151,17 +190,28 @@ class xptest {
         fun handleTimer(context: Context) {
             val now = SystemClock.elapsedRealtime()
 
-            if (now - updateTime > updateFrequency) {
+            if (now - updateDBTime > updateDB) {
                 GlobalScope.launch(Dispatchers.Default) {
                     try {
                         wls.keys.forEach {
                             wls[it]?.let { it1 ->
-                                val flag = getFlag(it1.wakeLockName, ArrayList<String>())
-                                wLupTime(it1)
+                                val flag =
+                                    getFlag(
+                                        it1.wakeLockName,
+                                        ArrayList<String>()
+                                    )
+                                wLupTime(
+                                    it1
+                                )
                                 if (!flag) {//up BlockTime
-                                    wlupBTime(it1)
+                                    wlupBTime(
+                                        it1
+                                    )
                                 }
-                                record(context, it1)
+                                record(
+                                    context,
+                                    it1
+                                )
                                 it1.lastApplyTime = now
                             }
                         }
@@ -169,12 +219,12 @@ class xptest {
                         log("$TAG: handleTimer err: $e")
                     }
                 }
-                updateTime = now
+                updateDBTime = now
 //                log("$TAG wakeLock: update db")
             }
 
             if (now - updateSettingTime > updateSetting) {
-                XpUtil.reload()
+                XpUtil2.reload()
                 updateSettingTime = now
 //                log("$TAG wakeLock: update setting")
             }
@@ -203,7 +253,10 @@ class xptest {
         }
 
         private fun getFlag(wN: String, list: List<String>): Boolean =
-            XpUtil.getFlag(wN) //&& handleRE(wN, list)
+            XpUtil2.getFlag(wN) && handleRE(
+                wN,
+                list
+            )
 
 
         private fun handleRE(wN: String, rE: List<String>): Boolean {
@@ -214,7 +267,7 @@ class xptest {
 
         fun record(context: Context, wakeLock: WakeLock) {
             val method = "saveWL"
-            val url = Uri.parse("content://${XpUtil.authority}")
+            val url = Uri.parse("content://${XpUtil2.authority}")
             val contentResolver = context.contentResolver
             try {
                 contentResolver.call(url, method, null, WLUtil.getBundle(wakeLock))

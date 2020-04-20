@@ -12,8 +12,8 @@ android {
         applicationId "com.js.nowakelock"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.0.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -126,6 +126,7 @@ dependencies {
     // Java language implementation
     //implementation "androidx.preference:preference:$preference_version"
     // Kotlin
+    //noinspection GradleDependency
     implementation "androidx.preference:preference-ktx:$preference_version"
 
     //glide4
