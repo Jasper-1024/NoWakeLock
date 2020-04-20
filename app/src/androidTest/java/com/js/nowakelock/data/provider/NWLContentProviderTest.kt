@@ -76,8 +76,10 @@ class NWLContentProviderTest {
         if (bundle != null) {
             LogUtil.d("test1", bundle.toString())
         }
+        val tmp2 = bundle!!.getSerializable("test") as HashMap<String, Boolean>
 
-        assertEquals(bundle!!.getString("Test"), "Test")
+        assertEquals(bundle.getString("Test"), "Test")
+        assertEquals(tmp2["test"], false)
     }
 
     @Test
@@ -102,3 +104,4 @@ class NWLContentProviderTest {
 //        assertEquals(bundle!!.getString("Test"), "Test")
     }
 }
+

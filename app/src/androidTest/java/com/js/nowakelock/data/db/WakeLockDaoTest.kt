@@ -32,11 +32,11 @@ class WakeLockDaoTest {
         db.close()
     }
 
-    @Test
-    fun load_without_Insert() {
-        val wakeLocks = wLDao.loadAllWakeLocks(TestData.pN)
-        Assert.assertTrue(LiveDataTestUtil.getValue(wakeLocks).isEmpty())
-    }
+//    @Test
+//    fun load_without_Insert() {
+//        val wakeLocks = wLDao.loadAllWakeLocks(TestData.pN)
+//        Assert.assertTrue(LiveDataTestUtil.getValue(wakeLocks).isEmpty())
+//    }
 
     @Test
     fun upAppInfodateCount() {

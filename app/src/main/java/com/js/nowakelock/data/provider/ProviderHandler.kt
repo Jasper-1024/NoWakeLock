@@ -61,7 +61,9 @@ class ProviderHandler(
         return null
     }
 
-
+    private fun getWL_st(bundle: Bundle): Bundle? {
+        return null
+    }
     //    private fun getFlag(bundle: Bundle): Bundle? {
 //        val flag = serviceModel.getFlag(pN(bundle), wN(bundle))
 //        val tmp = Bundle()
@@ -91,8 +93,14 @@ class ProviderHandler(
 
         LogUtil.d(TAG, "$test")
 
+        val tmp2 = HashMap<String, Boolean>()
+        tmp2["test"] = false
+
         val tmp = Bundle()
         tmp.putString("Test", "Test")
+
+        tmp.putSerializable("test", tmp2)
+
         return tmp
     }
 }
