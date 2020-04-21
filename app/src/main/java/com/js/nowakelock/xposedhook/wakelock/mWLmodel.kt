@@ -1,5 +1,6 @@
 package com.js.nowakelock.xposedhook.wakelock
 
+import android.content.Context
 import com.js.nowakelock.BuildConfig
 import com.js.nowakelock.xposedhook.TAG
 import com.js.nowakelock.xposedhook.log
@@ -13,7 +14,7 @@ class mWLmodel : WLModel {
 
     val authority = "com.js.nowakelock"
 
-    override fun init() {
+    override fun reloadst() {
         load()
     }
 
@@ -46,6 +47,8 @@ class mWLmodel : WLModel {
         reload()
         return pref?.getString("${pN}_RE", "") ?: ""
     }
+
+    override fun reloadst(context: Context) {}
 
     private fun load() {
         try {

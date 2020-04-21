@@ -20,7 +20,8 @@ import kotlinx.coroutines.launch
 
 class WLHook {
     companion object {
-        private var wlModel: WLModel = mWLmodel() //wlmodel
+        //        private var wlModel: WLModel = mWLmodel() //wlmodel
+        private var wlModel: WLModel = mWLmodel2() //wlmodel
 
         @Volatile
         private var wls = HashMap<IBinder, WakeLock>()//wakelock witch active
@@ -28,7 +29,7 @@ class WLHook {
         @Volatile
         private var lastAllowTiem = HashMap<String, Long>()//wakelock last allow time
 
-        // update Setting  interval
+        // update Setting interval
         private var updateSetting: Long = 60000 //Save every minutes
         private var updateSettingTime: Long = 0
 
@@ -146,7 +147,7 @@ class WLHook {
         }
 
         private fun aTI(wN: String, aTI: Long): Boolean {
-            return SystemClock.elapsedRealtime() - (lastAllowTiem[wN] ?: 0) > aTI
+            return (SystemClock.elapsedRealtime() - (lastAllowTiem[wN] ?: 0)) >= aTI
         }
 
         private fun wLup(wakeLock: WakeLock) {
@@ -177,6 +178,7 @@ class WLHook {
             }
             //update setting
             if (now - updateSettingTime > updateSetting) {
+                wlModel.reloadst(context)
                 updateSettingTime = now
 //                log("$TAG wakeLock: update setting")
             }

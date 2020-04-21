@@ -9,6 +9,7 @@ import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.WLUtil
 import com.js.nowakelock.data.TestData
 import com.js.nowakelock.data.db.AppDatabase
+import com.js.nowakelock.data.db.entity.WakeLock_st
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -76,10 +77,22 @@ class NWLContentProviderTest {
         if (bundle != null) {
             LogUtil.d("test1", bundle.toString())
         }
-        val tmp2 = bundle!!.getSerializable("test") as HashMap<String, Boolean>
+        val tmp2 = bundle!!.getSerializable("test") as HashMap<String, WakeLock_st>
 
         assertEquals(bundle.getString("Test"), "Test")
-        assertEquals(tmp2["test"], false)
+        LogUtil.d("test1", tmp2.toString())
+        assertEquals(tmp2["test"]?.flag, false)
+    }
+
+    @Test
+    fun testwl() {
+        val url = Uri.parse("content://${authority}")
+        try {
+            val tmp = mContentResolver?.call(url, "wlStsHM", null, Bundle())
+            LogUtil.d("Xposed.NoWakeLock", "Bundle4 ${tmp}")
+        } catch (e: Exception) {
+            LogUtil.d("Xposed.NoWakeLock", "Bundle4 err :${e}")
+        }
     }
 
     @Test

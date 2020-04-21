@@ -109,7 +109,10 @@ interface WakeLockDao {
      * @return wakeLock_st
      */
     @Query("select * from wakeLock_st where wakeLockName_st = :wakelockName")
-    suspend fun loadWakeLock_st(wakelockName: String): WakeLock_st?
+    fun loadWakeLock_st(wakelockName: String): WakeLock_st?
+
+    @Query("select * from wakeLock_st")
+    fun loadWakeLock_st(): List<WakeLock_st>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert_st(wNLock_st: WakeLock_st)

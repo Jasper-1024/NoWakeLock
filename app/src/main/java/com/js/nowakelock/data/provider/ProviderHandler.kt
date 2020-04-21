@@ -2,13 +2,22 @@ package com.js.nowakelock.data.provider
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.annotation.VisibleForTesting
 import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.WLUtil
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.entity.WakeLock
+import com.js.nowakelock.data.db.entity.WakeLock_st
+import kotlinx.android.parcel.Parcelize
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+import kotlin.collections.set
 
 class ProviderHandler(
     context: Context
@@ -17,22 +26,23 @@ class ProviderHandler(
 
     private var db: AppDatabase = AppDatabase.getInstance(context)
 
-
     companion object {
         @Volatile
         private var instance: ProviderHandler? = null
 
-        fun getInstance(context: Context): ProviderHandler =
-            instance ?: ProviderHandler(context)
+        fun getInstance(context: Context): ProviderHandler {
+            if (instance == null) {
+                instance = ProviderHandler(context)
+            }
+            return instance!!
+        }
     }
 
 
     fun getMethod(methodName: String, bundle: Bundle): Bundle? {
         return when (methodName) {
             "saveWL" -> saveWL(bundle)
-//            "getFlag" -> getFlag(bundle)
-//            "upCount" -> upCount(bundle)
-//            "upBlockCount" -> upBlockCount(bundle)
+            "wlStsHM" -> getWLSt(bundle)
             "test" -> test(bundle)
             else -> null
         }
@@ -61,46 +71,37 @@ class ProviderHandler(
         return null
     }
 
-    private fun getWL_st(bundle: Bundle): Bundle? {
-        return null
+    @Synchronized
+    private fun getWLSt(bundle: Bundle): Bundle? {
+        val wlFlagHM: HashMap<String, Boolean> = HashMap<String, Boolean>()
+        val wlATIHM: HashMap<String, Long> = HashMap<String, Long>()
+
+        runBlocking(Dispatchers.Default) {
+            db.wakeLockDao().loadWakeLock_st().forEach {
+                wlFlagHM[it.wakeLockName] = it.flag
+                wlATIHM[it.wakeLockName] = it.allowTimeinterval
+            }
+        }
+
+        val tmp = Bundle()
+        tmp.putSerializable("wlFlagHM", wlFlagHM)
+        tmp.putSerializable("wlwlATIHM", wlATIHM)
+//        LogUtil.d("Xposed.NoWakeLock", "Bundle1 ${tmp} ${tmp.size()}")
+        return tmp
     }
-    //    private fun getFlag(bundle: Bundle): Bundle? {
-//        val flag = serviceModel.getFlag(pN(bundle), wN(bundle))
-//        val tmp = Bundle()
-//        tmp.putBoolean(flaG, flag)
-//        return tmp
-//    }
-//
-//    @Synchronized
-//    private fun upCount(bundle: Bundle): Bundle? {
-//        serviceModel.upCount(pN(bundle), wN(bundle))
-//        return null
-//    }
-//
-//    @Synchronized
-//    private fun upBlockCount(bundle: Bundle): Bundle? {
-//        serviceModel.upBlockCount(pN(bundle), wN(bundle))
-//        return null
-//    }
-//
+
     @VisibleForTesting
     fun test(bundle: Bundle): Bundle? {
-//        val pn = pN(bundle)
-//        val wn = wN(bundle)
-//        val flag = fL(bundle)
-
         val test = bundle.get("Test") as String?
 
         LogUtil.d(TAG, "$test")
 
-        val tmp2 = HashMap<String, Boolean>()
-        tmp2["test"] = false
+        val tmp2 = HashMap<String, WakeLock_st>()
+        tmp2["test"] = WakeLock_st("test", false, 1000)
 
         val tmp = Bundle()
         tmp.putString("Test", "Test")
-
         tmp.putSerializable("test", tmp2)
-
         return tmp
     }
 }

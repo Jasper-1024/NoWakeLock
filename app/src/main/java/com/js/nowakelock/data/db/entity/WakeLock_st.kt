@@ -1,8 +1,10 @@
 package com.js.nowakelock.data.db.entity
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
 @Entity(
     tableName = "wakeLock_st"
@@ -20,5 +22,5 @@ data class WakeLock_st(
     @ColumnInfo(name = "wakeLockName_st")
     var wakeLockName: String = "",
     var flag: Boolean = true,
-    var allowTimeinterval: Long = 216000000// 1h
+    var allowTimeinterval: Long = 0
 )
