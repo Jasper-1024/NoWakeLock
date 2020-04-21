@@ -21,10 +21,10 @@ class mWLmodel2 : WLModel {
     @Volatile
     var reHM: HashMap<String, String> = HashMap<String, String>() //re
 
-    val wlSt = "wlStsHM"
-    val wlFlags = "wlFlagHM"
-    val wlATIs = "wlwlATIHM"
-    val rE = "rEHM"
+    private val wlSt = "wlStsHM"
+    private val wlFlags = "wlFlagHM"
+    private val wlATIs = "wlwlATIHM"
+    private val rE = "rEHM"
 
     override fun reloadst(context: Context) {
         GlobalScope.launch(Dispatchers.Default) {
@@ -60,11 +60,13 @@ class mWLmodel2 : WLModel {
 //        log("$TAG : mWLmodel2 reloadst1.6 : ${tmp1}")
         tmp1?.let {
             wlFlagHM.putAll(it)
+//            log("$TAG : mWLmodel2 reloadst1.7 : ${wlFlagHM}")
         }
         val tmp2 = bundle.getSerializable(wlATIs) as HashMap<String, Long>?
 //        log("$TAG : mWLmodel2 reloadst1.8 : ${tmp2}")
         tmp2?.let {
             wlATIHM.putAll(it)
+//            log("$TAG : mWLmodel2 reloadst1.9 : ${wlATIHM}")
         }
 //        log("$TAG : mWLmodel2 reloadst1.6 : ${tmp3}")
     }

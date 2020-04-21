@@ -22,7 +22,8 @@
                 <item
                     android:id="@+id/menu_filter_all"
                     android:onClick="statusAll"
-                    android:title="@string/menu_filter_all" />
+                    android:title="@string/menu_filter_all"
+                    android:visible="false" />
 
                 <item
                     android:id="@+id/menu_sort_name"
@@ -37,9 +38,9 @@
                 <item
                     android:id="@+id/menu_sort_countime"
                     android:checkable="true"
-                    android:visible="false"
                     android:onClick="sortCountTime"
-                    android:title="@string/menu_filter_countime" />
+                    android:title="@string/menu_filter_countime"
+                    android:visible="false" />
 
             </group>
         </menu>

@@ -22,13 +22,14 @@
 
         <TextView
             android:id="@+id/wakelockListName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:gravity="center_vertical"
             android:text="@{item.wakeLockName}"
             android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/editText2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints,SmallSp,UnknownIdInLayout" />
@@ -86,7 +87,7 @@
             app:layout_constraintEnd_toStartOf="@+id/wakelockListFlag"
             app:layout_constraintTop_toTopOf="parent"
             app:test="@{item.allowTimeinterval}"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="LabelFor,MissingConstraints" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

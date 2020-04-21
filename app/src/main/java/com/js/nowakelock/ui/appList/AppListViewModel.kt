@@ -50,9 +50,9 @@ class AppListViewModel(private var AppInfoRepository: AppInfoRepository) : ViewM
     private fun systemapp(appInfo: AppInfo) = appInfo.system
     private fun allapp(appInfo: AppInfo) = true
 
-    fun search(appInfo: AppInfo) = "${appInfo.label}${appInfo.packageName}"
+    private fun search(appInfo: AppInfo) = "${appInfo.label}${appInfo.packageName}"
 
-    fun sort(sort: Int): Comparator<AppInfo> {
+    private fun sort(sort: Int): Comparator<AppInfo> {
         return when (sort) {
             1 -> Comparator<AppInfo> { s1, s2 ->
                 Collator.getInstance(Locale.getDefault()).compare(s1.label, s2.label)

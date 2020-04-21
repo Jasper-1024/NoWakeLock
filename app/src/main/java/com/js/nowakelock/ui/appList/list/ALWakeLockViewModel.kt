@@ -58,10 +58,10 @@ class ALWakeLockViewModel(
         }
     }
 
-    fun search(wakeLock: WakeLock) = wakeLock.wakeLockName
+    private fun search(wakeLock: WakeLock) = wakeLock.wakeLockName
 
     // get sort method
-    fun sort(sort: Int): Comparator<WakeLock> {
+    private fun sort(sort: Int): Comparator<WakeLock> {
         return when (sort) {
             1 -> Comparator<WakeLock> { s1, s2 ->
                 Collator.getInstance(Locale.getDefault()).compare(s1.wakeLockName, s2.wakeLockName)

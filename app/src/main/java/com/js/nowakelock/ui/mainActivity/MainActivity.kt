@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         setSortCheck(menu)
     }
 
-    fun setSortCheck(item: MenuItem) {
+    private fun setSortCheck(item: MenuItem) {
         toolbar.menu.findItem(R.id.menu_sort_name).isChecked = false
         toolbar.menu.findItem(R.id.menu_sort_count).isChecked = false
         toolbar.menu.findItem(R.id.menu_sort_countime).isChecked = false
