@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">NoWakeLock</string>
-    <string name="xposeddescription">唤醒查看器(或许还能阻止)</string>
+    <string name="xposeddescription">记录和禁用唤醒锁</string>
     <string name="navigation_view_header_title">NoWakeLock</string>
     <string name="test">Test</string>
     <string name="android">Android 系统</string>
@@ -28,6 +28,8 @@
     <string name="menu_filter_name">名称排序</string>
     <string name="menu_filter_countime">唤醒时间排序</string>
     <string name="WakeLock">唤醒锁</string>
+    <string name="Alarm">定时器</string>
+    <string name="Service">服务</string>
     <string name="Apps">应用</string>
     <string name="help">帮助</string>
     <string name="help_instructions">        点击应用程序图标或名称进入具体 wakelock 设置,禁止对应的 wakelock.
@@ -41,4 +43,7 @@
         Issue : https://github.com/Jasper-1024/NoWakeLock/issues \n
         \n
         JasperHale: ljy087621@gmail.com</string>
+    <string name="wakelockATIText">允许唤醒间隔(0无限制,单位秒)</string>
+    <string name="wakelockFlagText">允许唤醒锁</string>
+    <string name="wakelockATIUnit">秒</string>
 </resources>

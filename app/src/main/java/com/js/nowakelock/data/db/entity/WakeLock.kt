@@ -1,7 +1,10 @@
 package com.js.nowakelock.data.db.entity
 
-import androidx.room.*
-import androidx.room.ForeignKey.CASCADE
+import androidx.databinding.ObservableBoolean
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import com.js.nowakelock.base.BaseItem
 
 @Entity(
@@ -34,7 +37,7 @@ data class WakeLock(
     @Ignore
     var flag: Boolean = true,
     @Ignore
-    var allowTimeinterval: Long = 216000000,// 1h
+    var allowTimeinterval: Long = 0,//no limit
     //for xposed
     @Ignore
     var active: Boolean = false,
@@ -48,4 +51,7 @@ data class WakeLock(
 
     @Ignore
     override fun getContent(): Int = count
+
+    @Ignore
+    var flagproxy = ObservableBoolean().apply { this.set(true) }
 }

@@ -18,11 +18,14 @@ import com.js.nowakelock.ui.databding.RecycleAdapter
 import com.js.nowakelock.ui.mainActivity.MainViewModel
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 
 class WakeLockFragment : Fragment() {
 
-    private val viewModel by inject<WakeLockViewModel>()
+    private lateinit var packageName: String
+
+    private val viewModel by inject<WakeLockViewModel> { parametersOf(packageName) }
     private lateinit var binding: FragmentWakeLockBinding
     private lateinit var mainViewModel: MainViewModel
     private lateinit var adapter: RecycleAdapter
@@ -31,6 +34,7 @@ class WakeLockFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        packageName = arguments?.getString("packageName") ?: ""
         binding = FragmentWakeLockBinding.inflate(inflater, container, false)
         context ?: return binding.root //if already create
 

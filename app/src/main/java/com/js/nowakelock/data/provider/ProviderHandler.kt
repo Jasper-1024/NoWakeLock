@@ -2,19 +2,16 @@ package com.js.nowakelock.data.provider
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Parcelable
 import androidx.annotation.VisibleForTesting
 import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.WLUtil
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.entity.WakeLock
 import com.js.nowakelock.data.db.entity.WakeLock_st
-import kotlinx.android.parcel.Parcelize
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import kotlin.collections.set

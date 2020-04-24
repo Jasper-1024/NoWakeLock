@@ -5,6 +5,10 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <import type="com.js.nowakelock.ui.databding.Converter" />
+
         <variable
             name="item"
             type="com.js.nowakelock.data.db.entity.WakeLock" />
@@ -22,13 +26,13 @@
 
         <TextView
             android:id="@+id/wakelockListName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
             android:gravity="center_vertical"
             android:text="@{item.wakeLockName}"
             android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/wakelockFlag"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints,SmallSp,UnknownIdInLayout" />
@@ -38,7 +42,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textSize="14sp"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/wakelockListName"
             app:loadWakeLockCount="@{item}"
@@ -49,27 +54,56 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="8dp"
+            android:textSize="18sp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/wakelockCount"
             app:loadWakeLockCountTime="@{item}" />
 
         <Switch
-            android:id="@+id/wakelockListFlag"
+            android:id="@+id/wakelockFlag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="4dp"
-            android:checked="@={item.flag}"
-            android:onClick="@{(theView)->handler.onClick(theView,item)}"
+            android:checked="@={item.flagproxy}"
             android:text=""
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
 
+        <TextView
+            android:id="@+id/wakelockATIText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/wakelockATIText"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wakelockCountTime"
+            tools:ignore="MissingConstraints" />
+
+        <EditText
+            android:id="@+id/wakelockATI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:hint="@string/wakelockATIUnit"
+            android:inputType="number"
+            android:maxEms="5"
+            android:minEms="3"
+            android:text="@={Converter.longToString(item.allowTimeinterval)}"
+            android:textAlignment="textEnd"
+            android:textSize="16sp"
+            android:visibility="@{item.flagproxy ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/wakelockATIText"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

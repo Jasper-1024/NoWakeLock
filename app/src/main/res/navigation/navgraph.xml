@@ -10,8 +10,8 @@
         android:name="com.js.nowakelock.ui.appList.AppListFragment"
         android:label="@string/Apps">
         <action
-            android:id="@+id/action_appListFragment_to_alwakeLockFragment"
-            app:destination="@id/alwakeLockFragment"
+            android:id="@+id/action_appListFragment_to_appFragment"
+            app:destination="@id/appFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -19,10 +19,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/alwakeLockFragment"
-        android:name="com.js.nowakelock.ui.appList.list.ALWakeLockFragment"
+        android:id="@+id/appFragment"
+        android:name="com.js.nowakelock.ui.app.AppFragment"
         android:label="{label}"
-        tools:layout="@layout/fragment_app_list_wake_lock">
+        tools:layout="@layout/fragment_app">
         <argument
             android:name="PackageName"
             android:defaultValue='""'

@@ -31,6 +31,8 @@
 
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="WakeLock">WakeLock</string>
+    <string name="Alarm">Alarm</string>
+    <string name="Service">Service</string>
     <string name="Apps">Apps</string>
     <string name="help">Help</string>
     <string name="help_instructions">        click the application icon or name to enter wakelock settings,disable wakelock.
@@ -39,4 +41,7 @@
            <![CDATA[<a href="https://github.com/Jasper-1024/NoWakeLock/blob/dev/README/FAQ.md">FAQ</a>]]>;
     </string>
     <string name="help_contact">sd</string>
+    <string name="wakelockATIText">Allow wake-up interval (0 unlimited)</string>
+    <string name="wakelockFlagText">Allow wakelock</string>
+    <string name="wakelockATIUnit">second</string>
 </resources>

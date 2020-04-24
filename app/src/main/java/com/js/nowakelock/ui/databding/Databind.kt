@@ -6,6 +6,7 @@ import android.net.Uri
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseMethod
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.request.RequestOptions
@@ -13,7 +14,6 @@ import com.js.nowakelock.BasicApp
 import com.js.nowakelock.base.getTime
 import com.js.nowakelock.data.db.entity.AppInfo
 import com.js.nowakelock.data.db.entity.WakeLock
-import com.js.nowakelock.ui.help.Help
 
 @BindingAdapter("loadIcon")
 fun LoadIcon(imageView: ImageView, appInfo: AppInfo) {
@@ -63,11 +63,26 @@ fun test(textView: TextView, tmp: Long) {
     textView.text = "${tmp / 1000}s"
 }
 
-//@SuppressLint("SetTextI18n")
-//@BindingAdapter("help_contact")
-//fun help_contact(textView: TextView, help: Help) {
-//    textView.text = "contact"
-//}
+
+object Converter {
+    @JvmStatic
+    @InverseMethod("stringToLong")
+    fun longToString(value: Long): String {
+        return value.toString()
+    }
+
+    @JvmStatic
+    fun stringToLong(value: String): Long {
+        // Converts String to long.
+        return if (value == "") {
+            0
+        } else {
+            value.toLong()
+        }
+    }
+
+}
+
 
 
 

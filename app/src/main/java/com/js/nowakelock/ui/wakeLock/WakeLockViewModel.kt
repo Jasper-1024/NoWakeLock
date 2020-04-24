@@ -7,8 +7,8 @@ import com.js.nowakelock.base.cache
 import com.js.nowakelock.base.search
 import com.js.nowakelock.base.sort
 import com.js.nowakelock.data.db.entity.WakeLock
+import com.js.nowakelock.data.db.entity.WakeLock_st
 import com.js.nowakelock.data.repository.WakeLockRepository
-import com.js.nowakelock.data.sp.SP
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -17,15 +17,30 @@ import java.util.*
 import kotlin.Comparator
 
 class WakeLockViewModel(
-    wakeLockRepository: WakeLockRepository
+    private var packageName: String = "",
+    var wakeLockRepository: WakeLockRepository
 ) : ViewModel() {
     val TAG = "WakeLockViewModel"
 
-    var wakeLocks: LiveData<List<WakeLock>> = wakeLockRepository.getWakeLocks()
+    var wakeLocks: LiveData<List<WakeLock>> = getwakelocks(packageName)
+
+    private fun getwakelocks(packageName: String): LiveData<List<WakeLock>> {
+        return if (packageName == "") {
+            wakeLockRepository.getWakeLocks()
+        } else {
+            wakeLockRepository.getWakeLocks(packageName)
+        }
+    }
 
     //save wakelock flag
     fun setWakeLockFlag(wakeLock: WakeLock) = viewModelScope.launch(Dispatchers.IO) {
-        SP.getInstance().setFlag(wakeLock.wakeLockName, wakeLock.flag)
+        wakeLockRepository.setWakeLock_st(
+            WakeLock_st(
+                wakeLock.wakeLockName,
+                wakeLock.flag,
+                wakeLock.allowTimeinterval
+            )
+        )
     }
 
     suspend fun list(wakeLocks: List<WakeLock>, catch: cache): List<WakeLock> =
@@ -36,9 +51,11 @@ class WakeLockViewModel(
         }
 
     // get all WakeLock flag
-    fun List<WakeLock>.flag(): List<WakeLock> {
+    suspend fun List<WakeLock>.flag(): List<WakeLock> {
         return this.map {
-            it.flag = SP.getInstance().getFlag(it.wakeLockName)
+            val tmp = wakeLockRepository.getWakeLock_st(it.wakeLockName)
+            it.flag = tmp.flag
+            it.allowTimeinterval = tmp.allowTimeinterval
             it
         }
     }
@@ -58,54 +75,4 @@ class WakeLockViewModel(
             }
         }
     }
-
-//    suspend fun WakeLockList(
-//        wakeLocks: List<WakeLock>,
-//        status: Int,
-//        query: String
-//    ): List<WakeLock> =
-//        withContext(Dispatchers.Default) {
-//            return@withContext wakeLocks
-//                .flag()
-//                .status(status)
-//                .search(query)
-//        }
-//
-//    // get all WakeLock flag
-//    fun List<WakeLock>.flag(): List<WakeLock> {
-//        return this.map {
-//            it.flag = SP.getInstance().getFlag(it.wakeLockName)
-//            it
-//        }
-//    }
-//
-//    //search text filter
-//    fun List<WakeLock>.search(query: String): List<WakeLock> {
-//        /*lowerCase and no " " */
-//        val q = query.toLowerCase(Locale.ROOT).trim { it <= ' ' }
-//        if (q == "") {
-//            return this
-//        }
-//        return this.filter {
-//            it.wakeLockName.toLowerCase(Locale.ROOT).contains(q)
-//                    || it.packageName.toLowerCase(Locale.ROOT).contains(q)
-//        }
-//    }
-//
-//    //status filter
-//    fun List<WakeLock>.status(status: Int): List<WakeLock> {
-//        return when (status) {
-//            4 -> this.sortedByDescending { it.count }
-//            5 -> this.sortByName()
-//            6 -> this.sortedByDescending { it.countTime }
-//            else -> this
-//        }
-//    }
-//
-//    //sort by wakeLockName
-//    fun List<WakeLock>.sortByName(): List<WakeLock> {
-//        return this.sortedWith(Comparator { s1, s2 ->
-//            Collator.getInstance(Locale.getDefault()).compare(s1.wakeLockName, s2.wakeLockName)
-//        })
-//    }
 }

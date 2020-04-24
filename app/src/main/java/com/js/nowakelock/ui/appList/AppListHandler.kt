@@ -11,7 +11,7 @@ class AppListHandler(private val viewModel: AppListViewModel) : BaseHandler() {
 //        Toast.makeText(BasicApp.context, "click ${appInfo.appName}", Toast.LENGTH_SHORT).show()
         //send packageName to wakelockfragment and start wankelockfragment
         val direction =
-            AppListFragmentDirections.actionAppListFragmentToAlwakeLockFragment(
+            AppListFragmentDirections.actionAppListFragmentToAppFragment(
                 appInfo.packageName,
                 appInfo.label
             )

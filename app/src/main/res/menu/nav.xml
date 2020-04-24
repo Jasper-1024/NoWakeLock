@@ -6,7 +6,7 @@
         android:id="@+id/wakeLockFragment"
         android:icon="@drawable/ic_wakelock_24dp"
         android:title="@string/WakeLock"
-        android:visible="false"
+        android:visible="true"
         tools:ignore="ExtraText" />
 
     <item
