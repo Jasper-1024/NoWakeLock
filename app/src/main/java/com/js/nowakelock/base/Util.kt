@@ -42,3 +42,27 @@ inline fun <T : BaseItem> List<T>.search(query: String, text: (T) -> String): Li
 fun <T : BaseItem> List<T>.sort(comparator: Comparator<in T>): List<T> {
     return this.sortedWith(comparator)
 }
+
+object Util {
+    @JvmStatic
+    fun stringToSet(value: String): Set<String>? {
+        return if (value == "") {
+            null
+        } else {
+            value.split(Regex("\b..*\b")).toSet()
+        }
+    }
+
+    @JvmStatic
+    fun setToString(values: Set<String>?): String {
+        return if (values == null) {
+            ""
+        } else {
+            var tmp: String = ""
+            values.forEach {
+                tmp += "$it\n"
+            }
+            tmp
+        }
+    }
+}

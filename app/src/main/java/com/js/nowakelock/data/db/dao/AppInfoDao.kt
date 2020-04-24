@@ -65,4 +65,8 @@ interface AppInfoDao {
 
     @Delete
     suspend fun delete(appInfo: AppInfo)
+
+    /**
+     * appinfo_st
+     */
 }
