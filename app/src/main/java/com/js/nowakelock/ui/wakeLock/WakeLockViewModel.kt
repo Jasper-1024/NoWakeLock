@@ -17,7 +17,7 @@ import java.util.*
 import kotlin.Comparator
 
 class WakeLockViewModel(
-    private var packageName: String = "",
+    packageName: String = "",
     var wakeLockRepository: WakeLockRepository
 ) : ViewModel() {
     val TAG = "WakeLockViewModel"
@@ -37,7 +37,7 @@ class WakeLockViewModel(
         wakeLockRepository.setWakeLock_st(
             WakeLock_st(
                 wakeLock.wakeLockName,
-                wakeLock.flag,
+                wakeLock.flag.get(),
                 wakeLock.allowTimeinterval
             )
         )
@@ -54,7 +54,7 @@ class WakeLockViewModel(
     suspend fun List<WakeLock>.flag(): List<WakeLock> {
         return this.map {
             val tmp = wakeLockRepository.getWakeLock_st(it.wakeLockName)
-            it.flag = tmp.flag
+            it.flag.set(tmp.flag)
             it.allowTimeinterval = tmp.allowTimeinterval
             it
         }

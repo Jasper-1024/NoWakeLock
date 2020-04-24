@@ -68,7 +68,11 @@ object Converter {
     @JvmStatic
     @InverseMethod("stringToLong")
     fun longToString(value: Long): String {
-        return value.toString()
+        return if (value == 0.toLong()) {
+            ""
+        } else {
+            value.toString()
+        }
     }
 
     @JvmStatic
@@ -82,6 +86,7 @@ object Converter {
     }
 
 }
+
 
 
 

@@ -35,7 +35,7 @@ data class WakeLock(
     var blockCountTime: Long = 0,
     //for SharedPreferences
     @Ignore
-    var flag: Boolean = true,
+    var flag: ObservableBoolean = ObservableBoolean().apply { this.set(true) },
     @Ignore
     var allowTimeinterval: Long = 0,//no limit
     //for xposed
@@ -52,6 +52,6 @@ data class WakeLock(
     @Ignore
     override fun getContent(): Int = count
 
-    @Ignore
-    var flagproxy = ObservableBoolean().apply { this.set(true) }
+//    @Ignore
+//    var flagproxy = ObservableBoolean().apply { this.set(flag) }
 }
