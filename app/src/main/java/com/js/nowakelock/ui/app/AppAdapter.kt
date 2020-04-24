@@ -7,7 +7,7 @@ import com.js.nowakelock.ui.wakeLock.WakeLockFragment
 
 class AppAdapter(fragment: Fragment, val packageName: String) : FragmentStateAdapter(fragment) {
 
-    override fun getItemCount(): Int = 2
+    override fun getItemCount(): Int = 1
 
     override fun createFragment(position: Int): Fragment {
         val fragment = getFragment(position)
