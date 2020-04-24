@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.request.RequestOptions
 import com.js.nowakelock.BasicApp
+import com.js.nowakelock.base.Util
 import com.js.nowakelock.base.getTime
 import com.js.nowakelock.data.db.entity.AppInfo
 import com.js.nowakelock.data.db.entity.WakeLock
@@ -85,6 +86,16 @@ object Converter {
         }
     }
 
+    @InverseMethod("stringToSet")
+    @JvmStatic
+    fun setToString(values: Set<String>?): String? {
+        return Util.setToString(values)
+    }
+
+    @JvmStatic
+    fun stringToSet(value: String?): Set<String>? {
+        return Util.stringToSet(value)
+    }
 }
 
 

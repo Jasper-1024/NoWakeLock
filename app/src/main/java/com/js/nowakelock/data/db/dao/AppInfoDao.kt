@@ -3,6 +3,7 @@ package com.js.nowakelock.data.db.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.js.nowakelock.data.db.entity.AppInfo
+import com.js.nowakelock.data.db.entity.AppInfo_st
 
 @Dao
 interface AppInfoDao {
@@ -65,4 +66,25 @@ interface AppInfoDao {
 
     @Delete
     suspend fun delete(appInfo: AppInfo)
+
+    /**
+     * appinfo_st
+     */
+    @Query("select * from appInfo_st where packageName_st = :packageName")
+    fun loadAppSetting(packageName: String): LiveData<AppInfo_st>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(appInfo_st: AppInfo_st)
+
+//    @Query("update appInfo_st set rE_Wakelock = :re where packageName_st = :packageName")
+//    suspend fun upReWakelock(packageName: String, re: Set<String>)
+//
+//    @Query("update appInfo_st set rE_Alarm = :re where packageName_st = :packageName")
+//    suspend fun upReAlarm(packageName: String, re: Set<String>)
+//
+//    @Query("update appInfo_st set rE_Service = :re where packageName_st = :packageName")
+//    suspend fun upReService(packageName: String, re: Set<String>)
+
+    @Delete
+    suspend fun delete(appInfo_st: AppInfo_st)
 }

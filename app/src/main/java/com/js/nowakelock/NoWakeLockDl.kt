@@ -5,6 +5,7 @@ import com.js.nowakelock.data.repository.AppInfoRepository
 import com.js.nowakelock.data.repository.WakeLockRepository
 import com.js.nowakelock.data.repository.mAppInfoRepository
 import com.js.nowakelock.data.repository.mWakeLockRepository
+import com.js.nowakelock.ui.app.setting.AppSettingViewModel
 import com.js.nowakelock.ui.appList.AppListViewModel
 import com.js.nowakelock.ui.help.HelpViewModel
 import com.js.nowakelock.ui.wakeLock.WakeLockViewModel
@@ -23,11 +24,17 @@ var noWakeLockModule = module {
             AppDatabase.getInstance(BasicApp.context).wakeLockDao()
         )
     }
-
+    /**applist*/
     viewModel {
         AppListViewModel(get(named("AR")))
     }
 
+    /**appsetting*/
+    viewModel { (packageName: String) ->
+        AppSettingViewModel(packageName, get(named("AR")))
+    }
+
+    /**wakelock*/
     viewModel { (packageName: String) ->
         WakeLockViewModel(packageName, get(named("WLR")))
     }
@@ -38,6 +45,7 @@ var noWakeLockModule = module {
 //        )
 //    }
 
+    /**help*/
     viewModel {
         HelpViewModel()
     }

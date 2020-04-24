@@ -7,10 +7,10 @@ import androidx.test.core.app.ApplicationProvider
 import com.js.nowakelock.LiveDataTestUtil
 import com.js.nowakelock.data.TestData
 import com.js.nowakelock.data.db.dao.AppInfoDao
+import com.js.nowakelock.data.db.entity.AppInfo_st
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -65,6 +65,19 @@ class AppInfoDaoTest {
         assertEquals(
             runBlocking { aIDao.loadAppInfo(TestData.appInfos[0].packageName) },
             TestData.appInfos[0]
+        )
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun load_st() {
+        runBlocking {
+            aIDao.insert(TestData.appInfoST)
+        }
+
+        assertEquals(
+            LiveDataTestUtil.getValue(aIDao.loadAppSetting(TestData.appInfoST.packageName)),
+            TestData.appInfoST
         )
     }
 }

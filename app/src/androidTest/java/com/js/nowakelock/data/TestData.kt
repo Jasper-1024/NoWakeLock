@@ -1,12 +1,17 @@
 package com.js.nowakelock.data
 
 import com.js.nowakelock.data.db.entity.AppInfo
+import com.js.nowakelock.data.db.entity.AppInfo_st
 import com.js.nowakelock.data.db.entity.WakeLock
 
 class TestData {
     companion object {
         var appInfos =
             getInfos()
+
+//        val appInfoST = AppInfo_st("test", false, 10, "waklock", "alarm", "service")
+
+        val appInfoST = AppInfo_st("test", false, 10)
 
         var wakeLocks =
             getwakeLocks()

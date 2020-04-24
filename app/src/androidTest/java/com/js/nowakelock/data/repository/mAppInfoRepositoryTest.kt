@@ -54,6 +54,18 @@ class mAppInfoRepositoryTest {
         assertTrue(LiveDataTestUtil.getValue(appInfos).isNotEmpty())
     }
 
+    @Test
+    fun saveAppSetting() {
+        val appInfoSTs = aR.getAppSetting(TestData.appInfoST.packageName)
+        assertTrue(LiveDataTestUtil.getValue(appInfoSTs) == null)
+        runBlocking { aR.saveAppSetting(TestData.appInfoST) }
+        assertEquals(
+            LiveDataTestUtil.getValue(appInfoSTs),
+            TestData.appInfoST
+        )
+//        assertTrue(LiveDataTestUtil.getValue(appInfoSTs).isNotEmpty())
+    }
+
     companion object {
         @Volatile
         private var instance: mAppInfoRepository? = null

@@ -44,4 +44,6 @@
     <string name="wakelockATIText">Allow wake-up interval (0 unlimited)</string>
     <string name="wakelockFlagText">Allow wakelock</string>
     <string name="wakelockATIUnit">second</string>
+    <string name="Re_Wakelock">唤醒锁正则(一个规则一行)</string>
+    <string name="Save">Save</string>
 </resources>

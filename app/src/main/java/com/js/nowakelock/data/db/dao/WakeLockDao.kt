@@ -115,5 +115,5 @@ interface WakeLockDao {
     fun loadWakeLock_st(): List<WakeLock_st>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert_st(wNLock_st: WakeLock_st)
+    suspend fun insert(wNLock_st: WakeLock_st)
 }

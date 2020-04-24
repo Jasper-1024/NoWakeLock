@@ -2,10 +2,7 @@ package com.js.nowakelock.base
 
 import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
-import android.widget.EditText
-import androidx.databinding.InverseMethod
 import java.util.*
-import kotlin.Comparator
 
 //Long to Time
 private val formatter = SimpleDateFormat("HH:mm:ss")
@@ -41,4 +38,33 @@ inline fun <T : BaseItem> List<T>.search(query: String, text: (T) -> String): Li
 // sort list
 fun <T : BaseItem> List<T>.sort(comparator: Comparator<in T>): List<T> {
     return this.sortedWith(comparator)
+}
+
+object Util {
+    @JvmStatic
+    fun stringToSet(value: String?): Set<String>? {
+        return if (value == null || value == "") {
+            mutableSetOf()
+        } else {
+            value.split("\n")
+                .filter { it.matches(Regex("[^\n ]+")) }
+                .toSet()
+//            value.split('\n').toSet()
+        }
+    }
+
+    @JvmStatic
+    fun setToString(values: Set<String>?): String? {
+        return if (values == null || values.isEmpty()) {
+            ""
+
+        } else {
+            var tmp: String = ""
+            values.forEach {
+                tmp += "$it\n"
+            }
+//            tmp = tmp.substring(0, tmp.length - 1)
+            tmp
+        }
+    }
 }

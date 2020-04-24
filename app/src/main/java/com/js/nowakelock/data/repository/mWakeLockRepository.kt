@@ -26,7 +26,7 @@ class mWakeLockRepository(private var wakeLockDao: WakeLockDao) : WakeLockReposi
     }
 
     override suspend fun setWakeLock_st(wN_st: WakeLock_st) = withContext(Dispatchers.IO) {
-        wakeLockDao.insert_st(wN_st)
+        wakeLockDao.insert(wN_st)
     }
 
 //    override suspend fun getFlag(pN: String, wN: String): Boolean {

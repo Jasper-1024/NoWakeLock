@@ -4,9 +4,12 @@ import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import androidx.collection.ArrayMap
+import androidx.lifecycle.LiveData
 import com.js.nowakelock.BasicApp
+import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.data.db.dao.AppInfoDao
 import com.js.nowakelock.data.db.entity.AppInfo
+import com.js.nowakelock.data.db.entity.AppInfo_st
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -29,6 +32,15 @@ class mAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository
         deleteAll(dbAppInfos.keys subtract sysAppInfos.keys, dbAppInfos)
 
         updateCount(appInfoDao.loadWLPackageNames())
+    }
+
+    /**get AppSetting*/
+    override fun getAppSetting(packageName: String): LiveData<AppInfo_st> =
+        appInfoDao.loadAppSetting(packageName)
+
+    /**save AppSetting*/
+    override suspend fun saveAppSetting(appinfoSt: AppInfo_st) = withContext(Dispatchers.IO) {
+        appInfoDao.insert(appinfoSt)
     }
 
     private suspend fun insertAll(
