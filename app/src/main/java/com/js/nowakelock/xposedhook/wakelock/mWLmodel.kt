@@ -40,12 +40,13 @@ class mWLmodel : WLModel {
         return pref?.getLong(wN, 0) ?: 0
     }
 
-    override fun getRe(pN: String): String {
+    override fun getRe(pN: String): Set<String> {
         if (pref == null) {
             load()
         }
         reload()
-        return pref?.getString("${pN}_RE", "") ?: ""
+//        return pref?.getString("${pN}_RE", "") ?: ""
+        return mutableSetOf()
     }
 
     override fun reloadst(context: Context) {}

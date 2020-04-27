@@ -138,12 +138,21 @@ class WLHook {
         }
 
         // get weather wakelock should block or not
-        private fun flag(wN: String, list: String, aTI: Long): Boolean {
+        private fun flag(wN: String, list: Set<String>, aTI: Long): Boolean {
             return wlModel.getFlag(wN) && rE(wN, list) && aTI(wN, aTI)
         }
 
-        private fun rE(wN: String, rE: String): Boolean {
-            return true
+        private fun rE(wN: String, rE: Set<String>): Boolean {
+            if (rE.isEmpty()) {
+                return true
+            } else {
+                rE.forEach {
+                    if (wN.matches(Regex(it))) {
+                        return false
+                    }
+                }
+                return true
+            }
         }
 
         private fun aTI(wN: String, aTI: Long): Boolean {

@@ -73,6 +73,9 @@ interface AppInfoDao {
     @Query("select * from appInfo_st where packageName_st = :packageName")
     fun loadAppSetting(packageName: String): LiveData<AppInfo_st>
 
+    @Query("select * from appInfo_st")
+    fun loadAppSettings(): List<AppInfo_st>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(appInfo_st: AppInfo_st)
 

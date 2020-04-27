@@ -72,17 +72,22 @@ class ProviderHandler(
     private fun getWLSt(bundle: Bundle): Bundle? {
         val wlFlagHM: HashMap<String, Boolean> = HashMap<String, Boolean>()
         val wlATIHM: HashMap<String, Long> = HashMap<String, Long>()
+        val wlREHM: HashMap<String, Set<String>> = HashMap<String, Set<String>>()
 
         runBlocking(Dispatchers.Default) {
             db.wakeLockDao().loadWakeLock_st().forEach {
                 wlFlagHM[it.wakeLockName] = it.flag
                 wlATIHM[it.wakeLockName] = it.allowTimeinterval
             }
+            db.appInfoDao().loadAppSettings().forEach {
+                wlREHM[it.packageName] = it.rE_Wakelock
+            }
         }
 
         val tmp = Bundle()
         tmp.putSerializable("wlFlagHM", wlFlagHM)
         tmp.putSerializable("wlwlATIHM", wlATIHM)
+        tmp.putSerializable("wlREHM", wlREHM)
 //        LogUtil.d("Xposed.NoWakeLock", "Bundle1 ${tmp} ${tmp.size()}")
         return tmp
     }

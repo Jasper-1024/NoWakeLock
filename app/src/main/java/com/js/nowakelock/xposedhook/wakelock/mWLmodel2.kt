@@ -19,12 +19,12 @@ class mWLmodel2 : WLModel {
     var wlATIHM: HashMap<String, Long> = HashMap<String, Long>() // allow time interval
 
     @Volatile
-    var reHM: HashMap<String, String> = HashMap<String, String>() //re
+    var wlREHM: HashMap<String, Set<String>> = HashMap<String, Set<String>>() //re
 
     private val wlSt = "wlStsHM"
     private val wlFlags = "wlFlagHM"
     private val wlATIs = "wlwlATIHM"
-    private val rE = "rEHM"
+    private val rE = "wlREHM"
 
     override fun reloadst(context: Context) {
         GlobalScope.launch(Dispatchers.Default) {
@@ -33,6 +33,7 @@ class mWLmodel2 : WLModel {
 //                val rEB = getBundle(rE,context)
                 if (wlsB != null) {
                     loadSt(wlsB)
+                    loadRe(wlsB)
                 }
             } catch (e: java.lang.Exception) {
                 log("$TAG : mWLmodel2 reloadst err: $e")
@@ -48,8 +49,8 @@ class mWLmodel2 : WLModel {
         return wlATIHM[wN] ?: 0
     }
 
-    override fun getRe(pN: String): String {
-        return reHM[pN] ?: ""
+    override fun getRe(pN: String): Set<String> {
+        return wlREHM[pN] ?: mutableSetOf()
     }
 
     override fun reloadst() {}
@@ -72,9 +73,9 @@ class mWLmodel2 : WLModel {
     }
 
     private fun loadRe(bundle: Bundle) {
-        val tmp = bundle.getSerializable(rE) as HashMap<String, String>?
+        val tmp = bundle.getSerializable(rE) as HashMap<String, Set<String>>?
         tmp?.let {
-            reHM.putAll(it)
+            wlREHM.putAll(it)
         }
     }
 

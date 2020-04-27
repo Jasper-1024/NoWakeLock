@@ -7,5 +7,5 @@ interface WLModel {
     fun reloadst(context: Context)
     fun getFlag(wN: String): Boolean
     fun getAllowTimeinterval(wN: String): Long
-    fun getRe(pN: String): String
+    fun getRe(pN: String): Set<String>
 }
