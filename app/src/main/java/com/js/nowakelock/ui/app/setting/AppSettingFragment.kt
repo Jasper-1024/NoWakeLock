@@ -1,11 +1,10 @@
 package com.js.nowakelock.ui.app.setting
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.js.nowakelock.R
 import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.data.db.entity.AppInfo_st
 import com.js.nowakelock.databinding.FragmentAppSettingBinding
@@ -56,6 +55,14 @@ class AppSettingFragment : Fragment() {
         }
         viewModel.appInfoSt.observe(viewLifecycleOwner, observer)
         binding.handler = AppSettingHandler(viewModel)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        val filter = menu.findItem(R.id.menu_filter)
+        filter.isVisible = false
+        val search = menu.findItem(R.id.search)
+        search.isVisible = false
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
 }
