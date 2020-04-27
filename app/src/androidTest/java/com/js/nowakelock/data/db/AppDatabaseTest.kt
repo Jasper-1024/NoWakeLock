@@ -3,7 +3,13 @@ package com.js.nowakelock.data.db
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.room.testing.MigrationTestHelper
+import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.js.nowakelock.LiveDataTestUtil
 import com.js.nowakelock.data.db.dao.AppInfoDao
 import com.js.nowakelock.data.db.dao.WakeLockDao
@@ -15,155 +21,46 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import java.io.IOException
 
+@RunWith(AndroidJUnit4::class)
 class AppDatabaseTest {
-//    @get:Rule
-//    var instantTaskExecutorRule = InstantTaskExecutorRule()
-//
-//    private lateinit var appInfoDao: AppInfoDao
-//    private lateinit var wakeLockDao: WakeLockDao
-//    private lateinit var db: AppDatabase
-//
-//
-//    @Before
-//    fun setUp() {
-//        val context = ApplicationProvider.getApplicationContext<Context>()
-//        db = Room.inMemoryDatabaseBuilder(
-//            context, AppDatabase::class.java
-//        ).build()
-//        appInfoDao = db.appInfoDao()
-//        wakeLockDao = db.wakeLockDao()
-//    }
-//
-//    @After
-//    fun tearDown() {
-//        db.close()
-//    }
-//
-//    @Test
-//    @Throws(Exception::class)
-//    fun loadWithoutInserted() {
-//        val appinfos = runBlocking {
-//            appInfoDao.loadAllAppInfos()
-//        }
-//        val wakeLocks = runBlocking {
-//            wakeLockDao.loadAllWakeLocks(TestData.packageName)
-//        }
-//
-//        assertTrue(LiveDataTestUtil.getValue(appinfos).isEmpty())
-//        assertTrue(LiveDataTestUtil.getValue(wakeLocks).isEmpty())
-//    }
-//
-//    @Test
-//    @Throws(Exception::class)
-//    fun loadAll() {
-//
-//        runBlocking {
-//            appInfoDao.insertAll(TestData.appInfos)
-//            wakeLockDao.insertAll(TestData.wakeLocks)
-//        }
-//
-//        assertEquals(runBlocking {
-//            LiveDataTestUtil.getValue(appInfoDao.loadAllAppInfos())
-//        }, TestData.appInfos)
-//
-//        assertEquals(runBlocking {
-//            LiveDataTestUtil.getValue(wakeLockDao.loadAllWakeLocks(TestData.packageName))
-//        }, TestData.wakeLocks)
-//    }
-//
-//    @Test
-//    @Throws(Exception::class)
-//    fun load() {
-//        runBlocking {
-//            appInfoDao.insert(TestData.appInfos[0])
-//            wakeLockDao.insert(TestData.wakeLocks[0])
-//        }
-//
-//        assertEquals(
-//            runBlocking { appInfoDao.loadAppInfo(TestData.appInfos[0].packageName) },
-//            TestData.appInfos[0]
-//        )
-//        assertEquals(
-//            runBlocking { wakeLockDao.loadWakeLock(TestData.wakeLocks[0].wakeLockName) },
-//            TestData.wakeLocks[0]
-//        )
-//    }
-//
-//    @Test
-//    @Throws(Exception::class)
-//    fun count() {
-//        runBlocking { appInfoDao.insert(TestData.appInfos[0]) }
-//        assertEquals(
-//            runBlocking { appInfoDao.loadAppInfo(TestData.appInfos[0].packageName).count },
-//            0
-//        )
-//
-//        assertEquals(
-//            runBlocking {
-//                appInfoDao.upCount(TestData.appInfos[0].packageName)
-//                appInfoDao.loadAppInfo(TestData.appInfos[0].packageName).count
-//            },
-//            1
-//        )
-//
-//        assertEquals(
-//            runBlocking {
-//                appInfoDao.rstCount(TestData.appInfos[0].packageName)
-//                appInfoDao.loadAppInfo(TestData.appInfos[0].packageName).count
-//            },
-//            0
-//        )
-//    }
-//
-//    @Test
-//    @Throws(Exception::class)
-//    fun blockCount() {
-//        runBlocking { appInfoDao.insert(TestData.appInfos[0]) }
-//        assertEquals(
-//            runBlocking { appInfoDao.loadAppInfo(TestData.appInfos[0].packageName).blockCount },
-//            0
-//        )
-//
-//        assertEquals(
-//            runBlocking {
-//                appInfoDao.upBlockCount(TestData.appInfos[0].packageName)
-//                appInfoDao.loadAppInfo(TestData.appInfos[0].packageName).blockCount
-//            },
-//            1
-//        )
-//
-//        assertEquals(
-//            runBlocking {
-//                appInfoDao.rstBlockCount(TestData.appInfos[0].packageName)
-//                appInfoDao.loadAppInfo(TestData.appInfos[0].packageName).blockCount
-//            },
-//            0
-//        )
-//    }
-//
-//    @Test
-//    @Throws(Exception::class)
-//    fun deleteAll() {
-//        runBlocking {
-//            appInfoDao.insertAll(TestData.appInfos)
-//            wakeLockDao.insertAll(TestData.wakeLocks)
-//        }
-//
-//        runBlocking {
-//            appInfoDao.deleteAll(TestData.appInfos)
-//            //wakeLockDao.deleteAll(TestData.wakeLocks)
-//        }
-//        val appinfos = runBlocking {
-//            appInfoDao.loadAllAppInfos()
-//        }
-//        val wakeLocks = runBlocking {
-//            wakeLockDao.loadAllWakeLocks(TestData.packageName)
-//        }
-//
-//        assertTrue(LiveDataTestUtil.getValue(appinfos).isEmpty())
-//        assertTrue(LiveDataTestUtil.getValue(wakeLocks).isEmpty())
-//    }
+    private val TEST_DB = "migration-test"
 
+    val MIGRATION_1_2 = object : Migration(1, 2) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL(
+                "CREATE TABLE IF NOT EXISTS `appInfo_st` (`packageName_st` TEXT NOT NULL, `flag` INTEGER NOT NULL, `allowTimeinterval` INTEGER NOT NULL, `rE_Wakelock` TEXT NOT NULL, `rE_Alarm` TEXT NOT NULL, `rE_Service` TEXT NOT NULL, PRIMARY KEY(`packageName_st`))"
+            )
+        }
+    }
+
+    @get:Rule
+    val helper: MigrationTestHelper = MigrationTestHelper(
+        InstrumentationRegistry.getInstrumentation(),
+        AppDatabase::class.java.canonicalName,
+        FrameworkSQLiteOpenHelperFactory()
+    )
+
+    @Test
+    @Throws(IOException::class)
+    fun migrate1To2() {
+        var db = helper.createDatabase(TEST_DB, 1).apply {
+            // db has schema version 1. insert some data using SQL queries.
+            // You cannot use DAO classes because they expect the latest schema.
+//            execSQL(...)
+
+            // Prepare for the next version.
+            close()
+        }
+
+        // Re-open the database with version 2 and provide
+        // MIGRATION_1_2 as the migration process.
+        db = helper.runMigrationsAndValidate(TEST_DB, 2, true, MIGRATION_1_2)
+
+        // MigrationTestHelper automatically verifies the schema changes,
+        // but you need to validate that the data was migrated properly.
+    }
 
 }

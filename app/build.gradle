@@ -25,6 +25,17 @@ android {
             jvmTarget = "1.8"
         }
 
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
+            }
+        }
+
+    }
+    //room test
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 
     dataBinding {
@@ -106,7 +117,7 @@ dependencies {
     androidTestImplementation "androidx.arch.core:core-testing:$arch_version"
 
     // Maven
-    implementation 'androidx.annotation:annotation:1.0.0'
+    implementation 'androidx.annotation:annotation:1.1.0'
 
     //navigation
     def nav_version = "2.3.0-alpha05"

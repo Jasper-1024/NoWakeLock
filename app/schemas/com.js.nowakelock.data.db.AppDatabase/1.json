@@ -1,0 +1,194 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "8669e14b6403d5bc201b3630c6ae65db",
+    "entities": [
+      {
+        "tableName": "appInfo",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`packageName` TEXT NOT NULL, `uid` INTEGER NOT NULL, `label` TEXT NOT NULL, `icon` INTEGER NOT NULL, `system` INTEGER NOT NULL, `enabled` INTEGER NOT NULL, `persistent` INTEGER NOT NULL, `processName` TEXT NOT NULL, `flag` INTEGER NOT NULL, `count` INTEGER NOT NULL, `blockCount` INTEGER NOT NULL, `countTime` INTEGER NOT NULL, `blockCountTime` INTEGER NOT NULL, PRIMARY KEY(`packageName`))",
+        "fields": [
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "label",
+            "columnName": "label",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "icon",
+            "columnName": "icon",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "system",
+            "columnName": "system",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "enabled",
+            "columnName": "enabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "persistent",
+            "columnName": "persistent",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "processName",
+            "columnName": "processName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "flag",
+            "columnName": "flag",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "count",
+            "columnName": "count",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "blockCount",
+            "columnName": "blockCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "countTime",
+            "columnName": "countTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "blockCountTime",
+            "columnName": "blockCountTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "packageName"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "wakeLock",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`wakeLockName` TEXT NOT NULL, `wakeLock_packageName` TEXT NOT NULL, `wakeLock_uid` INTEGER NOT NULL, `wakeLock_count` INTEGER NOT NULL, `wakeLock_blockCount` INTEGER NOT NULL, `wakeLock_countTime` INTEGER NOT NULL, `wakeLock_blockCountTime` INTEGER NOT NULL, PRIMARY KEY(`wakeLockName`))",
+        "fields": [
+          {
+            "fieldPath": "wakeLockName",
+            "columnName": "wakeLockName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "packageName",
+            "columnName": "wakeLock_packageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uid",
+            "columnName": "wakeLock_uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "count",
+            "columnName": "wakeLock_count",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "blockCount",
+            "columnName": "wakeLock_blockCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "countTime",
+            "columnName": "wakeLock_countTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "blockCountTime",
+            "columnName": "wakeLock_blockCountTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "wakeLockName"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "wakeLock_st",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`wakeLockName_st` TEXT NOT NULL, `flag` INTEGER NOT NULL, `allowTimeinterval` INTEGER NOT NULL, PRIMARY KEY(`wakeLockName_st`))",
+        "fields": [
+          {
+            "fieldPath": "wakeLockName",
+            "columnName": "wakeLockName_st",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "flag",
+            "columnName": "flag",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "allowTimeinterval",
+            "columnName": "allowTimeinterval",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "wakeLockName_st"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8669e14b6403d5bc201b3630c6ae65db')"
+    ]
+  }
+}
