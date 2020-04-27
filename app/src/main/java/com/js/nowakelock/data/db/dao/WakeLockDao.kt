@@ -12,6 +12,9 @@ interface WakeLockDao {
     @Query("select * from wakeLock")
     fun loadWakeLocks(): LiveData<List<WakeLock>>
 
+    @Query("select * from wakeLock")
+    suspend fun loadAllWakeLocks(): List<WakeLock>
+
     @Query("select * from wakeLock where wakeLock_packageName = :packageName")
     fun loadWakeLocks(packageName: String): LiveData<List<WakeLock>>
 
@@ -64,6 +67,9 @@ interface WakeLockDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(wakeLock: WakeLock)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(wakeLocks: List<WakeLock>)
 
     @Delete
     suspend fun deleteAll(wakeLocks: MutableCollection<WakeLock>)

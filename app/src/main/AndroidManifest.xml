@@ -5,21 +5,13 @@
     <application
         android:name=".BasicApp"
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:fullBackupContent="@xml/backup_descriptor"
         android:theme="@style/AppTheme">
-        <receiver
-            android:name=".data.sp.Broadcast"
-            android:directBootAware="true"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
+
 
         <provider
             android:name=".data.provider.NWLContentProvider"
