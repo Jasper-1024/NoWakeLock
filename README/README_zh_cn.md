@@ -16,13 +16,13 @@
   * 分应用 wakelock 唤醒锁计数.
   * wakelock 限制
   * 亮/暗色模式适配
+  * wakelock 唤醒间隔限制
+  * wakelock 正则过滤
 
 * 计划
-  * wakelock 唤醒间隔限制
   * wakelock 唤醒锁计时
   * alarm 记录
   * alarm 限制
-  * 应用正则过滤.
 
 ## 兼容性
 
@@ -39,9 +39,9 @@
 
 ## 安装
 
-* [Github releases](https://github.com/Jasper-1024/NoWakeLock/releases), 包括测试版.
-* ~~[酷安](none)~~, 稳定版.(还未就绪)
-* ~~[Play](none)~~,修改其他应用违反 Play 政策,可能无法上架.
+* [Github releases](https://github.com/Jasper-1024/NoWakeLock/releases), 包括 alpha/bate 版.
+* [酷安](https://www.coolapk.com/apk/260112), 较为稳定的 alpha 版本.
+* ~~[Play](none)~~,等待转为 bate 版后上线.
 
 ## 支持
 

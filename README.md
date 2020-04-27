@@ -42,9 +42,9 @@
 
 ## Installation
 
-* [Github releases](https://github.com/Jasper-1024/NoWakeLock/releases), including the beta version.
-* ~~[酷 安](none)~~, stable version. (Not yet ready)
-* ~~[Play](none)~~, modifying other apps violates Play policies and may not be available.
+* [Github releases](https://github.com/Jasper-1024/NoWakeLock/releases), including the alpha/beta version.
+* [酷 安](https://www.coolapk.com/apk/260112), alpha version but stable.
+* ~~[Play](none)~~, not yet.
 
 ## Support
 
