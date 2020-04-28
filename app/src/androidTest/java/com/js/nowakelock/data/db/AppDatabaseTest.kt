@@ -1,24 +1,12 @@
 package com.js.nowakelock.data.db
 
-import android.content.Context
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.room.testing.MigrationTestHelper
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.js.nowakelock.LiveDataTestUtil
-import com.js.nowakelock.data.db.dao.AppInfoDao
-import com.js.nowakelock.data.db.dao.WakeLockDao
-import com.js.nowakelock.data.TestData
-import kotlinx.coroutines.runBlocking
-import org.junit.After
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,6 +23,22 @@ class AppDatabaseTest {
             )
         }
     }
+
+    val MIGRATION_2_3 = object : Migration(2, 3) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL(
+                "CREATE TABLE IF NOT EXISTS `alarm` (`alarmName` TEXT NOT NULL, `alarm_packageName` TEXT NOT NULL, `alarm_count` INTEGER NOT NULL, `alarm_blockCount` INTEGER NOT NULL, `alarm_countTime` INTEGER NOT NULL, `alarm_blockCountTime` INTEGER NOT NULL, PRIMARY KEY(`alarmName`))"
+            )
+            database.execSQL(
+                "CREATE TABLE IF NOT EXISTS `alarm_st` (`alarmName_st` TEXT NOT NULL, `flag` INTEGER NOT NULL, `allowTimeinterval` INTEGER NOT NULL, PRIMARY KEY(`alarmName_st`))"
+            )
+        }
+    }
+
+    private val ALL_MIGRATIONS = arrayOf(
+        MIGRATION_1_2, MIGRATION_2_3
+    )
+
 
     @get:Rule
     val helper: MigrationTestHelper = MigrationTestHelper(
@@ -61,6 +65,26 @@ class AppDatabaseTest {
 
         // MigrationTestHelper automatically verifies the schema changes,
         // but you need to validate that the data was migrated properly.
+    }
+
+
+    @Test
+    @Throws(IOException::class)
+    fun migrateAll() {
+        // Create earliest version of the database.
+        helper.createDatabase(TEST_DB, 1).apply {
+            close()
+        }
+
+        // Open latest version of the database. Room will validate the schema
+        // once all migrations execute.
+        Room.databaseBuilder<AppDatabase>(
+            InstrumentationRegistry.getInstrumentation().targetContext,
+            AppDatabase::class.java, TEST_DB
+        ).addMigrations(*ALL_MIGRATIONS).build().apply {
+            openHelper.writableDatabase
+            close()
+        }
     }
 
 }

@@ -33,7 +33,7 @@ data class WakeLock(
     var countTime: Long = 0,
     @ColumnInfo(name = "wakeLock_blockCountTime")
     var blockCountTime: Long = 0,
-    //for SharedPreferences
+    //for ST
     @Ignore
     var flag: ObservableBoolean = ObservableBoolean().apply { this.set(true) },
     @Ignore
