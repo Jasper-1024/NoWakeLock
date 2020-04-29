@@ -1,24 +1,33 @@
 package com.js.nowakelock
 
 import com.js.nowakelock.data.db.AppDatabase
-import com.js.nowakelock.data.repository.AppInfoRepository
-import com.js.nowakelock.data.repository.WakeLockRepository
-import com.js.nowakelock.data.repository.mAppInfoRepository
-import com.js.nowakelock.data.repository.mWakeLockRepository
+import com.js.nowakelock.data.repository.*
 import com.js.nowakelock.ui.app.setting.AppSettingViewModel
 import com.js.nowakelock.ui.appList.AppListViewModel
 import com.js.nowakelock.ui.help.HelpViewModel
 import com.js.nowakelock.ui.wakeLock.WakeLockViewModel
+import com.js.nowakelreturn.mAlarmRepository
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 var noWakeLockModule = module {
-    single<AppInfoRepository>(named("AR")) {
+
+    /** AlarmRepository */
+    single<AlarmRepository>(named("AR")) {
+        mAlarmRepository(
+            AppDatabase.getInstance(BasicApp.context).alarmDao()
+        )
+    }
+
+    /** AppInfoRepository */
+    single<AppInfoRepository>(named("APR")) {
         mAppInfoRepository(
             AppDatabase.getInstance(BasicApp.context).appInfoDao()
         )
     }
+
+    /** WakeLockRepository */
     single<WakeLockRepository>(named("WLR")) {
         mWakeLockRepository(
             AppDatabase.getInstance(BasicApp.context).wakeLockDao()
@@ -26,12 +35,12 @@ var noWakeLockModule = module {
     }
     /**applist*/
     viewModel {
-        AppListViewModel(get(named("AR")))
+        AppListViewModel(get(named("APR")))
     }
 
     /**appsetting*/
     viewModel { (packageName: String) ->
-        AppSettingViewModel(packageName, get(named("AR")))
+        AppSettingViewModel(packageName, get(named("APR")))
     }
 
     /**wakelock*/
