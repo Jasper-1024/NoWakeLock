@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class Alarm_st(
     @PrimaryKey
     @ColumnInfo(name = "alarmName_st")
-    var wakeLockName: String = "",
+    var alarmName: String = "",
     var flag: Boolean = true,
     var allowTimeinterval: Long = 0
 )

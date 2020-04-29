@@ -8,6 +8,7 @@ import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.js.nowakelock.data.db.converters.Converters
+import com.js.nowakelock.data.db.dao.AlarmDao
 import com.js.nowakelock.data.db.dao.AppInfoDao
 import com.js.nowakelock.data.db.dao.WakeLockDao
 import com.js.nowakelock.data.db.entity.*
@@ -18,6 +19,7 @@ import com.js.nowakelock.data.db.entity.*
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
+    abstract fun alarmDao(): AlarmDao
     abstract fun appInfoDao(): AppInfoDao
     abstract fun wakeLockDao(): WakeLockDao
 
