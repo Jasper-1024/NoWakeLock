@@ -34,6 +34,12 @@
     </fragment>
 
     <fragment
+        android:id="@+id/alarmFragment"
+        android:name="com.js.nowakelock.ui.alarm.AlarmFragment"
+        android:label="@string/Alarm"
+        tools:layout="@layout/fragment_alarm" />
+
+    <fragment
         android:id="@+id/wakeLockFragment"
         android:name="com.js.nowakelock.ui.wakeLock.WakeLockFragment"
         android:label="@string/WakeLock"

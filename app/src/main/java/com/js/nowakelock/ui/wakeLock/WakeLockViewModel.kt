@@ -22,15 +22,10 @@ class WakeLockViewModel(
 ) : ViewModel() {
     val TAG = "WakeLockViewModel"
 
-    var wakeLocks: LiveData<List<WakeLock>> = getwakelocks(packageName)
+    var wakeLocks: LiveData<List<WakeLock>> =
+        if (packageName == "") wakeLockRepository.getWakeLocks()
+        else wakeLockRepository.getWakeLocks(packageName)
 
-    private fun getwakelocks(packageName: String): LiveData<List<WakeLock>> {
-        return if (packageName == "") {
-            wakeLockRepository.getWakeLocks()
-        } else {
-            wakeLockRepository.getWakeLocks(packageName)
-        }
-    }
 
     //save wakelock flag
     fun setWakeLockFlag(wakeLock: WakeLock) = viewModelScope.launch(Dispatchers.IO) {

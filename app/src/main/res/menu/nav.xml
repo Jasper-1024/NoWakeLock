@@ -10,6 +10,13 @@
         tools:ignore="ExtraText" />
 
     <item
+        android:id="@+id/alarmFragment"
+        android:icon="@drawable/ic_alarms_24dp"
+        android:title="@string/Alarm"
+        android:visible="true"
+        tools:ignore="ExtraText" />
+
+    <item
         android:id="@+id/appListFragment"
         android:icon="@drawable/ic_apps_24dp"
         android:title="@string/Apps"

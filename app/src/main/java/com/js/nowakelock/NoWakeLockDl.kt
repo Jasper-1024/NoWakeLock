@@ -2,6 +2,7 @@ package com.js.nowakelock
 
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.repository.*
+import com.js.nowakelock.ui.alarm.AlarmViewModel
 import com.js.nowakelock.ui.app.setting.AppSettingViewModel
 import com.js.nowakelock.ui.appList.AppListViewModel
 import com.js.nowakelock.ui.help.HelpViewModel
@@ -33,6 +34,12 @@ var noWakeLockModule = module {
             AppDatabase.getInstance(BasicApp.context).wakeLockDao()
         )
     }
+
+    /**alarm*/
+    viewModel { (packageName: String) ->
+        AlarmViewModel(packageName, get(named("AR")))
+    }
+
     /**applist*/
     viewModel {
         AppListViewModel(get(named("APR")))

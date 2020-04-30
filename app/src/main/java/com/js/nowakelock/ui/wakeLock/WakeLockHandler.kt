@@ -15,7 +15,7 @@ class WakeLockHandler(private val viewModel: WakeLockViewModel) : BaseHandler() 
 
     fun onTextChanged(wakeLock: WakeLock) {
 //        wakeLock.flag = wakeLock.flagproxy.get()
-        LogUtil.d("test1", "onTextChanged ${wakeLock.allowTimeinterval}")
+//        LogUtil.d("test1", "onTextChanged ${wakeLock.allowTimeinterval}")
         viewModel.setWakeLockFlag(wakeLock)
     }
 }

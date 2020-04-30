@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration =
             AppBarConfiguration(
                 setOf(
+                    R.id.alarmFragment,
                     R.id.wakeLockFragment,
                     R.id.appListFragment
                 ), drawerLayout

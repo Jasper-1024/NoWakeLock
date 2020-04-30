@@ -261,7 +261,6 @@ class xptest {
 
         private fun handleRE(wN: String, rE: List<String>): Boolean {
             return true
-            TODO("handel Regular Expression")
         }
 
 

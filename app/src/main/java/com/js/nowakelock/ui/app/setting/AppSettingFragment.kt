@@ -30,7 +30,7 @@ class AppSettingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        LogUtil.d("test1", packageName)
+//        LogUtil.d("test1", packageName)
 
         binding = FragmentAppSettingBinding.inflate(inflater, container, false)
         context ?: return binding.root //if already create
