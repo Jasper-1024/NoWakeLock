@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navgraph"
-    app:startDestination="@id/appListFragment">
+    app:startDestination="@id/wakeLockFragment">
 
     <fragment
         android:id="@+id/appListFragment"

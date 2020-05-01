@@ -2,7 +2,8 @@ package com.js.nowakelock.xposedhook
 
 import android.os.Process
 import com.js.nowakelock.BuildConfig
-import com.js.nowakelock.xposedhook.wakelock.WLHook
+import com.js.nowakelock.xposedhook.alarm.AlarmHook
+import com.js.nowakelock.xposedhook.wakelock.WakelockHook
 import de.robv.android.xposed.*
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
 import de.robv.android.xposed.XposedHelpers.findAndHookMethod
@@ -29,7 +30,8 @@ open class XposedModule : IXposedHookZygoteInit, IXposedHookLoadPackage {
 //            XposedBridge.log("$TAG $pN:2 handleLoadPackage ,uid ${Process.myUid()}")
 //            hookWakeLocks(lpparam, AndroidAppHelper.currentApplication())
 //            xptest.hookWakeLocks(lpparam)
-            WLHook.hookWakeLocks(lpparam)
+            AlarmHook.hookAlarm(lpparam)
+            WakelockHook.hookWakeLocks(lpparam)
         }
 //        if (lpparam.packageName.equals(BuildConfig.APPLICATION_ID)) {
 //

@@ -18,7 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class WLHook {
+class WakelockHook {
     companion object {
         //        private var wlModel: WLModel = mWLmodel() //wlmodel
         private var wlModel: WLModel = mWLmodel2() //wlmodel

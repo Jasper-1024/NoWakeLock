@@ -64,21 +64,21 @@ class mWLmodel2 : WLModel {
 //            log("$TAG : mWLmodel2 reloadst1.7 : ${wlFlagHM}")
         }
         val tmp2 = bundle.getSerializable(wlATIs) as HashMap<String, Long>?
-        log("$TAG : mWLmodel2 reloadst1.8 : ${tmp2}")
+//        log("$TAG : mWLmodel2 reloadst1.8 : ${tmp2}")
         tmp2?.let {
             wlATIHM.putAll(it)
-            log("$TAG : mWLmodel2 reloadst1.9 : ${wlATIHM}")
+//            log("$TAG : mWLmodel2 reloadst1.9 : ${wlATIHM}")
         }
 //        log("$TAG : mWLmodel2 reloadst1.6 : ${tmp3}")
     }
 
     private fun loadRe(bundle: Bundle) {
         val tmp = bundle.getSerializable(rE) as HashMap<String, Set<String>>?
-        log("$TAG : mWLmodel2 re : ${tmp}")
+//        log("$TAG : mWLmodel2 re : ${tmp}")
         tmp?.let {
             wlREHM.putAll(it)
         }
-        log("$TAG : mWLmodel2 re2 : ${wlREHM}")
+//        log("$TAG : mWLmodel2 re2 : ${wlREHM}")
     }
 
     private suspend fun getBundle(method: String, context: Context): Bundle? =
@@ -90,7 +90,7 @@ class mWLmodel2 : WLModel {
 //                log("$TAG : Bundle3 : $tmp")
                 tmp
             } catch (e: Exception) {
-                log("$TAG : getBundle $method err: $e")
+//                log("$TAG : getBundle $method err: $e")
                 null
             }
         }
