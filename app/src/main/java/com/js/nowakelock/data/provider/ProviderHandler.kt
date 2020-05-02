@@ -39,6 +39,7 @@ class ProviderHandler(
     fun getMethod(methodName: String, bundle: Bundle): Bundle? {
         return when (methodName) {
             "saveAL" -> saveAL(bundle)
+            "getALStHM" -> getALStHM(bundle)
             "saveWL" -> saveWL(bundle)
             "wlStsHM" -> getWLSt(bundle)
             "test" -> test(bundle)
@@ -66,6 +67,27 @@ class ProviderHandler(
             }
         }
         return null
+    }
+
+    @Synchronized
+    private fun getALStHM(bundle: Bundle): Bundle? {
+        val alFlagHM: HashMap<String, Boolean> = HashMap<String, Boolean>()
+        val alReHM: HashMap<String, Set<String>> = HashMap<String, Set<String>>()
+
+        runBlocking(Dispatchers.Default) {
+            db.alarmDao().loadAlarm_st().forEach {
+                alFlagHM[it.alarmName] = it.flag
+            }
+            db.appInfoDao().loadAppSettings().forEach {
+                alReHM[it.packageName] = it.rE_Alarm
+            }
+        }
+
+        val tmp = Bundle()
+        tmp.putSerializable("alFlagHM", alFlagHM)
+        tmp.putSerializable("alReHM", alReHM)
+        LogUtil.d("Xposed.NoWakeLock", "Bundle1 ${tmp}")
+        return tmp
     }
 
     //update db wakelock

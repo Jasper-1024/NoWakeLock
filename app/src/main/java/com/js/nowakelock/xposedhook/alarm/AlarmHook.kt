@@ -19,9 +19,16 @@ import java.util.*
 class AlarmHook {
     companion object {
 
+        // alarm model
+        private val alModel: AlarmModel = mAlarmModel()
+
+        // update Setting interval
+        private var updateSetting: Long = 60000 //Save every minutes
+        private var updateSettingTime: Long = 0
+
         fun hookAlarm(lpparam: XC_LoadPackage.LoadPackageParam) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                //Try for alarm hooks for API levels >= 29
+                //Try for alarm hooks for API levels >= 29 (Q or higher)
                 XposedHelpers.findAndHookMethod("com.android.server.AlarmManagerService",
                     lpparam.classLoader,
                     "triggerAlarmsLocked",
@@ -41,7 +48,7 @@ class AlarmHook {
                         }
                     })
             } else {
-                //Try for alarm hooks for API levels < 29 > 24.
+                //Try for alarm hooks for API levels < 29 > 24.(N ~ P)
                 XposedHelpers.findAndHookMethod("com.android.server.AlarmManagerService",
                     lpparam.classLoader,
                     "triggerAlarmsLocked",
@@ -65,6 +72,7 @@ class AlarmHook {
             }
         }
 
+        // handle alarm
         private fun hookAlarmsLocked(
             param: XC_MethodHook.MethodHookParam,
             triggerList: ArrayList<Any>,
@@ -77,10 +85,52 @@ class AlarmHook {
                 val alarmName: String = getName(intent) ?: continue
                 val packageName: String = pi.creatorPackage ?: continue
 
-                log("hookAlarmsLocked alarmName:$alarmName  ")
-                log("hookAlarmsLocked packageName:$packageName")
+//                log("hookAlarmsLocked alarmName:$alarmName  ")
+//                log("hookAlarmsLocked packageName:$packageName")
 
-                recordUp(alarmName, packageName, context)
+                // block or not
+                val flag = flag(alarmName, alModel.getRe(packageName))
+
+                if (flag) {
+                    //allow alarm
+                    recordUp(alarmName, packageName, context)
+                } else {
+                    //block alarm
+                    log("$$packageName alarm:$alarmName block")
+                    triggerList.remove(i)
+                    recordUpBlock(alarmName, packageName, context)
+                }
+                handleTimer(context)
+            }
+        }
+
+        @Synchronized
+        private fun handleTimer(context: Context) {
+            val now = SystemClock.elapsedRealtime()
+            //update setting
+            if (now - updateSettingTime > updateSetting) {
+                alModel.reloadst(context)
+                updateSettingTime = now
+                log("alarm: update setting")
+            }
+        }
+
+        // get weather alarm should block or not
+        private fun flag(name: String, list: Set<String>): Boolean {
+            return alModel.getFlag(name) && rE(name, list)
+        }
+
+        // match regular expression
+        private fun rE(name: String, rE: Set<String>): Boolean {
+            if (rE.isEmpty()) {
+                return true
+            } else {
+                rE.forEach {
+                    if (name.matches(Regex(it))) {
+                        return false
+                    }
+                }
+                return true
             }
         }
 
@@ -104,8 +154,8 @@ class AlarmHook {
             return null
         }
 
+        //alarm name
         private fun getName(intent: Intent): String? {
-            //Make sure one of the tags exists.
             if (intent.action != null) {
                 return intent.action
             } else if (intent.component != null) {
@@ -114,6 +164,7 @@ class AlarmHook {
             return null
         }
 
+        //record allow alarm
         private fun recordUp(alarmName: String, packageName: String, context: Context) {
             GlobalScope.launch {
                 try {
@@ -124,6 +175,7 @@ class AlarmHook {
             }
         }
 
+        //record block alarm
         private fun recordUpBlock(alarmName: String, packageName: String, context: Context) {
             GlobalScope.launch {
                 try {

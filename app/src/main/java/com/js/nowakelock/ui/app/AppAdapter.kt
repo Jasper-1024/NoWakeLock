@@ -3,13 +3,14 @@ package com.js.nowakelock.ui.app
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.js.nowakelock.ui.alarm.AlarmFragment
 import com.js.nowakelock.ui.app.setting.AppSettingFragment
 import com.js.nowakelock.ui.app.setting.AppSettingViewModel
 import com.js.nowakelock.ui.wakeLock.WakeLockFragment
 
 class AppAdapter(fragment: Fragment, val packageName: String) : FragmentStateAdapter(fragment) {
 
-    override fun getItemCount(): Int = 2
+    override fun getItemCount(): Int = 3
 
     override fun createFragment(position: Int): Fragment {
         val fragment = getFragment(position)
@@ -22,6 +23,7 @@ class AppAdapter(fragment: Fragment, val packageName: String) : FragmentStateAda
     private fun getFragment(position: Int): Fragment {
         return when (position) {
             0 -> WakeLockFragment()
+            1 -> AlarmFragment()
             else -> AppSettingFragment()
         }
     }

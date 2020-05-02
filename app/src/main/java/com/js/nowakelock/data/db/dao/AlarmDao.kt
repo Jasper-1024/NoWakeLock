@@ -41,6 +41,7 @@ interface AlarmDao {
     @Query("select * from alarm_st where alarmName_st = :alarmName")
     fun loadAlarm_st(alarmName: String): Alarm_st?
 
+    /**for ContentProvider*/
     @Query("select * from alarm_st")
     fun loadAlarm_st(): List<Alarm_st>
 

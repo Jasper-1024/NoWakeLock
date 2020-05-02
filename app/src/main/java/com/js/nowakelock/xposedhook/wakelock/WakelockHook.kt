@@ -109,7 +109,7 @@ class WakelockHook {
             if (flag) {
                 lastAllowTiem[wN] = SystemClock.elapsedRealtime()//update last allow time
             } else {//block wakelock
-                log("$TAG $pN wakeLock:$wN block")
+                log("$pN wakeLock:$wN block")
                 param.result = null //block wakelock
                 wLupBlock(wakeLock)
             }
@@ -180,7 +180,7 @@ class WakelockHook {
                             record(context, it)
                         }
                     } catch (e: Exception) {
-                        log("$TAG: handleTimer err: $e")
+                        log("wakelock handleTimer err: $e")
                     }
                 }
                 updateDBTime = now
