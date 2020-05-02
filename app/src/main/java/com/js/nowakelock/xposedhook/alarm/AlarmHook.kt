@@ -80,7 +80,9 @@ class AlarmHook {
         ) {
             val now = SystemClock.elapsedRealtime() //real time
             for (i in 0 until triggerList.size) {
-                val pi = XposedHelpers.getObjectField(triggerList[i], "operation") as PendingIntent
+                val pi: PendingIntent =
+                    XposedHelpers.getObjectField(triggerList[i], "operation") as PendingIntent?
+                        ?: continue
                 val intent: Intent = getIntent(pi) ?: continue
                 val alarmName: String = getName(intent) ?: continue
                 val packageName: String = pi.creatorPackage ?: continue
