@@ -6,7 +6,7 @@ val TAG = "Xposed.NoWakeLock"
 val authority = "com.js.nowakelock"
 
 fun log(string: String) {
-    if (true) {
+    if (false) {
         XposedBridge.log("$TAG: $string")
     }
 }
