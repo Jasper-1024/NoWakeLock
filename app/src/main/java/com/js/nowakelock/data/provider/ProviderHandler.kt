@@ -3,17 +3,17 @@ package com.js.nowakelock.data.provider
 import android.content.Context
 import android.os.Bundle
 import androidx.annotation.VisibleForTesting
+import com.js.nowakelock.base.ALUtil
 import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.WLUtil
 import com.js.nowakelock.data.db.AppDatabase
+import com.js.nowakelock.data.db.entity.Alarm
 import com.js.nowakelock.data.db.entity.WakeLock
 import com.js.nowakelock.data.db.entity.WakeLock_st
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 import kotlin.collections.set
 
 class ProviderHandler(
@@ -38,11 +38,34 @@ class ProviderHandler(
 
     fun getMethod(methodName: String, bundle: Bundle): Bundle? {
         return when (methodName) {
+            "saveAL" -> saveAL(bundle)
             "saveWL" -> saveWL(bundle)
             "wlStsHM" -> getWLSt(bundle)
             "test" -> test(bundle)
             else -> null
         }
+    }
+
+    //update db alarm
+    @Synchronized
+    private fun saveAL(bundle: Bundle): Bundle? {
+        val tmp1 = ALUtil.getAlarm(bundle)
+
+        tmp1.let {
+            GlobalScope.launch {
+                try {
+                    val tmp: Alarm = db.alarmDao().loadAlarm(it.alarmName)
+                        ?: Alarm(it.alarmName, it.packageName)
+                    tmp.count += it.count
+                    tmp.blockCount += it.blockCount
+                    db.alarmDao().insert(tmp)
+//                    LogUtil.d("Xposed.NoWakeLock", "saveAL ${tmp}")
+                } catch (e: Exception) {
+                    LogUtil.d(TAG, e.toString())
+                }
+            }
+        }
+        return null
     }
 
     //update db wakelock

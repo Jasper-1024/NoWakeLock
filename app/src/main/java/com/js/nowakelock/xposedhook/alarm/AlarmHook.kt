@@ -3,12 +3,17 @@ package com.js.nowakelock.xposedhook.alarm
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.os.SystemClock
+import com.js.nowakelock.xposedhook.authority
 import com.js.nowakelock.xposedhook.log
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 class AlarmHook {
@@ -75,6 +80,7 @@ class AlarmHook {
                 log("hookAlarmsLocked alarmName:$alarmName  ")
                 log("hookAlarmsLocked packageName:$packageName")
 
+                recordUp(alarmName, packageName, context)
             }
         }
 
@@ -108,6 +114,53 @@ class AlarmHook {
             return null
         }
 
+        private fun recordUp(alarmName: String, packageName: String, context: Context) {
+            GlobalScope.launch {
+                try {
+                    record(context, upCount(alarmName, packageName))
+                } catch (e: Exception) {
+                    log("recordUp err:$e")
+                }
+            }
+        }
 
+        private fun recordUpBlock(alarmName: String, packageName: String, context: Context) {
+            GlobalScope.launch {
+                try {
+                    record(context, upBlockCount(alarmName, packageName))
+                } catch (e: Exception) {
+                    log("recordUp err:$e")
+                }
+            }
+        }
+
+        private fun record(context: Context, bundle: Bundle) {
+            val method = "saveAL"
+            val url = Uri.parse("content://${authority}")
+            val contentResolver = context.contentResolver
+            try {
+                contentResolver.call(url, method, null, bundle)
+            } catch (e: Exception) {
+                log("record err: $e")
+            }
+        }
+
+        private fun upCount(alarmName: String, packageName: String): Bundle {
+            return Bundle().apply {
+                this.putString("AlarmName", alarmName)
+                this.putString("PackageName", packageName)
+                this.putInt("Count", 1)
+                this.putInt("BlockCount", 0)
+            }
+        }
+
+        private fun upBlockCount(alarmName: String, packageName: String): Bundle {
+            return Bundle().apply {
+                this.putString("AlarmName", alarmName)
+                this.putString("PackageName", packageName)
+                this.putInt("Count", 1)
+                this.putInt("BlockCount", 1)
+            }
+        }
     }
 }
