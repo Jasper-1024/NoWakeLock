@@ -14,7 +14,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.js.nowakelock.R
-import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.cache
 
 
@@ -26,7 +25,10 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 
-    private val viewModel by viewModels<MainViewModel>()
+    private val viewModel: MainViewModel by viewModels {
+        MainUtils.ViewModelFactory(this)
+    }
+
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var toolbar: Toolbar
 
@@ -54,26 +56,17 @@ class MainActivity : AppCompatActivity() {
         findViewById<NavigationView>(R.id.nav_view)
             .setupWithNavController(navController)
 
+        //get cache
         viewModel.status.postValue(loadStatus())
 
 //        visibilityNavElements(navController)
     }
 
-//    override fun onStart() {
-//        LogUtil.d("test1","start")
-//        super.onStart()
-//    }
-//
-//    override fun onStop() {
-//        LogUtil.d("test1","stop")
-//        super.onStop()
-//    }
-
     override fun onDestroy() {
+        //save cathe
         viewModel.status.value?.let { saveStatus(it) }
         super.onDestroy()
     }
-
 
     //ToolBar menu
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

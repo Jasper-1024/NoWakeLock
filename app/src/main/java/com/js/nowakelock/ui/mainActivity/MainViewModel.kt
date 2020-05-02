@@ -1,11 +1,14 @@
 package com.js.nowakelock.ui.mainActivity
 
+import android.os.Bundle
+import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.savedstate.SavedStateRegistryOwner
 import com.js.nowakelock.base.cache
 
-class MainViewModel : ViewModel() {
+class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
     val TAG = "MainViewModel"
 
     val status: MutableLiveData<cache> by lazy {
@@ -14,26 +17,19 @@ class MainViewModel : ViewModel() {
 
     fun postapp(app: Int) {
         status.postValue(cache(app, status.value!!.sort, status.value!!.query))
+//        state.set("app",app)
     }
 
     fun postsort(sort: Int) {
         status.postValue(cache(status.value!!.app, sort, status.value!!.query))
+//        state.set("sort",sort)
     }
 
     fun postquery(query: String) {
         status.postValue(cache(status.value!!.app, status.value!!.sort, query))
+//        state.set("query",query)
     }
-
-//    val app: MutableLiveData<Int> by lazy {
-//        MutableLiveData<Int>(1)
-//    }
-//
-//    val sort: MutableLiveData<Int> by lazy {
-//        MutableLiveData<Int>(1)
-//    }
-//
-//    val searchText: MutableLiveData<String> by lazy {
-//        MutableLiveData<String>("")
-//    }
 }
+
+
 
