@@ -1,5 +1,6 @@
 package com.js.nowakelock.ui.mainActivity
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -8,13 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.js.nowakelock.R
 import com.js.nowakelock.base.LogUtil
+import com.js.nowakelock.base.cache
 
 
 class MainActivity : AppCompatActivity() {
@@ -53,10 +54,24 @@ class MainActivity : AppCompatActivity() {
         findViewById<NavigationView>(R.id.nav_view)
             .setupWithNavController(navController)
 
-        //start watching file , but not work
-//        SP.getInstance().startFileObserver()
+        viewModel.status.postValue(loadStatus())
 
 //        visibilityNavElements(navController)
+    }
+
+//    override fun onStart() {
+//        LogUtil.d("test1","start")
+//        super.onStart()
+//    }
+//
+//    override fun onStop() {
+//        LogUtil.d("test1","stop")
+//        super.onStop()
+//    }
+
+    override fun onDestroy() {
+        viewModel.status.value?.let { saveStatus(it) }
+        super.onDestroy()
     }
 
 
@@ -72,6 +87,41 @@ class MainActivity : AppCompatActivity() {
                 setStatusBarBackground(R.color.colorPrimaryDark)
             }
     }
+
+    private fun saveStatus(cache: cache) {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putInt("app", cache.app)
+            putInt("sort", cache.sort)
+//            putString("query", cache.query)
+            apply()
+        }
+//        LogUtil.d("test1","$cache")
+    }
+
+    private fun loadStatus(): cache {
+        return cache().apply {
+            val sharedPref = getPreferences(Context.MODE_PRIVATE)
+            sharedPref.apply {
+                app = getInt("app", 1)
+                sort = getInt("sort", 1)
+//                query = getString("query", "") ?: ""
+            }
+//            LogUtil.d("test12","$this")
+        }
+    }
+
+//    private fun setToolbarMenu(cache: cache) {
+//        when (cache.app) {
+//            1 -> toolbar.menu.findItem(R.id.menu_filter_user).isChecked = true
+//            2 -> toolbar.menu.findItem(R.id.menu_filter_system).isChecked = true
+//        }
+//        when (cache.sort) {
+//            1 -> setSortCheck(toolbar.menu.findItem(R.id.menu_sort_name))
+//            2 -> setSortCheck(toolbar.menu.findItem(R.id.menu_sort_count))
+//            3 -> setSortCheck(toolbar.menu.findItem(R.id.menu_sort_countime))
+//        }
+//    }
 
     //handler status menu
     fun statusUser(menu: MenuItem) {
@@ -99,7 +149,6 @@ class MainActivity : AppCompatActivity() {
         viewModel.postsort(2)
         setSortCheck(menu)
     }
-
 
     fun sortCountTime(menu: MenuItem) {
         viewModel.postsort(3)
@@ -136,6 +185,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
 
 //    override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
 //        val id = menuItem.itemId

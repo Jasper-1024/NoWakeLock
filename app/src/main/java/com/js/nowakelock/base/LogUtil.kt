@@ -16,7 +16,7 @@ class LogUtil {
 
         private val NOTHING = 6 //什么也不打印出来
 
-        private val level = NOTHING //LEVEL:标准
+        private val level = DEBUG //LEVEL:标准
 
 
         fun v(tag: String, msg: String) {

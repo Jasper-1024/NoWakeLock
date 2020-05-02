@@ -15,17 +15,50 @@ import com.js.nowakelock.base.Util
 import com.js.nowakelock.base.getTime
 import com.js.nowakelock.data.db.entity.AppInfo
 
-@BindingAdapter("loadIcon")
-fun LoadIcon(imageView: ImageView, appInfo: AppInfo) {
-    val options = RequestOptions()
-        .error(R.drawable.sym_def_app_icon)
-        .placeholder(R.drawable.sym_def_app_icon)
-    val uri = Uri.parse("android.resource://" + appInfo.packageName + "/" + appInfo.icon)
-    Glide.with(imageView.context)
-        .applyDefaultRequestOptions(RequestOptions().format(DecodeFormat.PREFER_RGB_565))
-        .load(uri)
-        .apply(options)
-        .into(imageView)
+
+object Databind {
+    @JvmStatic
+    @BindingAdapter("loadIcon")
+    fun LoadIcon(imageView: ImageView, appInfo: AppInfo) {
+        val options = RequestOptions()
+            .error(R.drawable.sym_def_app_icon)
+            .placeholder(R.drawable.sym_def_app_icon)
+        val uri = Uri.parse("android.resource://" + appInfo.packageName + "/" + appInfo.icon)
+        Glide.with(imageView.context)
+            .applyDefaultRequestOptions(RequestOptions().format(DecodeFormat.PREFER_RGB_565))
+            .load(uri)
+            .apply(options)
+            .into(imageView)
+    }
+
+    @JvmStatic
+    @SuppressLint("SetTextI18n")
+    @BindingAdapter("count", "blockCount")
+    fun loadWakeLockCount(textView: TextView, count: Int, blockCount: Int) {
+        textView.text =
+            "${BasicApp.context.getString(com.js.nowakelock.R.string.Count)}: $count " +
+                    "${BasicApp.context.getString(com.js.nowakelock.R.string.BlockCount)}: $blockCount"
+    }
+
+    @JvmStatic
+    @SuppressLint("SetTextI18n")
+    @BindingAdapter("countTime", "blockCountTime")
+    fun loadWakeLockCountTime(textView: TextView, countTime: Long, blockCountTime: Long) {
+        textView.text =
+            "${BasicApp.context.getString(com.js.nowakelock.R.string.CountTime)}: ${getTime(
+                countTime
+            )} " +
+                    "${BasicApp.context.getString(com.js.nowakelock.R.string.BlockCountTime)}: ${getTime(
+                        blockCountTime
+                    )}"
+    }
+
+    @JvmStatic
+    @SuppressLint("SetTextI18n")
+    @BindingAdapter("test")
+    fun test(textView: TextView, tmp: Long) {
+        textView.text = "${tmp / 1000}s"
+    }
 }
 
 //@SuppressLint("SetTextI18n")
@@ -34,32 +67,6 @@ fun LoadIcon(imageView: ImageView, appInfo: AppInfo) {
 //    val (_, _, _, _, _, _, _, _, _, count, blockCount) = appInfo //😂
 //    textView.text = "Count: $count BlockCount: $blockCount"
 //}
-
-@SuppressLint("SetTextI18n")
-@BindingAdapter("count", "blockCount")
-fun loadWakeLockCount(textView: TextView, count: Int, blockCount: Int) {
-    textView.text =
-        "${BasicApp.context.getString(com.js.nowakelock.R.string.Count)}: $count " +
-                "${BasicApp.context.getString(com.js.nowakelock.R.string.BlockCount)}: $blockCount"
-}
-
-@SuppressLint("SetTextI18n")
-@BindingAdapter("countTime", "blockCountTime")
-fun loadWakeLockCountTime(textView: TextView, countTime: Long, blockCountTime: Long) {
-    textView.text =
-        "${BasicApp.context.getString(com.js.nowakelock.R.string.CountTime)}: ${getTime(
-            countTime
-        )} " +
-                "${BasicApp.context.getString(com.js.nowakelock.R.string.BlockCountTime)}: ${getTime(
-                    blockCountTime
-                )}"
-}
-
-@SuppressLint("SetTextI18n")
-@BindingAdapter("test")
-fun test(textView: TextView, tmp: Long) {
-    textView.text = "${tmp / 1000}s"
-}
 
 
 object Converter {
