@@ -95,3 +95,6 @@ lint/tmp/
 /build
 /captures
 .cxx
+
+app/release/*
+app/release/output.json
