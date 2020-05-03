@@ -3,6 +3,7 @@ package com.js.nowakelock.xposedhook
 import android.os.Process
 import com.js.nowakelock.BuildConfig
 import com.js.nowakelock.xposedhook.alarm.AlarmHook
+import com.js.nowakelock.xposedhook.service.ServiceHook
 import com.js.nowakelock.xposedhook.wakelock.WakelockHook
 import de.robv.android.xposed.*
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
@@ -31,6 +32,7 @@ open class XposedModule : IXposedHookZygoteInit, IXposedHookLoadPackage {
 //            hookWakeLocks(lpparam, AndroidAppHelper.currentApplication())
 //            xptest.hookWakeLocks(lpparam)
             AlarmHook.hookAlarm(lpparam)
+            ServiceHook.hookService(lpparam)
             WakelockHook.hookWakeLocks(lpparam)
         }
 //        if (lpparam.packageName.equals(BuildConfig.APPLICATION_ID)) {
