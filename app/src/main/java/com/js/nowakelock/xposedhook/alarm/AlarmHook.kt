@@ -27,49 +27,57 @@ class AlarmHook {
         private var updateSettingTime: Long = 0
 
         fun hookAlarm(lpparam: XC_LoadPackage.LoadPackageParam) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+
+            when (Build.VERSION.SDK_INT) {
                 //Try for alarm hooks for API levels >= 29 (Q or higher)
-                XposedHelpers.findAndHookMethod("com.android.server.AlarmManagerService",
-                    lpparam.classLoader,
-                    "triggerAlarmsLocked",
-                    ArrayList::class.java,
-                    Long::class.javaPrimitiveType,
-                    object : XC_MethodHook() {
-                        @Throws(Throwable::class)
-                        override fun afterHookedMethod(param: MethodHookParam) {
-                            val triggerList = param.args[0] as ArrayList<Any>
-                            val nowELAPSED = param.args[1] as Long
-                            val context = XposedHelpers.getObjectField(
-                                param.thisObject,
-                                "mContext"
-                            ) as Context
-//                            log("Alarm Q ${triggerList.size} $nowELAPSED")
-                            hookAlarmsLocked(param, triggerList, context)
-                        }
-                    })
-            } else {
+                Build.VERSION_CODES.Q -> alarmHook29(lpparam)
                 //Try for alarm hooks for API levels < 29 > 24.(N ~ P)
-                XposedHelpers.findAndHookMethod("com.android.server.AlarmManagerService",
-                    lpparam.classLoader,
-                    "triggerAlarmsLocked",
-                    ArrayList::class.java,
-                    Long::class.javaPrimitiveType,
-                    Long::class.javaPrimitiveType,
-                    object : XC_MethodHook() {
-                        @Throws(Throwable::class)
-                        override fun afterHookedMethod(param: MethodHookParam) {
-                            val triggerList = param.args[0] as ArrayList<Any>
-                            val nowELAPSED = param.args[1] as Long
-                            val nowRTC = param.args[2] as Long
-//                            log("Alarm N ${triggerList.size} $nowELAPSED $nowRTC")
-                            val context = XposedHelpers.getObjectField(
-                                param.thisObject,
-                                "mContext"
-                            ) as Context
-                            hookAlarmsLocked(param, triggerList, context)
-                        }
-                    })
+                in Build.VERSION_CODES.N..Build.VERSION_CODES.P -> alarmHook24to28(lpparam)
             }
+        }
+
+        private fun alarmHook29(lpparam: XC_LoadPackage.LoadPackageParam) {
+            XposedHelpers.findAndHookMethod("com.android.server.AlarmManagerService",
+                lpparam.classLoader,
+                "triggerAlarmsLocked",
+                ArrayList::class.java,
+                Long::class.javaPrimitiveType,
+                object : XC_MethodHook() {
+                    @Throws(Throwable::class)
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        val triggerList = param.args[0] as ArrayList<Any>
+                        val nowELAPSED = param.args[1] as Long
+                        val context = XposedHelpers.getObjectField(
+                            param.thisObject,
+                            "mContext"
+                        ) as Context
+//                            log("Alarm Q ${triggerList.size} $nowELAPSED")
+                        hookAlarmsLocked(param, triggerList, context)
+                    }
+                })
+        }
+
+        private fun alarmHook24to28(lpparam: XC_LoadPackage.LoadPackageParam) {
+            XposedHelpers.findAndHookMethod("com.android.server.AlarmManagerService",
+                lpparam.classLoader,
+                "triggerAlarmsLocked",
+                ArrayList::class.java,
+                Long::class.javaPrimitiveType,
+                Long::class.javaPrimitiveType,
+                object : XC_MethodHook() {
+                    @Throws(Throwable::class)
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        val triggerList = param.args[0] as ArrayList<Any>
+                        val nowELAPSED = param.args[1] as Long
+                        val nowRTC = param.args[2] as Long
+//                            log("Alarm N ${triggerList.size} $nowELAPSED $nowRTC")
+                        val context = XposedHelpers.getObjectField(
+                            param.thisObject,
+                            "mContext"
+                        ) as Context
+                        hookAlarmsLocked(param, triggerList, context)
+                    }
+                })
         }
 
         // handle alarm
