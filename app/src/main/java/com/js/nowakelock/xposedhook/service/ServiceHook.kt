@@ -1,5 +1,6 @@
 package com.js.nowakelock.xposedhook.service
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import com.js.nowakelock.xposedhook.log
@@ -37,6 +38,11 @@ class ServiceHook {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
                         log("serviceHook29")
+                        val callingPackage = param.args[6] as String
+                        val context = XposedHelpers.getObjectField(
+                            param.thisObject, "mContext"
+                        ) as Context
+                        hookStartServiceLocked(param, callingPackage, context)
                     }
                 })
         }
@@ -57,6 +63,11 @@ class ServiceHook {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
                         log("serviceHook26to28")
+                        val callingPackage = param.args[6] as String
+                        val context = XposedHelpers.getObjectField(
+                            param.thisObject, "mContext"
+                        ) as Context
+                        hookStartServiceLocked(param, callingPackage, context)
                     }
                 })
         }
@@ -76,8 +87,22 @@ class ServiceHook {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
                         log("serviceHook24to25")
+                        val callingPackage = param.args[5] as String
+                        val context = XposedHelpers.getObjectField(
+                            param.thisObject, "mContext"
+                        ) as Context
+                        hookStartServiceLocked(param, callingPackage, context)
                     }
                 })
+        }
+
+        private fun hookStartServiceLocked(
+            param: XC_MethodHook.MethodHookParam,
+            callingPackage: String,
+            context: Context
+        ) {
+            val serviceName: String = serviceIntent.getComponent().flattenToShortString()
+            log("service : $callingPackage")
         }
     }
 }
