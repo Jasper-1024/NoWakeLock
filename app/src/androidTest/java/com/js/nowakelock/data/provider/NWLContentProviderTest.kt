@@ -10,7 +10,6 @@ import com.js.nowakelock.base.WLUtil
 import com.js.nowakelock.data.TestData
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.entity.WakeLock_st
-import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -22,10 +21,6 @@ class NWLContentProviderTest {
 
     private val authority = "com.js.nowakelock"
 
-//    private val packageName = "PackageName"
-//    private val wakelockName = "WakelockName"
-//    private val flaG = "Flag"
-
     @Before
     fun setUp() {
         val context = ApplicationProvider.getApplicationContext<Context>()
@@ -33,40 +28,8 @@ class NWLContentProviderTest {
         mContentResolver = context.contentResolver
     }
 
-    //    @Test
-//    fun query() {
-////        runBlocking {
-////            db.appInfoDao().insertAll(TestData.appInfos)
-////            db.wakeLockDao().insertAll(TestData.wakeLocks)
-////        }
-//
-//        val url = Uri.parse("content://$authority/flag")
-//        val tmp = mContentResolver?.query(url, arrayOf(""), "p1", null, null)
-//
-//
-//        assertThat<Cursor>(tmp, Matchers.notNullValue())
-//        assertEquals(tmp?.count, 0)
-//    }
-//
-//    @Test
-//    fun insert() {
-//        val url = Uri.parse("content://$authority/upCount")
-//        val newValues = ContentValues().apply {
-//            /*
-//             * Sets the values of each column and inserts the word. The arguments to the "put"
-//             * method are "column name" and "value"
-//             */
-//            put(packageName, "example.user")
-//            put(wakelockName, "en_US")
-//        }
-//
-//        val tmp = mContentResolver?.insert(url, newValues)
-//
-//        LogUtil.d("test1", tmp.toString())
-//
-//    }
     @Test
-    fun call() {
+    fun callTest() {
         val method = "test"
         val url = Uri.parse("content://$authority")
 
@@ -82,6 +45,26 @@ class NWLContentProviderTest {
         assertEquals(bundle.getString("Test"), "Test")
         LogUtil.d("test1", tmp2.toString())
         assertEquals(tmp2["test"]?.flag, false)
+    }
+
+    @Test
+    fun callTest2() {
+        val method = "test"
+        val url = Uri.parse("content://$authority")
+
+        val extras = Bundle()
+        extras.putParcelable("Test", com.js.nowakelock.test.Test("test1", "package1", 2, 2, 2, 2))
+
+        val bundle = mContentResolver?.call(url, method, null, extras)
+        if (bundle != null) {
+            LogUtil.d("test1", bundle.toString())
+        }
+
+        val tmp2 = bundle!!.getParcelable<com.js.nowakelock.test.Test?>("Test")
+
+        LogUtil.d("test12", tmp2.toString())
+//        assertEquals(bundle.getString("Test"), "Test")
+//        assertEquals(tmp2["test"]?.flag, false)
     }
 
     @Test
@@ -102,19 +85,6 @@ class NWLContentProviderTest {
 
         val extras = WLUtil.getBundle(TestData.wakeLocks[0])
         mContentResolver?.call(url, method, null, extras)
-//        if (bundle != null) {
-//            LogUtil.d("test1", bundle.toString())
-//        }
-//        try {
-//            var tmp =
-//                runBlocking { db.wakeLockDao().loadWakeLock(TestData.wakeLocks[0].wakeLockName) }
-//            LogUtil.d("test1", "$tmp")
-//        } catch (e: Exception) {
-//            LogUtil.d("test1", e.toString())
-//        }
-
-
-//        assertEquals(bundle!!.getString("Test"), "Test")
     }
 }
 

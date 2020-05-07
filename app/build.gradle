@@ -42,6 +42,13 @@ android {
         enabled = true
     }
 
+    //for @Parcelize
+    androidExtensions {
+//        features = ["parcelize"]
+        experimental = true
+    }
+
+
     buildTypes {
         release {
             minifyEnabled false
