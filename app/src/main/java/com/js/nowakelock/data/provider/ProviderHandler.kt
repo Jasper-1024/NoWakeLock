@@ -2,11 +2,17 @@ package com.js.nowakelock.data.provider
 
 import android.content.Context
 import android.os.Bundle
+import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.data.db.AppDatabase
+import com.js.nowakelock.data.db.entity.Alarm
+import com.js.nowakelock.data.db.entity.WakeLock
 import com.js.nowakelock.xposedhook.model.DB
 import com.js.nowakelock.xposedhook.model.DBModel
 import com.js.nowakelock.xposedhook.model.STModel
 import com.js.nowakelock.xposedhook.model.XPM
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlin.reflect.KSuspendFunction1
 
 class ProviderHandler(
     context: Context
@@ -17,35 +23,49 @@ class ProviderHandler(
 
     companion object {
         @Volatile
-        private var instance: ProviderHandle? = null
+        private var instance: ProviderHandler? = null
 
-        fun getInstance(context: Context): ProviderHandle {
+        fun getInstance(context: Context): ProviderHandler {
             if (instance == null) {
-                instance = ProviderHandle(context)
+                instance = ProviderHandler(context)
             }
             return instance!!
         }
     }
 
     fun getMethod(methodName: String, bundle: Bundle): Bundle? {
-        return null
+        return when (methodName) {
+            XPM.dbMethod -> db(bundle)
+            else -> null
+        }
     }
 
-    fun getType(bundle: Bundle): String {
+    private fun getType(bundle: Bundle): String {
         return bundle.getString(XPM.type) ?: ""
     }
 
     private fun db(bundle: Bundle): Bundle? {
+//        LogUtil.d("Xposed.NoWakeLock","db")
         val tmp = getDBModel(bundle)
-        return dbMethod(getType(bundle))(tmp.dbHM.values)
+        tmp?.let {
+            GlobalScope.launch {
+                try {
+                    dbMethod(getType(bundle))(tmp.dbHM.values)
+                } catch (e: Exception) {
+                    LogUtil.d(TAG, e.toString())
+                }
+            }
+        }
+        return null
     }
 
-    private fun getDBModel(bundle: Bundle): DBModel {
-        val tmp = bundle.getSerializable(XPM.db) as DBModel
-        return tmp
+    private fun getDBModel(bundle: Bundle): DBModel? {
+        val tmp = bundle.getSerializable(XPM.db)
+//        LogUtil.d("Xposed.NoWakeLock","db tmp1 $tmp")
+        return tmp as DBModel?
     }
 
-    private fun dbMethod(type: String): (MutableCollection<DB>) -> Bundle? {
+    private suspend fun dbMethod(type: String): KSuspendFunction1<MutableCollection<DB>, Unit> {
         return when (type) {
             XPM.alarm -> ::dbAlarm
             XPM.service -> ::dbService
@@ -54,20 +74,31 @@ class ProviderHandler(
         }
     }
 
-    private fun dbAlarm(list: MutableCollection<DB>): Bundle? {
-        return null
+    private suspend fun dbAlarm(list: MutableCollection<DB>) {
+        list.forEach {
+            val tmp: Alarm = db.alarmDao().loadAlarm(it.name)
+                ?: Alarm(it.name, it.packageName)
+            tmp.count += it.count
+            tmp.blockCount += it.blockCount
+            db.alarmDao().insert(tmp)
+        }
     }
 
-    private fun dbWakelock(list: MutableCollection<DB>): Bundle? {
-        return null
+    private suspend fun dbWakelock(list: MutableCollection<DB>) {
+        list.forEach {
+            val tmp: WakeLock = db.wakeLockDao().loadWakeLock(it.name)
+                ?: WakeLock(it.name, it.packageName)
+            tmp.countTime += it.countTime
+            tmp.blockCountTime += it.blockCountTime
+            db.wakeLockDao().insert(tmp)
+        }
     }
 
-    private fun dbService(list: MutableCollection<DB>): Bundle? {
-        return null
+    private suspend fun dbService(list: MutableCollection<DB>) {
+        //TODO()
     }
 
-    private fun update(list: MutableCollection<DB>): Bundle? {
-        return null
+    private suspend fun update(list: MutableCollection<DB>) {
     }
 
     private fun st(bundle: Bundle): Bundle? {

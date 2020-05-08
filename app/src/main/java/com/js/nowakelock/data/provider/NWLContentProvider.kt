@@ -33,7 +33,8 @@ class NWLContentProvider : ContentProvider() {
         if (extras == null) {
             return null
         }
-        return context?.let { ProviderHandle.getInstance(it).getMethod(method, extras) }
+        LogUtil.d("Xposed.NoWakeLock", "call $method, $extras")
+        return context?.let { ProviderHandler.getInstance(it).getMethod(method, extras) }
     }
 
 
@@ -52,21 +53,4 @@ class NWLContentProvider : ContentProvider() {
         return 0
     }
 
-//    private fun getStatus(pN: String, wN: String): Int {
-////        var t1 = db.wakeLockDao().loadPackageName(pN)
-////        var t2 = db.wakeLockDao().loadWakelockName(wN)
-////
-////        LogUtil.d("test1", t1.toString())
-////        LogUtil.d("test1",t2)
-//
-//        if (db.wakeLockDao().loadPackageName(pN) == null) {
-//            return 0
-//        } else {
-//            if (db.wakeLockDao().loadWakelockName(wN) == null) {
-//                return 1
-//            } else {
-//                return 2
-//            }
-//        }
-//    }
 }

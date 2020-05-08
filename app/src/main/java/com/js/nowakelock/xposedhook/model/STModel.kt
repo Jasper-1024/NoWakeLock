@@ -6,7 +6,7 @@ data class STModel(
 
     var recordFlag: Boolean = true,//allow record?
 
-    var updateDb: Long = 180000,//update db time interval
+    var updateDb: Long = 30000,//update db time interval
 
     var updateST: Long = 60000,//update ST time interval
 

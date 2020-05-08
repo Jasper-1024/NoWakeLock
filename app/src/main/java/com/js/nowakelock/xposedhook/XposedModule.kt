@@ -4,6 +4,7 @@ import android.os.Process
 import com.js.nowakelock.BuildConfig
 import com.js.nowakelock.xposedhook.alarm.AlarmHook
 import com.js.nowakelock.xposedhook.service.ServiceHook
+import com.js.nowakelock.xposedhook.test.WakelockHook2
 import com.js.nowakelock.xposedhook.wakelock.WakelockHook
 import de.robv.android.xposed.*
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
@@ -25,25 +26,11 @@ open class XposedModule : IXposedHookZygoteInit, IXposedHookLoadPackage {
         pN = lpparam.packageName
 //        XposedBridge.log("$TAG $pN: handleLoadPackage ,mypid ${Process.myUid()}")
 
-//        XpUtil2.init()
-
         if (lpparam.packageName == "android") {
-//            XposedBridge.log("$TAG $pN:2 handleLoadPackage ,uid ${Process.myUid()}")
-//            hookWakeLocks(lpparam, AndroidAppHelper.currentApplication())
-//            xptest.hookWakeLocks(lpparam)
-            AlarmHook.hookAlarm(lpparam)
-            ServiceHook.hookService(lpparam)
-            WakelockHook.hookWakeLocks(lpparam)
+//            AlarmHook.hookAlarm(lpparam)
+//            ServiceHook.hookService(lpparam)
+//            WakelockHook.hookWakeLocks(lpparam)
+            WakelockHook2.hookWakeLocks(lpparam)
         }
-//        if (lpparam.packageName.equals(BuildConfig.APPLICATION_ID)) {
-//
-//            // don't use YourActivity.class here
-//
-//            findAndHookMethod(
-//                "${BuildConfig.APPLICATION_ID}.MainActivity", lpparam.classLoader,
-//
-//                "isModuleActive", XC_MethodReplacement.returnConstant(true)
-//            )
-//        }
     }
 }
