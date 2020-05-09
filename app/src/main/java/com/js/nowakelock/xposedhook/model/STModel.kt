@@ -8,7 +8,7 @@ data class STModel(
 
     var updateDb: Long = 30000,//update db time interval
 
-    var updateST: Long = 60000,//update ST time interval
+    var updateST: Long = 30000,//update ST time interval
 
     var flagHM: HashMap<String, Boolean> = HashMap<String, Boolean>(), //flag
 

@@ -35,7 +35,7 @@ class BasicApp : Application() {
         registerPowerConnectionReceiver()
     }
 
-    fun registerPowerConnectionReceiver() {
+    private fun registerPowerConnectionReceiver() {
         val filter = IntentFilter()
         filter.addAction(Intent.ACTION_POWER_CONNECTED)
         filter.addAction(Intent.ACTION_POWER_DISCONNECTED)

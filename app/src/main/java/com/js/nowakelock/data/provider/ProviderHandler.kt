@@ -2,6 +2,8 @@ package com.js.nowakelock.data.provider
 
 import android.content.Context
 import android.os.Bundle
+import androidx.preference.PreferenceManager
+import com.js.nowakelock.BasicApp
 import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.entity.Alarm
@@ -10,8 +12,10 @@ import com.js.nowakelock.xposedhook.model.DB
 import com.js.nowakelock.xposedhook.model.DBModel
 import com.js.nowakelock.xposedhook.model.STModel
 import com.js.nowakelock.xposedhook.model.XPM
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlin.reflect.KSuspendFunction1
 
 class ProviderHandler(
@@ -36,6 +40,7 @@ class ProviderHandler(
     fun getMethod(methodName: String, bundle: Bundle): Bundle? {
         return when (methodName) {
             XPM.dbMethod -> db(bundle)
+            XPM.stMethod -> st(bundle)
             else -> null
         }
     }
@@ -102,7 +107,15 @@ class ProviderHandler(
     }
 
     private fun st(bundle: Bundle): Bundle? {
-        return null
+//        LogUtil.d("Xposed.NoWakeLock", "st")
+        return stBundle(stMethod(getType(bundle)).invoke())
+    }
+
+    private fun stBundle(stModel: STModel): Bundle {
+//        LogUtil.d("Xposed.NoWakeLock", "stBundle $stModel")
+        return Bundle().apply {
+            putSerializable(XPM.st, stModel)
+        }
     }
 
     private fun stMethod(type: String): () -> STModel {
@@ -115,7 +128,19 @@ class ProviderHandler(
     }
 
     private fun stAlarm(): STModel {
-        TODO()
+        val tmp = STModel()
+
+        runBlocking(Dispatchers.IO) {
+            db.alarmDao().loadAlarm_st().forEach {
+                tmp.flagHM[it.alarmName] = it.flag
+                tmp.atIHM[it.alarmName] = it.allowTimeinterval
+            }
+            db.appInfoDao().loadAppSettings().forEach {
+                tmp.rEHM[it.packageName] = it.rE_Alarm
+            }
+            getSetting(tmp)
+        }
+        return tmp
     }
 
     private fun stService(): STModel {
@@ -123,10 +148,30 @@ class ProviderHandler(
     }
 
     private fun stWakelock(): STModel {
-        TODO()
+        val tmp = STModel()
+
+        runBlocking(Dispatchers.IO) {
+            db.wakeLockDao().loadWakeLock_st().forEach {
+                tmp.flagHM[it.wakeLockName] = it.flag
+                tmp.atIHM[it.wakeLockName] = it.allowTimeinterval
+            }
+            db.appInfoDao().loadAppSettings().forEach {
+                tmp.rEHM[it.packageName] = it.rE_Wakelock
+            }
+            getSetting(tmp)
+        }
+        return tmp
+    }
+
+    private fun getSetting(stModel: STModel) {
+        val sharedPreferences =
+            PreferenceManager.getDefaultSharedPreferences(BasicApp.context)
+        stModel.recordFlag = sharedPreferences.getBoolean("recordFlag", true)
+        stModel.updateDb = (sharedPreferences.getInt("updateDb", 120) * 1000).toLong()
+        stModel.updateST = (sharedPreferences.getInt("updateST", 60) * 1000).toLong()
     }
 
     private fun st(): STModel {
-        TODO()
+        return STModel()
     }
 }

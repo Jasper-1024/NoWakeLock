@@ -29,12 +29,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
             themePreference.onPreferenceChangeListener =
                 Preference.OnPreferenceChangeListener { preference, newValue ->
                     val themeOption = newValue as String
-
-//                    if (themeOption.equals("black")) {
-//                        activity?.setTheme(R.style.Black)
-//                    }
-//                    LogUtil.d("test1", themeOption)
-
                     ThemeHelper.applyTheme(themeOption)
                     true
                 }

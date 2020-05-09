@@ -17,5 +17,36 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:key="sync"
+        android:title="@string/sync">
+
+        <SwitchPreferenceCompat
+            app:key="recordFlag"
+            app:summary="@string/recordFlag_summary"
+            app:title="@string/recordFlag_title" />
+
+        <SeekBarPreference
+            android:max="300"
+            app:defaultValue="120"
+            app:dependency="recordFlag"
+            app:key="updateDb"
+            app:min="60"
+            app:showSeekBarValue="true"
+            app:summary="@string/updateDb_summary"
+            app:title="@string/updateDb_title" />
+
+        <SeekBarPreference
+            android:max="300"
+            app:defaultValue="60"
+            app:key="updateST"
+            app:min="60"
+            app:showSeekBarValue="true"
+            app:summary="@string/updateST_summary"
+            app:title="@string/updateST_title" />
+
+
+    </PreferenceCategory>
+
 </PreferenceScreen>
 

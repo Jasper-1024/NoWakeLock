@@ -33,7 +33,7 @@ class NWLContentProvider : ContentProvider() {
         if (extras == null) {
             return null
         }
-        LogUtil.d("Xposed.NoWakeLock", "call $method, $extras")
+//        LogUtil.d("Xposed.NoWakeLock", "call $method, $extras")
         return context?.let { ProviderHandler.getInstance(it).getMethod(method, extras) }
     }
 

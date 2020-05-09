@@ -5,6 +5,11 @@
     <string name="test">Test</string>
     <string name="android">Android System</string>
     <string name="settings">Settings</string>
+    <string name="sync">Sync</string>
+    <string name="recordFlag_title">Record data</string>
+    <string name="recordFlag_summary">Record device wake-up data</string>
+    <string name="updateDb_title">Data synchronization</string>
+    <string name="updateDb_summary">Wake-up data synchronization interval(second)</string>
     <string name="theme">Theme</string>
     <string name="theme_list">General theme</string>
     <string name="light_theme_name">Light</string>
@@ -47,4 +52,6 @@
     <string name="Re_Alarm">定时器正则(一个规则一行)</string>
     <string name="Re_Wakelock">唤醒锁正则(一个规则一行)</string>
     <string name="Save">Save</string>
+    <string name="updateST_summary">同步禁用唤醒等配置信息</string>
+    <string name="updateST_title">同步设置</string>
 </resources>

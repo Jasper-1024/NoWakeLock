@@ -1,41 +1,27 @@
 package com.js.nowakelock.xposedhook.wakelock
 
 import android.content.Context
-import android.net.Uri
 import android.os.IBinder
 import android.os.SystemClock
 import android.os.WorkSource
-import com.js.nowakelock.base.WLUtil
-import com.js.nowakelock.data.db.entity.WakeLock
-import com.js.nowakelock.xposedhook.TAG
-import com.js.nowakelock.xposedhook.authority
-import com.js.nowakelock.xposedhook.log
-import com.js.nowakelock.xposedhook.test.xptest
+import com.js.nowakelock.xposedhook.XpUtil
+import com.js.nowakelock.xposedhook.model.Model
+import com.js.nowakelock.xposedhook.model.XPM
+import com.js.nowakelock.xposedhook.model.mModel
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class WakelockHook {
     companion object {
         //        private var wlModel: WLModel = mWLmodel() //wlmodel
-        private var wlModel: WLModel = mWLmodel2() //wlmodel
+        private val model: Model = mModel(XPM.wakelock)
+
+//        @Volatile
+//        private var wls = HashMap<IBinder, WakeLock>()//wakelock witch active
 
         @Volatile
-        private var wls = HashMap<IBinder, WakeLock>()//wakelock witch active
-
-        @Volatile
-        private var lastAllowTiem = HashMap<String, Long>()//wakelock last allow time
-
-        // update Setting interval
-        private var updateSetting: Long = 60000 //Save every minutes
-        private var updateSettingTime: Long = 0
-
-        //update DB interval
-        private var updateDB: Long = 180000 //Save every three minutes
-        private var updateDBTime: Long = 0
+        private var lastAllowTime = HashMap<String, Long>()//wakelock last allow time
 
         fun hookWakeLocks(lpparam: XC_LoadPackage.LoadPackageParam) {
             XposedHelpers.findAndHookMethod("com.android.server.power.PowerManagerService",
@@ -66,7 +52,14 @@ class WakelockHook {
                             param.thisObject,
                             "mContext"
                         ) as Context
-                        handleWakeLockAcquire(param, pN, wN, lock, uId, context)
+                        handleWakeLockAcquire(
+                            param,
+                            pN,
+                            wN,
+                            lock,
+                            uId,
+                            context
+                        )
                     }
                 })
 
@@ -83,7 +76,11 @@ class WakelockHook {
                             "mContext"
                         ) as Context
                         val lock = param.args[0] as IBinder
-                        handleWakeLockRelease(param, lock, context)
+                        handleWakeLockRelease(
+                            param,
+                            lock,
+                            context
+                        )
                     }
                 })
         }
@@ -97,23 +94,23 @@ class WakelockHook {
             uId: Int,
             context: Context
         ) {
-
-            // get wakelock
-            val wakeLock: WakeLock = wls[lock] ?: WakeLock(wN, pN, uId)
-            wls[lock] = wakeLock //add wakelock ,just in case.
-
-            wLup(wakeLock)
-
-            val flag = flag(wN, wlModel.getRe(pN), wlModel.getAllowTimeinterval(wN))
+            val flag =
+                flag(
+                    wN,
+                    pN,
+                    lastAllowTime[wN]
+                        ?: 0
+                )
             // allow wakelock
             if (flag) {
-                lastAllowTiem[wN] = SystemClock.elapsedRealtime()//update last allow time
+                model.upCount(wN, pN)
+                lastAllowTime[wN] = SystemClock.elapsedRealtime()//update last allow time
             } else {//block wakelock
-                log("$pN wakeLock:$wN block")
+                XpUtil.log("$pN wakeLock:$wN block")
+                model.upBlockCount(wN, pN)
                 param.result = null //block wakelock
-                wLupBlock(wakeLock)
             }
-            handleTimer(context)
+            model.handleTimer(context)
         }
 
         //handle wakelock release
@@ -122,87 +119,21 @@ class WakelockHook {
             lock: IBinder,
             context: Context
         ) {
-
-            // get wakelock
-            val wakeLock: WakeLock = wls[lock] ?: return
-
-            //record
-            GlobalScope.launch(Dispatchers.IO) {
-                xptest.record(context, wakeLock)
-            }
-
-            //remove index
-            wls.remove(lock)
-
-            handleTimer(context)
+//            val flag = flag(wN, pN, lastAllowTime[wN] ?: 0)
+//            if (flag) {
+//                model.upCount(wN,pN)
+//                lastAllowTime[wN] = SystemClock.elapsedRealtime()//update last allow time
+//            } else {//block wakelock
+//                log("$pN wakeLock:$wN block")
+//                model.upBlockCount(wN,pN)
+//                param.result = null //block wakelock
+//            }
+            model.handleTimer(context)
         }
 
         // get weather wakelock should block or not
-        private fun flag(wN: String, list: Set<String>, aTI: Long): Boolean {
-            return wlModel.getFlag(wN) && rE(wN, list) && aTI(wN, aTI)
+        private fun flag(wN: String, packageName: String, aTI: Long): Boolean {
+            return model.flag(wN) && model.re(wN, packageName) && model.aTi(wN, aTI)
         }
-
-        private fun rE(wN: String, rE: Set<String>): Boolean {
-            if (rE.isEmpty()) {
-                return true
-            } else {
-                rE.forEach {
-                    if (wN.matches(Regex(it))) {
-                        return false
-                    }
-                }
-                return true
-            }
-        }
-
-        private fun aTI(wN: String, aTI: Long): Boolean {
-            return (SystemClock.elapsedRealtime() - (lastAllowTiem[wN] ?: 0)) >= aTI
-        }
-
-        private fun wLup(wakeLock: WakeLock) {
-            wakeLock.count++
-//            wLupTime(wakeLock)
-        }
-
-        private fun wLupBlock(wakeLock: WakeLock) {
-            wakeLock.blockCount++
-//            wlupBTime(wakeLock)
-        }
-
-        @Synchronized
-        private fun handleTimer(context: Context) {
-            val now = SystemClock.elapsedRealtime()
-            // update db
-            if (now - updateDBTime > updateDB) {
-                GlobalScope.launch(Dispatchers.Default) {
-                    try {
-                        wls.values.forEach {
-                            record(context, it)
-                        }
-                    } catch (e: Exception) {
-                        log("wakelock handleTimer err: $e")
-                    }
-                }
-                updateDBTime = now
-            }
-            //update setting
-            if (now - updateSettingTime > updateSetting) {
-                wlModel.reloadst(context)
-                updateSettingTime = now
-//                log("$TAG wakeLock: update setting")
-            }
-        }
-
-        private fun record(context: Context, wakeLock: WakeLock) {
-            val method = "saveWL"
-            val url = Uri.parse("content://${authority}")
-            val contentResolver = context.contentResolver
-            try {
-                contentResolver.call(url, method, null, WLUtil.getBundle(wakeLock))
-            } catch (e: Exception) {
-                log("$TAG : record ${wakeLock.wakeLockName} ${wakeLock.packageName} err: $e")
-            }
-        }
-
     }
 }

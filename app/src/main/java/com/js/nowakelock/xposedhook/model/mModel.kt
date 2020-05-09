@@ -76,7 +76,7 @@ class mModel(var type: String) : Model {
 
     private fun updateDB(context: Context) {
         if (db.dbHM.size == 0) return
-        XpUtil.log("handleTimer db")
+//        XpUtil.log("handleTimer db")
         GlobalScope.launch {
             try {
                 val tmp = Bundle()
@@ -103,6 +103,7 @@ class mModel(var type: String) : Model {
                 tmp.putString(XPM.type, type)
                 val bundle = call(XPM.stMethod, tmp, context)//get st
                 bundle?.let { bun ->//if bundle not null
+//                    XpUtil.log("handleTimer st bundle: $bun")
                     bun.getSerializable(XPM.st)?.let {//get st
                         synchronized(this) {
                             st = it as STModel
