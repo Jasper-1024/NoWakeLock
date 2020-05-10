@@ -1,10 +1,9 @@
-package com.js.nowakelock.xposedhook.wakelock
+package com.js.nowakelock.xposedhook
 
 import android.content.Context
 import android.os.IBinder
 import android.os.SystemClock
 import android.os.WorkSource
-import com.js.nowakelock.xposedhook.XpUtil
 import com.js.nowakelock.xposedhook.model.Model
 import com.js.nowakelock.xposedhook.model.XPM
 import com.js.nowakelock.xposedhook.model.mModel
@@ -94,20 +93,14 @@ class WakelockHook {
             uId: Int,
             context: Context
         ) {
-            val flag =
-                flag(
-                    wN,
-                    pN,
-                    lastAllowTime[wN]
-                        ?: 0
-                )
+            val flag = flag(wN, pN, lastAllowTime[wN] ?: 0)
             // allow wakelock
             if (flag) {
-                model.upCount(wN, pN)
+                model.upCountTime(wN, pN, 0)
                 lastAllowTime[wN] = SystemClock.elapsedRealtime()//update last allow time
             } else {//block wakelock
                 XpUtil.log("$pN wakeLock:$wN block")
-                model.upBlockCount(wN, pN)
+                model.upBlockCountTime(wN, pN, 0)
                 param.result = null //block wakelock
             }
             model.handleTimer(context)

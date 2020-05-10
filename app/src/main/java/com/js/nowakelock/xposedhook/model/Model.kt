@@ -12,6 +12,6 @@ interface Model {
     fun upCount(name: String, packageName: String)
     fun upBlockCount(name: String, packageName: String)
 
-//    fun upCountTime(name: String, time: Long)
-//    fun upBlockCountTime(name: String, time: Long)
+    fun upCountTime(name: String, packageName: String, time: Long)
+    fun upBlockCountTime(name: String, packageName: String, time: Long)
 }

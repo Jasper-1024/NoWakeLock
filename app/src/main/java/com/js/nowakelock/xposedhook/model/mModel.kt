@@ -42,16 +42,16 @@ class mModel(var type: String) : Model {
     }
 
     override fun re(name: String, packageName: String): Boolean {
-        val rE: Set<String> = st.rEHM[name] ?: mutableSetOf()
+        val rE: Set<String> = st.rEHM[packageName] ?: mutableSetOf()
+//        XpUtil.log("type:$type pN:$packageName $name re:$rE")
         if (rE.isEmpty()) {
             return true
         } else {
-            val tmp = mutableSetOf<String>()
-            synchronized(this) {
-                tmp.addAll(rE)
-            }
-
-            tmp.forEach {
+//            val tmp = mutableSetOf<String>()
+//            synchronized(this) {
+//                tmp.addAll(rE)
+//            }
+            rE.forEach {
                 if (name.matches(Regex(it))) {
                     return false
                 }
@@ -63,14 +63,27 @@ class mModel(var type: String) : Model {
 
     override fun upCount(name: String, packageName: String) {
         val tmp: DB = db.dbHM[name] ?: DB(name, packageName)
-//        tmp.count++
+        tmp.count++
         db.dbHM[name] = tmp
     }
 
     override fun upBlockCount(name: String, packageName: String) {
         val tmp: DB = db.dbHM[name] ?: DB(name, packageName)
-//        tmp.count++
-//        tmp.blockCount++
+        tmp.count++
+        tmp.blockCount++
+        db.dbHM[name] = tmp
+    }
+
+    override fun upCountTime(name: String, packageName: String, time: Long) {
+        val tmp: DB = db.dbHM[name] ?: DB(name, packageName)
+        tmp.countTime += time
+        db.dbHM[name] = tmp
+    }
+
+    override fun upBlockCountTime(name: String, packageName: String, time: Long) {
+        val tmp: DB = db.dbHM[name] ?: DB(name, packageName)
+        tmp.countTime += time
+        tmp.blockCountTime += time
         db.dbHM[name] = tmp
     }
 
@@ -110,6 +123,7 @@ class mModel(var type: String) : Model {
                         }
                     }
                 }
+//                XpUtil.log("type:$type handleTimer st: $st")
             } catch (e: Exception) {
                 XpUtil.log("handleTimer st err: $e")
             }

@@ -1,26 +1,24 @@
-package com.js.nowakelock.xposedhook.alarm
+package com.js.nowakelock.xposedhook
 
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
-import android.os.Bundle
 import android.os.SystemClock
-import com.js.nowakelock.xposedhook.authority
-import com.js.nowakelock.xposedhook.log
+import com.js.nowakelock.xposedhook.model.Model
+import com.js.nowakelock.xposedhook.model.XPM
+import com.js.nowakelock.xposedhook.model.mModel
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.util.*
+
 
 class AlarmHook {
     companion object {
 
-        // alarm model
-        private val alModel: AlarmModel = mAlarmModel()
+        // model
+        private val model: Model = mModel(XPM.alarm)
 
         // update Setting interval
         private var updateSetting: Long = 60000 //Save every minutes
@@ -30,9 +28,13 @@ class AlarmHook {
 
             when (Build.VERSION.SDK_INT) {
                 //Try for alarm hooks for API levels >= 29 (Q or higher)
-                Build.VERSION_CODES.Q -> alarmHook29(lpparam)
+                Build.VERSION_CODES.Q -> alarmHook29(
+                    lpparam
+                )
                 //Try for alarm hooks for API levels < 29 > 24.(N ~ P)
-                in Build.VERSION_CODES.N..Build.VERSION_CODES.P -> alarmHook24to28(lpparam)
+                in Build.VERSION_CODES.N..Build.VERSION_CODES.P -> alarmHook24to28(
+                    lpparam
+                )
             }
         }
 
@@ -52,7 +54,11 @@ class AlarmHook {
                             "mContext"
                         ) as Context
 //                            log("Alarm Q ${triggerList.size} $nowELAPSED")
-                        hookAlarmsLocked(param, triggerList, context)
+                        hookAlarmsLocked(
+                            param,
+                            triggerList,
+                            context
+                        )
                     }
                 })
         }
@@ -75,7 +81,11 @@ class AlarmHook {
                             param.thisObject,
                             "mContext"
                         ) as Context
-                        hookAlarmsLocked(param, triggerList, context)
+                        hookAlarmsLocked(
+                            param,
+                            triggerList,
+                            context
+                        )
                     }
                 })
         }
@@ -86,63 +96,45 @@ class AlarmHook {
             triggerList: ArrayList<Any>,
             context: Context
         ) {
-            val now = SystemClock.elapsedRealtime() //real time
-            for (i in 0 until triggerList.size) {
-                val pi: PendingIntent =
-                    XposedHelpers.getObjectField(triggerList[i], "operation") as PendingIntent?
-                        ?: continue
-                val intent: Intent = getIntent(pi) ?: continue
-                val alarmName: String = getName(intent) ?: continue
-                val packageName: String = pi.creatorPackage ?: continue
+//            val now = SystemClock.elapsedRealtime() //real time
+            var alarmName = ""
+            var packageName = ""
 
-//                log("hookAlarmsLocked alarmName:$alarmName  ")
-//                log("hookAlarmsLocked packageName:$packageName")
+            XpUtil.log(" alarmlist: ${triggerList.size};$triggerList")
+            for (i in 0 until triggerList.size) {
+
+                try {
+                    val tmp = triggerList[i]
+                    val tmp2 = tmp.javaClass.getDeclaredField("statsTag").get(tmp) as String
+                    alarmName = tmp2.replace(Regex("\\*.*\\*:"), "")
+                    packageName = tmp.javaClass.getDeclaredField("packageName").get(tmp) as String
+                } catch (e: Exception) {
+                    XpUtil.log(" alarm: hookAlarmsLocked err:$e")
+                    continue
+                }
 
                 // block or not
-                val flag = flag(alarmName, alModel.getRe(packageName))
+                val flag = flag(alarmName, packageName)
 
                 if (flag) {
                     //allow alarm
-                    recordUp(alarmName, packageName, context)
+                    XpUtil.log("$packageName alarm: $alarmName allow")
+                    model.upCount(alarmName, packageName)
                 } else {
                     //block alarm
-                    log("$$packageName alarm:$alarmName block")
-                    triggerList.remove(i)
-                    recordUpBlock(alarmName, packageName, context)
+                    XpUtil.log("$packageName alarm: $alarmName block")
+                    triggerList.removeAt(i)
+                    model.upBlockCount(alarmName, packageName)
                 }
-                handleTimer(context)
             }
-        }
-
-        @Synchronized
-        private fun handleTimer(context: Context) {
-            val now = SystemClock.elapsedRealtime()
-            //update setting
-            if (now - updateSettingTime > updateSetting) {
-                alModel.reloadst(context)
-                updateSettingTime = now
-                log("alarm: update setting")
-            }
+            model.handleTimer(context)
         }
 
         // get weather alarm should block or not
-        private fun flag(name: String, list: Set<String>): Boolean {
-            return alModel.getFlag(name) && rE(name, list)
+        private fun flag(aN: String, packageName: String): Boolean {
+            return model.flag(aN) && model.re(aN, packageName)
         }
 
-        // match regular expression
-        private fun rE(name: String, rE: Set<String>): Boolean {
-            if (rE.isEmpty()) {
-                return true
-            } else {
-                rE.forEach {
-                    if (name.matches(Regex(it))) {
-                        return false
-                    }
-                }
-                return true
-            }
-        }
 
         private fun getIntent(pi: PendingIntent): Intent? {
             try {
@@ -157,9 +149,9 @@ class AlarmHook {
                         }
                     }
                 } catch (e: Exception) {
-                    log("getIntent failed2 err:$e")
+                    XpUtil.log("getIntent failed2 err:$e")
                 }
-                log("getIntent failed1 err:$e")
+                XpUtil.log("getIntent failed1 err:$e")
             }
             return null
         }
@@ -172,57 +164,6 @@ class AlarmHook {
                 return intent.component?.flattenToShortString()
             }
             return null
-        }
-
-        //record allow alarm
-        private fun recordUp(alarmName: String, packageName: String, context: Context) {
-            GlobalScope.launch {
-                try {
-                    record(context, upCount(alarmName, packageName))
-                } catch (e: Exception) {
-                    log("recordUp err:$e")
-                }
-            }
-        }
-
-        //record block alarm
-        private fun recordUpBlock(alarmName: String, packageName: String, context: Context) {
-            GlobalScope.launch {
-                try {
-                    record(context, upBlockCount(alarmName, packageName))
-                } catch (e: Exception) {
-                    log("recordUp err:$e")
-                }
-            }
-        }
-
-        private fun record(context: Context, bundle: Bundle) {
-            val method = "saveAL"
-            val url = Uri.parse("content://${authority}")
-            val contentResolver = context.contentResolver
-            try {
-                contentResolver.call(url, method, null, bundle)
-            } catch (e: Exception) {
-                log("record err: $e")
-            }
-        }
-
-        private fun upCount(alarmName: String, packageName: String): Bundle {
-            return Bundle().apply {
-                this.putString("AlarmName", alarmName)
-                this.putString("PackageName", packageName)
-                this.putInt("Count", 1)
-                this.putInt("BlockCount", 0)
-            }
-        }
-
-        private fun upBlockCount(alarmName: String, packageName: String): Bundle {
-            return Bundle().apply {
-                this.putString("AlarmName", alarmName)
-                this.putString("PackageName", packageName)
-                this.putInt("Count", 1)
-                this.putInt("BlockCount", 1)
-            }
         }
     }
 }

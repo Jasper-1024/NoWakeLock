@@ -1,6 +1,5 @@
 package com.js.nowakelock.xposedhook
 
-import com.js.nowakelock.xposedhook.wakelock.WakelockHook
 import de.robv.android.xposed.*
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -20,9 +19,8 @@ open class XposedModule : IXposedHookZygoteInit, IXposedHookLoadPackage {
 //        XposedBridge.log("$TAG $pN: handleLoadPackage ,mypid ${Process.myUid()}")
 
         if (lpparam.packageName == "android") {
-//            AlarmHook.hookAlarm(lpparam)
+            AlarmHook.hookAlarm(lpparam)
 //            ServiceHook.hookService(lpparam)
-//            WakelockHook.hookWakeLocks(lpparam)
             WakelockHook.hookWakeLocks(lpparam)
         }
     }

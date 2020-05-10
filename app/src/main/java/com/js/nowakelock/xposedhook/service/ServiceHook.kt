@@ -10,8 +10,8 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.js.nowakelock.test.Test
 import com.js.nowakelock.test.Test2
+import com.js.nowakelock.xposedhook.XpUtil
 import com.js.nowakelock.xposedhook.authority
-import com.js.nowakelock.xposedhook.log
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -48,7 +48,7 @@ class ServiceHook {
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
-                        log("serviceHook29")
+                        XpUtil.log("serviceHook29")
                         hookStartServiceLocked(AndroidAppHelper.currentApplication().applicationContext)
                     }
                 })
@@ -69,7 +69,7 @@ class ServiceHook {
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
-                        log("serviceHook26to28")
+                        XpUtil.log("serviceHook26to28")
 //                        val callingPackage = param.args[6] as String
 //                        val context = XposedHelpers.getObjectField(
 //                            param.thisObject, "mContext"
@@ -93,7 +93,7 @@ class ServiceHook {
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
-                        log("serviceHook24to25")
+                        XpUtil.log("serviceHook24to25")
 //                        val callingPackage = param.args[5] as String
 //                        val context = XposedHelpers.getObjectField(
 //                            param.thisObject, "mContext"
@@ -110,7 +110,7 @@ class ServiceHook {
         ) {
             GlobalScope.launch(Dispatchers.Default) {
                 try {
-                    log("test1")
+                    XpUtil.log("test1")
 
                     val method = "test"
                     val url = Uri.parse("content://$authority")
@@ -121,14 +121,14 @@ class ServiceHook {
 
                     val bundle = context.contentResolver.call(url, method, null, extras)
 
-                    log("test2 bundle: $bundle")
+                    XpUtil.log("test2 bundle: $bundle")
                     if (bundle != null) {
 //                        bundle.classLoader = context.classLoader
                         val tmp2 = bundle.getSerializable("Test")
-                        log("test2 Test:$tmp2")
+                        XpUtil.log("test2 Test:$tmp2")
                     }
                 } catch (e: java.lang.Exception) {
-                    log("test err: $e")
+                    XpUtil.log("test err: $e")
                 }
             }
         }
