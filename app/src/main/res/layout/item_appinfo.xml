@@ -15,9 +15,9 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@{item.system? @color/SystemApp : @color/UserApp}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@{item.system? @color/SystemApp : @color/UserApp}"
         android:onClick="@{(theView)->handler.onClick(theView,item)}"
         android:padding="8dp">
 
@@ -53,11 +53,12 @@
             android:layout_marginStart="8dp"
             android:gravity="center_vertical"
             android:textSize="14sp"
+            android:visibility="gone"
+            app:blockCount="@{item.blockCount}"
+            app:count="@{item.count}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/appListIcon"
             app:layout_constraintTop_toBottomOf="@+id/appListPackageName"
-            app:blockCount="@{item.blockCount}"
-            app:count="@{item.count}"
             tools:ignore="MissingConstraints,SmallSp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

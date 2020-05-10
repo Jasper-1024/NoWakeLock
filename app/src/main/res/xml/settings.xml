@@ -3,6 +3,7 @@
 
     <PreferenceCategory
         android:key="theme"
+        android:icon="@drawable/ic_theme_24dp"
         android:title="@string/theme">
 
         <ListPreference
@@ -19,10 +20,12 @@
 
     <PreferenceCategory
         android:key="sync"
+        android:icon="@drawable/ic_sync_24dp"
         android:title="@string/sync">
 
         <SwitchPreferenceCompat
             app:key="recordFlag"
+            app:defaultValue="true"
             app:summary="@string/recordFlag_summary"
             app:title="@string/recordFlag_title" />
 

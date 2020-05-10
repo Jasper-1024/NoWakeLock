@@ -105,4 +105,11 @@ class AppListFragment : Fragment() {
         )
     )
 
+    //set toolbar menu
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        val sortCount = menu.findItem(R.id.menu_sort_count)
+        sortCount.isVisible = false
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
 }

@@ -44,10 +44,11 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/wakelockListName"
+            android:visibility="gone"
             app:blockCount="@{item.blockCount}"
             app:count="@{item.count}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wakelockListName"
             tools:ignore="MissingConstraints" />
 
         <TextView
@@ -58,10 +59,10 @@
             android:layout_marginTop="8dp"
             android:textSize="18sp"
             android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/wakelockCount"
             app:blockCountTime="@{item.blockCountTime}"
-            app:countTime="@{item.countTime}" />
+            app:countTime="@{item.countTime}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wakelockCount" />
 
         <Switch
             android:id="@+id/wakelockFlag"
