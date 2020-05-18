@@ -12,6 +12,9 @@
     <string name="updateDb_summary">唤醒数据同步间隔(秒)</string>
     <string name="updateST_title">同步配置</string>
     <string name="updateST_summary">同步禁用等配置信息(秒)</string>
+    <string name="other">其他</string>
+    <string name="powerFlag_title">重置数据</string>
+    <string name="powerFlag_summary">电源状态改变后,重置数据</string>
     <string name="theme">主题</string>
     <string name="theme_list">全局主题</string>
     <string name="light_theme_name">浅色</string>

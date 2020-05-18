@@ -51,5 +51,18 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:icon="@drawable/ic_other_24dp"
+        android:key="other"
+        android:title="@string/other">
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="powerFlag"
+            app:summary="@string/powerFlag_summary"
+            app:title="@string/powerFlag_title" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>
 

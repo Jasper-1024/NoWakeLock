@@ -10,6 +10,9 @@
     <string name="recordFlag_summary">Record device wake-up data</string>
     <string name="updateDb_title">Data synchronization</string>
     <string name="updateDb_summary">Wake-up data synchronization interval(second)</string>
+    <string name="other">Other</string>
+    <string name="powerFlag_title">Reset database</string>
+    <string name="powerFlag_summary">After charged, reset database</string>
     <string name="theme">Theme</string>
     <string name="theme_list">General theme</string>
     <string name="light_theme_name">Light</string>

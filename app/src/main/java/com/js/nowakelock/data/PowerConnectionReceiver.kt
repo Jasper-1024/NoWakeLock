@@ -3,6 +3,7 @@ package com.js.nowakelock.data
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import androidx.preference.PreferenceManager
 import com.js.nowakelock.BasicApp
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.dao.AlarmDao
@@ -15,21 +16,30 @@ import kotlinx.coroutines.withContext
 class PowerConnectionReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
+        val sharedPreferences =
+            PreferenceManager.getDefaultSharedPreferences(BasicApp.context /* Activity context */)
+        val powerFlag = sharedPreferences.getBoolean("powerFlag", true)
+
+
         if (intent.action.equals(Intent.ACTION_POWER_DISCONNECTED)) {
 //            LogUtil.d("PowerConnectionReceiver", "ACTION_POWER_DISCONNECTED")
-            GlobalScope.launch {
-                clearWakelockdb(
-                    AppDatabase.getInstance(BasicApp.context).wakeLockDao()
-                )
-                clearAlarmdb(AppDatabase.getInstance(BasicApp.context).alarmDao())
+            if (powerFlag) {
+                GlobalScope.launch {
+                    clearWakelockdb(
+                        AppDatabase.getInstance(BasicApp.context).wakeLockDao()
+                    )
+                    clearAlarmdb(AppDatabase.getInstance(BasicApp.context).alarmDao())
+                }
             }
         } else if (intent.action.equals(Intent.ACTION_POWER_CONNECTED)) {
 //            LogUtil.d("PowerConnectionReceiver", "ACTION_POWER_CONNECTED")
-            GlobalScope.launch {
-                clearWakelockdb(
-                    AppDatabase.getInstance(BasicApp.context).wakeLockDao()
-                )
-                clearAlarmdb(AppDatabase.getInstance(BasicApp.context).alarmDao())
+            if (powerFlag) {
+                GlobalScope.launch {
+                    clearWakelockdb(
+                        AppDatabase.getInstance(BasicApp.context).wakeLockDao()
+                    )
+                    clearAlarmdb(AppDatabase.getInstance(BasicApp.context).alarmDao())
+                }
             }
         }
     }

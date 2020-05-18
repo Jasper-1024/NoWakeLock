@@ -100,11 +100,11 @@ class WakelockHook {
 
             time(lock, now)//record
 
-            val flag = flag(wN, pN, lastAllowTime[wN] ?: 0)
+            wlt.flag = flag(wN, pN, lastAllowTime[wN] ?: 0)
             wlt.lastTime = now
 
             // allow wakelock
-            if (flag) {
+            if (wlt.flag) {
                 lastAllowTime[wN] = now//update last allow time
             } else {//block wakelock
                 XpUtil.log("$pN wakeLock:$wN block")
