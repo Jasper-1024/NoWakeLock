@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.js.nowakelock.R
 import com.js.nowakelock.base.cache
+import com.js.nowakelock.base.menuGone
 import com.js.nowakelock.data.db.entity.AppInfo
 import com.js.nowakelock.databinding.FragmentApplistBinding
 import com.js.nowakelock.ui.databding.RecycleAdapter
@@ -107,8 +108,8 @@ class AppListFragment : Fragment() {
 
     //set toolbar menu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        val sortCount = menu.findItem(R.id.menu_sort_count)
-        sortCount.isVisible = false
+        menuGone(menu, setOf(R.id.menu_sort_count))
+        menuGone(menu, setOf(R.id.menu_sort_countime))
         super.onCreateOptionsMenu(menu, inflater)
     }
 

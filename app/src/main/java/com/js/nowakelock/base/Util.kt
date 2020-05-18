@@ -2,6 +2,8 @@ package com.js.nowakelock.base
 
 import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
+import android.view.Menu
+import com.js.nowakelock.R
 import java.util.*
 
 //Long to Time
@@ -11,6 +13,13 @@ fun getTime(time: Long): String {
     return formatter.format(time)
 
 //    return (time/1000).toString()
+}
+
+fun menuGone(menu: Menu, set: Set<Int>) {
+    set.forEach {
+        val filterUser = menu.findItem(it)
+        filterUser.isVisible = false
+    }
 }
 
 //status

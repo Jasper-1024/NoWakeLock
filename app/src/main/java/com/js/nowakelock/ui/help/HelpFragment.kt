@@ -5,6 +5,7 @@ import android.text.method.LinkMovementMethod
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.js.nowakelock.R
+import com.js.nowakelock.base.menuGone
 import com.js.nowakelock.databinding.FragmentHelpBinding
 import org.koin.android.ext.android.inject
 
@@ -31,10 +32,7 @@ class HelpFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        val filter = menu.findItem(R.id.menu_filter)
-        filter.isVisible = false
-        val search = menu.findItem(R.id.search)
-        search.isVisible = false
+        menuGone(menu, setOf(R.id.menu_filter, R.id.search))
         super.onCreateOptionsMenu(menu, inflater)
     }
 }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.js.nowakelock.R
 import com.js.nowakelock.base.cache
+import com.js.nowakelock.base.menuGone
 import com.js.nowakelock.data.db.entity.WakeLock
 import com.js.nowakelock.databinding.FragmentWakeLockBinding
 import com.js.nowakelock.ui.databding.RecycleAdapter
@@ -107,14 +108,7 @@ class WakeLockFragment : Fragment() {
 
     //set toolbar menu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        val filterUser = menu.findItem(R.id.menu_filter_user)
-        filterUser.isVisible = false
-        val filterSystem = menu.findItem(R.id.menu_filter_system)
-        filterSystem.isVisible = false
-        val filterAll = menu.findItem(R.id.menu_filter_all)
-        filterAll.isVisible = false
-//        val sortCount = menu.findItem(R.id.menu_sort_count)
-//        sortCount.isVisible = false
+        menuGone(menu, setOf(R.id.menu_filter_user, R.id.menu_filter_system, R.id.menu_filter_all))
         super.onCreateOptionsMenu(menu, inflater)
     }
 

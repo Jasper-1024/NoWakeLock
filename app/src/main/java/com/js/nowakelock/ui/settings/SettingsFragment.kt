@@ -7,6 +7,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.js.nowakelock.R
 import com.js.nowakelock.base.LogUtil
+import com.js.nowakelock.base.menuGone
 
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -36,10 +37,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        val filter = menu.findItem(R.id.menu_filter)
-        filter.isVisible = false
-        val search = menu.findItem(R.id.search)
-        search.isVisible = false
+        menuGone(menu, setOf(R.id.menu_filter, R.id.search))
         super.onCreateOptionsMenu(menu, inflater)
     }
 }
