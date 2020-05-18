@@ -13,11 +13,11 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class WakelockHook {
     companion object {
-        //        private var wlModel: WLModel = mWLmodel() //wlmodel
+
         private val model: Model = mModel(XPM.wakelock)
 
-//        @Volatile
-//        private var wls = HashMap<IBinder, WakeLock>()//wakelock witch active
+        @Volatile
+        private var wlT = HashMap<IBinder, WLT>()//wakelock witch active
 
         @Volatile
         private var lastAllowTime = HashMap<String, Long>()//wakelock last allow time
@@ -39,7 +39,7 @@ class WakelockHook {
                     override fun beforeHookedMethod(param: MethodHookParam) {
 
                         val lock = param.args[0] as IBinder
-                        val flags = param.args[1] as Int
+//                        val flags = param.args[1] as Int
                         val wN = param.args[2] as String
                         val pN = param.args[3] as String
                         val ws = param.args[4] as WorkSource?
@@ -93,14 +93,21 @@ class WakelockHook {
             uId: Int,
             context: Context
         ) {
+            val now = SystemClock.elapsedRealtime()
+
+            val wlt: WLT = wlT[lock] ?: WLT(wN, pN, true, now)
+            wlT[lock] = wlt
+
+            time(lock, now)//record
+
             val flag = flag(wN, pN, lastAllowTime[wN] ?: 0)
+            wlt.lastTime = now
+
             // allow wakelock
             if (flag) {
-                model.upCountTime(wN, pN, 0)
-                lastAllowTime[wN] = SystemClock.elapsedRealtime()//update last allow time
+                lastAllowTime[wN] = now//update last allow time
             } else {//block wakelock
                 XpUtil.log("$pN wakeLock:$wN block")
-                model.upBlockCountTime(wN, pN, 0)
                 param.result = null //block wakelock
             }
             model.handleTimer(context)
@@ -112,21 +119,40 @@ class WakelockHook {
             lock: IBinder,
             context: Context
         ) {
-//            val flag = flag(wN, pN, lastAllowTime[wN] ?: 0)
-//            if (flag) {
-//                model.upCount(wN,pN)
-//                lastAllowTime[wN] = SystemClock.elapsedRealtime()//update last allow time
-//            } else {//block wakelock
-//                log("$pN wakeLock:$wN block")
-//                model.upBlockCount(wN,pN)
-//                param.result = null //block wakelock
-//            }
-            model.handleTimer(context)
+            val now = SystemClock.elapsedRealtime()
+            time(lock, now)
+            wlT.remove(lock)
+
+            model.handleTimer(context)//handler timer
         }
 
         // get weather wakelock should block or not
         private fun flag(wN: String, packageName: String, aTI: Long): Boolean {
             return model.flag(wN) && model.re(wN, packageName) && model.aTi(wN, aTI)
         }
+
+        private fun time(lock: IBinder, now: Long) {
+            val wlt = wlT[lock]
+            if (wlt != null && wlt.lastTime != 0.toLong()) {
+                if (wlt.flag) {
+                    model.upCount(wlt.wakelockName, wlt.packageName)
+                    model.upCountTime(wlt.wakelockName, wlt.packageName, now - wlt.lastTime)
+                } else {
+                    model.upBlockCount(wlt.wakelockName, wlt.packageName)
+                    model.upBlockCountTime(wlt.wakelockName, wlt.packageName, now - wlt.lastTime)
+                }
+            }
+        }
     }
+
+    data class WLT(
+        val wakelockName: String,
+        val packageName: String,
+        var flag: Boolean = true,
+        var lastTime: Long = 0
+//        val startTime: Long = 0
+//        val stopTime: Long = 0
+//        val lastAAT: Long = 0,//lastActiveAllowTime
+//        val lastABT: Long = 0 //lastActiveBlockTime
+    )
 }

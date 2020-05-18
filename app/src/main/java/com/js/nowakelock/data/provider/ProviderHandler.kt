@@ -93,7 +93,9 @@ class ProviderHandler(
         list.forEach {
             val tmp: WakeLock = db.wakeLockDao().loadWakeLock(it.name)
                 ?: WakeLock(it.name, it.packageName)
+            tmp.count += it.count
             tmp.countTime += it.countTime
+            tmp.blockCount += it.blockCount
             tmp.blockCountTime += it.blockCountTime
             db.wakeLockDao().insert(tmp)
         }

@@ -40,7 +40,7 @@
                     android:checkable="true"
                     android:onClick="sortCountTime"
                     android:title="@string/menu_filter_countime"
-                    android:visible="false" />
+                    android:visible="true" />
 
             </group>
         </menu>

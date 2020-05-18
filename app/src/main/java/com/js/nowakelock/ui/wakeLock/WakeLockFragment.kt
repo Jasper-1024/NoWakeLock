@@ -113,8 +113,8 @@ class WakeLockFragment : Fragment() {
         filterSystem.isVisible = false
         val filterAll = menu.findItem(R.id.menu_filter_all)
         filterAll.isVisible = false
-        val sortCount = menu.findItem(R.id.menu_sort_count)
-        sortCount.isVisible = false
+//        val sortCount = menu.findItem(R.id.menu_sort_count)
+//        sortCount.isVisible = false
         super.onCreateOptionsMenu(menu, inflater)
     }
 

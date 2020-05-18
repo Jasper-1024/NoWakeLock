@@ -47,10 +47,6 @@ class mModel(var type: String) : Model {
         if (rE.isEmpty()) {
             return true
         } else {
-//            val tmp = mutableSetOf<String>()
-//            synchronized(this) {
-//                tmp.addAll(rE)
-//            }
             rE.forEach {
                 if (name.matches(Regex(it))) {
                     return false
