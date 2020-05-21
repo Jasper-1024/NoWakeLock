@@ -20,7 +20,7 @@ open class XposedModule : IXposedHookZygoteInit, IXposedHookLoadPackage {
 
         if (lpparam.packageName == "android") {
             AlarmHook.hookAlarm(lpparam)
-//            ServiceHook.hookService(lpparam)
+            ServiceHook.hookService(lpparam)
             WakelockHook.hookWakeLocks(lpparam)
         }
     }

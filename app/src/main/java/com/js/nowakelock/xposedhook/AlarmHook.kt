@@ -100,7 +100,7 @@ class AlarmHook {
             var alarmName = ""
             var packageName = ""
 
-            XpUtil.log(" alarmlist: ${triggerList.size};$triggerList")
+//            XpUtil.log(" alarmlist: ${triggerList.size};$triggerList")
             for (i in 0 until triggerList.size) {
 
                 try {
@@ -118,7 +118,7 @@ class AlarmHook {
 
                 if (flag) {
                     //allow alarm
-                    XpUtil.log("$packageName alarm: $alarmName allow")
+//                    XpUtil.log("$packageName alarm: $alarmName allow")
                     model.upCount(alarmName, packageName)
                 } else {
                     //block alarm
@@ -135,35 +135,5 @@ class AlarmHook {
             return model.flag(aN) && model.re(aN, packageName)
         }
 
-
-        private fun getIntent(pi: PendingIntent): Intent? {
-            try {
-                return XposedHelpers.callMethod(pi, "getIntent") as Intent
-            } catch (e: NoSuchMethodError) {
-                try {
-                    XposedHelpers.getObjectField(pi, "mTarget")?.let { mTarget ->
-                        XposedHelpers.getObjectField(mTarget, "key")?.let { pIRecordKey ->
-                            val requestIntent =
-                                XposedHelpers.getObjectField(pIRecordKey, "requestIntent")
-                            return requestIntent as Intent
-                        }
-                    }
-                } catch (e: Exception) {
-                    XpUtil.log("getIntent failed2 err:$e")
-                }
-                XpUtil.log("getIntent failed1 err:$e")
-            }
-            return null
-        }
-
-        //alarm name
-        private fun getName(intent: Intent): String? {
-            if (intent.action != null) {
-                return intent.action
-            } else if (intent.component != null) {
-                return intent.component?.flattenToShortString()
-            }
-            return null
-        }
     }
 }

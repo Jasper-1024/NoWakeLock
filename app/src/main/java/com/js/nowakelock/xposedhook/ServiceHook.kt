@@ -1,34 +1,41 @@
-package com.js.nowakelock.xposedhook.service
+package com.js.nowakelock.xposedhook
 
 import android.app.AndroidAppHelper
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
-import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
-import com.js.nowakelock.test.Test
-import com.js.nowakelock.test.Test2
-import com.js.nowakelock.xposedhook.XpUtil
-import com.js.nowakelock.xposedhook.authority
+import android.os.SystemClock
+import com.js.nowakelock.xposedhook.model.Model
+import com.js.nowakelock.xposedhook.model.XPM
+import com.js.nowakelock.xposedhook.model.mModel
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class ServiceHook {
     companion object {
+
+        // model
+        private val model: Model = mModel(XPM.service)
+
+        @Volatile
+        private var lastAllowTime = HashMap<String, Long>()//wakelock last allow time
+
         fun hookService(lpparam: XC_LoadPackage.LoadPackageParam) {
             when (Build.VERSION.SDK_INT) {
                 //Try for alarm hooks for API levels >= 29 (Q or higher)
-                Build.VERSION_CODES.Q -> serviceHook29(lpparam)
+                Build.VERSION_CODES.Q -> serviceHook29(
+                    lpparam
+                )
                 //Try for alarm hooks for API levels 26 ~ 28 (O ~ P)
-                in Build.VERSION_CODES.O..Build.VERSION_CODES.P -> serviceHook26to28(lpparam)
+                in Build.VERSION_CODES.O..Build.VERSION_CODES.P -> serviceHook26to28(
+                    lpparam
+                )
                 //Try for alarm hooks for API levels 24 ~ 25 (N)
-                in Build.VERSION_CODES.N..Build.VERSION_CODES.N_MR1 -> serviceHook24to25(lpparam)
+                in Build.VERSION_CODES.N..Build.VERSION_CODES.N_MR1 -> serviceHook24to25(
+                    lpparam
+                )
             }
         }
 
@@ -49,7 +56,11 @@ class ServiceHook {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
                         XpUtil.log("serviceHook29")
-                        hookStartServiceLocked(AndroidAppHelper.currentApplication().applicationContext)
+                        val service = param.args[1] as Intent?
+                        val callingPackage = param.args[6] as String
+                        val context: Context =
+                            AndroidAppHelper.currentApplication().applicationContext
+                        hookStartServiceLocked(param, service, callingPackage, context)
                     }
                 })
         }
@@ -70,11 +81,11 @@ class ServiceHook {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
                         XpUtil.log("serviceHook26to28")
-//                        val callingPackage = param.args[6] as String
-//                        val context = XposedHelpers.getObjectField(
-//                            param.thisObject, "mContext"
-//                        ) as Context
-//                        hookStartServiceLocked(param, callingPackage, context)
+                        val service = param.args[1] as Intent?
+                        val callingPackage = param.args[6] as String
+                        val context: Context =
+                            AndroidAppHelper.currentApplication().applicationContext
+                        hookStartServiceLocked(param, service, callingPackage, context)
                     }
                 })
         }
@@ -94,60 +105,41 @@ class ServiceHook {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
                         XpUtil.log("serviceHook24to25")
-//                        val callingPackage = param.args[5] as String
-//                        val context = XposedHelpers.getObjectField(
-//                            param.thisObject, "mContext"
-//                        ) as Context
-//                        hookStartServiceLocked(param, callingPackage, context)
+                        val service = param.args[1] as Intent?
+                        val callingPackage = param.args[5] as String
+                        val context: Context =
+                            AndroidAppHelper.currentApplication().applicationContext
+                        hookStartServiceLocked(param, service, callingPackage, context)
                     }
                 })
         }
 
         private fun hookStartServiceLocked(
-//            param: XC_MethodHook.MethodHookParam,
-//            callingPackage: String?,
+            param: XC_MethodHook.MethodHookParam,
+            service: Intent?,
+            packageName: String?,
             context: Context
         ) {
-            GlobalScope.launch(Dispatchers.Default) {
-                try {
-                    XpUtil.log("test1")
+            if (service == null || packageName == null) return
+            val now = SystemClock.elapsedRealtime()
+            val tmp: String = service.component?.flattenToShortString() ?: ""
+            val serviceName: String = tmp.replace(Regex(".*/"), "")
+//            XpUtil.log("service: service $service package $callingPackage name $serviceName")
 
-                    val method = "test"
-                    val url = Uri.parse("content://$authority")
+            val flag = flag(serviceName, packageName, lastAllowTime[serviceName] ?: 0)
 
-                    val extras = Bundle()
-                    extras.putSerializable("Test", Test("test1", "package1", 2, 2, 2, 2))
-                    extras.putParcelable("Test", Test2("test1", "package1", 2, 2, 2, 2))
-
-                    val bundle = context.contentResolver.call(url, method, null, extras)
-
-                    XpUtil.log("test2 bundle: $bundle")
-                    if (bundle != null) {
-//                        bundle.classLoader = context.classLoader
-                        val tmp2 = bundle.getSerializable("Test")
-                        XpUtil.log("test2 Test:$tmp2")
-                    }
-                } catch (e: java.lang.Exception) {
-                    XpUtil.log("test err: $e")
-                }
+            if (flag) {
+                lastAllowTime[serviceName] = now
+                model.upCount(serviceName, packageName)
+            } else {
+                model.upBlockCount(serviceName, packageName)
             }
         }
 
-//        private suspend fun getBundle(method: String, context: Context): Bundle? =
-//            withContext(Dispatchers.IO) {
-//                val url = Uri.parse("content://$authority")
-//                val contentResolver = context.contentResolver
-//                val tmp2 = Bundle()
-//                val temp = Test("test", "package", 1, 1, 1, 1)
-//                tmp2.putParcelable("Test", temp)
-//                return@withContext try {
-//                    val tmp = contentResolver.call(url, method, null, tmp2)
-//                    tmp
-//                } catch (e: Exception) {
-//                    null
-//                }
-//            }
-
+        // get weather service should block or not
+        private fun flag(sN: String, packageName: String, aTI: Long): Boolean {
+            return model.flag(sN) && model.re(sN, packageName) && model.aTi(sN, aTI)
+        }
 
     }
 }

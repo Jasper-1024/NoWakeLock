@@ -10,17 +10,20 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.js.nowakelock.data.db.converters.Converters
 import com.js.nowakelock.data.db.dao.AlarmDao
 import com.js.nowakelock.data.db.dao.AppInfoDao
+import com.js.nowakelock.data.db.dao.ServiceDao
 import com.js.nowakelock.data.db.dao.WakeLockDao
 import com.js.nowakelock.data.db.entity.*
 
 @Database(
-    entities = [AppInfo::class, AppInfo_st::class, WakeLock::class, WakeLock_st::class, Alarm::class, Alarm_st::class],
-    version = 3
+    entities = [AppInfo::class, AppInfo_st::class, WakeLock::class, WakeLock_st::class,
+        Alarm::class, Alarm_st::class, Service::class, Service_st::class],
+    version = 4
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun alarmDao(): AlarmDao
     abstract fun appInfoDao(): AppInfoDao
+    abstract fun serviceDao(): ServiceDao
     abstract fun wakeLockDao(): WakeLockDao
 
     companion object {
@@ -39,7 +42,7 @@ abstract class AppDatabase : RoomDatabase() {
         private fun buildInstance(context: Context) = Room.databaseBuilder(
             context.applicationContext, AppDatabase::class.java,
             DATABASE_NAME
-        ).addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+        ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
             .build()
 
 
@@ -58,6 +61,17 @@ abstract class AppDatabase : RoomDatabase() {
                 )
                 database.execSQL(
                     "CREATE TABLE IF NOT EXISTS `alarm_st` (`alarmName_st` TEXT NOT NULL, `flag` INTEGER NOT NULL, `allowTimeinterval` INTEGER NOT NULL, PRIMARY KEY(`alarmName_st`))"
+                )
+            }
+        }
+
+        val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `service` (`serviceName` TEXT NOT NULL, `service_packageName` TEXT NOT NULL, `service_count` INTEGER NOT NULL, `service_blockCount` INTEGER NOT NULL, `service_countTime` INTEGER NOT NULL, `service_blockCountTime` INTEGER NOT NULL, PRIMARY KEY(`serviceName`))"
+                )
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `service_st` (`serviceName_st` TEXT NOT NULL, `flag` INTEGER NOT NULL, `allowTimeinterval` INTEGER NOT NULL, PRIMARY KEY(`serviceName_st`))"
                 )
             }
         }

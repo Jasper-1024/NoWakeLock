@@ -150,9 +150,5 @@ class WakelockHook {
         val packageName: String,
         var flag: Boolean = true,
         var lastTime: Long = 0
-//        val startTime: Long = 0
-//        val stopTime: Long = 0
-//        val lastAAT: Long = 0,//lastActiveAllowTime
-//        val lastABT: Long = 0 //lastActiveBlockTime
     )
 }

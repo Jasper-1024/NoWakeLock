@@ -35,8 +35,20 @@ class AppDatabaseTest {
         }
     }
 
+    val MIGRATION_3_4 = object : Migration(3, 4) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL(
+                "CREATE TABLE IF NOT EXISTS `service` (`serviceName` TEXT NOT NULL, `service_packageName` TEXT NOT NULL, `service_count` INTEGER NOT NULL, `service_blockCount` INTEGER NOT NULL, `service_countTime` INTEGER NOT NULL, `service_blockCountTime` INTEGER NOT NULL, PRIMARY KEY(`serviceName`))"
+            )
+            database.execSQL(
+                "CREATE TABLE IF NOT EXISTS `service_st` (`serviceName_st` TEXT NOT NULL, `flag` INTEGER NOT NULL, `allowTimeinterval` INTEGER NOT NULL, PRIMARY KEY(`serviceName_st`))"
+            )
+        }
+    }
+
+
     private val ALL_MIGRATIONS = arrayOf(
-        MIGRATION_1_2, MIGRATION_2_3
+        MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4
     )
 
 
