@@ -18,7 +18,7 @@ val authority = "com.js.nowakelock"
 object XpUtil {
     val authority = "com.js.nowakelock"
     fun log(string: String) {
-        if (true) {
+        if (false) {
             XposedBridge.log("$TAG: $string")
         }
     }
