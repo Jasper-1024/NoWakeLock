@@ -13,12 +13,8 @@ class mWakeLockRepository(private var wakeLockDao: WakeLockDao) : WakeLockReposi
 
     override fun getWakeLocks(packageName: String) = wakeLockDao.loadWakeLocks(packageName)
 
-    override suspend fun syncWakelocks(pN: String) = withContext(Dispatchers.IO) {
-        //not empty then do something
-        if (wakeLockDao.countWakeLocks(pN) != 0) {
-            wakeLockDao.updateAppInfoCount(pN)
-            wakeLockDao.updateAppInfoBlockCount(pN)
-        }
+    override suspend fun syncWakelocks(pN: String) {
+        TODO("NOE YET")
     }
 
     override suspend fun getWakeLock_st(wN: String): WakeLock_st = withContext(Dispatchers.IO) {

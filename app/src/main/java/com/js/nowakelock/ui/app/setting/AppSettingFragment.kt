@@ -50,7 +50,7 @@ class AppSettingFragment : Fragment() {
 
     private fun subscribe() {
         val observer = Observer<AppInfo_st> { appInfoSt ->
-            LogUtil.d("test13", "$appInfoSt}")
+//            LogUtil.d("test13", "$appInfoSt}")
             binding.item = appInfoSt
         }
         viewModel.appInfoSt.observe(viewLifecycleOwner, observer)

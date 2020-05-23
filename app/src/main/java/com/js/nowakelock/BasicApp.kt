@@ -19,8 +19,6 @@ class BasicApp : Application() {
         super.onCreate()
         context = applicationContext
         startKoin {
-//            androidLogger()
-//            androidFileProperties()
             androidContext(this@BasicApp)
             modules(noWakeLockModule)
         }
@@ -32,6 +30,7 @@ class BasicApp : Application() {
             sharedPreferences.getString("theme_list", ThemeHelper.DEFAULT_MODE)
         ThemeHelper.applyTheme(themePref!!)
 
+        // for PowerConnectionReceiver
         registerPowerConnectionReceiver()
     }
 

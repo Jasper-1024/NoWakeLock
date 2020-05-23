@@ -17,6 +17,15 @@ class NWLContentProvider : ContentProvider() {
         return true
     }
 
+    override fun call(method: String, arg: String?, extras: Bundle?): Bundle? {
+        //no need handle
+        if (extras == null) {
+            return null
+        }
+//        LogUtil.d("Xposed.NoWakeLock", "call $method, $extras")
+        return context?.let { ProviderHandler.getInstance(it).getMethod(method, extras) }
+    }
+
     override fun query(
         uri: Uri, projection: Array<String>?, selection: String?,
         selectionArgs: Array<String>?, sortOrder: String?
@@ -27,16 +36,6 @@ class NWLContentProvider : ContentProvider() {
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
         return uri
     }
-
-    override fun call(method: String, arg: String?, extras: Bundle?): Bundle? {
-        //no need handler
-        if (extras == null) {
-            return null
-        }
-//        LogUtil.d("Xposed.NoWakeLock", "call $method, $extras")
-        return context?.let { ProviderHandler.getInstance(it).getMethod(method, extras) }
-    }
-
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
         return 0

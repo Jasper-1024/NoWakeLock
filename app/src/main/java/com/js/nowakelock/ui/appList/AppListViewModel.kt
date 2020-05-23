@@ -17,7 +17,6 @@ import java.util.*
 import kotlin.Comparator
 
 class AppListViewModel(private var AppInfoRepository: AppInfoRepository) : ViewModel() {
-    val TAG = "AppListViewModel"
     var appInfos: LiveData<List<AppInfo>> = AppInfoRepository.getAppLists()
 
     init {

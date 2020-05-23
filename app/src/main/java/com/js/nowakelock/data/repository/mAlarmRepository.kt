@@ -1,20 +1,22 @@
-package com.js.nowakelreturn
+package com.js.nowakelock.data.repository
 
 import androidx.lifecycle.LiveData
 import com.js.nowakelock.data.db.dao.AlarmDao
 import com.js.nowakelock.data.db.entity.Alarm
 import com.js.nowakelock.data.db.entity.Alarm_st
-import com.js.nowakelock.data.repository.AlarmRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class mAlarmRepository(private val alarmDao: AlarmDao) : AlarmRepository {
 
+    /**no packageName*/
     override fun getAlarms(): LiveData<List<Alarm>> = alarmDao.loadAlarms()
 
+    /**packageName*/
     override fun getAlarms(packageName: String): LiveData<List<Alarm>> =
         alarmDao.loadAlarms(packageName)
 
+    /**not yet*/
     override suspend fun sync(pN: String) {
         TODO("NOE YET")
     }

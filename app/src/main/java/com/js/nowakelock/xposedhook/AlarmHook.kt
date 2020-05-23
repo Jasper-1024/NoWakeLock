@@ -20,10 +20,6 @@ class AlarmHook {
         // model
         private val model: Model = mModel(XPM.alarm)
 
-        // update Setting interval
-        private var updateSetting: Long = 60000 //Save every minutes
-        private var updateSettingTime: Long = 0
-
         fun hookAlarm(lpparam: XC_LoadPackage.LoadPackageParam) {
 
             when (Build.VERSION.SDK_INT) {
@@ -134,6 +130,5 @@ class AlarmHook {
         private fun flag(aN: String, packageName: String): Boolean {
             return model.flag(aN) && model.re(aN, packageName)
         }
-
     }
 }

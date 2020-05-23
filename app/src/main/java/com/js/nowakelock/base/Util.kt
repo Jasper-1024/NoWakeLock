@@ -11,7 +11,6 @@ private val formatter = SimpleDateFormat("mm:ss")
 fun getTime(time: Long): String {
     formatter.timeZone = TimeZone.getTimeZone("GMT+00:00")
     return formatter.format(time)
-
 //    return (time/1000).toString()
 }
 

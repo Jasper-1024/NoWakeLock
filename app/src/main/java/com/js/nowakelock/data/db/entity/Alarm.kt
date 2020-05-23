@@ -25,14 +25,7 @@ data class Alarm(
     @Ignore
     var flag: ObservableBoolean = ObservableBoolean().apply { this.set(true) },
     @Ignore
-    var allowTimeinterval: Long = 0,//no limit
-    //for xposed
-    @Ignore
-    var active: Boolean = false,
-    @Ignore
-    var lastApplyTime: Long = 0,
-    @Ignore
-    var lastAllowTime: Long = 0
+    var allowTimeinterval: Long = 0//no limit
 ) : BaseItem {
     @Ignore
     override fun getID() = alarmName

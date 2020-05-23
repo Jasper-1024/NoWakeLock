@@ -21,7 +21,7 @@ class PowerConnectionReceiver : BroadcastReceiver() {
             PreferenceManager.getDefaultSharedPreferences(BasicApp.context /* Activity context */)
         val powerFlag = sharedPreferences.getBoolean("powerFlag", true)
 
-
+        //POWER DISCONNECTED
         if (intent.action.equals(Intent.ACTION_POWER_DISCONNECTED)) {
 //            LogUtil.d("PowerConnectionReceiver", "ACTION_POWER_DISCONNECTED")
             if (powerFlag) {
@@ -33,6 +33,7 @@ class PowerConnectionReceiver : BroadcastReceiver() {
                     clearServicedb(AppDatabase.getInstance(BasicApp.context).serviceDao())
                 }
             }
+            //POWER CONNECTED
         } else if (intent.action.equals(Intent.ACTION_POWER_CONNECTED)) {
 //            LogUtil.d("PowerConnectionReceiver", "ACTION_POWER_CONNECTED")
             if (powerFlag) {

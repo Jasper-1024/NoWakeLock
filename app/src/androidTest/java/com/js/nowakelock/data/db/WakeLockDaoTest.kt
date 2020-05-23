@@ -38,15 +38,15 @@ class WakeLockDaoTest {
 //        Assert.assertTrue(LiveDataTestUtil.getValue(wakeLocks).isEmpty())
 //    }
 
-    @Test
-    fun upAppInfodateCount() {
-        runBlocking {
-            db.appInfoDao().insertAll(TestData.appInfos)
-            db.wakeLockDao().insertAll(TestData.wakeLocks)
-            wLDao.updateAppInfoCount(TestData.pN)
-        }
-        val a = runBlocking { db.appInfoDao().loadAppInfo(TestData.pN).count }
-        LogUtil.d("test1", a.toString())
-        Assert.assertEquals(a, 10)
-    }
+//    @Test
+//    fun upAppInfodateCount() {
+//        runBlocking {
+//            db.appInfoDao().insertAll(TestData.appInfos)
+//            db.wakeLockDao().insertAll(TestData.wakeLocks)
+//            wLDao.updateAppInfoCount(TestData.pN)
+//        }
+//        val a = runBlocking { db.appInfoDao().loadAppInfo(TestData.pN).count }
+//        LogUtil.d("test1", a.toString())
+//        Assert.assertEquals(a, 10)
+//    }
 }

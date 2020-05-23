@@ -25,9 +25,7 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 
-    private val viewModel: MainViewModel by viewModels {
-        MainUtils.ViewModelFactory(this)
-    }
+    private val viewModel by viewModels<MainViewModel>()
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var toolbar: Toolbar
@@ -59,8 +57,6 @@ class MainActivity : AppCompatActivity() {
 
         //get cache
         viewModel.status.postValue(loadStatus())
-
-//        visibilityNavElements(navController)
     }
 
     override fun onDestroy() {
@@ -90,7 +86,6 @@ class MainActivity : AppCompatActivity() {
 //            putString("query", cache.query)
             apply()
         }
-//        LogUtil.d("test1","$cache")
     }
 
     private fun loadStatus(): cache {
@@ -101,21 +96,8 @@ class MainActivity : AppCompatActivity() {
                 sort = getInt("sort", 1)
 //                query = getString("query", "") ?: ""
             }
-//            LogUtil.d("test12","$this")
         }
     }
-
-//    private fun setToolbarMenu(cache: cache) {
-//        when (cache.app) {
-//            1 -> toolbar.menu.findItem(R.id.menu_filter_user).isChecked = true
-//            2 -> toolbar.menu.findItem(R.id.menu_filter_system).isChecked = true
-//        }
-//        when (cache.sort) {
-//            1 -> setSortCheck(toolbar.menu.findItem(R.id.menu_sort_name))
-//            2 -> setSortCheck(toolbar.menu.findItem(R.id.menu_sort_count))
-//            3 -> setSortCheck(toolbar.menu.findItem(R.id.menu_sort_countime))
-//        }
-//    }
 
     //handler status menu
     fun statusUser(menu: MenuItem) {
@@ -166,14 +148,12 @@ class MainActivity : AppCompatActivity() {
     private fun setSearchView(searchView: SearchView) {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-//                Log.i("test1", "Search submit=$query")
                 viewModel.postquery(query)
                 searchView.clearFocus()
                 return true
             }
 
             override fun onQueryTextChange(query: String): Boolean {
-//                Log.i("test1", "Search change=$query")
                 viewModel.postquery(query)
                 return true
             }

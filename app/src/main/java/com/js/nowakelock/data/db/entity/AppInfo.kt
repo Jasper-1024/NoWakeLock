@@ -21,8 +21,7 @@ data class AppInfo(
     var blockCount: Int = 0,
     var countTime: Long = 0,
     var blockCountTime: Long = 0
-//    @Ignore
-//    var wakeLocks: HashMap<String, WakeLock> = HashMap()
+
 ) : BaseItem {
     @Ignore
     override fun getID() = packageName

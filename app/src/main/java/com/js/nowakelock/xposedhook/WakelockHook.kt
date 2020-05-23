@@ -42,21 +42,20 @@ class WakelockHook {
 //                        val flags = param.args[1] as Int
                         val wN = param.args[2] as String
                         val pN = param.args[3] as String
-                        val ws = param.args[4] as WorkSource?
-//                    val historyTag = param.args[5] as String
-                        val uId = param.args[6] as Int
+//                        val ws = param.args[4] as WorkSource?
+//                        val historyTag = param.args[5] as String
+//                        val uId = param.args[6] as Int
 //                        val pid = param.args[7] as Int
-
                         val context = XposedHelpers.getObjectField(
                             param.thisObject,
                             "mContext"
                         ) as Context
+
                         handleWakeLockAcquire(
                             param,
                             pN,
                             wN,
                             lock,
-                            uId,
                             context
                         )
                     }
@@ -90,7 +89,6 @@ class WakelockHook {
             pN: String,
             wN: String,
             lock: IBinder,
-            uId: Int,
             context: Context
         ) {
             val now = SystemClock.elapsedRealtime()
@@ -126,7 +124,7 @@ class WakelockHook {
             model.handleTimer(context)//handler timer
         }
 
-        // get weather wakelock should block or not
+        // get wakelock should block or not
         private fun flag(wN: String, packageName: String, aTI: Long): Boolean {
             return model.flag(wN) && model.re(wN, packageName) && model.aTi(wN, aTI)
         }

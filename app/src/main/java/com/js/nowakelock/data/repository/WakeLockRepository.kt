@@ -15,11 +15,4 @@ interface WakeLockRepository {
     suspend fun getWakeLock_st(wN: String): WakeLock_st
 
     suspend fun setWakeLock_st(wN_st: WakeLock_st)
-//    suspend fun getFlag(pN: String, wN: String): Boolean
-//
-//    suspend fun upCount(pN: String, wN: String)
-//
-//    suspend fun upBlockCount(pN: String, wN: String)
-
-//    suspend fun rstCount(pN: String, wN: String)
 }

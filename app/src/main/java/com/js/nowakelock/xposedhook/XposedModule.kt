@@ -6,16 +6,14 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 
 open class XposedModule : IXposedHookZygoteInit, IXposedHookLoadPackage {
-    private val TAG = "Xposed.NoWakeLock"
-    private lateinit var pN: String
 
     override fun initZygote(startupParam: StartupParam?) {
-        XposedBridge.log("$TAG : initZygote")
+        XposedBridge.log(": initZygote")
     }
 
     @Throws(Throwable::class)
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
-        pN = lpparam.packageName
+//        val pN = lpparam.packageName
 //        XposedBridge.log("$TAG $pN: handleLoadPackage ,mypid ${Process.myUid()}")
 
         if (lpparam.packageName == "android") {

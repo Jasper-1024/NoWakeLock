@@ -88,7 +88,6 @@ class AppListFragment : Fragment() {
 
     //SwipeRefresh
     private fun setSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout) {
-        //
         swipeRefreshLayout.setDistanceToTriggerSync(300)
         //color
         swipeRefreshLayout.setColorSchemeColors(Color.BLUE)

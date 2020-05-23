@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.test.core.app.ApplicationProvider
 import com.js.nowakelock.base.LogUtil
-import com.js.nowakelock.base.WLUtil
 import com.js.nowakelock.data.TestData
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.entity.WakeLock_st

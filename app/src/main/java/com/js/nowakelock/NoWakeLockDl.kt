@@ -8,7 +8,7 @@ import com.js.nowakelock.ui.appList.AppListViewModel
 import com.js.nowakelock.ui.help.HelpViewModel
 import com.js.nowakelock.ui.service.ServiceViewModel
 import com.js.nowakelock.ui.wakeLock.WakeLockViewModel
-import com.js.nowakelreturn.mAlarmRepository
+import com.js.nowakelock.data.repository.mAlarmRepository
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -67,6 +67,11 @@ var noWakeLockModule = module {
     viewModel { (packageName: String) ->
         WakeLockViewModel(packageName, get(named("WLR")))
     }
+
+    /**help*/
+    viewModel {
+        HelpViewModel()
+    }
 //    viewModel { (packageName: String) ->
 //        ALWakeLockViewModel(
 //            packageName,
@@ -74,10 +79,6 @@ var noWakeLockModule = module {
 //        )
 //    }
 
-    /**help*/
-    viewModel {
-        HelpViewModel()
-    }
 //    viewModel { (packageName: String) ->
 //        ALWakeLockViewModel(get(named("WLR")), packageName)
 //    }

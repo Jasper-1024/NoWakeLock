@@ -8,8 +8,11 @@
     <string name="sync">Sync</string>
     <string name="recordFlag_title">Record data</string>
     <string name="recordFlag_summary">Record device wake-up data</string>
+    <string name="Save">Save</string>
+    <string name="updateST_summary">Synchronously disable configuration information(second)</string>
+    <string name="updateST_title">Sync setting</string>
     <string name="updateDb_title">Data synchronization</string>
-    <string name="updateDb_summary">Wake-up data synchronization interval(second)</string>
+    <string name="updateDb_summary">Synchronously wake-up data information(second)</string>
     <string name="other">Other</string>
     <string name="powerFlag_title">Reset database</string>
     <string name="powerFlag_summary">After charged, reset database</string>
@@ -48,13 +51,15 @@
         <![CDATA[<br><br>]]>for other information <![CDATA[<a href="https://github.com/Jasper-1024/NoWakeLock/blob/dev/README.md"> Application Introduction </a>]]>;
            <![CDATA[<a href="https://github.com/Jasper-1024/NoWakeLock/blob/dev/README/FAQ.md">FAQ</a>]]>;
     </string>
-    <string name="help_contact">sd</string>
+    <string name="help_contact">Contact:\n
+            If you have any questions or encounter bugs during use, you can email me or initiate a new issue.\n
+        \n
+        Issue : https://github.com/Jasper-1024/NoWakeLock/issues \n
+        \n
+        JasperHale: ljy087621@gmail.com</string>
     <string name="ATIText">Allow wake-up interval (0 unlimited)</string>
     <string name="wakelockFlagText">Allow wakelock</string>
     <string name="ATIUnit">second</string>
-    <string name="Re_Alarm">定时器正则(一个规则一行)</string>
-    <string name="Re_Wakelock">唤醒锁正则(一个规则一行)</string>
-    <string name="Save">Save</string>
-    <string name="updateST_summary">同步禁用唤醒等配置信息</string>
-    <string name="updateST_title">同步设置</string>
+    <string name="Re_Alarm">Alarm Regular expression</string>
+    <string name="Re_Wakelock">Wakelock Regular expression</string>
 </resources>

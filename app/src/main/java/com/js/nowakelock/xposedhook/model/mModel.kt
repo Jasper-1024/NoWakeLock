@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.SystemClock
 import com.js.nowakelock.xposedhook.XpUtil
-import com.js.nowakelock.xposedhook.authority
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -127,7 +126,7 @@ class mModel(var type: String) : Model {
     }
 
     fun call(method: String, bundle: Bundle, context: Context): Bundle? {
-        val url = Uri.parse("content://$authority")
+        val url = Uri.parse("content://${XpUtil.authority}")
         val contentResolver = context.contentResolver
         return try {
             contentResolver.call(url, method, null, bundle)

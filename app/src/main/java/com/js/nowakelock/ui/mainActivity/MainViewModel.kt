@@ -9,7 +9,7 @@ import androidx.savedstate.SavedStateRegistryOwner
 import com.js.nowakelock.base.cache
 
 class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
-    val TAG = "MainViewModel"
+//    val TAG = "MainViewModel"
 
     val status: MutableLiveData<cache> by lazy {
         MutableLiveData<cache>(cache())
@@ -17,17 +17,14 @@ class MainViewModel(private val state: SavedStateHandle) : ViewModel() {
 
     fun postapp(app: Int) {
         status.postValue(cache(app, status.value!!.sort, status.value!!.query))
-//        state.set("app",app)
     }
 
     fun postsort(sort: Int) {
         status.postValue(cache(status.value!!.app, sort, status.value!!.query))
-//        state.set("sort",sort)
     }
 
     fun postquery(query: String) {
         status.postValue(cache(status.value!!.app, status.value!!.sort, query))
-//        state.set("query",query)
     }
 }
 

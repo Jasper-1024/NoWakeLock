@@ -42,7 +42,7 @@
     <string name="Service">服务</string>
     <string name="Apps">应用</string>
     <string name="help">帮助</string>
-    <string name="help_instructions">        点击应用程序图标或名称进入具体 wakelock 设置,禁止对应的 wakelock.
+    <string name="help_instructions">        点击应用程序图标或名称进入具体设置.
         <![CDATA[<br><br>]]>严重警告,不要轻易限制系统应用,会引起无法预计的后果.
         <![CDATA[<br><br>]]>其他信息参见 <![CDATA[<a href="https://github.com/Jasper-1024/NoWakeLock/blob/dev/README/README_zh_cn.md"> 应用介绍 </a>]]>;
            <![CDATA[<a href="https://github.com/Jasper-1024/NoWakeLock/blob/dev/README/FAQ_zh_cn.md">常见问答</a>]]>;

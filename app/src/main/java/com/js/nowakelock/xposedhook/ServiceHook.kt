@@ -139,7 +139,7 @@ class ServiceHook {
             model.handleTimer(context)
         }
 
-        // get weather service should block or not
+        // get service should block or not
         private fun flag(sN: String, packageName: String, aTI: Long): Boolean {
             return model.flag(sN) && model.re(sN, packageName) && model.aTi(sN, aTI)
         }

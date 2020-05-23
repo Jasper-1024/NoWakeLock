@@ -13,14 +13,10 @@ import com.js.nowakelock.data.db.entity.AppInfo_st
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-/**
- * Repository for applist_viewmodel
- * */
 class mAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository {
     private val pm: PackageManager = BasicApp.context.packageManager
-    private val TAG = "test_AR"
 
-    /**get all dadabase appinfos*/
+    /**get all database app info*/
     override fun getAppLists() = appInfoDao.loadAppInfos()
 
     /**Sync installed apps*/
@@ -30,8 +26,6 @@ class mAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository
 
         insertAll(sysAppInfos.keys subtract dbAppInfos.keys, sysAppInfos)
         deleteAll(dbAppInfos.keys subtract sysAppInfos.keys, dbAppInfos)
-
-        updateCount(appInfoDao.loadWLPackageNames())
     }
 
     /**get AppSetting*/
@@ -43,6 +37,7 @@ class mAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository
         appInfoDao.insert(appinfoSt)
     }
 
+    /**insert all app info*/
     private suspend fun insertAll(
         packageNames: Set<String>,
         sysAppInfos: ArrayMap<String, AppInfo>
@@ -52,9 +47,9 @@ class mAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository
                 appInfoDao.insertAll(it.values as MutableCollection<AppInfo>)
             }
         }
-
     }
 
+    /**delete all app info*/
     private suspend fun deleteAll(
         packageNames: Set<String>,
         dbAppInfos: ArrayMap<String, AppInfo>
@@ -89,8 +84,8 @@ class mAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository
             return@withContext dbAppInfos
         }
 
+    /**get AppInfo from ApplicationInfo*/
     private fun getAppInfo(ai: ApplicationInfo): AppInfo {
-        /*属性*/
         val esetting = pm.getApplicationEnabledSetting(ai.packageName)
         val enabled = ai.enabled &&
                 (esetting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT ||
@@ -112,11 +107,11 @@ class mAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository
         )
     }
 
-    private suspend fun updateCount(packageNames: List<String>) = withContext(Dispatchers.IO) {
-        packageNames.forEach {
-            appInfoDao.updateAppInfoCount(it)
-            appInfoDao.updateAppInfoBlockCount(it)
-        }
-    }
+//    private suspend fun updateCount(packageNames: List<String>) = withContext(Dispatchers.IO) {
+//        packageNames.forEach {
+//            appInfoDao.updateAppInfoCount(it)
+//            appInfoDao.updateAppInfoBlockCount(it)
+//        }
+//    }
 
 }

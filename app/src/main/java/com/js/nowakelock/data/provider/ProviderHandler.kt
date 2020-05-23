@@ -38,6 +38,7 @@ class ProviderHandler(
         }
     }
 
+    //st or db
     fun getMethod(methodName: String, bundle: Bundle): Bundle? {
         return when (methodName) {
             XPM.dbMethod -> db(bundle)
@@ -46,10 +47,12 @@ class ProviderHandler(
         }
     }
 
+    //alarm service or wakelock
     private fun getType(bundle: Bundle): String {
         return bundle.getString(XPM.type) ?: ""
     }
 
+    //update db
     private fun db(bundle: Bundle): Bundle? {
 //        LogUtil.d("Xposed.NoWakeLock","db")
         val tmp = getDBModel(bundle)
@@ -65,12 +68,14 @@ class ProviderHandler(
         return null
     }
 
+    //get model
     private fun getDBModel(bundle: Bundle): DBModel? {
         val tmp = bundle.getSerializable(XPM.db)
 //        LogUtil.d("Xposed.NoWakeLock","db tmp1 $tmp")
         return tmp as DBModel?
     }
 
+    //get method
     private suspend fun dbMethod(type: String): KSuspendFunction1<MutableCollection<DB>, Unit> {
         return when (type) {
             XPM.alarm -> ::dbAlarm
@@ -115,6 +120,7 @@ class ProviderHandler(
     private suspend fun update(list: MutableCollection<DB>) {
     }
 
+    //sync st
     private fun st(bundle: Bundle): Bundle? {
 //        LogUtil.d("Xposed.NoWakeLock", "st")
         return stBundle(stMethod(getType(bundle)).invoke())
@@ -127,6 +133,7 @@ class ProviderHandler(
         }
     }
 
+    //get st method
     private fun stMethod(type: String): () -> STModel {
         return when (type) {
             XPM.alarm -> ::stAlarm
@@ -184,6 +191,7 @@ class ProviderHandler(
         return tmp
     }
 
+    //get setting
     private fun getSetting(stModel: STModel) {
         val sharedPreferences =
             PreferenceManager.getDefaultSharedPreferences(BasicApp.context)

@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.js.nowakelock.base.BaseItem
 
 class DiffCallback : DiffUtil.ItemCallback<BaseItem>() {
-    /*是否是同一对象*/
+    /*Is it the same object*/
     override fun areItemsTheSame(
         oldItem: BaseItem,
         newItem: BaseItem
@@ -12,7 +12,7 @@ class DiffCallback : DiffUtil.ItemCallback<BaseItem>() {
         return oldItem.getID() == newItem.getID()
     }
 
-    /*内容是否相同*/
+    /*Whether the content is the same*/
     override fun areContentsTheSame(
         oldItem: BaseItem,
         newItem: BaseItem
