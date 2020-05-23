@@ -7,6 +7,7 @@ import androidx.preference.PreferenceManager
 import com.js.nowakelock.BasicApp
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.dao.AlarmDao
+import com.js.nowakelock.data.db.dao.ServiceDao
 import com.js.nowakelock.data.db.dao.WakeLockDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -29,6 +30,7 @@ class PowerConnectionReceiver : BroadcastReceiver() {
                         AppDatabase.getInstance(BasicApp.context).wakeLockDao()
                     )
                     clearAlarmdb(AppDatabase.getInstance(BasicApp.context).alarmDao())
+                    clearServicedb(AppDatabase.getInstance(BasicApp.context).serviceDao())
                 }
             }
         } else if (intent.action.equals(Intent.ACTION_POWER_CONNECTED)) {
@@ -39,6 +41,7 @@ class PowerConnectionReceiver : BroadcastReceiver() {
                         AppDatabase.getInstance(BasicApp.context).wakeLockDao()
                     )
                     clearAlarmdb(AppDatabase.getInstance(BasicApp.context).alarmDao())
+                    clearServicedb(AppDatabase.getInstance(BasicApp.context).serviceDao())
                 }
             }
         }
@@ -67,6 +70,19 @@ class PowerConnectionReceiver : BroadcastReceiver() {
                 it.blockCountTime = 0
             }
             alarmDao.insert(alarms)
+        }
+    }
+
+    private suspend fun clearServicedb(serviceDao: ServiceDao) = withContext(Dispatchers.IO) {
+        val services = serviceDao.loadAllServices()
+        if (services.isNotEmpty()) {
+            services.forEach {
+                it.count = 0
+                it.countTime = 0
+                it.blockCount = 0
+                it.blockCountTime = 0
+            }
+            serviceDao.insert(services)
         }
     }
 }

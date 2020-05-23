@@ -38,6 +38,11 @@
         android:name="com.js.nowakelock.ui.alarm.AlarmFragment"
         android:label="@string/Alarm"
         tools:layout="@layout/fragment_alarm" />
+    <fragment
+        android:id="@+id/serviceFragment"
+        android:name="com.js.nowakelock.ui.service.ServiceFragment"
+        android:label="@string/Service"
+        tools:layout="@layout/fragment_service" />
 
     <fragment
         android:id="@+id/wakeLockFragment"
@@ -54,5 +59,6 @@
         android:name="com.js.nowakelock.ui.help.HelpFragment"
         android:label="@string/help"
         tools:layout="@layout/fragment_help" />
+
 
 </navigation>

@@ -122,9 +122,10 @@ class ServiceHook {
         ) {
             if (service == null || packageName == null) return
             val now = SystemClock.elapsedRealtime()
-            val tmp: String = service.component?.flattenToShortString() ?: ""
-            val serviceName: String = tmp.replace(Regex(".*/"), "")
-//            XpUtil.log("service: service $service package $callingPackage name $serviceName")
+            val serviceName: String = service.component?.flattenToShortString() ?: ""
+//            val serviceName: String = tmp.replace(Regex(".*/"), "")
+
+            XpUtil.log("service: package $packageName name $serviceName")
 
             val flag = flag(serviceName, packageName, lastAllowTime[serviceName] ?: 0)
 
@@ -134,6 +135,8 @@ class ServiceHook {
             } else {
                 model.upBlockCount(serviceName, packageName)
             }
+
+            model.handleTimer(context)
         }
 
         // get weather service should block or not

@@ -17,6 +17,13 @@
         tools:ignore="ExtraText" />
 
     <item
+        android:id="@+id/serviceFragment"
+        android:icon="@drawable/ic_service_24dp"
+        android:title="@string/Service"
+        android:visible="true"
+        tools:ignore="ExtraText" />
+
+    <item
         android:id="@+id/appListFragment"
         android:icon="@drawable/ic_apps_24dp"
         android:title="@string/Apps"

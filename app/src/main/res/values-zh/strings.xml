@@ -53,9 +53,9 @@
         Issue : https://github.com/Jasper-1024/NoWakeLock/issues \n
         \n
         JasperHale: ljy087621@gmail.com</string>
-    <string name="wakelockATIText">允许唤醒间隔(0无限制,单位秒)</string>
+    <string name="ATIText">允许唤醒间隔(0无限制,单位秒)</string>
     <string name="wakelockFlagText">允许唤醒锁</string>
-    <string name="wakelockATIUnit">秒</string>
+    <string name="ATIUnit">秒</string>
     <string name="Re_Alarm">定时器正则(一个规则一行)</string>
     <string name="Re_Wakelock">唤醒锁正则(一个规则一行)</string>
     <string name="Save">保存</string>

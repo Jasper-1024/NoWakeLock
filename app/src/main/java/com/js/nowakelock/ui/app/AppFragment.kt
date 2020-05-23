@@ -43,7 +43,7 @@ class AppFragment : Fragment() {
         return when (position) {
             0 -> getString(R.string.WakeLock)
             1 -> getString(R.string.Alarm)
-//            2 -> getString(R.string.Service)
+            2 -> getString(R.string.Service)
             else -> getString(R.string.Apps)
         }
     }

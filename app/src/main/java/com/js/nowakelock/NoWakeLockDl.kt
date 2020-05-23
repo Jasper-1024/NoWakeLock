@@ -6,6 +6,7 @@ import com.js.nowakelock.ui.alarm.AlarmViewModel
 import com.js.nowakelock.ui.app.setting.AppSettingViewModel
 import com.js.nowakelock.ui.appList.AppListViewModel
 import com.js.nowakelock.ui.help.HelpViewModel
+import com.js.nowakelock.ui.service.ServiceViewModel
 import com.js.nowakelock.ui.wakeLock.WakeLockViewModel
 import com.js.nowakelreturn.mAlarmRepository
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -25,6 +26,13 @@ var noWakeLockModule = module {
     single<AppInfoRepository>(named("APR")) {
         mAppInfoRepository(
             AppDatabase.getInstance(BasicApp.context).appInfoDao()
+        )
+    }
+
+    /** ServiceRepository*/
+    single<ServiceRepository>(named("SR")) {
+        mServiceRepository(
+            AppDatabase.getInstance(BasicApp.context).serviceDao()
         )
     }
 
@@ -48,6 +56,11 @@ var noWakeLockModule = module {
     /**appsetting*/
     viewModel { (packageName: String) ->
         AppSettingViewModel(packageName, get(named("APR")))
+    }
+
+    /**service*/
+    viewModel { (packageName: String) ->
+        ServiceViewModel(packageName, get(named("SR")))
     }
 
     /**wakelock*/

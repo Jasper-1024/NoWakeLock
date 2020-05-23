@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
             AppBarConfiguration(
                 setOf(
                     R.id.alarmFragment,
+                    R.id.serviceFragment,
                     R.id.wakeLockFragment,
                     R.id.appListFragment
                 ), drawerLayout

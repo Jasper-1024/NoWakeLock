@@ -49,9 +49,9 @@
            <![CDATA[<a href="https://github.com/Jasper-1024/NoWakeLock/blob/dev/README/FAQ.md">FAQ</a>]]>;
     </string>
     <string name="help_contact">sd</string>
-    <string name="wakelockATIText">Allow wake-up interval (0 unlimited)</string>
+    <string name="ATIText">Allow wake-up interval (0 unlimited)</string>
     <string name="wakelockFlagText">Allow wakelock</string>
-    <string name="wakelockATIUnit">second</string>
+    <string name="ATIUnit">second</string>
     <string name="Re_Alarm">定时器正则(一个规则一行)</string>
     <string name="Re_Wakelock">唤醒锁正则(一个规则一行)</string>
     <string name="Save">Save</string>

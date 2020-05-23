@@ -7,6 +7,7 @@ import com.js.nowakelock.BasicApp
 import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.entity.Alarm
+import com.js.nowakelock.data.db.entity.Service
 import com.js.nowakelock.data.db.entity.WakeLock
 import com.js.nowakelock.xposedhook.model.DB
 import com.js.nowakelock.xposedhook.model.DBModel
@@ -89,6 +90,16 @@ class ProviderHandler(
         }
     }
 
+    private suspend fun dbService(list: MutableCollection<DB>) {
+        list.forEach {
+            val tmp: Service = db.serviceDao().loadService(it.name)
+                ?: Service(it.name, it.packageName)
+            tmp.count += it.count
+            tmp.blockCount += it.blockCount
+            db.serviceDao().insert(tmp)
+        }
+    }
+
     private suspend fun dbWakelock(list: MutableCollection<DB>) {
         list.forEach {
             val tmp: WakeLock = db.wakeLockDao().loadWakeLock(it.name)
@@ -99,10 +110,6 @@ class ProviderHandler(
             tmp.blockCountTime += it.blockCountTime
             db.wakeLockDao().insert(tmp)
         }
-    }
-
-    private suspend fun dbService(list: MutableCollection<DB>) {
-        //TODO()
     }
 
     private suspend fun update(list: MutableCollection<DB>) {
@@ -146,7 +153,19 @@ class ProviderHandler(
     }
 
     private fun stService(): STModel {
-        TODO()
+        val tmp = STModel()
+
+        runBlocking(Dispatchers.IO) {
+            db.serviceDao().loadService_st().forEach {
+                tmp.flagHM[it.serviceName] = it.flag
+                tmp.atIHM[it.serviceName] = it.allowTimeinterval
+            }
+            db.appInfoDao().loadAppSettings().forEach {
+                tmp.rEHM[it.packageName] = it.rE_Service
+            }
+            getSetting(tmp)
+        }
+        return tmp
     }
 
     private fun stWakelock(): STModel {
