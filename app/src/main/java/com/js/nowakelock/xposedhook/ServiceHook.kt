@@ -55,7 +55,7 @@ class ServiceHook {
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
-                        XpUtil.log("serviceHook29")
+//                        XpUtil.log("serviceHook29")
                         val service = param.args[1] as Intent?
                         val callingPackage = param.args[6] as String
                         val context: Context =
@@ -80,7 +80,7 @@ class ServiceHook {
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
-                        XpUtil.log("serviceHook26to28")
+//                        XpUtil.log("serviceHook26to28")
                         val service = param.args[1] as Intent?
                         val callingPackage = param.args[6] as String
                         val context: Context =
@@ -104,7 +104,7 @@ class ServiceHook {
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
-                        XpUtil.log("serviceHook24to25")
+//                        XpUtil.log("serviceHook24to25")
                         val service = param.args[1] as Intent?
                         val callingPackage = param.args[5] as String
                         val context: Context =
