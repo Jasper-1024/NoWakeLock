@@ -2,6 +2,7 @@
     <string name="app_name">NoWakeLock</string>
     <string name="xposeddescription">Just for block wakelock</string>
     <string name="navigation_view_header_title">NoWakeLock</string>
+    <string name="active">Module is not active</string>
     <string name="test">Test</string>
     <string name="android">Android System</string>
     <string name="settings">Settings</string>

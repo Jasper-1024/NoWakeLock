@@ -3,6 +3,7 @@
     <string name="xposeddescription">记录和禁用唤醒锁</string>
     <string name="navigation_view_header_title">NoWakeLock</string>
     <string name="test">Test</string>
+    <string name="active">模块未在 xposed 框架激活</string>
     <string name="android">Android 系统</string>
     <string name="settings">设置</string>
     <string name="sync">同步</string>

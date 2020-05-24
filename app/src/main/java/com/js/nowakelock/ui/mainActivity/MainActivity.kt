@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -19,11 +20,10 @@ import com.js.nowakelock.base.cache
 
 class MainActivity : AppCompatActivity() {
 
-//    companion object{
-//        fun isModuleActive():Boolean{
-//            return false
-//        }
-//    }
+    //check module active
+    fun isModuleActive(): Boolean {
+        return false
+    }
 
     private val viewModel by viewModels<MainViewModel>()
 
@@ -57,6 +57,10 @@ class MainActivity : AppCompatActivity() {
 
         //get cache
         viewModel.status.postValue(loadStatus())
+        //check module active
+        if (!isModuleActive()) {
+            Toast.makeText(this, getString(R.string.active), Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onDestroy() {
