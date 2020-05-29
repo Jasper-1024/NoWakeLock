@@ -1,4 +1,4 @@
-package com.js.nowakelock.test
+package com.js.nowakelock.ui.fragment.fbase
 
 import android.graphics.Color
 import android.os.Bundle
@@ -20,17 +20,19 @@ import com.js.nowakelock.ui.mainActivity.MainViewModel
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
+import org.koin.core.qualifier.named
 
 
-class Fragment : Fragment() {
+open class FFragment : Fragment() {
 
-    private lateinit var packageName: String
+    open lateinit var packageName: String
 
-    private val viewModel by inject<FViewModel> { parametersOf(packageName) }
+    open val viewModel: FViewModel by inject(named("VMA")) { parametersOf(packageName) }
+    open val itemLayout: Int = R.layout.item
 
-    private lateinit var binding: FragmentBinding
-    private lateinit var mainViewModel: MainViewModel
-    private lateinit var adapter: RecycleAdapter
+    open lateinit var binding: FragmentBinding
+    open lateinit var mainViewModel: MainViewModel
+    open lateinit var adapter: RecycleAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +51,7 @@ class Fragment : Fragment() {
 
         //set recyclerview
         val handler = FHandler(viewModel)
-        adapter = RecycleAdapter(R.layout.item, handler)
+        adapter = RecycleAdapter(itemLayout, handler)
         binding.list.adapter = adapter
 
         setItemDecoration(binding.list)

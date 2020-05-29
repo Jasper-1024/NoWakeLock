@@ -11,11 +11,11 @@
 
         <variable
             name="item"
-            type="com.js.nowakelock.data.db.entity.Service" />
+            type="com.js.nowakelock.data.base.Item" />
 
         <variable
             name="handler"
-            type="com.js.nowakelock.ui.service.ServiceHandler" />
+            type="com.js.nowakelock.ui.fragment.fbase.FHandler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,20 +25,20 @@
 
 
         <TextView
-            android:id="@+id/serviceListName"
+            android:id="@+id/ListName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:gravity="center_vertical"
             android:text="@{item.name}"
             android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/serviceFlag"
+            app:layout_constraintEnd_toStartOf="@+id/Flag"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints,SmallSp,UnknownIdInLayout" />
 
         <TextView
-            android:id="@+id/serviceCount"
+            android:id="@+id/Count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -47,24 +47,24 @@
             app:blockCount="@{item.blockCount}"
             app:count="@{item.count}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/serviceListName"
+            app:layout_constraintTop_toBottomOf="@+id/ListName"
             tools:ignore="MissingConstraints" />
 
         <TextView
-            android:id="@+id/serviceCountTime"
+            android:id="@+id/CountTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:visibility="gone"
             app:blockCountTime="@{item.blockCountTime}"
             app:countTime="@{item.countTime}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/serviceCount" />
+            app:layout_constraintTop_toBottomOf="@+id/Count" />
 
         <Switch
-            android:id="@+id/serviceFlag"
+            android:id="@+id/Flag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -78,7 +78,7 @@
             tools:ignore="MissingConstraints" />
 
         <TextView
-            android:id="@+id/serviceATIText"
+            android:id="@+id/ATIText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -86,13 +86,14 @@
             android:layout_marginBottom="8dp"
             android:text="@string/ATIText"
             android:textSize="16sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/serviceCount"
+            app:layout_constraintTop_toBottomOf="@+id/CountTime"
             tools:ignore="MissingConstraints" />
 
         <EditText
-            android:id="@+id/serviceATI"
+            android:id="@+id/ATI"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -105,12 +106,11 @@
             android:text="@={Converter.longToString(item.allowTimeinterval)}"
             android:textAlignment="textEnd"
             android:textSize="16sp"
-            android:visibility="@{item.flag ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@+id/serviceATIText"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/ATIText"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="MissingConstraints" />
-
+        <!--android:visibility="@{item.flag ? View.VISIBLE : View.GONE}"-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

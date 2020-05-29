@@ -1,19 +1,19 @@
 package com.js.nowakelock.data.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.js.nowakelock.data.db.entity.Service
 import com.js.nowakelock.data.db.entity.Service_st
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ServiceDao {
     /**for service fragment,no packageName*/
     @Query("select * from service")
-    fun loadServices(): LiveData<List<Service>>
+    fun loadServices(): Flow<List<Service>>
 
     /**for service fragment*/
     @Query("select * from service where service_packageName = :packageName")
-    fun loadServices(packageName: String): LiveData<List<Service>>
+    fun loadServices(packageName: String): Flow<List<Service>>
 
     /**for ProviderHandler,save service to db*/
     @Query("select * from service where serviceName = :serviceName")

@@ -1,19 +1,20 @@
 package com.js.nowakelock.data.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.js.nowakelock.data.db.entity.Alarm
 import com.js.nowakelock.data.db.entity.Alarm_st
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AlarmDao {
+
     /**for alarm fragment,no packageName*/
     @Query("select * from alarm")
-    fun loadAlarms(): LiveData<List<Alarm>>
+    fun loadAlarms(): Flow<List<Alarm>>
 
     /**for alarm fragment*/
     @Query("select * from alarm where alarm_packageName = :packageName")
-    fun loadAlarms(packageName: String): LiveData<List<Alarm>>
+    fun loadAlarms(packageName: String): Flow<List<Alarm>>
 
     /**for ProviderHandler,save alarm to db*/
     @Query("select * from alarm where alarmName = :alarmName")

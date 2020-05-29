@@ -3,11 +3,10 @@ package com.js.nowakelock.ui.app
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.js.nowakelock.ui.alarm.AlarmFragment
+import com.js.nowakelock.ui.fragment.AlarmFragment
 import com.js.nowakelock.ui.app.setting.AppSettingFragment
-import com.js.nowakelock.ui.app.setting.AppSettingViewModel
-import com.js.nowakelock.ui.service.ServiceFragment
-import com.js.nowakelock.ui.wakeLock.WakeLockFragment
+import com.js.nowakelock.ui.fragment.ServiceFragment
+import com.js.nowakelock.ui.fragment.WakeLockFragment
 
 class AppAdapter(fragment: Fragment, val packageName: String) : FragmentStateAdapter(fragment) {
 

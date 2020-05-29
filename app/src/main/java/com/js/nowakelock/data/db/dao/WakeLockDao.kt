@@ -1,7 +1,5 @@
 package com.js.nowakelock.data.db.dao
 
-import android.database.Cursor
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.js.nowakelock.data.db.entity.WakeLock
 import com.js.nowakelock.data.db.entity.WakeLock_st
@@ -12,10 +10,10 @@ interface WakeLockDao {
 
     /**for wakelock fragment*/
     @Query("select * from wakeLock")
-    fun loadWakeLocks(): LiveData<List<WakeLock>>
+    fun loadWakeLocks(): Flow<List<WakeLock>>
 
     @Query("select * from wakeLock where wakeLock_packageName = :packageName")
-    fun loadWakeLocks(packageName: String): LiveData<List<WakeLock>>
+    fun loadWakeLocks(packageName: String): Flow<List<WakeLock>>
 
     /**for BroadcastReceiver clear db*/
     @Query("select * from wakeLock")
@@ -47,13 +45,6 @@ interface WakeLockDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(wNLock_st: WakeLock_st)
-
-    /**for wakelock fragment*/
-    @Query("select * from wakeLock")
-    fun WakeLocks(): Flow<List<WakeLock>>
-
-    @Query("select * from wakeLock where wakeLock_packageName = :packageName")
-    fun WakeLocks(packageName: String): Flow<List<WakeLock>>
 
 //    @Query("select COUNT(*) from wakeLock where wakeLock_packageName = :packageName")
 //    suspend fun countWakeLocks(packageName: String): Int

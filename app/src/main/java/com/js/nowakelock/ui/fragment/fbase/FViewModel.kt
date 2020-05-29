@@ -1,4 +1,4 @@
-package com.js.nowakelock.test
+package com.js.nowakelock.ui.fragment.fbase
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -9,8 +9,7 @@ import com.js.nowakelock.base.search
 import com.js.nowakelock.base.sort
 import com.js.nowakelock.data.base.Item
 import com.js.nowakelock.data.base.Item_st
-import com.js.nowakelock.data.base.Repository
-import com.js.nowakelock.data.db.entity.WakeLock_st
+import com.js.nowakelock.data.repository.FRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -20,11 +19,11 @@ import kotlin.Comparator
 
 class FViewModel(
     packageName: String = "",
-    var repository: Repository
+    var FRepository: FRepository
 ) : ViewModel() {
     var list: LiveData<List<Item>> =
-        if (packageName == "") repository.getLists().asLiveData()
-        else repository.getLists(packageName).asLiveData()
+        if (packageName == "") FRepository.getLists().asLiveData()
+        else FRepository.getLists(packageName).asLiveData()
 
 
     suspend fun list(items: List<Item>, catch: cache): List<Item> =
@@ -37,7 +36,7 @@ class FViewModel(
     // get all Item flag
     suspend fun List<Item>.flag(): List<Item> {
         return this.map {
-            val tmp = repository.getItem_st(it.name)
+            val tmp = FRepository.getItem_st(it.name)
             it.flag.set(tmp.flag)
             it.allowTimeinterval = tmp.allowTimeinterval
             it
@@ -62,7 +61,7 @@ class FViewModel(
 
     //save st
     fun saveST(item: Item) = viewModelScope.launch(Dispatchers.IO) {
-        repository.setItem_st(
+        FRepository.setItem_st(
             Item_st().apply {
                 name = item.name
                 flag = item.flag.get()

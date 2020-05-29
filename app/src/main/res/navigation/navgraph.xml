@@ -35,20 +35,20 @@
 
     <fragment
         android:id="@+id/alarmFragment"
-        android:name="com.js.nowakelock.ui.alarm.AlarmFragment"
+        android:name="com.js.nowakelock.ui.fragment.AlarmFragment"
         android:label="@string/Alarm"
-        tools:layout="@layout/fragment_alarm" />
+        tools:layout="@layout/fragment" />
     <fragment
         android:id="@+id/serviceFragment"
-        android:name="com.js.nowakelock.ui.service.ServiceFragment"
+        android:name="com.js.nowakelock.ui.fragment.ServiceFragment"
         android:label="@string/Service"
-        tools:layout="@layout/fragment_service" />
+        tools:layout="@layout/fragment" />
 
     <fragment
         android:id="@+id/wakeLockFragment"
-        android:name="com.js.nowakelock.ui.wakeLock.WakeLockFragment"
+        android:name="com.js.nowakelock.ui.fragment.WakeLockFragment"
         android:label="@string/WakeLock"
-        tools:layout="@layout/fragment_wake_lock" />
+        tools:layout="@layout/fragment" />
 
     <fragment
         android:id="@+id/settingsFragment"
@@ -59,10 +59,6 @@
         android:name="com.js.nowakelock.ui.help.HelpFragment"
         android:label="@string/help"
         tools:layout="@layout/fragment_help" />
-    <fragment
-        android:id="@+id/fragment"
-        android:name="com.js.nowakelock.test.Fragment"
-        android:label="Fragment" />
 
 
 </navigation>

@@ -1,16 +1,12 @@
 package com.js.nowakelock
 
-import com.js.nowakelock.data.base.Repository
+import com.js.nowakelock.data.repository.FRepository
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.repository.*
-import com.js.nowakelock.ui.alarm.AlarmViewModel
 import com.js.nowakelock.ui.app.setting.AppSettingViewModel
 import com.js.nowakelock.ui.appList.AppListViewModel
 import com.js.nowakelock.ui.help.HelpViewModel
-import com.js.nowakelock.ui.service.ServiceViewModel
-import com.js.nowakelock.ui.wakeLock.WakeLockViewModel
-import com.js.nowakelock.data.repository.mAlarmRepository
-import com.js.nowakelock.test.FViewModel
+import com.js.nowakelock.ui.fragment.fbase.FViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -18,8 +14,8 @@ import org.koin.dsl.module
 var noWakeLockModule = module {
 
     /** AlarmRepository */
-    single<AlarmRepository>(named("AR")) {
-        mAlarmRepository(
+    single<FRepository>(named("AR")) {
+        mAlarmR(
             AppDatabase.getInstance(BasicApp.context).alarmDao()
         )
     }
@@ -32,29 +28,26 @@ var noWakeLockModule = module {
     }
 
     /** ServiceRepository*/
-    single<ServiceRepository>(named("SR")) {
-        mServiceRepository(
+    single<FRepository>(named("SR")) {
+        mServiceR(
             AppDatabase.getInstance(BasicApp.context).serviceDao()
         )
     }
 
     /** WakeLockRepository */
-    single<WakeLockRepository>(named("WLR")) {
-        mWakeLockRepository(
-            AppDatabase.getInstance(BasicApp.context).wakeLockDao()
-        )
-    }
-
-    /** WakeLockR */
-    single<Repository>(named("W")) {
+    single<FRepository>(named("WR")) {
         mWakelockR(
             AppDatabase.getInstance(BasicApp.context).wakeLockDao()
         )
     }
 
+
     /**alarm*/
-    viewModel { (packageName: String) ->
-        AlarmViewModel(packageName, get(named("AR")))
+    viewModel(named("VMA")) { (packageName: String) ->
+        FViewModel(
+            packageName,
+            get(named("AR"))
+        )
     }
 
     /**applist*/
@@ -68,18 +61,19 @@ var noWakeLockModule = module {
     }
 
     /**service*/
-    viewModel { (packageName: String) ->
-        ServiceViewModel(packageName, get(named("SR")))
+    viewModel(named("VMS")) { (packageName: String) ->
+        FViewModel(
+            packageName,
+            get(named("SR"))
+        )
     }
 
     /**wakelock*/
-    viewModel { (packageName: String) ->
-        WakeLockViewModel(packageName, get(named("WLR")))
-    }
-
-    /**wakelock*/
-    viewModel { (packageName: String) ->
-        FViewModel(packageName, get(named("W")))
+    viewModel(named("VMW")) { (packageName: String) ->
+        FViewModel(
+            packageName,
+            get(named("WR"))
+        )
     }
 
     /**help*/

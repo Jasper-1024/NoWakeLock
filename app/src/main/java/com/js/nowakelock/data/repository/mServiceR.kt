@@ -2,20 +2,21 @@ package com.js.nowakelock.data.repository
 
 import com.js.nowakelock.data.base.Item
 import com.js.nowakelock.data.base.Item_st
-import com.js.nowakelock.data.db.dao.WakeLockDao
+import com.js.nowakelock.data.db.dao.ServiceDao
+import com.js.nowakelock.data.db.entity.Alarm_st
+import com.js.nowakelock.data.db.entity.Service_st
 import com.js.nowakelock.data.db.entity.WakeLock_st
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
-class mWakelockR(private var wakeLockDao: WakeLockDao) : FRepository {
-
+class mServiceR(private val serviceDao: ServiceDao) : FRepository {
     override fun getLists(): Flow<List<Item>> {
-        return wakeLockDao.loadWakeLocks()
+        return serviceDao.loadServices()
     }
 
     override fun getLists(packageName: String): Flow<List<Item>> {
-        return wakeLockDao.loadWakeLocks(packageName)
+        return serviceDao.loadServices(packageName)
     }
 
     override suspend fun sync(pN: String) {
@@ -23,12 +24,12 @@ class mWakelockR(private var wakeLockDao: WakeLockDao) : FRepository {
     }
 
     override suspend fun getItem_st(name: String): Item_st = withContext(Dispatchers.IO) {
-        return@withContext wakeLockDao.loadWakeLock_st(name) ?: WakeLock_st(name)
+        return@withContext serviceDao.loadService_st(name) ?: Service_st(name)
     }
 
     override suspend fun setItem_st(itemSt: Item_st) = withContext(Dispatchers.IO) {
-        wakeLockDao.insert(
-            WakeLock_st(itemSt.name, itemSt.flag, itemSt.allowTimeinterval)
+        serviceDao.insert(
+            Service_st(itemSt.name, itemSt.flag, itemSt.allowTimeinterval)
         )
     }
 }

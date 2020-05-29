@@ -1,8 +1,10 @@
-package com.js.nowakelock.data.base
+package com.js.nowakelock.data.repository
 
+import com.js.nowakelock.data.base.Item
+import com.js.nowakelock.data.base.Item_st
 import kotlinx.coroutines.flow.Flow
 
-interface Repository {
+interface FRepository {
     fun getLists(): Flow<List<Item>>
     fun getLists(packageName: String): Flow<List<Item>>
 
