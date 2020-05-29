@@ -27,7 +27,7 @@ class ServiceViewModel(
     //save service flag
     fun setFlag(service: Service) = viewModelScope.launch(Dispatchers.IO) {
         repository.setService_st(
-            Service_st(service.serviceName, service.flag.get(), service.allowTimeinterval)
+            Service_st(service.name, service.flag.get(), service.allowTimeinterval)
         )
     }
 
@@ -41,25 +41,25 @@ class ServiceViewModel(
     // get all Service flag
     suspend fun List<Service>.flag(): List<Service> {
         return this.map {
-            val tmp = repository.getService_st(it.serviceName)
+            val tmp = repository.getService_st(it.name)
             it.flag.set(tmp.flag)
             it.allowTimeinterval = tmp.allowTimeinterval
             it
         }
     }
 
-    fun search(service: Service) = service.serviceName
+    fun search(service: Service) = service.name
 
     // get sort method
     fun sort(sort: Int): java.util.Comparator<Service> {
         return when (sort) {
             1 -> Comparator<Service> { s1, s2 ->
-                Collator.getInstance(Locale.getDefault()).compare(s1.serviceName, s2.serviceName)
+                Collator.getInstance(Locale.getDefault()).compare(s1.name, s2.name)
             }
             2 -> compareByDescending<Service> { it.count }
             3 -> compareByDescending<Service> { it.countTime }
             else -> Comparator<Service> { s1, s2 ->
-                Collator.getInstance(Locale.getDefault()).compare(s1.serviceName, s2.serviceName)
+                Collator.getInstance(Locale.getDefault()).compare(s1.name, s2.name)
             }
         }
     }

@@ -6,29 +6,31 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.js.nowakelock.base.BaseItem
+import com.js.nowakelock.data.base.Item
 
 @Entity(tableName = "alarm")
 data class Alarm(
     @PrimaryKey
-    var alarmName: String = "",
+    @ColumnInfo(name = "alarmName")
+    override var name: String = "",
     @ColumnInfo(name = "alarm_packageName")
-    var packageName: String = "",
+    override var packageName: String = "",
     @ColumnInfo(name = "alarm_count")
-    var count: Int = 0,
+    override var count: Int = 0,
     @ColumnInfo(name = "alarm_blockCount")
-    var blockCount: Int = 0,
+    override var blockCount: Int = 0,
     @ColumnInfo(name = "alarm_countTime")
-    var countTime: Long = 0,
+    override var countTime: Long = 0,
     @ColumnInfo(name = "alarm_blockCountTime")
-    var blockCountTime: Long = 0,
+    override var blockCountTime: Long = 0,
     //for ST
     @Ignore
-    var flag: ObservableBoolean = ObservableBoolean().apply { this.set(true) },
+    override var flag: ObservableBoolean = ObservableBoolean().apply { this.set(true) },
     @Ignore
-    var allowTimeinterval: Long = 0//no limit
-) : BaseItem {
+    override var allowTimeinterval: Long = 0//no limit
+) : BaseItem, Item() {
     @Ignore
-    override fun getID() = alarmName
+    override fun getID() = name
 
     @Ignore
     override fun getContent(): Int = count

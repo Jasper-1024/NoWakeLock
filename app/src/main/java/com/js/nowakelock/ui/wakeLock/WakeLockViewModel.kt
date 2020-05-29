@@ -31,7 +31,7 @@ class WakeLockViewModel(
     fun setWakeLockFlag(wakeLock: WakeLock) = viewModelScope.launch(Dispatchers.IO) {
         wakeLockRepository.setWakeLock_st(
             WakeLock_st(
-                wakeLock.wakeLockName,
+                wakeLock.name,
                 wakeLock.flag.get(),
                 wakeLock.allowTimeinterval
             )
@@ -48,25 +48,25 @@ class WakeLockViewModel(
     // get all WakeLock flag
     suspend fun List<WakeLock>.flag(): List<WakeLock> {
         return this.map {
-            val tmp = wakeLockRepository.getWakeLock_st(it.wakeLockName)
+            val tmp = wakeLockRepository.getWakeLock_st(it.name)
             it.flag.set(tmp.flag)
             it.allowTimeinterval = tmp.allowTimeinterval
             it
         }
     }
 
-    fun search(wakeLock: WakeLock) = wakeLock.wakeLockName
+    fun search(wakeLock: WakeLock) = wakeLock.name
 
     // get sort method
     fun sort(sort: Int): java.util.Comparator<WakeLock> {
         return when (sort) {
             1 -> Comparator<WakeLock> { s1, s2 ->
-                Collator.getInstance(Locale.getDefault()).compare(s1.wakeLockName, s2.wakeLockName)
+                Collator.getInstance(Locale.getDefault()).compare(s1.name, s2.name)
             }
             2 -> compareByDescending<WakeLock> { it.count }
             3 -> compareByDescending<WakeLock> { it.countTime }
             else -> Comparator<WakeLock> { s1, s2 ->
-                Collator.getInstance(Locale.getDefault()).compare(s1.wakeLockName, s2.wakeLockName)
+                Collator.getInstance(Locale.getDefault()).compare(s1.name, s2.name)
             }
         }
     }

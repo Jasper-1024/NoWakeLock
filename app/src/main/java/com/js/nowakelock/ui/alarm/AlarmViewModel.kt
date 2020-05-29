@@ -28,7 +28,7 @@ class AlarmViewModel(
     //save alarm flag
     fun setFlag(alarm: Alarm) = viewModelScope.launch(Dispatchers.IO) {
         repository.setAlarm_st(
-            Alarm_st(alarm.alarmName, alarm.flag.get(), alarm.allowTimeinterval)
+            Alarm_st(alarm.name, alarm.flag.get(), alarm.allowTimeinterval)
         )
     }
 
@@ -42,25 +42,25 @@ class AlarmViewModel(
     // get all Alarm flag
     suspend fun List<Alarm>.flag(): List<Alarm> {
         return this.map {
-            val tmp = repository.getAlarm_st(it.alarmName)
+            val tmp = repository.getAlarm_st(it.name)
             it.flag.set(tmp.flag)
             it.allowTimeinterval = tmp.allowTimeinterval
             it
         }
     }
 
-    fun search(alarm: Alarm) = alarm.alarmName
+    fun search(alarm: Alarm) = alarm.name
 
     // get sort method
     fun sort(sort: Int): java.util.Comparator<Alarm> {
         return when (sort) {
             1 -> Comparator<Alarm> { s1, s2 ->
-                Collator.getInstance(Locale.getDefault()).compare(s1.alarmName, s2.alarmName)
+                Collator.getInstance(Locale.getDefault()).compare(s1.name, s2.name)
             }
             2 -> compareByDescending<Alarm> { it.count }
             3 -> compareByDescending<Alarm> { it.countTime }
             else -> Comparator<Alarm> { s1, s2 ->
-                Collator.getInstance(Locale.getDefault()).compare(s1.alarmName, s2.alarmName)
+                Collator.getInstance(Locale.getDefault()).compare(s1.name, s2.name)
             }
         }
     }

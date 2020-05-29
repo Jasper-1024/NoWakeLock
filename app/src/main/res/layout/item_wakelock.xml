@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:gravity="center_vertical"
-            android:text="@{item.wakeLockName}"
+            android:text="@{item.name}"
             android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/wakelockFlag"
             app:layout_constraintStart_toStartOf="parent"

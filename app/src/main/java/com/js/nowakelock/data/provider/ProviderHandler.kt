@@ -148,8 +148,8 @@ class ProviderHandler(
 
         runBlocking(Dispatchers.IO) {
             db.alarmDao().loadAlarm_st().forEach {
-                tmp.flagHM[it.alarmName] = it.flag
-                tmp.atIHM[it.alarmName] = it.allowTimeinterval
+                tmp.flagHM[it.name] = it.flag
+                tmp.atIHM[it.name] = it.allowTimeinterval
             }
             db.appInfoDao().loadAppSettings().forEach {
                 tmp.rEHM[it.packageName] = it.rE_Alarm
@@ -164,8 +164,8 @@ class ProviderHandler(
 
         runBlocking(Dispatchers.IO) {
             db.serviceDao().loadService_st().forEach {
-                tmp.flagHM[it.serviceName] = it.flag
-                tmp.atIHM[it.serviceName] = it.allowTimeinterval
+                tmp.flagHM[it.name] = it.flag
+                tmp.atIHM[it.name] = it.allowTimeinterval
             }
             db.appInfoDao().loadAppSettings().forEach {
                 tmp.rEHM[it.packageName] = it.rE_Service
@@ -180,8 +180,8 @@ class ProviderHandler(
 
         runBlocking(Dispatchers.IO) {
             db.wakeLockDao().loadWakeLock_st().forEach {
-                tmp.flagHM[it.wakeLockName] = it.flag
-                tmp.atIHM[it.wakeLockName] = it.allowTimeinterval
+                tmp.flagHM[it.name] = it.flag
+                tmp.atIHM[it.name] = it.allowTimeinterval
             }
             db.appInfoDao().loadAppSettings().forEach {
                 tmp.rEHM[it.packageName] = it.rE_Wakelock

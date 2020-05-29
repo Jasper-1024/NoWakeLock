@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.js.nowakelock.data.db.entity.WakeLock
 import com.js.nowakelock.data.db.entity.WakeLock_st
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WakeLockDao {
@@ -46,6 +47,13 @@ interface WakeLockDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(wNLock_st: WakeLock_st)
+
+    /**for wakelock fragment*/
+    @Query("select * from wakeLock")
+    fun WakeLocks(): Flow<List<WakeLock>>
+
+    @Query("select * from wakeLock where wakeLock_packageName = :packageName")
+    fun WakeLocks(packageName: String): Flow<List<WakeLock>>
 
 //    @Query("select COUNT(*) from wakeLock where wakeLock_packageName = :packageName")
 //    suspend fun countWakeLocks(packageName: String): Int

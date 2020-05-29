@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.js.nowakelock.base.BaseItem
+import com.js.nowakelock.data.base.Item
 
 @Entity(
     tableName = "wakeLock"
@@ -20,28 +21,29 @@ import com.js.nowakelock.base.BaseItem
 )
 data class WakeLock(
     @PrimaryKey
-    var wakeLockName: String = "",
+    @ColumnInfo(name = "wakeLockName")
+    override var name: String = "",
     @ColumnInfo(name = "wakeLock_packageName")
-    var packageName: String = "",
+    override var packageName: String = "",
     @ColumnInfo(name = "wakeLock_uid")
     var uid: Int = 0,
     @ColumnInfo(name = "wakeLock_count")
-    var count: Int = 0,
+    override var count: Int = 0,
     @ColumnInfo(name = "wakeLock_blockCount")
-    var blockCount: Int = 0,
+    override var blockCount: Int = 0,
     @ColumnInfo(name = "wakeLock_countTime")
-    var countTime: Long = 0,
+    override var countTime: Long = 0,
     @ColumnInfo(name = "wakeLock_blockCountTime")
-    var blockCountTime: Long = 0,
+    override var blockCountTime: Long = 0,
     //for ST
     @Ignore
-    var flag: ObservableBoolean = ObservableBoolean().apply { this.set(true) },
+    override var flag: ObservableBoolean = ObservableBoolean().apply { this.set(true) },
     @Ignore
-    var allowTimeinterval: Long = 0 //no limit
+    override var allowTimeinterval: Long = 0 //no limit
 
-) : BaseItem {
+) : BaseItem, Item() {
     @Ignore
-    override fun getID() = wakeLockName
+    override fun getID() = name
 
     @Ignore
     override fun getContent(): Int = count

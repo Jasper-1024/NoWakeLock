@@ -59,6 +59,10 @@
         android:name="com.js.nowakelock.ui.help.HelpFragment"
         android:label="@string/help"
         tools:layout="@layout/fragment_help" />
+    <fragment
+        android:id="@+id/fragment"
+        android:name="com.js.nowakelock.test.Fragment"
+        android:label="Fragment" />
 
 
 </navigation>

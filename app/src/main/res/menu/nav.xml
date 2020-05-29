@@ -37,6 +37,13 @@
         tools:ignore="ExtraText" />
 
     <item
+        android:id="@+id/fragment"
+        android:icon="@drawable/ic_settings_24dp"
+        android:title="@string/settings"
+        tools:ignore="ExtraText" />
+
+
+    <item
         android:id="@+id/helpFragment"
         android:icon="@drawable/ic_help_24dp"
         android:title="@string/help"
