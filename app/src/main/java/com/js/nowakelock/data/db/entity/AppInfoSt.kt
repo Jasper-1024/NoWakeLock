@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "appInfo_st")
-data class AppInfo_st(
+data class AppInfoSt(
     @PrimaryKey
     @ColumnInfo(name = "packageName_st")
     var packageName: String = "",

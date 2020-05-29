@@ -4,12 +4,14 @@ import de.robv.android.xposed.XposedBridge
 
 
 object XpUtil {
-    val TAG = "Xposed.NoWakeLock"
-    val authority = "com.js.nowakelock"
+    private const val Tag = "Xposed.NoWakeLock"
+    const val authority = "com.js.nowakelock"
+
+    private var log = false
 
     fun log(string: String) {
-        if (false) {
-            XposedBridge.log("$TAG: $string")
+        if (log) {
+            XposedBridge.log("$Tag: $string")
         }
     }
 }

@@ -38,9 +38,6 @@ android {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 
-//    dataBinding {
-//        enabled = true
-//    }
     buildFeatures {
         dataBinding = true
     }

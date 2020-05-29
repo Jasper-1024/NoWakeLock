@@ -15,8 +15,8 @@ import com.js.nowakelock.data.db.dao.WakeLockDao
 import com.js.nowakelock.data.db.entity.*
 
 @Database(
-    entities = [AppInfo::class, AppInfo_st::class, WakeLock::class, WakeLock_st::class,
-        Alarm::class, Alarm_st::class, Service::class, Service_st::class],
+    entities = [AppInfo::class, AppInfoSt::class, WakeLock::class, WakeLockSt::class,
+        Alarm::class, AlarmSt::class, Service::class, ServiceSt::class],
     version = 4
 )
 @TypeConverters(Converters::class)
@@ -46,7 +46,7 @@ abstract class AppDatabase : RoomDatabase() {
             .build()
 
 
-        val MIGRATION_1_2 = object : Migration(1, 2) {
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL(
                     "CREATE TABLE IF NOT EXISTS `appInfo_st` (`packageName_st` TEXT NOT NULL, `flag` INTEGER NOT NULL, `allowTimeinterval` INTEGER NOT NULL, `rE_Wakelock` TEXT NOT NULL, `rE_Alarm` TEXT NOT NULL, `rE_Service` TEXT NOT NULL, PRIMARY KEY(`packageName_st`))"
@@ -54,7 +54,7 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        val MIGRATION_2_3 = object : Migration(2, 3) {
+        private val MIGRATION_2_3 = object : Migration(2, 3) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL(
                     "CREATE TABLE IF NOT EXISTS `alarm` (`alarmName` TEXT NOT NULL, `alarm_packageName` TEXT NOT NULL, `alarm_count` INTEGER NOT NULL, `alarm_blockCount` INTEGER NOT NULL, `alarm_countTime` INTEGER NOT NULL, `alarm_blockCountTime` INTEGER NOT NULL, PRIMARY KEY(`alarmName`))"
@@ -65,7 +65,7 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        val MIGRATION_3_4 = object : Migration(3, 4) {
+        private val MIGRATION_3_4 = object : Migration(3, 4) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL(
                     "CREATE TABLE IF NOT EXISTS `service` (`serviceName` TEXT NOT NULL, `service_packageName` TEXT NOT NULL, `service_count` INTEGER NOT NULL, `service_blockCount` INTEGER NOT NULL, `service_countTime` INTEGER NOT NULL, `service_blockCountTime` INTEGER NOT NULL, PRIMARY KEY(`serviceName`))"

@@ -147,7 +147,7 @@ class ProviderHandler(
         val tmp = STModel()
 
         runBlocking(Dispatchers.IO) {
-            db.alarmDao().loadAlarm_st().forEach {
+            db.alarmDao().loadAlarmSt().forEach {
                 tmp.flagHM[it.name] = it.flag
                 tmp.atIHM[it.name] = it.allowTimeinterval
             }
@@ -163,7 +163,7 @@ class ProviderHandler(
         val tmp = STModel()
 
         runBlocking(Dispatchers.IO) {
-            db.serviceDao().loadService_st().forEach {
+            db.serviceDao().loadServiceSt().forEach {
                 tmp.flagHM[it.name] = it.flag
                 tmp.atIHM[it.name] = it.allowTimeinterval
             }
@@ -179,7 +179,7 @@ class ProviderHandler(
         val tmp = STModel()
 
         runBlocking(Dispatchers.IO) {
-            db.wakeLockDao().loadWakeLock_st().forEach {
+            db.wakeLockDao().loadWakeLockSt().forEach {
                 tmp.flagHM[it.name] = it.flag
                 tmp.atIHM[it.name] = it.allowTimeinterval
             }

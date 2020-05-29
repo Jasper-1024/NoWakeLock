@@ -18,6 +18,8 @@ class BasicApp : Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
+
+        //koin
         startKoin {
             androidContext(this@BasicApp)
             modules(noWakeLockModule)

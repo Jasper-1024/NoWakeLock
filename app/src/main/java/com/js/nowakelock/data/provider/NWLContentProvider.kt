@@ -2,13 +2,9 @@ package com.js.nowakelock.data.provider
 
 import android.content.ContentProvider
 import android.content.ContentValues
-import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
-import com.js.nowakelock.base.LogUtil
-import com.js.nowakelock.data.db.AppDatabase
-import com.js.nowakelock.data.db.entity.WakeLock
 
 class NWLContentProvider : ContentProvider() {
 

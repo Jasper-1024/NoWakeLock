@@ -6,6 +6,7 @@ import java.io.Serializable
 
 //@Parcelize
 //@Serializable
+@Suppress("UNUSED", "MemberVisibilityCanBePrivate")
 data class Test(
     val name: String?,
     var packageName: String? = "",
@@ -15,6 +16,7 @@ data class Test(
     var blockCountTime: Long = 0
 ) : Serializable
 
+@Suppress("UNUSED", "MemberVisibilityCanBePrivate")
 @Parcelize
 data class Test2(
     val name: String?,

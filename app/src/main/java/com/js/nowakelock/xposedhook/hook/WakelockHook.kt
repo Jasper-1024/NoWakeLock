@@ -1,12 +1,13 @@
-package com.js.nowakelock.xposedhook
+package com.js.nowakelock.xposedhook.hook
 
 import android.content.Context
 import android.os.IBinder
 import android.os.SystemClock
 import android.os.WorkSource
+import com.js.nowakelock.xposedhook.XpUtil
+import com.js.nowakelock.xposedhook.model.IModel
 import com.js.nowakelock.xposedhook.model.Model
 import com.js.nowakelock.xposedhook.model.XPM
-import com.js.nowakelock.xposedhook.model.mModel
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -14,7 +15,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 class WakelockHook {
     companion object {
 
-        private val model: Model = mModel(XPM.wakelock)
+        private val model: Model = IModel(XPM.wakelock)
 
         @Volatile
         private var wlT = HashMap<IBinder, WLT>()//wakelock witch active
@@ -75,7 +76,7 @@ class WakelockHook {
                         ) as Context
                         val lock = param.args[0] as IBinder
                         handleWakeLockRelease(
-                            param,
+//                            param,
                             lock,
                             context
                         )
@@ -93,12 +94,26 @@ class WakelockHook {
         ) {
             val now = SystemClock.elapsedRealtime()
 
-            val wlt: WLT = wlT[lock] ?: WLT(wN, pN, true, now)
+            val wlt: WLT = wlT[lock] ?: WLT(
+                wN,
+                pN,
+                true,
+                now
+            )
             wlT[lock] = wlt
 
-            time(lock, now)//record
+            time(
+                lock,
+                now
+            )//record
 
-            wlt.flag = flag(wN, pN, lastAllowTime[wN] ?: 0)
+            wlt.flag =
+                flag(
+                    wN,
+                    pN,
+                    lastAllowTime[wN]
+                        ?: 0
+                )
             wlt.lastTime = now
 
             // allow wakelock
@@ -113,12 +128,15 @@ class WakelockHook {
 
         //handle wakelock release
         private fun handleWakeLockRelease(
-            param: XC_MethodHook.MethodHookParam,
+//            param: XC_MethodHook.MethodHookParam,
             lock: IBinder,
             context: Context
         ) {
             val now = SystemClock.elapsedRealtime()
-            time(lock, now)
+            time(
+                lock,
+                now
+            )
             wlT.remove(lock)
 
             model.handleTimer(context)//handler timer

@@ -2,7 +2,7 @@ package com.js.nowakelock.data.db.dao
 
 import androidx.room.*
 import com.js.nowakelock.data.db.entity.Alarm
-import com.js.nowakelock.data.db.entity.Alarm_st
+import com.js.nowakelock.data.db.entity.AlarmSt
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -40,12 +40,12 @@ interface AlarmDao {
 
     /**alarm_st*/
     @Query("select * from alarm_st where alarmName_st = :alarmName")
-    fun loadAlarm_st(alarmName: String): Alarm_st?
+    fun loadAlarmSt(alarmName: String): AlarmSt?
 
     /**for ContentProvider*/
     @Query("select * from alarm_st")
-    fun loadAlarm_st(): List<Alarm_st>
+    fun loadAlarmSt(): List<AlarmSt>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(alarmSt: Alarm_st)
+    suspend fun insert(alarmSt: AlarmSt)
 }

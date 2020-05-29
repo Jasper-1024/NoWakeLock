@@ -2,7 +2,7 @@ package com.js.nowakelock.data.db.dao
 
 import androidx.room.*
 import com.js.nowakelock.data.db.entity.WakeLock
-import com.js.nowakelock.data.db.entity.WakeLock_st
+import com.js.nowakelock.data.db.entity.WakeLockSt
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -37,14 +37,14 @@ interface WakeLockDao {
 
     /**wakelock_st*/
     @Query("select * from wakeLock_st where wakeLockName_st = :wakelockName")
-    fun loadWakeLock_st(wakelockName: String): WakeLock_st?
+    fun loadWakeLockSt(wakelockName: String): WakeLockSt?
 
     /**for ContentProvider*/
     @Query("select * from wakeLock_st")
-    fun loadWakeLock_st(): List<WakeLock_st>
+    fun loadWakeLockSt(): List<WakeLockSt>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(wNLock_st: WakeLock_st)
+    suspend fun insert(wNLock_st: WakeLockSt)
 
 //    @Query("select COUNT(*) from wakeLock where wakeLock_packageName = :packageName")
 //    suspend fun countWakeLocks(packageName: String): Int

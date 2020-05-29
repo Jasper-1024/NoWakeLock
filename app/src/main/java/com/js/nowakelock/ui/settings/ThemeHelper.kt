@@ -3,7 +3,9 @@ package com.js.nowakelock.ui.settings
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 
+@Suppress("MemberVisibilityCanBePrivate")
 object ThemeHelper {
+
     const val LIGHT_MODE = "light"
     const val DARK_MODE = "dark"
     const val DEFAULT_MODE = "default"

@@ -1,9 +1,10 @@
-package com.js.nowakelock.data.base
+package com.js.nowakelock.data.db.base
 
 import androidx.databinding.ObservableBoolean
 import androidx.room.Ignore
 import com.js.nowakelock.base.BaseItem
 
+/**for fragment*/
 open class Item : BaseItem {
     @Ignore
     open var name: String = ""
@@ -25,7 +26,8 @@ open class Item : BaseItem {
 
     //for ST
     @Ignore
-    open var flag: ObservableBoolean = ObservableBoolean().apply { this.set(true) }
+    open var flag: ObservableBoolean =
+        ObservableBoolean().apply { this.set(true) }//kotlin boolean not work on data binding
 
     @Ignore
     open var allowTimeinterval: Long = 0 //no limit

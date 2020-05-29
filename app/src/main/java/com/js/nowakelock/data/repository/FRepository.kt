@@ -1,7 +1,7 @@
 package com.js.nowakelock.data.repository
 
-import com.js.nowakelock.data.base.Item
-import com.js.nowakelock.data.base.Item_st
+import com.js.nowakelock.data.db.base.Item
+import com.js.nowakelock.data.db.base.ItemSt
 import kotlinx.coroutines.flow.Flow
 
 interface FRepository {
@@ -10,6 +10,6 @@ interface FRepository {
 
     suspend fun sync(pN: String)
 
-    suspend fun getItem_st(name: String): Item_st
-    suspend fun setItem_st(itemSt: Item_st)
+    suspend fun getItem_st(name: String): ItemSt
+    suspend fun setItem_st(itemSt: ItemSt)
 }

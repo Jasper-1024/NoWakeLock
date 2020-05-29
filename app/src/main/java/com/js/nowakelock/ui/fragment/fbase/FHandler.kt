@@ -1,11 +1,10 @@
 package com.js.nowakelock.ui.fragment.fbase
 
-import android.view.View
 import com.js.nowakelock.base.BaseHandler
-import com.js.nowakelock.data.base.Item
+import com.js.nowakelock.data.db.base.Item
 
 class FHandler(val viewModel: FViewModel) : BaseHandler() {
-    fun onClick(view: View, item: Item) {
+    fun onClick(/*view: View,*/ item: Item) {
         viewModel.saveST(item)
     }
 

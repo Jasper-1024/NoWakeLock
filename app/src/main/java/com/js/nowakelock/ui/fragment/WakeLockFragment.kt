@@ -1,7 +1,7 @@
 package com.js.nowakelock.ui.fragment
 
-import android.app.Service
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
 import com.js.nowakelock.R
 import com.js.nowakelock.base.menuGone
 import com.js.nowakelock.ui.fragment.fbase.FFragment
@@ -9,7 +9,6 @@ import com.js.nowakelock.ui.fragment.fbase.FViewModel
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
-import org.koin.experimental.property.inject
 
 
 class WakeLockFragment : FFragment() {

@@ -3,7 +3,7 @@ package com.js.nowakelock.xposedhook.model
 import java.io.Serializable
 
 data class DBModel(
-    var dbHM: HashMap<String, DB> = HashMap<String, DB>()
+    var dbHM: HashMap<String, DB> = HashMap()
 ) : Serializable
 
 data class DB(

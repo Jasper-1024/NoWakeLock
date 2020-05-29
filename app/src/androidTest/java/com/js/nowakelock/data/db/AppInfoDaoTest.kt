@@ -7,7 +7,6 @@ import androidx.test.core.app.ApplicationProvider
 import com.js.nowakelock.LiveDataTestUtil
 import com.js.nowakelock.data.TestData
 import com.js.nowakelock.data.db.dao.AppInfoDao
-import com.js.nowakelock.data.db.entity.AppInfo_st
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals

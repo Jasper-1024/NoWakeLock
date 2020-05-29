@@ -1,8 +1,9 @@
-package com.js.nowakelock.data.base
+package com.js.nowakelock.data.db.base
 
 import androidx.room.Ignore
 
-open class Item_st {
+/**for fragment*/
+open class ItemSt {
     @Ignore
     open var name: String = ""
 

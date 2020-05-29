@@ -6,7 +6,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.js.nowakelock.base.BaseItem
-import com.js.nowakelock.data.base.Item
+import com.js.nowakelock.data.db.base.Item
 
 @Entity(tableName = "service")
 data class Service(

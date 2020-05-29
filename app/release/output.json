@@ -1,20 +1,20 @@
-[
-  {
-    "outputType": {
-      "type": "APK"
-    },
-    "apkData": {
-      "type": "MAIN",
-      "splits": [],
+{
+  "version": 1,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.js.nowakelock",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "properties": [],
       "versionCode": 20,
-      "versionName": "1.1.0-beta",
+      "versionName": "20",
       "enabled": true,
-      "outputFile": "app-release.apk",
-      "fullName": "release",
-      "baseName": "release",
-      "dirName": ""
-    },
-    "path": "app-release.apk",
-    "properties": {}
-  }
-]
+      "outputFile": "app-release.apk"
+    }
+  ]
+}

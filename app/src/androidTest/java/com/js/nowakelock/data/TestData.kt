@@ -7,11 +7,11 @@ class TestData {
 
         var alarms = getAlarm()
 
-        val alarmST = Alarm_st("test", false, 10)
+        val alarmST = AlarmSt("test", false, 10)
 
         var appInfos = getInfos()
 
-        val appInfoST = AppInfo_st("test", false, 10)
+        val appInfoST = AppInfoSt("test", false, 10)
 
         var wakeLocks = getwakeLocks()
 

@@ -3,6 +3,7 @@ package com.js.nowakelock.data.db.converters
 import androidx.room.TypeConverter
 import com.js.nowakelock.base.Util
 
+/**for Regular expression*/
 class Converters {
     @TypeConverter
     fun stringToSet(value: String?): Set<String>? {

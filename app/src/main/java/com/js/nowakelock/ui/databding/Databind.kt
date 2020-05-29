@@ -15,11 +15,11 @@ import com.js.nowakelock.base.Util
 import com.js.nowakelock.base.getTime
 import com.js.nowakelock.data.db.entity.AppInfo
 
-
+@Suppress("UNUSED")
 object Databind {
     @JvmStatic
     @BindingAdapter("loadIcon")
-    fun LoadIcon(imageView: ImageView, appInfo: AppInfo) {
+    fun loadIcon(imageView: ImageView, appInfo: AppInfo) {
         val options = RequestOptions()
             .error(R.drawable.sym_def_app_icon)
             .placeholder(R.drawable.sym_def_app_icon)

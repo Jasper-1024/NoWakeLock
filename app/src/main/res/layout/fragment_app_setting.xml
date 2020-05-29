@@ -9,7 +9,7 @@
 
         <variable
             name="item"
-            type="com.js.nowakelock.data.db.entity.AppInfo_st" />
+            type="com.js.nowakelock.data.db.entity.AppInfoSt" />
 
         <variable
             name="handler"

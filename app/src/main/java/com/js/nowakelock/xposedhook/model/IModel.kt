@@ -8,7 +8,7 @@ import com.js.nowakelock.xposedhook.XpUtil
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class mModel(var type: String) : Model {
+class IModel(var type: String) : Model {
 
     @Volatile
     private var st: STModel = STModel() // settings
@@ -125,7 +125,7 @@ class mModel(var type: String) : Model {
         }
     }
 
-    fun call(method: String, bundle: Bundle, context: Context): Bundle? {
+    private fun call(method: String, bundle: Bundle, context: Context): Bundle? {
         val url = Uri.parse("content://${XpUtil.authority}")
         val contentResolver = context.contentResolver
         return try {

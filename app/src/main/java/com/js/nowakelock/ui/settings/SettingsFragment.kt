@@ -6,7 +6,6 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.js.nowakelock.R
-import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.menuGone
 
 
@@ -28,7 +27,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             findPreference<ListPreference>("theme_list")
         if (themePreference != null) {
             themePreference.onPreferenceChangeListener =
-                Preference.OnPreferenceChangeListener { preference, newValue ->
+                Preference.OnPreferenceChangeListener { _, newValue ->
                     val themeOption = newValue as String
                     ThemeHelper.applyTheme(themeOption)
                     true

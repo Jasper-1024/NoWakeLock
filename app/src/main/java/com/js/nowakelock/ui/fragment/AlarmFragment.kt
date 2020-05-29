@@ -1,8 +1,7 @@
 package com.js.nowakelock.ui.fragment
 
-import android.os.Bundle
-import android.view.*
-import android.widget.TextView
+import android.view.Menu
+import android.view.MenuInflater
 import com.js.nowakelock.R
 import com.js.nowakelock.base.menuGone
 import com.js.nowakelock.ui.fragment.fbase.FFragment

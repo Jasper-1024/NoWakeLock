@@ -1,12 +1,11 @@
 package com.js.nowakelock
 
-import com.js.nowakelock.data.repository.FRepository
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.repository.*
 import com.js.nowakelock.ui.app.setting.AppSettingViewModel
 import com.js.nowakelock.ui.appList.AppListViewModel
-import com.js.nowakelock.ui.help.HelpViewModel
 import com.js.nowakelock.ui.fragment.fbase.FViewModel
+import com.js.nowakelock.ui.help.HelpViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -15,28 +14,28 @@ var noWakeLockModule = module {
 
     /** AlarmRepository */
     single<FRepository>(named("AR")) {
-        mAlarmR(
+        IAlarmR(
             AppDatabase.getInstance(BasicApp.context).alarmDao()
         )
     }
 
     /** AppInfoRepository */
     single<AppInfoRepository>(named("APR")) {
-        mAppInfoRepository(
+        IAppInfoRepository(
             AppDatabase.getInstance(BasicApp.context).appInfoDao()
         )
     }
 
     /** ServiceRepository*/
     single<FRepository>(named("SR")) {
-        mServiceR(
+        IServiceR(
             AppDatabase.getInstance(BasicApp.context).serviceDao()
         )
     }
 
     /** WakeLockRepository */
     single<FRepository>(named("WR")) {
-        mWakelockR(
+        IWakelockR(
             AppDatabase.getInstance(BasicApp.context).wakeLockDao()
         )
     }

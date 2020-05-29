@@ -1,13 +1,11 @@
-package com.js.nowakelock.xposedhook
+package com.js.nowakelock.xposedhook.hook
 
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Build
-import android.os.SystemClock
+import com.js.nowakelock.xposedhook.XpUtil
+import com.js.nowakelock.xposedhook.model.IModel
 import com.js.nowakelock.xposedhook.model.Model
 import com.js.nowakelock.xposedhook.model.XPM
-import com.js.nowakelock.xposedhook.model.mModel
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -18,7 +16,7 @@ class AlarmHook {
     companion object {
 
         // model
-        private val model: Model = mModel(XPM.alarm)
+        private val model: Model = IModel(XPM.alarm)
 
         fun hookAlarm(lpparam: XC_LoadPackage.LoadPackageParam) {
 
@@ -43,15 +41,15 @@ class AlarmHook {
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: MethodHookParam) {
-                        val triggerList = param.args[0] as ArrayList<Any>
-                        val nowELAPSED = param.args[1] as Long
+                        val triggerList = param.args[0] as ArrayList<*>
+//                        val nowELAPSED = param.args[1] as Long
                         val context = XposedHelpers.getObjectField(
                             param.thisObject,
                             "mContext"
                         ) as Context
 //                            log("Alarm Q ${triggerList.size} $nowELAPSED")
                         hookAlarmsLocked(
-                            param,
+//                            param,
                             triggerList,
                             context
                         )
@@ -69,16 +67,16 @@ class AlarmHook {
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: MethodHookParam) {
-                        val triggerList = param.args[0] as ArrayList<Any>
-                        val nowELAPSED = param.args[1] as Long
-                        val nowRTC = param.args[2] as Long
+                        val triggerList = param.args[0] as ArrayList<*>
+//                        val nowELAPSED = param.args[1] as Long
+//                        val nowRTC = param.args[2] as Long
 //                            log("Alarm N ${triggerList.size} $nowELAPSED $nowRTC")
                         val context = XposedHelpers.getObjectField(
                             param.thisObject,
                             "mContext"
                         ) as Context
                         hookAlarmsLocked(
-                            param,
+//                            param,
                             triggerList,
                             context
                         )
@@ -88,13 +86,13 @@ class AlarmHook {
 
         // handle alarm
         private fun hookAlarmsLocked(
-            param: XC_MethodHook.MethodHookParam,
-            triggerList: ArrayList<Any>,
+//            param: XC_MethodHook.MethodHookParam,
+            triggerList: ArrayList<*>,
             context: Context
         ) {
 //            val now = SystemClock.elapsedRealtime() //real time
-            var alarmName = ""
-            var packageName = ""
+            var alarmName: String
+            var packageName: String
 
 //            XpUtil.log(" alarmlist: ${triggerList.size};$triggerList")
             for (i in 0 until triggerList.size) {
@@ -110,7 +108,11 @@ class AlarmHook {
                 }
 
                 // block or not
-                val flag = flag(alarmName, packageName)
+                val flag =
+                    flag(
+                        alarmName,
+                        packageName
+                    )
 
                 if (flag) {
                     //allow alarm

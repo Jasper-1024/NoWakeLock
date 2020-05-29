@@ -2,7 +2,7 @@ package com.js.nowakelock.data.db.dao
 
 import androidx.room.*
 import com.js.nowakelock.data.db.entity.Service
-import com.js.nowakelock.data.db.entity.Service_st
+import com.js.nowakelock.data.db.entity.ServiceSt
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -39,12 +39,12 @@ interface ServiceDao {
 
     /**service_st*/
     @Query("select * from service_st where serviceName_st = :serviceName")
-    fun loadService_st(serviceName: String): Service_st?
+    fun loadServiceSt(serviceName: String): ServiceSt?
 
     /**for ContentProvider*/
     @Query("select * from service_st")
-    fun loadService_st(): List<Service_st>
+    fun loadServiceSt(): List<ServiceSt>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(serviceSt: Service_st)
+    suspend fun insert(serviceSt: ServiceSt)
 }

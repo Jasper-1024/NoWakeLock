@@ -10,10 +10,10 @@ data class STModel(
 
     var updateST: Long = 30000,//update ST time interval
 
-    var flagHM: HashMap<String, Boolean> = HashMap<String, Boolean>(), //flag
+    var flagHM: HashMap<String, Boolean> = HashMap(), //flag
 
-    var atIHM: HashMap<String, Long> = HashMap<String, Long>(), // allow time interval
+    var atIHM: HashMap<String, Long> = HashMap(), // allow time interval
 
-    var rEHM: HashMap<String, Set<String>> = HashMap<String, Set<String>>() //re
+    var rEHM: HashMap<String, Set<String>> = HashMap() //re
 
 ) : Serializable

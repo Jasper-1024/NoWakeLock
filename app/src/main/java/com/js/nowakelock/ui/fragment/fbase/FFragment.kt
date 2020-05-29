@@ -2,7 +2,9 @@ package com.js.nowakelock.ui.fragment.fbase
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -10,10 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-
 import com.js.nowakelock.R
 import com.js.nowakelock.base.cache
-import com.js.nowakelock.data.base.Item
+import com.js.nowakelock.data.db.base.Item
 import com.js.nowakelock.databinding.FragmentBinding
 import com.js.nowakelock.ui.databding.RecycleAdapter
 import com.js.nowakelock.ui.mainActivity.MainViewModel

@@ -26,7 +26,7 @@ import org.koin.android.ext.android.inject
  */
 class AppListFragment : Fragment() {
 
-    private val viewModel: AppListViewModel by inject<AppListViewModel>()
+    private val viewModel: AppListViewModel by inject()
     private lateinit var binding: FragmentApplistBinding
     private lateinit var adapter: RecycleAdapter
     private lateinit var mainViewModel: MainViewModel

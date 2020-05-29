@@ -1,18 +1,5 @@
 package com.js.nowakelock.data.provider
 
-import android.content.ContentResolver
-import android.content.Context
-import android.net.Uri
-import android.os.Bundle
-import androidx.test.core.app.ApplicationProvider
-import com.js.nowakelock.base.LogUtil
-import com.js.nowakelock.data.TestData
-import com.js.nowakelock.data.db.AppDatabase
-import com.js.nowakelock.data.db.entity.WakeLock_st
-import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Test
-
 class NWLContentProviderTest {
 //
 //    private var mContentResolver: ContentResolver? = null
@@ -39,7 +26,7 @@ class NWLContentProviderTest {
 //        if (bundle != null) {
 //            LogUtil.d("test1", bundle.toString())
 //        }
-//        val tmp2 = bundle!!.getSerializable("test") as HashMap<String, WakeLock_st>
+//        val tmp2 = bundle!!.getSerializable("test") as HashMap<String, WakeLockSt>
 //
 //        assertEquals(bundle.getString("Test"), "Test")
 //        LogUtil.d("test1", tmp2.toString())

@@ -21,7 +21,7 @@ import com.js.nowakelock.base.cache
 class MainActivity : AppCompatActivity() {
 
     //check module active
-    fun isModuleActive(): Boolean {
+    private fun isModuleActive(): Boolean {
         return false
     }
 

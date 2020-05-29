@@ -1,12 +1,13 @@
 package com.js.nowakelock.base
 
+import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
 import android.view.Menu
-import com.js.nowakelock.R
 import java.util.*
 
 //Long to Time
+@SuppressLint("SimpleDateFormat")
 private val formatter = SimpleDateFormat("mm:ss")
 fun getTime(time: Long): String {
     formatter.timeZone = TimeZone.getTimeZone("GMT+00:00")
@@ -69,7 +70,7 @@ object Util {
             ""
 
         } else {
-            var tmp: String = ""
+            var tmp = ""
             values.forEach {
                 tmp += "$it\n"
             }

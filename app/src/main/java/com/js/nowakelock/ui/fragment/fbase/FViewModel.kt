@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.js.nowakelock.base.cache
 import com.js.nowakelock.base.search
 import com.js.nowakelock.base.sort
-import com.js.nowakelock.data.base.Item
-import com.js.nowakelock.data.base.Item_st
+import com.js.nowakelock.data.db.base.Item
+import com.js.nowakelock.data.db.base.ItemSt
 import com.js.nowakelock.data.repository.FRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,7 +19,7 @@ import kotlin.Comparator
 
 class FViewModel(
     packageName: String = "",
-    var FRepository: FRepository
+    private var FRepository: FRepository
 ) : ViewModel() {
     var list: LiveData<List<Item>> =
         if (packageName == "") FRepository.getLists().asLiveData()
@@ -43,17 +43,17 @@ class FViewModel(
         }
     }
 
-    fun search(wakeLock: Item) = wakeLock.name
+    private fun search(wakeLock: Item) = wakeLock.name
 
     // get sort method
-    fun sort(sort: Int): java.util.Comparator<Item> {
+    private fun sort(sort: Int): java.util.Comparator<Item> {
         return when (sort) {
-            1 -> Comparator<Item> { s1, s2 ->
+            1 -> Comparator { s1, s2 ->
                 Collator.getInstance(Locale.getDefault()).compare(s1.name, s2.name)
             }
-            2 -> compareByDescending<Item> { it.count }
-            3 -> compareByDescending<Item> { it.countTime }
-            else -> Comparator<Item> { s1, s2 ->
+            2 -> compareByDescending { it.count }
+            3 -> compareByDescending { it.countTime }
+            else -> Comparator { s1, s2 ->
                 Collator.getInstance(Locale.getDefault()).compare(s1.name, s2.name)
             }
         }
@@ -62,7 +62,7 @@ class FViewModel(
     //save st
     fun saveST(item: Item) = viewModelScope.launch(Dispatchers.IO) {
         FRepository.setItem_st(
-            Item_st().apply {
+            ItemSt().apply {
                 name = item.name
                 flag = item.flag.get()
                 allowTimeinterval = item.allowTimeinterval

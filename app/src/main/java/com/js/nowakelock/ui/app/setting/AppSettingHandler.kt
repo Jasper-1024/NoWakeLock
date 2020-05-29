@@ -1,10 +1,10 @@
 package com.js.nowakelock.ui.app.setting
 
 import com.js.nowakelock.base.BaseHandler
-import com.js.nowakelock.data.db.entity.AppInfo_st
+import com.js.nowakelock.data.db.entity.AppInfoSt
 
 class AppSettingHandler(var viewModel: AppSettingViewModel) : BaseHandler() {
-    fun save(appInfoSt: AppInfo_st?) {
+    fun save(appInfoSt: AppInfoSt?) {
         viewModel.saveAppSetting(appInfoSt)
     }
 }

@@ -38,27 +38,27 @@ class AppListViewModel(private var AppInfoRepository: AppInfoRepository) : ViewM
     //return app method
     private fun app(a: Int): (AppInfo) -> Boolean {
         return when (a) {
-            1 -> ::useapp
-            2 -> ::systemapp
-            3 -> ::allapp
-            else -> ::allapp
+            1 -> ::useApp
+            2 -> ::systemApp
+            3 -> ::allApp
+            else -> ::allApp
         }
     }
 
-    private fun useapp(appInfo: AppInfo) = !appInfo.system
-    private fun systemapp(appInfo: AppInfo) = appInfo.system
-    private fun allapp(appInfo: AppInfo) = true
+    private fun useApp(appInfo: AppInfo) = !appInfo.system
+    private fun systemApp(appInfo: AppInfo) = appInfo.system
+    private fun allApp(appInfo: AppInfo) = true
 
     private fun search(appInfo: AppInfo) = "${appInfo.label}${appInfo.packageName}"
 
     private fun sort(sort: Int): Comparator<AppInfo> {
         return when (sort) {
-            1 -> Comparator<AppInfo> { s1, s2 ->
+            1 -> Comparator { s1, s2 ->
                 Collator.getInstance(Locale.getDefault()).compare(s1.label, s2.label)
             }
-            2 -> compareByDescending<AppInfo> { it.count }
-            3 -> compareByDescending<AppInfo> { it.countTime }
-            else -> Comparator<AppInfo> { s1, s2 ->
+            2 -> compareByDescending { it.count }
+            3 -> compareByDescending { it.countTime }
+            else -> Comparator { s1, s2 ->
                 Collator.getInstance(Locale.getDefault()).compare(s1.label, s2.label)
             }
         }

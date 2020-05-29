@@ -5,8 +5,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.js.nowakelock.R
-import com.js.nowakelock.base.LogUtil
-import com.js.nowakelock.data.db.entity.AppInfo_st
+import com.js.nowakelock.data.db.entity.AppInfoSt
 import com.js.nowakelock.databinding.FragmentAppSettingBinding
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
@@ -49,7 +48,7 @@ class AppSettingFragment : Fragment() {
     }
 
     private fun subscribe() {
-        val observer = Observer<AppInfo_st> { appInfoSt ->
+        val observer = Observer<AppInfoSt> { appInfoSt ->
 //            LogUtil.d("test13", "$appInfoSt}")
             binding.item = appInfoSt
         }

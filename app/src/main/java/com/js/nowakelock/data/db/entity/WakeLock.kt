@@ -6,19 +6,9 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.js.nowakelock.base.BaseItem
-import com.js.nowakelock.data.base.Item
+import com.js.nowakelock.data.db.base.Item
 
-@Entity(
-    tableName = "wakeLock"
-//    foreignKeys = arrayOf(
-//        ForeignKey(
-//            entity = AppInfo::class,
-//            parentColumns = arrayOf("packageName"),
-//            childColumns = arrayOf("wakeLock_packageName"),
-//            onDelete = CASCADE
-//        )
-//    )
-)
+@Entity(tableName = "wakeLock")
 data class WakeLock(
     @PrimaryKey
     @ColumnInfo(name = "wakeLockName")

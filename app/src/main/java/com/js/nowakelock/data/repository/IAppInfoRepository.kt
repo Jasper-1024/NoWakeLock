@@ -6,14 +6,13 @@ import android.content.pm.PackageManager
 import androidx.collection.ArrayMap
 import androidx.lifecycle.LiveData
 import com.js.nowakelock.BasicApp
-import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.data.db.dao.AppInfoDao
 import com.js.nowakelock.data.db.entity.AppInfo
-import com.js.nowakelock.data.db.entity.AppInfo_st
+import com.js.nowakelock.data.db.entity.AppInfoSt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class mAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository {
+class IAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository {
     private val pm: PackageManager = BasicApp.context.packageManager
 
     /**get all database app info*/
@@ -29,11 +28,11 @@ class mAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository
     }
 
     /**get AppSetting*/
-    override fun getAppSetting(packageName: String): LiveData<AppInfo_st> =
+    override fun getAppSetting(packageName: String): LiveData<AppInfoSt> =
         appInfoDao.loadAppSetting(packageName)
 
     /**save AppSetting*/
-    override suspend fun saveAppSetting(appinfoSt: AppInfo_st) = withContext(Dispatchers.IO) {
+    override suspend fun saveAppSetting(appinfoSt: AppInfoSt) = withContext(Dispatchers.IO) {
         appInfoDao.insert(appinfoSt)
     }
 

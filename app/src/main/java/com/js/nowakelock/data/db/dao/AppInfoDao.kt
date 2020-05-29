@@ -3,7 +3,7 @@ package com.js.nowakelock.data.db.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.js.nowakelock.data.db.entity.AppInfo
-import com.js.nowakelock.data.db.entity.AppInfo_st
+import com.js.nowakelock.data.db.entity.AppInfoSt
 
 @Dao
 interface AppInfoDao {
@@ -42,14 +42,14 @@ interface AppInfoDao {
 
     /**for appinfo_st*/
     @Query("select * from appInfo_st where packageName_st = :packageName")
-    fun loadAppSetting(packageName: String): LiveData<AppInfo_st>
+    fun loadAppSetting(packageName: String): LiveData<AppInfoSt>
 
     @Query("select * from appInfo_st")
-    fun loadAppSettings(): List<AppInfo_st>
+    fun loadAppSettings(): List<AppInfoSt>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(appInfo_st: AppInfo_st)
+    suspend fun insert(appInfo_st: AppInfoSt)
 
     @Delete
-    suspend fun delete(appInfo_st: AppInfo_st)
+    suspend fun delete(appInfo_st: AppInfoSt)
 }

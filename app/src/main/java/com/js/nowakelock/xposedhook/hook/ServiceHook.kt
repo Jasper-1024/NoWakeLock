@@ -1,23 +1,23 @@
-package com.js.nowakelock.xposedhook
+package com.js.nowakelock.xposedhook.hook
 
 import android.app.AndroidAppHelper
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.SystemClock
+import com.js.nowakelock.xposedhook.XpUtil
+import com.js.nowakelock.xposedhook.model.IModel
 import com.js.nowakelock.xposedhook.model.Model
 import com.js.nowakelock.xposedhook.model.XPM
-import com.js.nowakelock.xposedhook.model.mModel
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import java.lang.Exception
 
 class ServiceHook {
     companion object {
 
         // model
-        private val model: Model = mModel(XPM.service)
+        private val model: Model = IModel(XPM.service)
 
         @Volatile
         private var lastAllowTime = HashMap<String, Long>()//wakelock last allow time
@@ -60,7 +60,12 @@ class ServiceHook {
                         val callingPackage = param.args[6] as String
                         val context: Context =
                             AndroidAppHelper.currentApplication().applicationContext
-                        hookStartServiceLocked(param, service, callingPackage, context)
+                        hookStartServiceLocked(
+//                            param,
+                            service,
+                            callingPackage,
+                            context
+                        )
                     }
                 })
         }
@@ -85,7 +90,12 @@ class ServiceHook {
                         val callingPackage = param.args[6] as String
                         val context: Context =
                             AndroidAppHelper.currentApplication().applicationContext
-                        hookStartServiceLocked(param, service, callingPackage, context)
+                        hookStartServiceLocked(
+//                            param,
+                            service,
+                            callingPackage,
+                            context
+                        )
                     }
                 })
         }
@@ -109,13 +119,18 @@ class ServiceHook {
                         val callingPackage = param.args[5] as String
                         val context: Context =
                             AndroidAppHelper.currentApplication().applicationContext
-                        hookStartServiceLocked(param, service, callingPackage, context)
+                        hookStartServiceLocked(
+//                            param,
+                            service,
+                            callingPackage,
+                            context
+                        )
                     }
                 })
         }
 
         private fun hookStartServiceLocked(
-            param: XC_MethodHook.MethodHookParam,
+//            param: XC_MethodHook.MethodHookParam,
             service: Intent?,
             packageName: String?,
             context: Context
@@ -127,7 +142,13 @@ class ServiceHook {
 
             XpUtil.log("service: package $packageName name $serviceName")
 
-            val flag = flag(serviceName, packageName, lastAllowTime[serviceName] ?: 0)
+            val flag =
+                flag(
+                    serviceName,
+                    packageName,
+                    lastAllowTime[serviceName]
+                        ?: 0
+                )
 
             if (flag) {
                 lastAllowTime[serviceName] = now

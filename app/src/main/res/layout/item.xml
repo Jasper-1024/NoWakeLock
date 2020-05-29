@@ -12,7 +12,7 @@
 
         <variable
             name="item"
-            type="com.js.nowakelock.data.base.Item" />
+            type="com.js.nowakelock.data.db.base.Item" />
 
         <variable
             name="handler"
@@ -70,7 +70,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:checked="@={item.flag}"
-            android:onClick="@{(theView)->handler.onClick(theView,item)}"
+            android:onClick="@{()->handler.onClick(item)}"
             android:text=""
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
