@@ -1,4 +1,4 @@
-package com.js.nowakelock.data.repository
+package com.js.nowakelock.data.repository.frepository
 
 import com.js.nowakelock.data.db.base.Item
 import com.js.nowakelock.data.db.base.ItemSt

@@ -42,6 +42,13 @@ object Databind {
 
     @JvmStatic
     @SuppressLint("SetTextI18n")
+    @BindingAdapter("tCount")
+    fun loadCount(textView: TextView, count: Int) {
+        textView.text = "${count}"
+    }
+
+    @JvmStatic
+    @SuppressLint("SetTextI18n")
     @BindingAdapter("countTime", "blockCountTime")
     fun loadWakeLockCountTime(textView: TextView, countTime: Long, blockCountTime: Long) {
         textView.text =

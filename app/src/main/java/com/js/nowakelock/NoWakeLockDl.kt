@@ -1,7 +1,12 @@
 package com.js.nowakelock
 
 import com.js.nowakelock.data.db.AppDatabase
-import com.js.nowakelock.data.repository.*
+import com.js.nowakelock.data.repository.AppInfoRepository
+import com.js.nowakelock.data.repository.IAppInfoRepository
+import com.js.nowakelock.data.repository.frepository.FRepository
+import com.js.nowakelock.data.repository.frepository.IAlarmR
+import com.js.nowakelock.data.repository.frepository.IServiceR
+import com.js.nowakelock.data.repository.frepository.IWakelockR
 import com.js.nowakelock.ui.app.setting.AppSettingViewModel
 import com.js.nowakelock.ui.appList.AppListViewModel
 import com.js.nowakelock.ui.fragment.fbase.FViewModel

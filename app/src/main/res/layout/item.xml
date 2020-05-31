@@ -33,22 +33,20 @@
             android:gravity="center_vertical"
             android:text="@{item.name}"
             android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/Flag"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/Count"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints,SmallSp,UnknownIdInLayout" />
 
         <TextView
             android:id="@+id/Count"
-            android:layout_width="wrap_content"
+            android:layout_width="32dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:textSize="16sp"
-            app:blockCount="@{item.blockCount}"
-            app:count="@{item.count}"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ListName"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tCount="@{item.count}"
             tools:ignore="MissingConstraints" />
 
         <TextView
@@ -58,37 +56,49 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:textSize="16sp"
+            android:visibility="gone"
             app:blockCountTime="@{item.blockCountTime}"
             app:countTime="@{item.countTime}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Count" />
+
+        <TextView
+            android:id="@+id/FlagText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/FlagText"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/Flag"
+            app:layout_constraintStart_toStartOf="@+id/ListName"
+            app:layout_constraintTop_toTopOf="@+id/Flag"
+            tools:ignore="MissingConstraints" />
 
         <Switch
             android:id="@+id/Flag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:checked="@={item.flag}"
             android:onClick="@{()->handler.onClick(item)}"
             android:text=""
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/FlagText"
+            app:layout_constraintTop_toBottomOf="@+id/ListName"
             tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/ATIText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:text="@string/ATIText"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/CountTime"
+            app:layout_constraintBottom_toBottomOf="@+id/Flag"
+            app:layout_constraintEnd_toStartOf="@+id/ATI"
+            app:layout_constraintTop_toTopOf="@+id/Flag"
             tools:ignore="MissingConstraints" />
 
         <EditText
@@ -98,6 +108,7 @@
             android:layout_marginEnd="8dp"
             android:afterTextChanged="@{() -> handler.onTextChanged(item)}"
             android:autofillHints=""
+            android:enabled="@{item.flag}"
             android:hint="@string/ATIUnit"
             android:inputType="number"
             android:maxEms="5"
@@ -105,9 +116,9 @@
             android:text="@={Converter.longToString(item.allowTimeinterval)}"
             android:textAlignment="textEnd"
             android:textSize="16sp"
-            android:visibility="@{item.flag ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/ATIText"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ATIText"
             tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

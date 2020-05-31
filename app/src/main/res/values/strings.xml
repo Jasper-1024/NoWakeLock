@@ -58,7 +58,8 @@
         Issue : https://github.com/Jasper-1024/NoWakeLock/issues \n
         \n
         JasperHale: ljy087621@gmail.com</string>
-    <string name="ATIText">Allow wake-up interval (0 unlimited)</string>
+    <string name="ATIText">Allow interval</string>
+    <string name="FlagText">Allow</string>
     <string name="wakelockFlagText">Allow wakelock</string>
     <string name="ATIUnit">second</string>
     <string name="Re_Alarm">Alarm Regular expression</string>
