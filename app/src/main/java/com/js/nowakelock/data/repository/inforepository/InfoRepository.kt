@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface InfoRepository {
     fun getItem(name: String): Flow<Item>
-    fun getAppInfo(packageName: String): AppInfo
+    fun getAppInfo(packageName: String): Flow<AppInfo>
 
     suspend fun getItem_st(name: String): ItemSt
     suspend fun setItem_st(itemSt: ItemSt)

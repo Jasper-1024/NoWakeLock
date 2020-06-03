@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -13,7 +12,6 @@ import com.js.nowakelock.R
 
 class AppFragment : Fragment() {
 
-    private val args: AppFragmentArgs by navArgs()
     private lateinit var packageName: String
 
     private lateinit var adapter: AppAdapter
@@ -24,7 +22,7 @@ class AppFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        packageName = args.PackageName
+        packageName = arguments?.getString("packageName") ?: ""
         return inflater.inflate(R.layout.fragment_app, container, false)
     }
 

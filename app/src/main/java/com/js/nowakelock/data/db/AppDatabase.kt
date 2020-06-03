@@ -8,10 +8,7 @@ import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.js.nowakelock.data.db.converters.Converters
-import com.js.nowakelock.data.db.dao.AlarmDao
-import com.js.nowakelock.data.db.dao.AppInfoDao
-import com.js.nowakelock.data.db.dao.ServiceDao
-import com.js.nowakelock.data.db.dao.WakeLockDao
+import com.js.nowakelock.data.db.dao.*
 import com.js.nowakelock.data.db.entity.*
 
 @Database(
@@ -23,6 +20,7 @@ import com.js.nowakelock.data.db.entity.*
 abstract class AppDatabase : RoomDatabase() {
     abstract fun alarmDao(): AlarmDao
     abstract fun appInfoDao(): AppInfoDao
+    abstract fun infoDao(): InfoDao
     abstract fun serviceDao(): ServiceDao
     abstract fun wakeLockDao(): WakeLockDao
 

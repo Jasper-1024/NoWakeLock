@@ -31,6 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:gravity="center_vertical"
+            android:onClick="@{(view)->handler.info(view,item)}"
+            android:onLongClick="@{() -> handler.copy(item)}"
             android:text="@{item.name}"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"

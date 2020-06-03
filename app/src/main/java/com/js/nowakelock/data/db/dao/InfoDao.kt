@@ -1,11 +1,13 @@
 package com.js.nowakelock.data.db.dao
 
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.js.nowakelock.data.db.entity.*
 import kotlinx.coroutines.flow.Flow
 
+@Dao
 interface InfoDao {
     @Query("select * from alarm where alarmName = :alarmName")
     fun loadAlarm(alarmName: String): Flow<Alarm>

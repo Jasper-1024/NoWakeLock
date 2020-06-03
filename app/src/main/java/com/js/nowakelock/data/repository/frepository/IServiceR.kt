@@ -22,7 +22,8 @@ class IServiceR(private val serviceDao: ServiceDao) :
     }
 
     override suspend fun getItem_st(name: String): ItemSt = withContext(Dispatchers.IO) {
-        return@withContext serviceDao.loadServiceSt(name) ?: ServiceSt(name)
+        return@withContext serviceDao.loadServiceSt(name)
+            ?: ServiceSt(name).apply { serviceDao.insert(this) }
     }
 
     override suspend fun setItem_st(itemSt: ItemSt) = withContext(Dispatchers.IO) {

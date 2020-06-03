@@ -22,7 +22,8 @@ class IAlarmR(private val alarmDao: AlarmDao) :
     }
 
     override suspend fun getItem_st(name: String): ItemSt = withContext(Dispatchers.IO) {
-        return@withContext alarmDao.loadAlarmSt(name) ?: AlarmSt(name)
+        return@withContext alarmDao.loadAlarmSt(name)
+            ?: AlarmSt(name).apply { alarmDao.insert(this) }
     }
 
     override suspend fun setItem_st(itemSt: ItemSt) = withContext(Dispatchers.IO) {

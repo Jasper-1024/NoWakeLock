@@ -24,7 +24,7 @@
         android:label="{label}"
         tools:layout="@layout/fragment_app">
         <argument
-            android:name="PackageName"
+            android:name="packageName"
             android:defaultValue='""'
             app:argType="string" />
         <argument
@@ -59,6 +59,26 @@
         android:name="com.js.nowakelock.ui.help.HelpFragment"
         android:label="@string/help"
         tools:layout="@layout/fragment_help" />
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.js.nowakelock.ui.infofragment.InfoFragment"
+        android:label="{name}">
+        <argument
+            android:name="name"
+            android:defaultValue='""'
+            app:argType="string" />
+        <argument
+            android:name="packageName"
+            android:defaultValue='""'
+            app:argType="string" />
+        <argument
+            android:name="type"
+            android:defaultValue='""'
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_infoFragment"
+        app:destination="@id/infoFragment" />
 
 
 </navigation>
