@@ -1,9 +1,15 @@
 package com.js.nowakelock.base
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
 import android.view.Menu
+import android.widget.Toast
+import com.js.nowakelock.BasicApp
+import com.js.nowakelock.R
 import java.util.*
 
 //Long to Time
@@ -49,6 +55,16 @@ inline fun <T : BaseItem> List<T>.search(query: String, text: (T) -> String): Li
 // sort list
 fun <T : BaseItem> List<T>.sort(comparator: Comparator<in T>): List<T> {
     return this.sortedWith(comparator)
+}
+
+fun clipboardCopy(str: String): Boolean {
+    val context = BasicApp.context
+    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clip: ClipData = ClipData.newPlainText("", str)
+    clipboard.setPrimaryClip(clip)
+    Toast.makeText(context, "$str ${context.getString(R.string.clipboard)}", Toast.LENGTH_LONG)
+        .show()
+    return true
 }
 
 object Util {

@@ -32,7 +32,7 @@
             android:layout_marginStart="8dp"
             android:gravity="center_vertical"
             android:onClick="@{(view)->handler.info(view,item)}"
-            android:onLongClick="@{() -> handler.copy(item)}"
+            android:onLongClick="@{() -> handler.copy(item.name)}"
             android:text="@{item.name}"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,7 @@
 
         <TextView
             android:id="@+id/Count"
-            android:layout_width="32dp"
+            android:layout_width="44dp"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"

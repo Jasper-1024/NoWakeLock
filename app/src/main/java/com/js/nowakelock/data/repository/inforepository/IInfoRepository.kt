@@ -7,7 +7,9 @@ import com.js.nowakelock.data.db.entity.AlarmSt
 import com.js.nowakelock.data.db.entity.AppInfo
 import com.js.nowakelock.data.db.entity.ServiceSt
 import com.js.nowakelock.data.db.entity.WakeLockSt
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 
 class IInfoRepository(private val infoDao: InfoDao, private val type: String) : InfoRepository {
 
@@ -38,8 +40,8 @@ class IInfoRepository(private val infoDao: InfoDao, private val type: String) : 
         return infoDao.loadAppInfo(packageName)
     }
 
-    override suspend fun getItem_st(name: String): ItemSt {
-        return info.getSt(name) ?: getInstance(name).apply { saveInstance(this) }
+    override suspend fun getItem_st(name: String): ItemSt = withContext(Dispatchers.IO) {
+        return@withContext info.getSt(name) ?: getInstance(name).apply { saveInstance(this) }
     }
 
     override suspend fun setItem_st(itemSt: ItemSt) {
@@ -51,6 +53,27 @@ class IInfoRepository(private val infoDao: InfoDao, private val type: String) : 
         var getSt: (name: String) -> ItemSt?
 //        var setSt: (itemSt: ItemSt) -> Unit
     )
+
+//    private fun getStInstance(name: String): ItemSt{
+//        return getStInstance(ItemSt(name))
+//    }
+
+    private fun getStInstance(itemSt: ItemSt): ItemSt {
+        return when (type) {
+            "alarm" -> {
+                AlarmSt(itemSt.name, itemSt.flag, itemSt.allowTimeinterval)
+            }
+            "service" -> {
+                ServiceSt(itemSt.name, itemSt.flag, itemSt.allowTimeinterval)
+            }
+            "wakelock" -> {
+                WakeLockSt(itemSt.name, itemSt.flag, itemSt.allowTimeinterval)
+            }
+            else -> {
+                WakeLockSt(itemSt.name, itemSt.flag, itemSt.allowTimeinterval)
+            }
+        }
+    }
 
     private fun getInstance(name: String): ItemSt {
         return when (type) {
@@ -69,12 +92,13 @@ class IInfoRepository(private val infoDao: InfoDao, private val type: String) : 
         }
     }
 
-    private suspend fun saveInstance(itemSt: ItemSt) {
+    private suspend fun saveInstance(itemSt: ItemSt) = withContext(Dispatchers.IO) {
+        val tmp = getStInstance(itemSt)
         when (type) {
-            "alarm" -> infoDao.insert(itemSt as AlarmSt)
-            "service" -> infoDao.insert(itemSt as ServiceSt)
-            "wakelock" -> infoDao.insert(itemSt as WakeLockSt)
-            else -> infoDao.insert(itemSt as WakeLockSt)
+            "alarm" -> infoDao.insert(tmp as AlarmSt)
+            "service" -> infoDao.insert(tmp as ServiceSt)
+            "wakelock" -> infoDao.insert(tmp as WakeLockSt)
+            else -> infoDao.insert(tmp as WakeLockSt)
         }
     }
 }

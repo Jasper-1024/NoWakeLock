@@ -5,6 +5,10 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <import type="com.js.nowakelock.ui.databding.Converter" />
+
         <variable
             name="vm"
             type="com.js.nowakelock.ui.infofragment.InfoViewModel" />
@@ -17,23 +21,161 @@
         android:padding="8dp"
         tools:context=".ui.infofragment.InfoFragment">
 
-        <Button
-            android:id="@+id/button"
+        <TextView
+            android:id="@+id/ListName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:onLongClick="@{() -> vm.copy(vm.item.name)}"
+            android:text="@{vm.item.name}"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:ignore="MissingConstraints,SmallSp,UnknownIdInLayout" />
+
+        <TextView
+            android:id="@+id/packageName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{vm.name}"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:onLongClick="@{() -> vm.copy(vm.appInfo.label)}"
+            android:text="@{vm.appInfo.label}"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            tools:ignore="MissingConstraints,SmallSp" />
+
+        <TextView
+            android:id="@+id/Count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            app:blockCount="@{vm.item.blockCount}"
+            app:count="@{vm.item.count}"
+            app:layout_constraintStart_toStartOf="@+id/textView3"
+            app:layout_constraintTop_toBottomOf="@+id/textView3"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/CountTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            app:blockCountTime="@{vm.item.blockCountTime}"
+            app:countTime="@{vm.item.countTime}"
+            app:layout_constraintStart_toStartOf="@+id/Count"
+            app:layout_constraintTop_toBottomOf="@+id/Count" />
+
+
+        <TextView
+            android:id="@+id/FlagText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/FlagText"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/Flag"
+            app:layout_constraintStart_toStartOf="@+id/textView4"
+            app:layout_constraintTop_toTopOf="@+id/Flag"
+            tools:ignore="MissingConstraints" />
+
+        <Switch
+            android:id="@+id/Flag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:checked="@={vm.item.flag}"
+            android:onClick="@{() -> vm.saveST(vm.item)}"
+            android:text=""
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/FlagText"
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/ATIText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ATIText"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/Flag"
+            app:layout_constraintEnd_toStartOf="@+id/ATI"
+            app:layout_constraintTop_toTopOf="@+id/Flag"
+            tools:ignore="MissingConstraints" />
+
+        <EditText
+            android:id="@+id/ATI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:afterTextChanged="@{() -> vm.saveST(vm.item)}"
+            android:autofillHints=""
+            android:enabled="@{vm.item.flag}"
+            android:hint="@string/ATIUnit"
+            android:inputType="number"
+            android:maxEms="5"
+            android:minEms="3"
+            android:text="@={Converter.longToString(vm.item.allowTimeinterval)}"
+            android:textAlignment="textEnd"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ATIText"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ATIText"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="名称"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/button2"
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{vm.packageName}"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="应用"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
+            app:layout_constraintTop_toBottomOf="@+id/ListName" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="统计"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/packageName" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="设置"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/CountTime" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

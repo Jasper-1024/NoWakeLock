@@ -1,15 +1,10 @@
 package com.js.nowakelock.ui.fragment.fbase
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context.CLIPBOARD_SERVICE
 import android.view.View
-import android.widget.Toast
 import androidx.navigation.findNavController
-import com.js.nowakelock.BasicApp
 import com.js.nowakelock.NavgraphDirections
-import com.js.nowakelock.R
 import com.js.nowakelock.base.BaseHandler
+import com.js.nowakelock.base.clipboardCopy
 import com.js.nowakelock.data.db.base.Item
 
 class FHandler(val viewModel: FViewModel) : BaseHandler() {
@@ -23,14 +18,8 @@ class FHandler(val viewModel: FViewModel) : BaseHandler() {
         view.findNavController().navigate(direction)
     }
 
-    fun copy(item: Item): Boolean {
-        val context = BasicApp.context
-        val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-        val clip: ClipData = ClipData.newPlainText("", item.name)
-        clipboard.setPrimaryClip(clip)
-
-        Toast.makeText(context, context.getString(R.string.clipboard), Toast.LENGTH_LONG).show()
-        return true
+    fun copy(str: String): Boolean {
+        return clipboardCopy(str)
     }
 
     fun onTextChanged(item: Item) {

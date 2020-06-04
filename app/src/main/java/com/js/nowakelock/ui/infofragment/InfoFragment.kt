@@ -36,6 +36,9 @@ class InfoFragment : Fragment() {
         context ?: return binding.root //if already create
 
         binding.vm = viewModel
+
+        binding.lifecycleOwner = this
+
         return binding.root
     }
 }
