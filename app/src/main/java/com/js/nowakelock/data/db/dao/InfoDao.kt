@@ -23,21 +23,21 @@ interface InfoDao {
 
     /**alarm_st*/
     @Query("select * from alarm_st where alarmName_st = :alarmName")
-    fun loadAlarmSt(alarmName: String): AlarmSt?
+    fun loadAlarmSt(alarmName: String): Flow<AlarmSt>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(alarmSt: AlarmSt)
 
     /**service_st*/
     @Query("select * from service_st where serviceName_st = :serviceName")
-    fun loadServiceSt(serviceName: String): ServiceSt?
+    fun loadServiceSt(serviceName: String): Flow<ServiceSt>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(serviceSt: ServiceSt)
 
     /**wakelock_st*/
     @Query("select * from wakeLock_st where wakeLockName_st = :wakelockName")
-    fun loadWakeLockSt(wakelockName: String): WakeLockSt?
+    fun loadWakeLockSt(wakelockName: String): Flow<WakeLockSt>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(wNLock_st: WakeLockSt)

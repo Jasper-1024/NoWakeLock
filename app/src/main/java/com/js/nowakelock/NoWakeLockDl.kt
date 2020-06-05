@@ -7,7 +7,9 @@ import com.js.nowakelock.data.repository.frepository.FRepository
 import com.js.nowakelock.data.repository.frepository.IAlarmR
 import com.js.nowakelock.data.repository.frepository.IServiceR
 import com.js.nowakelock.data.repository.frepository.IWakelockR
-import com.js.nowakelock.data.repository.inforepository.IInfoRepository
+import com.js.nowakelock.data.repository.inforepository.IAlarmIR
+import com.js.nowakelock.data.repository.inforepository.IServiceIR
+import com.js.nowakelock.data.repository.inforepository.IWakelockIR
 import com.js.nowakelock.data.repository.inforepository.InfoRepository
 import com.js.nowakelock.ui.app.setting.AppSettingViewModel
 import com.js.nowakelock.ui.appList.AppListViewModel
@@ -15,7 +17,6 @@ import com.js.nowakelock.ui.fragment.fbase.FViewModel
 import com.js.nowakelock.ui.help.HelpViewModel
 import com.js.nowakelock.ui.infofragment.InfoViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -49,9 +50,16 @@ var noWakeLockModule = module {
         )
     }
 
-    /** InfoRepository */
-    single<InfoRepository>(named("IR")) { (type: String) ->
-        IInfoRepository(AppDatabase.getInstance(BasicApp.context).infoDao(), type)
+    single<InfoRepository>(named("IRA")) {
+        IAlarmIR(AppDatabase.getInstance(BasicApp.context).infoDao())
+    }
+
+    single<InfoRepository>(named("IRS")) {
+        IServiceIR(AppDatabase.getInstance(BasicApp.context).infoDao())
+    }
+
+    single<InfoRepository>(named("IRW")) {
+        IWakelockIR(AppDatabase.getInstance(BasicApp.context).infoDao())
     }
 
 
@@ -86,7 +94,20 @@ var noWakeLockModule = module {
         InfoViewModel(
             name,
             packageName,
-            get(named("IR")) { parametersOf(type) }
+            when (type) {
+                "alarm" -> {
+                    get(named("IRA"))
+                }
+                "service" -> {
+                    get(named("IRS"))
+                }
+                "wakelock" -> {
+                    get(named("IRW"))
+                }
+                else -> {
+                    get(named("IRW"))
+                }
+            }
         )
     }
 
@@ -117,6 +138,19 @@ var noWakeLockModule = module {
 //            AppDatabase.getInstance(
 //                BasicApp.context
 //            )
+//        )
+//    }
+
+//    /** InfoRepository */
+//    single<InfoRepository>(named("IR")) { (type: String) ->
+//        IInfoRepository(AppDatabase.getInstance(BasicApp.context).infoDao(), type)
+//    }
+//    /**info*/
+//    viewModel(named("VMI")) { (name: String, packageName: String, type: String) ->
+//        InfoViewModel(
+//            name,
+//            packageName,
+//            get(named("IR")) { parametersOf(type) }
 //        )
 //    }
 }

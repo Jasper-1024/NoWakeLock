@@ -14,7 +14,7 @@ class AlarmFragment : FFragment() {
 
     override val viewModel: FViewModel by inject(named("VMA")) { parametersOf(packageName) }
 
-    override val itemLayout: Int = R.layout.item_alarm
+    override val type = "alarm"
 
     //set toolbar menu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

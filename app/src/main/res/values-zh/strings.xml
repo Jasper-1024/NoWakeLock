@@ -62,4 +62,7 @@
     <string name="Re_Alarm">定时器正则(一个规则一行)</string>
     <string name="Re_Wakelock">唤醒锁正则(一个规则一行)</string>
     <string name="Save">保存</string>
+    <string name="name">名称</string>
+    <string name="application">应用</string>
+    <string name="statistics">统计</string>
 </resources>

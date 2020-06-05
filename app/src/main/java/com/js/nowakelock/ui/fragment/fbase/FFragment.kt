@@ -27,6 +27,7 @@ import org.koin.core.qualifier.named
 open class FFragment : Fragment() {
 
     open lateinit var packageName: String
+    open val type: String = "wakelock"
 
     open val viewModel: FViewModel by inject(named("VMA")) { parametersOf(packageName) }
     open val itemLayout: Int = R.layout.item
@@ -51,7 +52,7 @@ open class FFragment : Fragment() {
         mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
 
         //set recyclerview
-        val handler = FHandler(viewModel)
+        val handler = FHandler(viewModel, type)
         adapter = RecycleAdapter(itemLayout, handler)
         binding.list.adapter = adapter
 

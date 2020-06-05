@@ -9,6 +9,6 @@ interface InfoRepository {
     fun getItem(name: String): Flow<Item>
     fun getAppInfo(packageName: String): Flow<AppInfo>
 
-    suspend fun getItem_st(name: String): ItemSt
-    suspend fun setItem_st(itemSt: ItemSt)
+    fun getItemSt(name: String): Flow<ItemSt>
+    suspend fun setItemSt(itemSt: ItemSt)
 }

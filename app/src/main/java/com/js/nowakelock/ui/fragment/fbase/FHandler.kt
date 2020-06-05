@@ -7,14 +7,15 @@ import com.js.nowakelock.base.BaseHandler
 import com.js.nowakelock.base.clipboardCopy
 import com.js.nowakelock.data.db.base.Item
 
-class FHandler(val viewModel: FViewModel) : BaseHandler() {
+class FHandler(val viewModel: FViewModel, val type: String) : BaseHandler() {
+
     fun onClick(/*view: View,*/ item: Item) {
         viewModel.saveST(item)
     }
 
     fun info(view: View, item: Item) {
         val direction =
-            NavgraphDirections.actionGlobalInfoFragment(item.name, item.packageName, "wakelock")
+            NavgraphDirections.actionGlobalInfoFragment(item.name, item.packageName, type)
         view.findNavController().navigate(direction)
     }
 

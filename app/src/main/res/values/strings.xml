@@ -65,4 +65,7 @@
     <string name="ATIUnit">second</string>
     <string name="Re_Alarm">Alarm Regular expression</string>
     <string name="Re_Wakelock">Wakelock Regular expression</string>
+    <string name="name">Name</string>
+    <string name="application">Application</string>
+    <string name="statistics">Statistics</string>
 </resources>
