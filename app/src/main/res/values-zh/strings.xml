@@ -65,4 +65,8 @@
     <string name="name">名称</string>
     <string name="application">应用</string>
     <string name="statistics">统计</string>
+    <string name="backup_title">创建新的备份文件</string>
+    <string name="backup_summary">备份目前所有应用设置到文件</string>
+    <string name="restore_title">从备份文件恢复</string>
+    <string name="restore_summary">从备份文件恢复会覆盖当前设置</string>
 </resources>

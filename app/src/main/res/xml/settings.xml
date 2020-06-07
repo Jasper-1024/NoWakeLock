@@ -2,8 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        android:key="theme"
         android:icon="@drawable/ic_theme_24dp"
+        android:key="theme"
         android:title="@string/theme">
 
         <ListPreference
@@ -19,13 +19,13 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="sync"
         android:icon="@drawable/ic_sync_24dp"
+        android:key="sync"
         android:title="@string/sync">
 
         <SwitchPreferenceCompat
-            app:key="recordFlag"
             app:defaultValue="true"
+            app:key="recordFlag"
             app:summary="@string/recordFlag_summary"
             app:title="@string/recordFlag_title" />
 
@@ -52,6 +52,22 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:icon="@drawable/ic_settings_backup_restore_24"
+        android:title="Backup and restore">
+
+        <Preference
+            app:key="backup"
+            app:summary="@string/backup_summary"
+            app:title="@string/backup_title" />
+
+        <Preference
+            app:key="restore"
+            app:summary="@string/restore_summary"
+            app:title="@string/restore_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:icon="@drawable/ic_other_24dp"
         android:key="other"
         android:title="@string/other">
@@ -63,6 +79,7 @@
             app:title="@string/powerFlag_title" />
 
     </PreferenceCategory>
+
 
 </PreferenceScreen>
 

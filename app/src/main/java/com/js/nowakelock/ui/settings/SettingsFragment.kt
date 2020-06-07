@@ -2,6 +2,7 @@ package com.js.nowakelock.ui.settings
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -30,6 +31,24 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 Preference.OnPreferenceChangeListener { _, newValue ->
                     val themeOption = newValue as String
                     ThemeHelper.applyTheme(themeOption)
+                    true
+                }
+        }
+
+        val backup: Preference? = findPreference("backup")
+        if (backup != null) {
+            backup.onPreferenceClickListener =
+                Preference.OnPreferenceClickListener {
+                    Toast.makeText(activity, "backup", Toast.LENGTH_LONG).show()
+                    true
+                }
+        }
+
+        val restore: Preference? = findPreference("restore")
+        if (restore != null) {
+            restore.onPreferenceClickListener =
+                Preference.OnPreferenceClickListener {
+                    Toast.makeText(activity, "restore", Toast.LENGTH_LONG).show()
                     true
                 }
         }

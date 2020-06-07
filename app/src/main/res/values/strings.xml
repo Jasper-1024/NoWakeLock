@@ -68,4 +68,8 @@
     <string name="name">Name</string>
     <string name="application">Application</string>
     <string name="statistics">Statistics</string>
+    <string name="backup_title">Create new backup file</string>
+    <string name="backup_summary">Backup settings of installed app into file</string>
+    <string name="restore_title">Restore from backup file</string>
+    <string name="restore_summary">Restoring from a backup file will overwrite the current settings</string>
 </resources>
