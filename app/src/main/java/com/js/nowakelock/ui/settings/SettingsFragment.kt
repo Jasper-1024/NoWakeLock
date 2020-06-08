@@ -1,16 +1,22 @@
 package com.js.nowakelock.ui.settings
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.js.nowakelock.R
+import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.menuGone
+import java.util.*
 
 
 class SettingsFragment : PreferenceFragmentCompat() {
+
+    private val readJson: Int = 42
+    private val saveJson: Int = 43
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +45,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         if (backup != null) {
             backup.onPreferenceClickListener =
                 Preference.OnPreferenceClickListener {
-                    Toast.makeText(activity, "backup", Toast.LENGTH_LONG).show()
+//                    Toast.makeText(activity, "backup", Toast.LENGTH_LONG).show()
+                    createFile("*/*", "Nowakelcok-Backup-${getData()}.json")
                     true
                 }
         }
@@ -48,11 +55,57 @@ class SettingsFragment : PreferenceFragmentCompat() {
         if (restore != null) {
             restore.onPreferenceClickListener =
                 Preference.OnPreferenceClickListener {
-                    Toast.makeText(activity, "restore", Toast.LENGTH_LONG).show()
+//                    Toast.makeText(activity, "restore", Toast.LENGTH_LONG).show()
+                    getJson()
                     true
                 }
         }
     }
+
+    private fun getJson() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "*/*"
+        }
+        startActivityForResult(intent, readJson)
+    }
+
+    private fun createFile(mimeType: String, fileName: String) {
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = mimeType
+            putExtra(Intent.EXTRA_TITLE, fileName)
+        }
+
+        startActivityForResult(intent, saveJson)
+    }
+
+    private fun getData(): String {
+        val c: Calendar = Calendar.getInstance() //可以对每个时间域单独修改
+        val year: Int = c.get(Calendar.YEAR)
+        val month: Int = c.get(Calendar.MONTH)
+        val date: Int = c.get(Calendar.DATE)
+        val hour: Int = c.get(Calendar.HOUR_OF_DAY)
+        val minute: Int = c.get(Calendar.MINUTE)
+        return "$year:$month:$date-$hour:$minute"
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
+
+        if (requestCode == readJson && resultCode == Activity.RESULT_OK) {
+            resultData?.data?.also { uri ->
+                LogUtil.d("test1", "$uri")
+            }
+        }
+
+        if (requestCode == saveJson && resultCode == Activity.RESULT_OK) {
+            resultData?.data?.also { uri ->
+                LogUtil.d("test2", "$uri")
+            }
+        }
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menuGone(menu, setOf(R.id.menu_filter, R.id.search))
