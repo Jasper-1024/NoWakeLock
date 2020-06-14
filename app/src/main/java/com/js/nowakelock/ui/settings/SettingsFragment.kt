@@ -10,10 +10,13 @@ import androidx.preference.PreferenceFragmentCompat
 import com.js.nowakelock.R
 import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.menuGone
+import org.koin.android.ext.android.inject
 import java.util.*
 
 
 class SettingsFragment : PreferenceFragmentCompat() {
+
+    private val viewModel by inject<SettingsViewModel>()
 
     private val readJson: Int = 42
     private val saveJson: Int = 43
@@ -46,7 +49,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             backup.onPreferenceClickListener =
                 Preference.OnPreferenceClickListener {
 //                    Toast.makeText(activity, "backup", Toast.LENGTH_LONG).show()
-                    createFile("*/*", "Nowakelcok-Backup-${getData()}.json")
+                    createFile("*/*", "NoWakeLock-Backup-${getData()}.json")
                     true
                 }
         }
@@ -81,7 +84,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun getData(): String {
-        val c: Calendar = Calendar.getInstance() //可以对每个时间域单独修改
+        val c: Calendar = Calendar.getInstance()
         val year: Int = c.get(Calendar.YEAR)
         val month: Int = c.get(Calendar.MONTH)
         val date: Int = c.get(Calendar.DATE)

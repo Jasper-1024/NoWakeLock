@@ -2,6 +2,7 @@ package com.js.nowakelock
 
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.repository.AppInfoRepository
+import com.js.nowakelock.data.repository.BackupRepository
 import com.js.nowakelock.data.repository.IAppInfoRepository
 import com.js.nowakelock.data.repository.frepository.FRepository
 import com.js.nowakelock.data.repository.frepository.IAlarmR
@@ -16,6 +17,7 @@ import com.js.nowakelock.ui.appList.AppListViewModel
 import com.js.nowakelock.ui.fragment.fbase.FViewModel
 import com.js.nowakelock.ui.help.HelpViewModel
 import com.js.nowakelock.ui.infofragment.InfoViewModel
+import com.js.nowakelock.ui.settings.SettingsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -60,6 +62,11 @@ var noWakeLockModule = module {
 
     single<InfoRepository>(named("IRW")) {
         IWakelockIR(AppDatabase.getInstance(BasicApp.context).infoDao())
+    }
+
+    /** BackupRepository */
+    single<BackupRepository>(named("BackupR")) {
+        BackupRepository(AppDatabase.getInstance(BasicApp.context).backupDao())
     }
 
 
@@ -122,6 +129,11 @@ var noWakeLockModule = module {
     /**help*/
     viewModel {
         HelpViewModel()
+    }
+
+    /**help*/
+    viewModel {
+        SettingsViewModel(get(named("BackupR")))
     }
 //    viewModel { (packageName: String) ->
 //        ALWakeLockViewModel(

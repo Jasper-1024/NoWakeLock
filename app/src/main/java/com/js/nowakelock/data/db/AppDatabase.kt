@@ -23,6 +23,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun infoDao(): InfoDao
     abstract fun serviceDao(): ServiceDao
     abstract fun wakeLockDao(): WakeLockDao
+    abstract fun backupDao(): BackupDao
 
     companion object {
         private const val DATABASE_NAME = "nowakelock-db"
