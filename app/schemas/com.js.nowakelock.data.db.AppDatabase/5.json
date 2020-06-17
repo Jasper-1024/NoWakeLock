@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "9da03cc25a6e4e65c601254e6578ef12",
+    "identityHash": "079acd5cc6d805e8e9875986f36c2531",
     "entities": [
       {
         "tableName": "appInfo",
@@ -204,7 +204,7 @@
       },
       {
         "tableName": "wakeLock_st",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`wakeLockName_st` TEXT NOT NULL, `flag` INTEGER NOT NULL, `allowTimeinterval` INTEGER NOT NULL, PRIMARY KEY(`wakeLockName_st`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`wakeLockName_st` TEXT NOT NULL, `flag` INTEGER NOT NULL, `allowTimeinterval` INTEGER NOT NULL, `packageName` TEXT NOT NULL, PRIMARY KEY(`wakeLockName_st`))",
         "fields": [
           {
             "fieldPath": "name",
@@ -222,6 +222,12 @@
             "fieldPath": "allowTimeinterval",
             "columnName": "allowTimeinterval",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
@@ -286,7 +292,7 @@
       },
       {
         "tableName": "alarm_st",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`alarmName_st` TEXT NOT NULL, `flag` INTEGER NOT NULL, `allowTimeinterval` INTEGER NOT NULL, PRIMARY KEY(`alarmName_st`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`alarmName_st` TEXT NOT NULL, `flag` INTEGER NOT NULL, `allowTimeinterval` INTEGER NOT NULL, `packageName` TEXT NOT NULL, PRIMARY KEY(`alarmName_st`))",
         "fields": [
           {
             "fieldPath": "name",
@@ -304,6 +310,12 @@
             "fieldPath": "allowTimeinterval",
             "columnName": "allowTimeinterval",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
@@ -368,7 +380,7 @@
       },
       {
         "tableName": "service_st",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serviceName_st` TEXT NOT NULL, `flag` INTEGER NOT NULL, `allowTimeinterval` INTEGER NOT NULL, PRIMARY KEY(`serviceName_st`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serviceName_st` TEXT NOT NULL, `flag` INTEGER NOT NULL, `allowTimeinterval` INTEGER NOT NULL, `packageName` TEXT NOT NULL, PRIMARY KEY(`serviceName_st`))",
         "fields": [
           {
             "fieldPath": "name",
@@ -387,6 +399,12 @@
             "columnName": "allowTimeinterval",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -402,7 +420,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9da03cc25a6e4e65c601254e6578ef12')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '079acd5cc6d805e8e9875986f36c2531')"
     ]
   }
 }

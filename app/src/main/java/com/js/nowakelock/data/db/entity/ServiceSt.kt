@@ -11,5 +11,6 @@ data class ServiceSt(
     @ColumnInfo(name = "serviceName_st")
     override var name: String = "",
     override var flag: Boolean = true,
-    override var allowTimeinterval: Long = 0
+    override var allowTimeinterval: Long = 0,
+    override var packageName: String = ""
 ) : ItemSt()

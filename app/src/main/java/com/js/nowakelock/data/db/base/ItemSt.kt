@@ -8,6 +8,9 @@ open class ItemSt(
     open var name: String = "",
 
     @Ignore
+    open var packageName: String = "",
+
+    @Ignore
     open var flag: Boolean = true,
 
     @Ignore

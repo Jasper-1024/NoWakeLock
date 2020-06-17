@@ -46,9 +46,85 @@ class AppDatabaseTest {
         }
     }
 
+    private val MIGRATION_4_5 = object : Migration(4, 5) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL(
+                """
+                    CREATE TABLE IF NOT EXISTS `alarm_st_tmp` (
+                        `alarmName_st` TEXT NOT NULL, 
+                        `flag` INTEGER NOT NULL, 
+                        `allowTimeinterval` INTEGER NOT NULL, 
+                        `packageName` TEXT NOT NULL, 
+                        PRIMARY KEY(`alarmName_st`)
+                    )
+                    """.trimMargin()
+            )
+            database.execSQL(
+                """
+                    INSERT INTO alarm_st_tmp (alarmName_st, flag, allowTimeinterval, packageName)
+                    SELECT st.alarmName_st, st.flag, st.allowTimeinterval, s.alarm_packageName packageName
+                    FROM alarm_st st
+                    INNER JOIN alarm s
+                    ON st.alarmName_st = s.alarmName
+                    """.trimIndent()
+            )
+
+            database.execSQL("DROP TABLE alarm_st")
+            database.execSQL("ALTER TABLE alarm_st_tmp RENAME TO alarm_st")
+
+            database.execSQL(
+                """
+                    CREATE TABLE IF NOT EXISTS `service_st_tmp` (
+                        `serviceName_st` TEXT NOT NULL, 
+                        `flag` INTEGER NOT NULL, 
+                        `allowTimeinterval` INTEGER NOT NULL, 
+                        `packageName` TEXT NOT NULL, 
+                        PRIMARY KEY(`serviceName_st`)
+                    )
+                    """.trimMargin()
+            )
+            database.execSQL(
+                """
+                    INSERT INTO service_st_tmp (serviceName_st, flag, allowTimeinterval, packageName)
+                    SELECT st.serviceName_st, st.flag, st.allowTimeinterval, s.service_packageName packageName
+                    FROM service_st st
+                    INNER JOIN service s
+                    ON st.serviceName_st = s.serviceName
+                    """.trimIndent()
+            )
+
+            database.execSQL("DROP TABLE service_st")
+            database.execSQL("ALTER TABLE service_st_tmp RENAME TO service_st")
+
+            database.execSQL(
+                """
+                    CREATE TABLE IF NOT EXISTS `wakeLock_st_tmp` (
+                        `wakeLockName_st` TEXT NOT NULL,
+                        `flag` INTEGER NOT NULL, 
+                        `allowTimeinterval` INTEGER NOT NULL, 
+                        `packageName` TEXT NOT NULL, 
+                        PRIMARY KEY(`wakeLockName_st`)
+                    )
+                    """.trimMargin()
+            )
+            database.execSQL(
+                """
+                    INSERT INTO wakeLock_st_tmp (wakeLockName_st, flag, allowTimeinterval, packageName)
+                    SELECT st.wakeLockName_st, st.flag, st.allowTimeinterval, s.wakeLock_packageName packageName
+                    FROM wakeLock_st st
+                    INNER JOIN wakeLock s
+                    ON st.wakeLockName_st = s.wakeLockName
+                    """.trimIndent()
+            )
+
+            database.execSQL("DROP TABLE wakeLock_st")
+            database.execSQL("ALTER TABLE wakeLock_st_tmp RENAME TO wakeLock_st")
+        }
+    }
+
 
     private val ALL_MIGRATIONS = arrayOf(
-        MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4
+        MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5
     )
 
 
