@@ -28,7 +28,7 @@ class IServiceR(private val serviceDao: ServiceDao) :
 
     override suspend fun setItem_st(itemSt: ItemSt) = withContext(Dispatchers.IO) {
         serviceDao.insert(
-            ServiceSt(itemSt.name, itemSt.flag, itemSt.allowTimeinterval)
+            ServiceSt(itemSt.name, itemSt.flag, itemSt.allowTimeinterval, itemSt.packageName)
         )
     }
 }

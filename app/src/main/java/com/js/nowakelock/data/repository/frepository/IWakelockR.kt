@@ -29,7 +29,7 @@ class IWakelockR(private var wakeLockDao: WakeLockDao) :
 
     override suspend fun setItem_st(itemSt: ItemSt) = withContext(Dispatchers.IO) {
         wakeLockDao.insert(
-            WakeLockSt(itemSt.name, itemSt.flag, itemSt.allowTimeinterval)
+            WakeLockSt(itemSt.name, itemSt.flag, itemSt.allowTimeinterval, itemSt.packageName)
         )
     }
 }

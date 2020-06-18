@@ -64,6 +64,7 @@ class FViewModel(
         FRepository.setItem_st(
             ItemSt().apply {
                 name = item.name
+                packageName = item.packageName
                 flag = item.flag.get()
                 allowTimeinterval = item.allowTimeinterval
             }

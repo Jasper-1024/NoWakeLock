@@ -28,7 +28,7 @@ class IAlarmR(private val alarmDao: AlarmDao) :
 
     override suspend fun setItem_st(itemSt: ItemSt) = withContext(Dispatchers.IO) {
         alarmDao.insert(
-            AlarmSt(itemSt.name, itemSt.flag, itemSt.allowTimeinterval)
+            AlarmSt(itemSt.name, itemSt.flag, itemSt.allowTimeinterval, itemSt.packageName)
         )
     }
 }
