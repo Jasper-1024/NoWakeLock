@@ -4,19 +4,19 @@ import android.util.Log
 
 class LogUtil {
     companion object {
-        private val VERBOSE = 1 //啰嗦，等级最低的
+        private const val VERBOSE = 1 //啰嗦，等级最低的
 
-        private val DEBUG = 2 //调试
+        private const val DEBUG = 2 //调试
 
-        private val INFO = 3 //信息
+        private const val INFO = 3 //信息
 
-        private val WARN = 4 //警告
+        private const val WARN = 4 //警告
 
-        private val ERROR = 5 //错误
+        private const val ERROR = 5 //错误
 
-        private val NOTHING = 6 //什么也不打印出来
+        private const val NOTHING = 6 //什么也不打印出来
 
-        private val level = DEBUG //LEVEL:标准
+        private const val level = NOTHING //LEVEL:标准
 
 
         fun v(tag: String, msg: String) {
