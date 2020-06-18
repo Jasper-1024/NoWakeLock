@@ -1,4 +1,4 @@
-package com.js.nowakelock.data.backup
+package com.js.nowakelock.data.repository.backuprepository
 
 import com.js.nowakelock.data.db.base.ItemSt
 import com.js.nowakelock.data.db.entity.AppInfoSt

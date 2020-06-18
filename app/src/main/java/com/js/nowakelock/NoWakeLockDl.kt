@@ -2,8 +2,8 @@ package com.js.nowakelock
 
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.repository.AppInfoRepository
-import com.js.nowakelock.data.repository.BackupRepository
 import com.js.nowakelock.data.repository.IAppInfoRepository
+import com.js.nowakelock.data.repository.backuprepository.BackupRepository
 import com.js.nowakelock.data.repository.frepository.FRepository
 import com.js.nowakelock.data.repository.frepository.IAlarmR
 import com.js.nowakelock.data.repository.frepository.IServiceR
@@ -66,7 +66,9 @@ var noWakeLockModule = module {
 
     /** BackupRepository */
     single<BackupRepository>(named("BackupR")) {
-        BackupRepository(AppDatabase.getInstance(BasicApp.context).backupDao())
+        BackupRepository(
+            AppDatabase.getInstance(BasicApp.context).backupDao()
+        )
     }
 
 

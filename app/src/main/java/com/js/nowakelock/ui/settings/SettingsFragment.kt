@@ -8,7 +8,6 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.js.nowakelock.R
-import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.menuGone
 import org.koin.android.ext.android.inject
 import java.util.*
@@ -98,13 +97,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         if (requestCode == readJson && resultCode == Activity.RESULT_OK) {
             resultData?.data?.also { uri ->
-                LogUtil.d("test1", "$uri")
+                viewModel.restore(uri)
             }
         }
 
         if (requestCode == saveJson && resultCode == Activity.RESULT_OK) {
             resultData?.data?.also { uri ->
-                LogUtil.d("test2", "$uri")
+                viewModel.backup(uri)
             }
         }
     }

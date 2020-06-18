@@ -1,6 +1,5 @@
-package com.js.nowakelock.data.repository
+package com.js.nowakelock.data.repository.backuprepository
 
-import com.js.nowakelock.data.backup.AppB
 import com.js.nowakelock.data.db.base.ItemSt
 import com.js.nowakelock.data.db.dao.BackupDao
 import com.js.nowakelock.data.db.entity.AlarmSt
@@ -8,14 +7,16 @@ import com.js.nowakelock.data.db.entity.AppInfoSt
 import com.js.nowakelock.data.db.entity.ServiceSt
 import com.js.nowakelock.data.db.entity.WakeLockSt
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
 class BackupRepository(private var backupDao: BackupDao) {
 
     suspend fun getAppBs(): List<AppB>? = withContext(Dispatchers.IO) {
         return@withContext backupDao.loadAppNames()
-            .mapNotNull { getAppB(it) }
-            .filter { !isAppBEmpty(it) }
+            .mapNotNull {
+                getAppB(it)
+            }
     }
 
     suspend fun setAppBs(list: List<AppB>) = withContext(Dispatchers.Default) {
@@ -25,16 +26,36 @@ class BackupRepository(private var backupDao: BackupDao) {
     }
 
     private suspend fun getAppB(packageName: String): AppB? = withContext(Dispatchers.IO) {
-        val tmp = backupDao.loadAppSt(packageName)
-        tmp?.let {
-            return@withContext AppB(packageName).apply {
-                appInfoSt = tmp
-                l_Alarm = backupDao.loadAlarmSts(packageName).validData()
-                l_Service = backupDao.loadServiceSts(packageName).validData()
-                l_Wakelock = backupDao.loadWakeLockSts(packageName).validData()
+
+        fun appB(
+            appInfoSt: AppInfoSt?,
+            l_Alarm: List<ItemSt>,
+            l_Service: List<ItemSt>,
+            l_Wakelock: List<ItemSt>
+        ): AppB? {
+            return if (appInfoSt == null && l_Alarm.isEmpty() && l_Service.isEmpty() && l_Wakelock.isEmpty()) {
+                null
+            } else {
+                AppB(
+                    packageName = packageName,
+                    l_Alarm = l_Alarm,
+                    l_Service = l_Service,
+                    l_Wakelock = l_Wakelock
+                )
             }
         }
-        return@withContext null
+
+        val appInfoSt = async { backupDao.loadAppSt(packageName) }
+        val lAlarmSt = async { backupDao.loadAlarmSts(packageName).validData() }
+        val lServiceSt = async { backupDao.loadServiceSts(packageName).validData() }
+        val lWakeLockSt = async { backupDao.loadWakeLockSts(packageName).validData() }
+
+        return@withContext appB(
+            appInfoSt.await(),
+            lAlarmSt.await(),
+            lServiceSt.await(),
+            lWakeLockSt.await()
+        )
     }
 
     private suspend fun setAppB(appB: AppB) = withContext(Dispatchers.IO) {
@@ -44,13 +65,14 @@ class BackupRepository(private var backupDao: BackupDao) {
         insertList<WakeLockSt>(appB.l_Wakelock)
     }
 
-    private fun isAppBEmpty(appB: AppB): Boolean {
-        return isAppInfoStEmpty(appB.appInfoSt) && appB.l_Alarm.isEmpty() && appB.l_Service.isEmpty() && appB.l_Wakelock.isEmpty()
-    }
 
-    private fun isAppInfoStEmpty(appInfoSt: AppInfoSt): Boolean {
-        return appInfoSt.flag && appInfoSt.allowTimeinterval == 0.toLong()
-    }
+//    private fun isAppBEmpty(appB: AppB): Boolean {
+//        return isAppInfoStEmpty(appB.appInfoSt) && appB.l_Alarm.isEmpty() && appB.l_Service.isEmpty() && appB.l_Wakelock.isEmpty()
+//    }
+//
+//    private fun isAppInfoStEmpty(appInfoSt: AppInfoSt): Boolean {
+//        return appInfoSt.flag && appInfoSt.allowTimeinterval == 0.toLong()
+//    }
 
     private fun <T : ItemSt> List<T>.validData(): List<T> {
         return this.filter {
@@ -60,6 +82,7 @@ class BackupRepository(private var backupDao: BackupDao) {
 
     private suspend inline fun <reified T : ItemSt> insertList(list: List<ItemSt>) =
         withContext(Dispatchers.Default) {
+
             list.map {
                 val t: T = T::class.java.newInstance()
                 t.apply {
