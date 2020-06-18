@@ -48,7 +48,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tCount="@{item.count}"
+            app:tCount="@{item.count - item.blockCount}"
             tools:ignore="MissingConstraints" />
 
         <TextView

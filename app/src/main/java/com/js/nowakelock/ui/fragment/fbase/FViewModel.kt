@@ -51,8 +51,8 @@ class FViewModel(
             1 -> Comparator { s1, s2 ->
                 Collator.getInstance(Locale.getDefault()).compare(s1.name, s2.name)
             }
-            2 -> compareByDescending { it.count }
-            3 -> compareByDescending { it.countTime }
+            2 -> compareByDescending { it.count - it.blockCount }
+            3 -> compareByDescending { it.countTime - it.blockCountTime }
             else -> Comparator { s1, s2 ->
                 Collator.getInstance(Locale.getDefault()).compare(s1.name, s2.name)
             }
