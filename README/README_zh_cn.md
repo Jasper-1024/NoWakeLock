@@ -1,8 +1,8 @@
 # NoWakeLock
 
-* 一个控制 Android 唤醒锁的应用,可以运行在 Android N 以后版本.
+* 一个控制 Android 唤醒的应用,可以运行在 Android N 以后版本.
 
-* **严重警告**: 这款应用依旧处于 Alpha 测试阶段.因为软件给您设备带来的损伤,本人概不负责.
+* **严重警告**: 这款应用依旧处于 Beta 测试阶段.因为软件给您设备带来的损伤,本人概不负责.
 
 ## 关于
 
@@ -12,17 +12,29 @@
 
 ## 功能
 
-* 已完成
-  * 分应用 wakelock 唤醒锁计数.
-  * wakelock 限制
-  * 亮/暗色模式适配
-  * wakelock 唤醒间隔限制
-  * wakelock 正则过滤
+* ~~Alpha~~:
+  * ~~Alarm 记录~~
+  * ~~Alarm 限制 Alarm 正则限制~~
+  * ~~设置项~~
+  * ~~Service 记录~~
+  * ~~Service 限制~~
+  * ~~Wakelock 唤醒时间统计.~~
+  * ~~Xposed 检测~~
 
-* 计划
-  * wakelock 唤醒锁计时
-  * alarm 记录
-  * alarm 限制
+* Beta:
+  * ~~数据导入导出备份.~~
+  * ~~UI改版~~
+  * ~~长按复制信息~~
+  * ~~Fragment 具体信息支持~~
+  * 唤醒锁信息
+  * 禁用方案加载
+  * 批处理操作.
+  * 数据重置选项
+  * 太极支持
+  * 正则改进
+
+* Release:
+  * 应用统计
 
 ## 兼容性
 
@@ -40,8 +52,8 @@
 ## 安装
 
 * [Github releases](https://github.com/Jasper-1024/NoWakeLock/releases), 包括 alpha/bate 版.
-* [酷安](https://www.coolapk.com/apk/260112), 较为稳定的 alpha 版本.
-* ~~[Play](none)~~,等待转为 bate 版后上线.
+* [酷安](https://www.coolapk.com/apk/260112), 较为稳定的 beta 版本.
+* [Play](https://play.google.com/store/apps/details?id=com.js.nowakelock),已上线 bate 版,需要加入测试计划,更新比较保守.
 
 ## 支持
 

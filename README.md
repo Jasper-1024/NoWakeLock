@@ -4,7 +4,7 @@
 
 * An application that controls Android wakelocks can run on Android N and later.
 
-* **Serious warning** This application is still in Alpha testing stage. I will not be responsible for any damage caused by the software to your device.
+* **Serious warning** This application is still in Beta testing stage. I will not be responsible for any damage caused by the software to your device.
 
 ## About
 
@@ -16,15 +16,22 @@
 
 ## Features
 
-* completed
-  * Count wakelock.
-  * Block Wakelock.
-  * Bright / dark mode adaptation.
+* ~~Alpha~~:
+  * ~~record/block alarm~~
+  * ~~record/block wakelock~~
+  * ~~record/block service~~
+  * ~~check module active status~~
 
-* planed
-  * Count wakelock time
-  * record alarm
-  * block alarm
+* Beta:
+  * ~~Data backup and recovery~~
+  * ~~UI adjust~~
+  * ~~Long press to copy information~~
+  * Multi-select processing operation.
+  * Data reset
+  * Tai Chi Support
+
+* Release:
+  * Application statistics
 
 ## Compatibility
 
@@ -43,8 +50,8 @@
 ## Installation
 
 * [Github releases](https://github.com/Jasper-1024/NoWakeLock/releases), including the alpha/beta version.
-* [酷 安](https://www.coolapk.com/apk/260112), alpha version but stable.
-* ~~[Play](none)~~, not yet.
+* [酷 安](https://www.coolapk.com/apk/260112), beta version but stable.
+* [Play](https://play.google.com/store/apps/details?id=com.js.nowakelocke), beta version.
 
 ## Support
 
