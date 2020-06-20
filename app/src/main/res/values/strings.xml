@@ -5,6 +5,7 @@
     <string name="active">Module is not active</string>
     <string name="backup">Backup complete</string>
     <string name="restore">Restore complete</string>
+    <string name="BackupAndRestore">Backup and restore</string>
     <string name="clipboard">copy to clipboard</string>
     <string name="test">Test</string>
     <string name="android">Android System</string>

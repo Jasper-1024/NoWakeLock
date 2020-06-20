@@ -53,7 +53,7 @@
 
     <PreferenceCategory
         android:icon="@drawable/ic_settings_backup_restore_24"
-        android:title="Backup and restore">
+        android:title="@string/BackupAndRestore">
 
         <Preference
             app:key="backup"
