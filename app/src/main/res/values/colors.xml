@@ -18,6 +18,8 @@
     <color name="SystemApp">#30B10000</color>
     <color name="UserApp">#00000000</color>
 
+    <color name="SelectBack">#401C8ADB</color>
+
     <color name="black">#ff000000</color>
     <color name="md_grey_800">#424242</color>
     <color name="md_grey_900">#212121</color>

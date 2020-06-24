@@ -9,14 +9,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.selection.SelectionPredicates
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.js.nowakelock.R
+import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.cache
 import com.js.nowakelock.data.db.base.Item
 import com.js.nowakelock.databinding.FragmentBinding
 import com.js.nowakelock.ui.databding.RecycleAdapter
+import com.js.nowakelock.ui.databding.StringDetailsLookup
+import com.js.nowakelock.ui.databding.StringKeyProvider
 import com.js.nowakelock.ui.mainActivity.MainViewModel
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -34,7 +40,10 @@ open class FFragment : Fragment() {
 
     open lateinit var binding: FragmentBinding
     open lateinit var mainViewModel: MainViewModel
+
     open lateinit var adapter: RecycleAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var tracker: SelectionTracker<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,13 +59,11 @@ open class FFragment : Fragment() {
         context ?: return binding.root //if already create
 
         mainViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        recyclerView = binding.list
 
         //set recyclerview
-        val handler = FHandler(viewModel, type)
-        adapter = RecycleAdapter(itemLayout, handler)
-        binding.list.adapter = adapter
-
-        setItemDecoration(binding.list)
+        setAdapter()
+        setItemDecoration(recyclerView)
 
         //set SwipeRefresh
         setSwipeRefreshLayout(binding.refresh)
@@ -72,6 +79,39 @@ open class FFragment : Fragment() {
         //status
         subscribeStatus()
     }
+
+    private fun setAdapter() {
+        val handler = FHandler(viewModel, type)
+        adapter = RecycleAdapter(itemLayout, handler)
+        binding.list.adapter = adapter
+
+        setAdapterTracker()
+    }
+
+    private fun setAdapterTracker() {
+        tracker = SelectionTracker.Builder<String>(
+            "mySelection",
+            recyclerView,
+            StringKeyProvider(adapter),
+            StringDetailsLookup(recyclerView),
+            StorageStrategy.createStringStorage()
+        ).withSelectionPredicate(
+            SelectionPredicates.createSelectAnything()
+        )
+            .build()
+
+        tracker.addObserver(
+            object : SelectionTracker.SelectionObserver<String>() {
+                override fun onSelectionChanged() {
+                    super.onSelectionChanged()
+                    val items = tracker.selection
+                    LogUtil.d("test1", "$items")
+                }
+            })
+
+        adapter.tracker = tracker
+    }
+
 
     /**adapter subscribe data */
     private fun subscribeUi() {
