@@ -17,7 +17,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlin.reflect.KSuspendFunction1
 
 class ProviderHandler(
     context: Context
@@ -76,7 +75,7 @@ class ProviderHandler(
     }
 
     //get method
-    private suspend fun dbMethod(type: String): KSuspendFunction1<MutableCollection<DB>, Unit> {
+    private suspend inline fun dbMethod(type: String): suspend (MutableCollection<DB>) -> Unit {
         return when (type) {
             XPM.alarm -> ::dbAlarm
             XPM.service -> ::dbService
