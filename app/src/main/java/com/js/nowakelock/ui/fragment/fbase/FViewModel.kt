@@ -36,7 +36,7 @@ class FViewModel(
     // get all Item flag
     suspend fun List<Item>.flag(): List<Item> {
         return this.map {
-            val tmp = FRepository.getItem_st(it.name)
+            val tmp = FRepository.getItemSt(it.name)
             it.flag.set(tmp.flag)
             it.allowTimeinterval = tmp.allowTimeinterval
             it
@@ -61,7 +61,7 @@ class FViewModel(
 
     //save st
     fun saveST(item: Item) = viewModelScope.launch(Dispatchers.IO) {
-        FRepository.setItem_st(
+        FRepository.setItemSt(
             ItemSt().apply {
                 name = item.name
                 packageName = item.packageName
@@ -69,5 +69,22 @@ class FViewModel(
                 allowTimeinterval = item.allowTimeinterval
             }
         )
+    }
+
+    fun setItemStsFlag(itemSts: List<String>, flag: Boolean) {
+        viewModelScope.launch(Dispatchers.Default) {
+            itemSts.forEach {
+                FRepository.setItemSt(FRepository.getItemSt(it).apply { this.flag = flag })
+            }
+        }
+    }
+
+    fun setItemStsAti(itemSts: List<String>, ati: Long) {
+        viewModelScope.launch(Dispatchers.Default) {
+            itemSts.forEach {
+                FRepository.setItemSt(
+                    FRepository.getItemSt(it).apply { this.allowTimeinterval = ati })
+            }
+        }
     }
 }

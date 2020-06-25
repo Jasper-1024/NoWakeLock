@@ -10,6 +10,6 @@ interface FRepository {
 
     suspend fun sync(pN: String)
 
-    suspend fun getItem_st(name: String): ItemSt
-    suspend fun setItem_st(itemSt: ItemSt)
+    suspend fun getItemSt(name: String): ItemSt
+    suspend fun setItemSt(itemSt: ItemSt)
 }

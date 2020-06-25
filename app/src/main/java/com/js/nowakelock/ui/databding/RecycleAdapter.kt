@@ -1,7 +1,6 @@
 package com.js.nowakelock.ui.databding
 
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -65,9 +64,9 @@ class RecycleAdapter(private val layout: Int, private val handler: BaseHandler) 
             object : ItemDetailsLookup.ItemDetails<String>() {
                 override fun getPosition(): Int = adapterPosition
                 override fun getSelectionKey(): String? = getItem(adapterPosition).getID()
-                override fun inSelectionHotspot(e: MotionEvent): Boolean {
-                    return true
-                }
+//                override fun inSelectionHotspot(e: MotionEvent): Boolean {
+//                    return true
+//                }
             }
     }
 }

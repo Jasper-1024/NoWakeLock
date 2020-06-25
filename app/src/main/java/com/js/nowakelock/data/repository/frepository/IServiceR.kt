@@ -21,12 +21,12 @@ class IServiceR(private val serviceDao: ServiceDao) :
     override suspend fun sync(pN: String) {
     }
 
-    override suspend fun getItem_st(name: String): ItemSt = withContext(Dispatchers.IO) {
+    override suspend fun getItemSt(name: String): ItemSt = withContext(Dispatchers.IO) {
         return@withContext serviceDao.loadServiceSt(name)
             ?: ServiceSt(name).apply { serviceDao.insert(this) }
     }
 
-    override suspend fun setItem_st(itemSt: ItemSt) = withContext(Dispatchers.IO) {
+    override suspend fun setItemSt(itemSt: ItemSt) = withContext(Dispatchers.IO) {
         serviceDao.insert(
             ServiceSt(itemSt.name, itemSt.flag, itemSt.allowTimeinterval, itemSt.packageName)
         )

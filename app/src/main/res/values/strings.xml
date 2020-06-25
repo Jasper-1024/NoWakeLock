@@ -75,4 +75,9 @@
     <string name="backup_summary">Backup settings of installed app into file</string>
     <string name="restore_title">Restore from backup file</string>
     <string name="restore_summary">Restoring from a backup file will overwrite the current settings</string>
+    <string name="action_allow_all">Allow all</string>
+    <string name="action_block_all">Block all</string>
+    <string name="action_select_all">Select all</string>
+    <string name="action_select_inverse">"Select inverse"</string>
+    <string name="action_set_ATI">"Set allow time interval"</string>
 </resources>

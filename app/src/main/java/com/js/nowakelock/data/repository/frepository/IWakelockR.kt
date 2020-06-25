@@ -22,12 +22,12 @@ class IWakelockR(private var wakeLockDao: WakeLockDao) :
     override suspend fun sync(pN: String) {
     }
 
-    override suspend fun getItem_st(name: String): ItemSt = withContext(Dispatchers.IO) {
+    override suspend fun getItemSt(name: String): ItemSt = withContext(Dispatchers.IO) {
         return@withContext wakeLockDao.loadWakeLockSt(name)
             ?: WakeLockSt(name).apply { wakeLockDao.insert(this) }
     }
 
-    override suspend fun setItem_st(itemSt: ItemSt) = withContext(Dispatchers.IO) {
+    override suspend fun setItemSt(itemSt: ItemSt) = withContext(Dispatchers.IO) {
         wakeLockDao.insert(
             WakeLockSt(itemSt.name, itemSt.flag, itemSt.allowTimeinterval, itemSt.packageName)
         )

@@ -72,4 +72,9 @@
     <string name="backup_summary">备份目前所有应用设置到文件</string>
     <string name="restore_title">从备份文件恢复</string>
     <string name="restore_summary">从备份文件恢复会覆盖当前设置</string>
+    <string name="action_allow_all">全部允许</string>
+    <string name="action_block_all">全部禁止</string>
+    <string name="action_select_all">全选</string>
+    <string name="action_select_inverse">"反选"</string>
+    <string name="action_set_ATI">"设置允许时间间隔"</string>
 </resources>

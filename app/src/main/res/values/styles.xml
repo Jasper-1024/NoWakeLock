@@ -10,6 +10,10 @@
 
     <style name="AppTheme" parent="Base.AppTheme">
         <!-- Customize your theme here. -->
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <!--  For Custom Action Mode Background Color/Drawable -->
+        <item name="actionModeBackground">@color/primaryColor</item>
     </style>
 
     <style name="Black" parent="AppTheme">
@@ -30,5 +34,6 @@
         <item name="android:background">@color/primaryColor</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
+
 
 </resources>
