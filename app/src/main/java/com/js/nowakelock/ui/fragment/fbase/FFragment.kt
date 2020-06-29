@@ -8,15 +8,19 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.js.nowakelock.NavgraphDirections
 import com.js.nowakelock.R
+import com.js.nowakelock.base.BaseHandler
 import com.js.nowakelock.base.cache
 import com.js.nowakelock.data.db.base.Item
+import com.js.nowakelock.data.db.base.ItemSt
 import com.js.nowakelock.databinding.FragmentBinding
 import com.js.nowakelock.ui.databding.RecycleAdapter
 import com.js.nowakelock.ui.databding.StringDetailsLookup
@@ -81,6 +85,48 @@ open class FFragment : Fragment() {
         subscribeStatus()
     }
 
+    /**adapter subscribe data */
+    private fun subscribeUi() {
+        val observer = Observer<List<Item>> { albinos ->
+            loadList(albinos, mainViewModel.status.value)
+        }
+        viewModel.list.observe(viewLifecycleOwner, observer)
+    }
+
+    private fun subscribeStatus() {
+        val observer = Observer<cache> { status ->
+            loadList(viewModel.list.value, status)
+        }
+        mainViewModel.status.observe(viewLifecycleOwner, observer)
+    }
+
+    private fun loadList(items: List<Item>?, cache: cache?) {
+        if (items != null && cache != null) {
+            viewLifecycleOwner.lifecycleScope.launch {
+//                LogUtil.d("test1","$items")
+                adapter.submitList(viewModel.list(items, cache))
+            }
+        }
+    }
+
+    private fun setItemDecoration(recyclerView: RecyclerView) = recyclerView.addItemDecoration(
+        DividerItemDecoration(
+            recyclerView.context,
+            DividerItemDecoration.VERTICAL
+        )
+    )
+
+    //SwipeRefresh
+    private fun setSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout) {
+        swipeRefreshLayout.setDistanceToTriggerSync(300)
+        //color
+        swipeRefreshLayout.setColorSchemeColors(Color.BLUE)
+        //binding
+        swipeRefreshLayout.setOnRefreshListener {
+            swipeRefreshLayout.isRefreshing = false
+        }
+    }
+
     private fun setAdapter() {
         val handler = FHandler(viewModel, type)
         adapter = RecycleAdapter(itemLayout, handler)
@@ -123,48 +169,6 @@ open class FFragment : Fragment() {
         adapter.tracker = tracker
     }
 
-
-    /**adapter subscribe data */
-    private fun subscribeUi() {
-        val observer = Observer<List<Item>> { albinos ->
-            loadList(albinos, mainViewModel.status.value)
-        }
-        viewModel.list.observe(viewLifecycleOwner, observer)
-    }
-
-    private fun subscribeStatus() {
-        val observer = Observer<cache> { status ->
-            loadList(viewModel.list.value, status)
-        }
-        mainViewModel.status.observe(viewLifecycleOwner, observer)
-    }
-
-    private fun loadList(items: List<Item>?, cache: cache?) {
-        if (items != null && cache != null) {
-            viewLifecycleOwner.lifecycleScope.launch {
-//                LogUtil.d("test1","$items")
-                adapter.submitList(viewModel.list(items, cache))
-            }
-        }
-    }
-
-    private fun setItemDecoration(recyclerView: RecyclerView) = recyclerView.addItemDecoration(
-        DividerItemDecoration(
-            recyclerView.context,
-            DividerItemDecoration.VERTICAL
-        )
-    )
-
-    //SwipeRefresh
-    private fun setSwipeRefreshLayout(swipeRefreshLayout: SwipeRefreshLayout) {
-        swipeRefreshLayout.setDistanceToTriggerSync(300)
-        //color
-        swipeRefreshLayout.setColorSchemeColors(Color.BLUE)
-        //binding
-        swipeRefreshLayout.setOnRefreshListener {
-            swipeRefreshLayout.isRefreshing = false
-        }
-    }
 
     private val actionModeCallback = object : ActionMode.Callback {
         override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
@@ -215,4 +219,29 @@ open class FFragment : Fragment() {
         }
     }
 
+    inner class FHandler(val viewModel: FViewModel, val type: String) : BaseHandler() {
+
+        fun onClick(/*view: View,*/ itemSt: ItemSt) {
+            viewModel.saveST(itemSt)
+        }
+
+        fun info(view: View, item: Item) {
+            if (actionMode == null) {
+                val direction =
+                    NavgraphDirections.actionGlobalInfoFragment(
+                        item.info.name,
+                        item.info.packageName,
+                        type
+                    )
+                view.findNavController().navigate(direction)
+            }
+        }
+
+        //    fun copy(str: String): Boolean {
+//        return clipboardCopy(str)
+//    }
+        fun onTextChanged(itemSt: ItemSt) {
+            viewModel.saveST(itemSt)
+        }
+    }
 }
