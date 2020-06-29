@@ -6,9 +6,7 @@ import androidx.preference.PreferenceManager
 import com.js.nowakelock.BasicApp
 import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.data.db.AppDatabase
-import com.js.nowakelock.data.db.entity.Alarm
-import com.js.nowakelock.data.db.entity.Service
-import com.js.nowakelock.data.db.entity.WakeLock
+import com.js.nowakelock.data.db.entity.*
 import com.js.nowakelock.xposedhook.model.DB
 import com.js.nowakelock.xposedhook.model.DBModel
 import com.js.nowakelock.xposedhook.model.STModel
@@ -86,33 +84,45 @@ class ProviderHandler(
 
     private suspend fun dbAlarm(list: MutableCollection<DB>) {
         list.forEach {
-            val tmp: Alarm = db.alarmDao().loadAlarm(it.name)
-                ?: Alarm(it.name, it.packageName)
+            val tmp: AlarmInfo = db.alarmDao().loadAlarm(it.name)
+                ?: AlarmInfo(it.name, it.packageName)
             tmp.count += it.count
             tmp.blockCount += it.blockCount
             db.alarmDao().insert(tmp)
+            // make sure st not empty
+            if (db.alarmDao().loadAlarmStName(tmp.name) == null) {
+                db.alarmDao().insertST(AlarmSt(name = tmp.name, packageName = tmp.packageName))
+            }
         }
     }
 
     private suspend fun dbService(list: MutableCollection<DB>) {
         list.forEach {
-            val tmp: Service = db.serviceDao().loadService(it.name)
-                ?: Service(it.name, it.packageName)
+            val tmp: ServiceInfo = db.serviceDao().loadService(it.name)
+                ?: ServiceInfo(it.name, it.packageName)
             tmp.count += it.count
             tmp.blockCount += it.blockCount
             db.serviceDao().insert(tmp)
+            // make sure st not empty
+            if (db.serviceDao().loadServiceStName(it.name) == null) {
+                db.serviceDao().insertST(ServiceSt(name = it.name, packageName = it.packageName))
+            }
         }
     }
 
     private suspend fun dbWakelock(list: MutableCollection<DB>) {
         list.forEach {
-            val tmp: WakeLock = db.wakeLockDao().loadWakeLock(it.name)
-                ?: WakeLock(it.name, it.packageName)
+            val tmp: WakeLockInfo = db.wakeLockDao().loadWakeLock(it.name)
+                ?: WakeLockInfo(it.name, it.packageName)
             tmp.count += it.count
             tmp.countTime += it.countTime
             tmp.blockCount += it.blockCount
             tmp.blockCountTime += it.blockCountTime
             db.wakeLockDao().insert(tmp)
+            // make sure st not empty
+            if (db.wakeLockDao().loadWakeLockStName(it.name) == null) {
+                db.wakeLockDao().insertST(WakeLockSt(name = it.name, packageName = it.packageName))
+            }
         }
     }
 

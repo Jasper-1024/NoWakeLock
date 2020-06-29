@@ -8,6 +8,7 @@ import com.js.nowakelock.LiveDataTestUtil
 import com.js.nowakelock.data.TestData
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.dao.AppInfoDao
+import com.js.nowakelock.data.repository.appinforepository.IAppInfoRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -29,7 +30,10 @@ class mAppInfoFRepositoryTest {
         db = Room.inMemoryDatabaseBuilder(
             context, AppDatabase::class.java
         ).build()
-        aR = IAppInfoRepository(db.appInfoDao())
+        aR =
+            IAppInfoRepository(
+                db.appInfoDao()
+            )
     }
 
     @After
@@ -71,7 +75,9 @@ class mAppInfoFRepositoryTest {
         private var instance: IAppInfoRepository? = null
         fun getInstance(appInfoDao: AppInfoDao) =
             instance ?: synchronized(this) {
-                instance ?: IAppInfoRepository(appInfoDao).also { instance = it }
+                instance ?: IAppInfoRepository(
+                    appInfoDao
+                ).also { instance = it }
             }
     }
 }

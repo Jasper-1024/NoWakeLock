@@ -1,6 +1,6 @@
 package com.js.nowakelock.data.repository.inforepository
 
-import com.js.nowakelock.data.db.base.Item
+import com.js.nowakelock.data.db.base.ItemInfo
 import com.js.nowakelock.data.db.base.ItemSt
 import com.js.nowakelock.data.db.dao.InfoDao
 import com.js.nowakelock.data.db.entity.AppInfo
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class IWakelockIR(private val infoDao: InfoDao) : InfoRepository {
-    override fun getItem(name: String): Flow<Item> {
+    override fun getItem(name: String): Flow<ItemInfo> {
         return infoDao.loadWakeLock(name)
     }
 

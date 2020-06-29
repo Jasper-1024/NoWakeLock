@@ -1,8 +1,8 @@
 package com.js.nowakelock
 
 import com.js.nowakelock.data.db.AppDatabase
-import com.js.nowakelock.data.repository.AppInfoRepository
-import com.js.nowakelock.data.repository.IAppInfoRepository
+import com.js.nowakelock.data.repository.appinforepository.AppInfoRepository
+import com.js.nowakelock.data.repository.appinforepository.IAppInfoRepository
 import com.js.nowakelock.data.repository.backuprepository.BackupRepository
 import com.js.nowakelock.data.repository.frepository.FRepository
 import com.js.nowakelock.data.repository.frepository.IAlarmR

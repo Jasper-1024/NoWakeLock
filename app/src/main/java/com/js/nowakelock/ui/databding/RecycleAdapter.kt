@@ -47,14 +47,14 @@ class RecycleAdapter(private val layout: Int, private val handler: BaseHandler) 
     inner class ViewHolder(var binding: ViewDataBinding, private val handler: BaseHandler) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: BaseItem?) {
-            binding.setVariable(BR.item, item)
+        fun bind(itemInfo: BaseItem?) {
+            binding.setVariable(BR.item, itemInfo)
             binding.setVariable(BR.handler, handler)
             binding.executePendingBindings()
         }
 
-        fun bind(item: BaseItem?, isActivated: Boolean) {
-            binding.setVariable(BR.item, item)
+        fun bind(itemInfo: BaseItem?, isActivated: Boolean) {
+            binding.setVariable(BR.item, itemInfo)
             binding.setVariable(BR.handler, handler)
             binding.executePendingBindings()
             binding.root.isActivated = isActivated

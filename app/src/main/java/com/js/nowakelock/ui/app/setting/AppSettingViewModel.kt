@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.js.nowakelock.data.db.entity.AppInfoSt
-import com.js.nowakelock.data.repository.AppInfoRepository
+import com.js.nowakelock.data.repository.appinforepository.AppInfoRepository
 import kotlinx.coroutines.launch
 
 class AppSettingViewModel(

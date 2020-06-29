@@ -28,63 +28,58 @@ class FViewModel(
 
     suspend fun list(items: List<Item>, catch: cache): List<Item> =
         withContext(Dispatchers.Default) {
-            return@withContext items.flag()
+            return@withContext items
                 .search(catch.query, ::search)
                 .sort(sort(catch.sort))
         }
 
-    // get all Item flag
-    suspend fun List<Item>.flag(): List<Item> {
-        return this.map {
-            val tmp = FRepository.getItemSt(it.name)
-            it.flag.set(tmp.flag)
-            it.allowTimeinterval = tmp.allowTimeinterval
-            it
-        }
-    }
-
-    private fun search(wakeLock: Item) = wakeLock.name
+    private fun search(item: Item) = item.info.name
 
     // get sort method
     private fun sort(sort: Int): java.util.Comparator<Item> {
         return when (sort) {
             1 -> Comparator { s1, s2 ->
-                Collator.getInstance(Locale.getDefault()).compare(s1.name, s2.name)
+                Collator.getInstance(Locale.getDefault()).compare(s1.info.name, s2.info.name)
             }
-            2 -> compareByDescending { it.count - it.blockCount }
-            3 -> compareByDescending { it.countTime - it.blockCountTime }
+            2 -> compareByDescending { it.info.count - it.info.blockCount }
+            3 -> compareByDescending { it.info.countTime - it.info.blockCountTime }
             else -> Comparator { s1, s2 ->
-                Collator.getInstance(Locale.getDefault()).compare(s1.name, s2.name)
+                Collator.getInstance(Locale.getDefault()).compare(s1.info.name, s2.info.name)
             }
         }
     }
 
     //save st
-    fun saveST(item: Item) = viewModelScope.launch(Dispatchers.IO) {
-        FRepository.setItemSt(
-            ItemSt().apply {
-                name = item.name
-                packageName = item.packageName
-                flag = item.flag.get()
-                allowTimeinterval = item.allowTimeinterval
-            }
-        )
+    fun saveST(itemSt: ItemSt) = viewModelScope.launch(Dispatchers.IO) {
+        itemSt.flag = itemSt.stFlag.get()
+        FRepository.setItemSt(itemSt)
     }
 
     fun setItemStsFlag(itemSts: List<String>, flag: Boolean) {
         viewModelScope.launch(Dispatchers.Default) {
-            itemSts.forEach {
-                FRepository.setItemSt(FRepository.getItemSt(it).apply { this.flag = flag })
+            val tmp = itemSts.map {
+                FRepository.getItemSt(it).apply { this.flag = flag }
             }
+            FRepository.setItemSt(tmp)
         }
     }
 
-    fun setItemStsAti(itemSts: List<String>, ati: Long) {
-        viewModelScope.launch(Dispatchers.Default) {
-            itemSts.forEach {
-                FRepository.setItemSt(
-                    FRepository.getItemSt(it).apply { this.allowTimeinterval = ati })
-            }
-        }
-    }
+//    fun setItemStsAti(itemSts: List<String>, ati: Long) {
+//        viewModelScope.launch(Dispatchers.Default) {
+//            itemSts.forEach {
+//                FRepository.setItemSt(
+//                    FRepository.getItemSt(it).apply { this.allowTimeinterval = ati })
+//            }
+//        }
+//    }
+
+    //    // get all ItemInfo flag
+//    suspend fun List<Item>.flag(): List<Item> {
+//        return this.map {
+//            val tmp = FRepository.getItemSt(it.itemInfo.name)
+//            it.itemInfo.flag.set(tmp.flag)
+//            it..itallowTimeinterval = tmp.allowTimeinterval
+//            it
+//        }
+//    }
 }

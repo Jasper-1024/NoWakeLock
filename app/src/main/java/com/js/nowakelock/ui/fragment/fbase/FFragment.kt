@@ -39,8 +39,8 @@ open class FFragment : Fragment() {
     open lateinit var binding: FragmentBinding
     open lateinit var mainViewModel: MainViewModel
 
-    open lateinit var adapter: RecycleAdapter
     private lateinit var recyclerView: RecyclerView
+    open lateinit var adapter: RecycleAdapter
     private lateinit var tracker: SelectionTracker<String>
 
     private var actionMode: ActionMode? = null
@@ -91,7 +91,7 @@ open class FFragment : Fragment() {
 
     private fun setAdapterTracker() {
         tracker = SelectionTracker.Builder<String>(
-            "mySelection",
+            "MySelection",
             recyclerView,
             StringKeyProvider(adapter),
             StringDetailsLookup(recyclerView),
@@ -139,10 +139,11 @@ open class FFragment : Fragment() {
         mainViewModel.status.observe(viewLifecycleOwner, observer)
     }
 
-    private fun loadList(alarms: List<Item>?, cache: cache?) {
-        if (alarms != null && cache != null) {
+    private fun loadList(items: List<Item>?, cache: cache?) {
+        if (items != null && cache != null) {
             viewLifecycleOwner.lifecycleScope.launch {
-                adapter.submitList(viewModel.list(alarms, cache))
+//                LogUtil.d("test1","$items")
+                adapter.submitList(viewModel.list(items, cache))
             }
         }
     }
@@ -166,36 +167,31 @@ open class FFragment : Fragment() {
     }
 
     private val actionModeCallback = object : ActionMode.Callback {
-        // Called when the action mode is created; startActionMode() was called
         override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
-            // Inflate a menu resource providing context menu items
             val inflater: MenuInflater = mode.menuInflater
             inflater.inflate(R.menu.action_menu, menu)
             return true
         }
 
-        // Called each time the action mode is shown. Always called after onCreateActionMode, but
-        // may be called multiple times if the mode is invalidated.
         override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
             return false // Return false if nothing is done
         }
 
-        // Called when the user selects a contextual menu item
         override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
             return when (item.itemId) {
                 R.id.action_allow_all -> {
                     viewModel.setItemStsFlag(selectKeys, true)
-                    mode.finish()
+//                    mode.finish()
                     true
                 }
                 R.id.action_block_all -> {
                     viewModel.setItemStsFlag(selectKeys, false)
-                    mode.finish()
+//                    mode.finish()
                     true
                 }
                 R.id.action_select_all -> {
                     viewModel.list.value?.forEach {
-                        adapter.tracker?.select(it.name)
+                        adapter.tracker?.select(it.info.name)
                     }
                     true
                 }
@@ -211,6 +207,7 @@ open class FFragment : Fragment() {
 
         // Called when the user exits the action mode
         override fun onDestroyActionMode(mode: ActionMode) {
+
             selectKeys.forEach {
                 adapter.tracker?.deselect(it)
             }

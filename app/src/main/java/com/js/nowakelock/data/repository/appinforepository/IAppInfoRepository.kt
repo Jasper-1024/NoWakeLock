@@ -1,4 +1,4 @@
-package com.js.nowakelock.data.repository
+package com.js.nowakelock.data.repository.appinforepository
 
 import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
@@ -12,7 +12,8 @@ import com.js.nowakelock.data.db.entity.AppInfoSt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class IAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository {
+class IAppInfoRepository(private var appInfoDao: AppInfoDao) :
+    AppInfoRepository {
     private val pm: PackageManager = BasicApp.context.packageManager
 
     /**get all database app info*/
@@ -105,12 +106,4 @@ class IAppInfoRepository(private var appInfoDao: AppInfoDao) : AppInfoRepository
             ai.processName
         )
     }
-
-//    private suspend fun updateCount(packageNames: List<String>) = withContext(Dispatchers.IO) {
-//        packageNames.forEach {
-//            appInfoDao.updateAppInfoCount(it)
-//            appInfoDao.updateAppInfoBlockCount(it)
-//        }
-//    }
-
 }

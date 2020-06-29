@@ -12,4 +12,5 @@ interface FRepository {
 
     suspend fun getItemSt(name: String): ItemSt
     suspend fun setItemSt(itemSt: ItemSt)
+    suspend fun setItemSt(itemSts: List<ItemSt>)
 }

@@ -1,4 +1,4 @@
-package com.js.nowakelock.data.repository
+package com.js.nowakelock.data.repository.appinforepository
 
 import androidx.lifecycle.LiveData
 import com.js.nowakelock.data.db.entity.AppInfo

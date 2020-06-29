@@ -4,12 +4,12 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import com.js.nowakelock.data.db.base.Item
 
-data class Service(
+data class Wakelock(
     @Embedded
-    override var info: ServiceInfo,
+    override var info: WakeLockInfo,
     @Relation(
-        parentColumn = "serviceName",
-        entityColumn = "serviceName_st"
+        parentColumn = "wakeLockName",
+        entityColumn = "wakeLockName_st"
     )
-    override var st: ServiceSt?
+    override var st: WakeLockSt?
 ) : Item()

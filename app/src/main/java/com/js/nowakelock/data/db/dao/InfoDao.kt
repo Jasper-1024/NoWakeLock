@@ -10,13 +10,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface InfoDao {
     @Query("select * from alarm where alarmName = :alarmName")
-    fun loadAlarm(alarmName: String): Flow<Alarm>
+    fun loadAlarm(alarmName: String): Flow<AlarmInfo>
 
     @Query("select * from service where serviceName = :serviceName")
-    fun loadService(serviceName: String): Flow<Service>
+    fun loadService(serviceName: String): Flow<ServiceInfo>
 
     @Query("select * from wakeLock where wakeLockName = :wakelockName")
-    fun loadWakeLock(wakelockName: String): Flow<WakeLock>
+    fun loadWakeLock(wakelockName: String): Flow<WakeLockInfo>
 
     @Query("select * from appInfo where packageName = :packageName ")
     fun loadAppInfo(packageName: String): Flow<AppInfo>

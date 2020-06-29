@@ -8,7 +8,7 @@ import com.js.nowakelock.base.cache
 import com.js.nowakelock.base.search
 import com.js.nowakelock.base.sort
 import com.js.nowakelock.data.db.entity.AppInfo
-import com.js.nowakelock.data.repository.AppInfoRepository
+import com.js.nowakelock.data.repository.appinforepository.AppInfoRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

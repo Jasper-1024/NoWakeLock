@@ -28,8 +28,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:gravity="center_vertical"
-            android:onLongClick="@{() -> vm.copy(vm.item.name)}"
-            android:text="@{vm.item.name}"
+            android:onLongClick="@{() -> vm.copy(vm.itemInfo.name)}"
+            android:text="@{vm.itemInfo.name}"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView"
@@ -57,8 +57,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:textSize="16sp"
-            app:blockCount="@{vm.item.blockCount}"
-            app:count="@{vm.item.count}"
+            app:blockCount="@{vm.itemInfo.blockCount}"
+            app:count="@{vm.itemInfo.count}"
             app:layout_constraintStart_toStartOf="@+id/textView3"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
             tools:ignore="MissingConstraints" />
@@ -69,8 +69,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textSize="16sp"
-            app:blockCountTime="@{vm.item.blockCountTime}"
-            app:countTime="@{vm.item.countTime}"
+            app:blockCountTime="@{vm.itemInfo.blockCountTime}"
+            app:countTime="@{vm.itemInfo.countTime}"
             app:layout_constraintStart_toStartOf="@+id/Count"
             app:layout_constraintTop_toBottomOf="@+id/Count" />
 

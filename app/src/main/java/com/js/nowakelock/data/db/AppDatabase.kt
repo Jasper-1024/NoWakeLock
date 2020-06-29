@@ -12,8 +12,8 @@ import com.js.nowakelock.data.db.dao.*
 import com.js.nowakelock.data.db.entity.*
 
 @Database(
-    entities = [AppInfo::class, AppInfoSt::class, WakeLock::class, WakeLockSt::class,
-        Alarm::class, AlarmSt::class, Service::class, ServiceSt::class],
+    entities = [AppInfo::class, AppInfoSt::class, WakeLockInfo::class, WakeLockSt::class,
+        AlarmInfo::class, AlarmSt::class, ServiceInfo::class, ServiceSt::class],
     version = 5
 )
 @TypeConverters(Converters::class)

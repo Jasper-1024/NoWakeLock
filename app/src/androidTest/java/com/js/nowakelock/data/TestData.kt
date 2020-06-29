@@ -17,11 +17,11 @@ class TestData {
 
         val pN = "p1"
 
-        fun getAlarm(): MutableList<Alarm> {
-            val tmp: MutableList<Alarm> = mutableListOf()
+        fun getAlarm(): MutableList<AlarmInfo> {
+            val tmp: MutableList<AlarmInfo> = mutableListOf()
 
             for (i in 1..10 step 1) {
-                tmp.add(Alarm("a$i", pN, count = 1))
+                tmp.add(AlarmInfo("a$i", pN, count = 1))
             }
             return tmp
         }
@@ -41,11 +41,11 @@ class TestData {
             return appInfos
         }
 
-        fun getwakeLocks(): MutableList<WakeLock> {
-            val tmp: MutableList<WakeLock> = mutableListOf()
+        fun getwakeLocks(): MutableList<WakeLockInfo> {
+            val tmp: MutableList<WakeLockInfo> = mutableListOf()
 
             for (i in 1..10 step 1) {
-                tmp.add(WakeLock(pN, "w$i", count = 1))
+                tmp.add(WakeLockInfo(pN, "w$i", count = 1))
             }
             return tmp
         }

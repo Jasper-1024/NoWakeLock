@@ -1,39 +1,46 @@
 package com.js.nowakelock.data.db.dao
 
 import androidx.room.*
-import com.js.nowakelock.data.db.entity.WakeLock
+import com.js.nowakelock.data.db.entity.WakeLockInfo
 import com.js.nowakelock.data.db.entity.WakeLockSt
+import com.js.nowakelock.data.db.entity.Wakelock
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WakeLockDao {
 
     /**for wakelock fragment*/
+    @Transaction
     @Query("select * from wakeLock")
-    fun loadWakeLocks(): Flow<List<WakeLock>>
+    fun loadWakeLocks(): Flow<List<Wakelock>>
 
+    @Transaction
     @Query("select * from wakeLock where wakeLock_packageName = :packageName")
-    fun loadWakeLocks(packageName: String): Flow<List<WakeLock>>
+    fun loadWakeLocks(packageName: String): Flow<List<Wakelock>>
 
     /**for BroadcastReceiver clear db*/
     @Query("select * from wakeLock")
-    suspend fun loadAllWakeLocks(): List<WakeLock>
+    suspend fun loadAllWakeLocks(): List<WakeLockInfo>
 
     /**for ProviderHandler,save service to db*/
     @Query("select * from wakeLock where wakeLockName = :wakelockName")
-    suspend fun loadWakeLock(wakelockName: String): WakeLock?
+    suspend fun loadWakeLock(wakelockName: String): WakeLockInfo?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(wakeLock: WakeLock)
+    fun insert(wakeLockInfo: WakeLockInfo)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(wakeLocks: List<WakeLock>)
+    fun insert(wakeLockInfos: List<WakeLockInfo>)
 
     @Delete
-    suspend fun deleteAll(wakeLocks: MutableCollection<WakeLock>)
+    suspend fun deleteAll(wakeLockInfos: MutableCollection<WakeLockInfo>)
 
     @Delete
-    suspend fun delete(wakeLock: WakeLock)
+    suspend fun delete(wakeLockInfo: WakeLockInfo)
+
+    /**wakelock_st_Name*/
+    @Query("select wakeLockName_st from wakeLock_st where wakeLockName_st = :wakelockName")
+    fun loadWakeLockStName(wakelockName: String): String?
 
     /**wakelock_st*/
     @Query("select * from wakeLock_st where wakeLockName_st = :wakelockName")
@@ -44,7 +51,10 @@ interface WakeLockDao {
     fun loadWakeLockSt(): List<WakeLockSt>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(wNLock_st: WakeLockSt)
+    suspend fun insertST(wakeLockSt: WakeLockSt)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertST(wakeLockSts: List<WakeLockSt>)
 
 //    @Query("select COUNT(*) from wakeLock where wakeLock_packageName = :packageName")
 //    suspend fun countWakeLocks(packageName: String): Int
@@ -56,10 +66,10 @@ interface WakeLockDao {
 //    suspend fun updateAppInfoBlockCount(packageName: String)
 
 //    @Query("select * from wakeLock where WakeLock_packageName = :packageName")
-//    suspend fun loadAllWakeLockByPn(packageName: String): List<WakeLock>
+//    suspend fun loadAllWakeLockByPn(packageName: String): List<WakeLockInfo>
 //
 //    @Query("select * from wakeLock")
-//    fun loadAllWakeLock(): List<WakeLock>
+//    fun loadAllWakeLock(): List<WakeLockInfo>
 
     //Determine if it exists
 //    @Query("select wakeLockName from wakeLock where wakeLockName = :wakelockName")
@@ -111,5 +121,5 @@ interface WakeLockDao {
 //     * @return null
 //     */
 //    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    suspend fun insertAll(wakeLocks: MutableCollection<WakeLock>)
+//    suspend fun insertAll(wakeLocks: MutableCollection<WakeLockInfo>)
 }

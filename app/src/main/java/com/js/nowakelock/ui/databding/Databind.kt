@@ -44,7 +44,7 @@ object Databind {
     @SuppressLint("SetTextI18n")
     @BindingAdapter("tCount")
     fun loadCount(textView: TextView, count: Int) {
-        textView.text = "${count}"
+        textView.text = "$count"
     }
 
     @JvmStatic

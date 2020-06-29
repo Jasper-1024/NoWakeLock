@@ -4,14 +4,12 @@ import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.js.nowakelock.LiveDataTestUtil
-import com.js.nowakelock.base.LogUtil
-import com.js.nowakelock.data.TestData
 import com.js.nowakelock.data.db.dao.WakeLockDao
-import kotlinx.coroutines.runBlocking
-import org.junit.*
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
 
-class WakeLockDaoTest {
+class WakeLockInfoDaoTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 

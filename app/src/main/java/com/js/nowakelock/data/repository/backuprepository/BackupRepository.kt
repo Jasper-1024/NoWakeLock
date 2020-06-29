@@ -65,15 +65,6 @@ class BackupRepository(private var backupDao: BackupDao) {
         insertList<WakeLockSt>(appB.l_Wakelock)
     }
 
-
-//    private fun isAppBEmpty(appB: AppB): Boolean {
-//        return isAppInfoStEmpty(appB.appInfoSt) && appB.l_Alarm.isEmpty() && appB.l_Service.isEmpty() && appB.l_Wakelock.isEmpty()
-//    }
-//
-//    private fun isAppInfoStEmpty(appInfoSt: AppInfoSt): Boolean {
-//        return appInfoSt.flag && appInfoSt.allowTimeinterval == 0.toLong()
-//    }
-
     private fun <T : ItemSt> List<T>.validData(): List<T> {
         return this.filter {
             !it.flag || (it.allowTimeinterval != 0.toLong())

@@ -15,7 +15,7 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest
-class NoWakeLockContentProviderTest {
+class NoWakeLockInfoContentProviderTest {
     private var mContentResolver: ContentResolver? = null
     private val authority = "com.js.nowakelock"
 
