@@ -8,7 +8,6 @@ import com.js.nowakelock.base.cache
 import com.js.nowakelock.base.search
 import com.js.nowakelock.base.sort
 import com.js.nowakelock.data.db.base.Item
-import com.js.nowakelock.data.db.base.ItemSt
 import com.js.nowakelock.data.repository.frepository.FRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,9 +49,11 @@ class FViewModel(
     }
 
     //save st
-    fun saveST(itemSt: ItemSt) = viewModelScope.launch(Dispatchers.IO) {
-        itemSt.flag = itemSt.stFlag.get()
-        FRepository.setItemSt(itemSt)
+    fun saveST(item: Item) = viewModelScope.launch(Dispatchers.IO) {
+        item.st?.let {
+//            it.flag = item.stFlag.get()
+            FRepository.setItemSt(it)
+        }
     }
 
     fun setItemStsFlag(itemSts: List<String>, flag: Boolean) {

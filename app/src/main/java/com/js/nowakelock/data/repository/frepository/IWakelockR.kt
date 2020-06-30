@@ -21,7 +21,7 @@ class IWakelockR(private var wakeLockDao: WakeLockDao) :
                         packageName = it.info.packageName
                     ).apply { wakeLockDao.insertST(this) }
                 }
-                it.st!!.stFlag.set(it.st!!.flag)
+                it.stFlag.set(it.st!!.flag)
             }
             items
         }

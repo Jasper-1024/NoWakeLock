@@ -1,10 +1,10 @@
 package com.js.nowakelock.ui.infofragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
+import com.js.nowakelock.R
+import com.js.nowakelock.base.menuGone
 import com.js.nowakelock.databinding.FragmentInfoBinding
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
@@ -32,6 +32,7 @@ class InfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         binding = FragmentInfoBinding.inflate(inflater, container, false)
         context ?: return binding.root //if already create
 
@@ -40,5 +41,10 @@ class InfoFragment : Fragment() {
         binding.lifecycleOwner = this
 
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menuGone(menu, setOf(R.id.menu_filter, R.id.search))
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }

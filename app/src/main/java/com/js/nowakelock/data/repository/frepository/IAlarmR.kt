@@ -20,7 +20,7 @@ class IAlarmR(private val alarmDao: AlarmDao) :
                         packageName = it.info.packageName
                     ).apply { alarmDao.insertST(this) }
                 }
-                it.st!!.stFlag.set(it.st!!.flag)
+                it.stFlag.set(it.st!!.flag)
             }
             items
         }

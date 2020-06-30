@@ -1,5 +1,6 @@
 package com.js.nowakelock.data.db.base
 
+import androidx.databinding.ObservableBoolean
 import androidx.room.Ignore
 import com.js.nowakelock.base.BaseItem
 
@@ -9,6 +10,10 @@ open class Item : BaseItem {
 
     @Ignore
     open val st: ItemSt? = ItemSt()
+
+    //kotlin boolean not work on data binding
+    @Ignore
+    var stFlag: ObservableBoolean = ObservableBoolean().apply { this.set(true) }
 
     @Ignore
     override fun getID() = info.name

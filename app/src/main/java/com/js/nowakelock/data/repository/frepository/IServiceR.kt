@@ -21,7 +21,7 @@ class IServiceR(private val serviceDao: ServiceDao) :
                         packageName = it.info.packageName
                     ).apply { serviceDao.insertST(this) }
                 }
-                it.st!!.stFlag.set(it.st!!.flag)
+                it.stFlag.set(it.st!!.flag)
             }
             items
         }

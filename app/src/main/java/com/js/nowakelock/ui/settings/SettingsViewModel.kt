@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.beust.klaxon.Klaxon
 import com.js.nowakelock.BasicApp
 import com.js.nowakelock.R
+import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.data.repository.backuprepository.AppB
 import com.js.nowakelock.data.repository.backuprepository.BackupRepository
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +21,7 @@ class SettingsViewModel(private val backR: BackupRepository) : ViewModel() {
     fun backup(uri: Uri) {
         viewModelScope.launch(Dispatchers.Default) {
             val back = getBackup()
+            LogUtil.d("test1", "$back")
             back?.let {
                 saveFile(uri, btoJ(it))
             }

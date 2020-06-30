@@ -20,7 +20,6 @@ import com.js.nowakelock.R
 import com.js.nowakelock.base.BaseHandler
 import com.js.nowakelock.base.cache
 import com.js.nowakelock.data.db.base.Item
-import com.js.nowakelock.data.db.base.ItemSt
 import com.js.nowakelock.databinding.FragmentBinding
 import com.js.nowakelock.ui.databding.RecycleAdapter
 import com.js.nowakelock.ui.databding.StringDetailsLookup
@@ -221,8 +220,8 @@ open class FFragment : Fragment() {
 
     inner class FHandler(val viewModel: FViewModel, val type: String) : BaseHandler() {
 
-        fun onClick(/*view: View,*/ itemSt: ItemSt) {
-            viewModel.saveST(itemSt)
+        fun onClick(/*view: View,*/ item: Item) {
+            viewModel.saveST(item)
         }
 
         fun info(view: View, item: Item) {
@@ -240,8 +239,8 @@ open class FFragment : Fragment() {
         //    fun copy(str: String): Boolean {
 //        return clipboardCopy(str)
 //    }
-        fun onTextChanged(itemSt: ItemSt) {
-            viewModel.saveST(itemSt)
+        fun onTextChanged(item: Item) {
+            viewModel.saveST(item)
         }
     }
 }
