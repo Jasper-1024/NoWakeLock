@@ -44,7 +44,7 @@ class IAppInfoRepository(private var appInfoDao: AppInfoDao) :
     ) = withContext(Dispatchers.IO) {
         if (packageNames.isNotEmpty()) {
             sysAppInfos.filter { it.key in packageNames }.let {
-                appInfoDao.insertAll(it.values as MutableCollection<AppInfo>)
+                appInfoDao.insert(it.values as MutableCollection<AppInfo>)
             }
         }
     }

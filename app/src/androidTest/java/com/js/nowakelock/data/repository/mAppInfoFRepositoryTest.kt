@@ -45,7 +45,7 @@ class mAppInfoFRepositoryTest {
     fun getAppLists() {
         val appInfos = aR.getAppLists()
         assertTrue(LiveDataTestUtil.getValue(appInfos).isEmpty())
-        runBlocking { db.appInfoDao().insertAll(TestData.appInfos) }
+        runBlocking { db.appInfoDao().insert(TestData.appInfos) }
 
         assertEquals(LiveDataTestUtil.getValue(appInfos).size, 10)
     }

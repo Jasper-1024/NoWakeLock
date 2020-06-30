@@ -16,20 +16,11 @@ interface AppInfoDao {
     @Query("select * from appInfo")
     fun loadAllAppInfos(): List<AppInfo>
 
-//    @Query("select * from appInfo where packageName = :packageName")
-//    suspend fun loadAppInfo(packageName: String): AppInfo
-
-//    @Query("select wakeLock_packageName from wakeLock")
-//    suspend fun loadWLPackageNames(): List<String>
-//
-//    @Query("update appInfo set count = (select sum(wakeLock_count) from wakeLock where wakeLock_packageName = :packageName) where packageName = :packageName")
-//    suspend fun updateAppInfoCount(packageName: String)
-//
-//    @Query("update appInfo set blockCount = (select sum(wakeLock_blockCount) from wakeLock where wakeLock_packageName = :packageName) where packageName = :packageName")
-//    suspend fun updateAppInfoBlockCount(packageName: String)
+    @Query("select * from appInfo where packageName = :packageName")
+    suspend fun loadAppInfo(packageName: String): AppInfo
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(appInfos: MutableCollection<AppInfo>)
+    suspend fun insert(appInfos: MutableCollection<AppInfo>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(appInfo: AppInfo)
@@ -52,4 +43,17 @@ interface AppInfoDao {
 
     @Delete
     suspend fun delete(appInfo_st: AppInfoSt)
+
+
+//    @Query("select * from appInfo where packageName = :packageName")
+//    suspend fun loadAppInfo(packageName: String): AppInfo
+
+//    @Query("select wakeLock_packageName from wakeLock")
+//    suspend fun loadWLPackageNames(): List<String>
+//
+//    @Query("update appInfo set count = (select sum(wakeLock_count) from wakeLock where wakeLock_packageName = :packageName) where packageName = :packageName")
+//    suspend fun updateAppInfoCount(packageName: String)
+//
+//    @Query("update appInfo set blockCount = (select sum(wakeLock_blockCount) from wakeLock where wakeLock_packageName = :packageName) where packageName = :packageName")
+//    suspend fun updateAppInfoBlockCount(packageName: String)
 }

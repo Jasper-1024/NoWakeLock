@@ -33,7 +33,7 @@ interface WakeLockDao {
     fun insert(wakeLockInfos: List<WakeLockInfo>)
 
     @Delete
-    suspend fun deleteAll(wakeLockInfos: MutableCollection<WakeLockInfo>)
+    suspend fun delete(wakeLockInfos: MutableCollection<WakeLockInfo>)
 
     @Delete
     suspend fun delete(wakeLockInfo: WakeLockInfo)

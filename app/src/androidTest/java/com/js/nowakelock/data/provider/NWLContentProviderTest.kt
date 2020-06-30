@@ -1,7 +1,7 @@
 package com.js.nowakelock.data.provider
 
 class NWLContentProviderTest {
-//
+
 //    private var mContentResolver: ContentResolver? = null
 //    private lateinit var db: AppDatabase
 //

@@ -7,17 +7,23 @@ class TestData {
 
         var alarms = getAlarm()
 
+        var serviceStm = getServices()
+
+        var wakeLocks = getwakeLocks()
+
         val alarmST = AlarmSt("test", false, 10)
+
+        val serviceSt = ServiceSt("test", false, 10)
+
+        val wakeLockSt = WakeLockSt("test", false, 10)
 
         var appInfos = getInfos()
 
         val appInfoST = AppInfoSt("test", false, 10)
 
-        var wakeLocks = getwakeLocks()
-
         val pN = "p1"
 
-        fun getAlarm(): MutableList<AlarmInfo> {
+        private fun getAlarm(): MutableList<AlarmInfo> {
             val tmp: MutableList<AlarmInfo> = mutableListOf()
 
             for (i in 1..10 step 1) {
@@ -26,7 +32,25 @@ class TestData {
             return tmp
         }
 
-        fun getInfos(): MutableList<AppInfo> {
+        private fun getServices(): MutableList<ServiceInfo> {
+            val tmp: MutableList<ServiceInfo> = mutableListOf()
+
+            for (i in 1..10 step 1) {
+                tmp.add(ServiceInfo("s$i", pN, count = 1))
+            }
+            return tmp
+        }
+
+        private fun getwakeLocks(): MutableList<WakeLockInfo> {
+            val tmp: MutableList<WakeLockInfo> = mutableListOf()
+
+            for (i in 1..10 step 1) {
+                tmp.add(WakeLockInfo("w$i", pN, count = 1))
+            }
+            return tmp
+        }
+
+        private fun getInfos(): MutableList<AppInfo> {
             val appInfos: MutableList<AppInfo> = mutableListOf()
 
             for (i in 1..10 step 1) {
@@ -39,15 +63,6 @@ class TestData {
                 )
             }
             return appInfos
-        }
-
-        fun getwakeLocks(): MutableList<WakeLockInfo> {
-            val tmp: MutableList<WakeLockInfo> = mutableListOf()
-
-            for (i in 1..10 step 1) {
-                tmp.add(WakeLockInfo(pN, "w$i", count = 1))
-            }
-            return tmp
         }
     }
 }
