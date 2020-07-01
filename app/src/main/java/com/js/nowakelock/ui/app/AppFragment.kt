@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.js.nowakelock.R
+
 
 class AppFragment : Fragment() {
 
@@ -29,6 +31,8 @@ class AppFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         adapter = AppAdapter(this, packageName)
         viewPager = view.findViewById(R.id.app_pager)
+        viewPager.offscreenPageLimit = 1
+        (viewPager.getChildAt(0) as RecyclerView).layoutManager!!.isItemPrefetchEnabled = false
         viewPager.adapter = adapter
 
         val tabLayout = view.findViewById<TabLayout>(R.id.app_tab_layout)
