@@ -26,6 +26,8 @@ class IAppInfoRepository(private var appInfoDao: AppInfoDao) :
 
         insertAll(sysAppInfos.keys subtract dbAppInfos.keys, sysAppInfos)
         deleteAll(dbAppInfos.keys subtract sysAppInfos.keys, dbAppInfos)
+
+        updateCount()
     }
 
     /**get AppSetting*/
@@ -105,5 +107,11 @@ class IAppInfoRepository(private var appInfoDao: AppInfoDao) :
             persistent,
             ai.processName
         )
+    }
+
+    private suspend fun updateCount() = withContext(Dispatchers.IO) {
+        appInfoDao.loadPackageNames().forEach {
+            appInfoDao.updateAppInfoCount(it)
+        }
     }
 }

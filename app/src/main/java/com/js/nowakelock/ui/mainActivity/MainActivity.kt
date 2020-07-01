@@ -15,6 +15,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.js.nowakelock.R
+import com.js.nowakelock.base.Status
 import com.js.nowakelock.base.cache
 
 
@@ -96,8 +97,8 @@ class MainActivity : AppCompatActivity() {
         return cache().apply {
             val sharedPref = getPreferences(Context.MODE_PRIVATE)
             sharedPref.apply {
-                app = getInt("app", 1)
-                sort = getInt("sort", 1)
+                app = getInt("app", Status.userApp)
+                sort = getInt("sort", Status.sortByName)
 //                query = getString("query", "") ?: ""
             }
         }
@@ -105,33 +106,33 @@ class MainActivity : AppCompatActivity() {
 
     //handler status menu
     fun statusUser(menu: MenuItem) {
-        viewModel.postapp(1)
+        viewModel.postapp(Status.userApp)
         menu.isChecked = true
     }
 
     fun statusSystem(menu: MenuItem) {
-        viewModel.postapp(2)
+        viewModel.postapp(Status.systemApp)
         menu.isChecked = true
     }
 
     fun statusAll(menu: MenuItem) {
-        viewModel.postapp(3)
+        viewModel.postapp(Status.allApp)
         menu.isChecked = true
     }
 
     //handler sort menu
     fun sortName(menu: MenuItem) {
-        viewModel.postsort(1)
+        viewModel.postsort(Status.sortByName)
         setSortCheck(menu)
     }
 
     fun sortCount(menu: MenuItem) {
-        viewModel.postsort(2)
+        viewModel.postsort(Status.sortByCount)
         setSortCheck(menu)
     }
 
     fun sortCountTime(menu: MenuItem) {
-        viewModel.postsort(3)
+        viewModel.postsort(Status.sortByCountTime)
         setSortCheck(menu)
     }
 

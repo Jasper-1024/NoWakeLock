@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.js.nowakelock.base.Status
 import com.js.nowakelock.base.cache
 import com.js.nowakelock.base.search
 import com.js.nowakelock.base.sort
@@ -35,18 +36,29 @@ class FViewModel(
     private fun search(item: Item) = item.info.name
 
     // get sort method
-    private fun sort(sort: Int): java.util.Comparator<Item> {
+    private fun sort(sort: Int): Comparator<Item> {
         return when (sort) {
-            1 -> Comparator { s1, s2 ->
-                Collator.getInstance(Locale.getDefault()).compare(s1.info.name, s2.info.name)
-            }
-            2 -> compareByDescending { it.info.count - it.info.blockCount }
-            3 -> compareByDescending { it.info.countTime - it.info.blockCountTime }
-            else -> Comparator { s1, s2 ->
-                Collator.getInstance(Locale.getDefault()).compare(s1.info.name, s2.info.name)
-            }
+            Status.sortByName -> sortByName()
+            Status.sortByCount -> sortByCount()
+            Status.sortByCountTime -> sortByCountTime()
+            else -> sortByName()
         }
     }
+
+    private fun sortByName(): Comparator<Item> {
+        return Comparator { s1, s2 ->
+            Collator.getInstance(Locale.getDefault()).compare(s1.info.name, s2.info.name)
+        }
+    }
+
+    private fun sortByCount(): Comparator<Item> {
+        return compareByDescending { it.info.count - it.info.blockCount }
+    }
+
+    private fun sortByCountTime(): Comparator<Item> {
+        return compareByDescending { it.info.countTime - it.info.blockCountTime }
+    }
+
 
     //save st
     fun saveST(item: Item) = viewModelScope.launch(Dispatchers.IO) {

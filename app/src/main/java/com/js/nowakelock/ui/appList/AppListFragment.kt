@@ -107,7 +107,7 @@ class AppListFragment : Fragment() {
 
     //set toolbar menu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menuGone(menu, setOf(R.id.menu_sort_count))
+//        menuGone(menu, setOf(R.id.menu_sort_count))
         menuGone(menu, setOf(R.id.menu_sort_countime))
         super.onCreateOptionsMenu(menu, inflater)
     }

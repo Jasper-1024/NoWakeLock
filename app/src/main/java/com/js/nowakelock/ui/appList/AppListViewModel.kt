@@ -3,10 +3,7 @@ package com.js.nowakelock.ui.appList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.js.nowakelock.base.app
-import com.js.nowakelock.base.cache
-import com.js.nowakelock.base.search
-import com.js.nowakelock.base.sort
+import com.js.nowakelock.base.*
 import com.js.nowakelock.data.db.entity.AppInfo
 import com.js.nowakelock.data.repository.appinforepository.AppInfoRepository
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +18,6 @@ class AppListViewModel(private var AppInfoRepository: AppInfoRepository) : ViewM
 
     init {
         viewModelScope.launch {
-            // Coroutine that will be canceled when the ViewModel is cleared.
             AppInfoRepository.syncAppInfos()
         }
     }
@@ -38,9 +34,9 @@ class AppListViewModel(private var AppInfoRepository: AppInfoRepository) : ViewM
     //return app method
     private fun app(a: Int): (AppInfo) -> Boolean {
         return when (a) {
-            1 -> ::useApp
-            2 -> ::systemApp
-            3 -> ::allApp
+            Status.userApp -> ::useApp
+            Status.systemApp -> ::systemApp
+            Status.allApp -> ::allApp
             else -> ::allApp
         }
     }
@@ -53,17 +49,26 @@ class AppListViewModel(private var AppInfoRepository: AppInfoRepository) : ViewM
 
     private fun sort(sort: Int): Comparator<AppInfo> {
         return when (sort) {
-            1 -> Comparator { s1, s2 ->
-                Collator.getInstance(Locale.getDefault()).compare(s1.label, s2.label)
-            }
-            2 -> compareByDescending { it.count }
-            3 -> compareByDescending { it.countTime }
-            else -> Comparator { s1, s2 ->
-                Collator.getInstance(Locale.getDefault()).compare(s1.label, s2.label)
-            }
+            Status.sortByName -> sortByName()
+            Status.sortByCount -> sortByCount()
+            Status.sortByCountTime -> sortByCountTime()
+            else -> sortByName()
         }
     }
 
+    private fun sortByName(): Comparator<AppInfo> {
+        return Comparator { s1, s2 ->
+            Collator.getInstance(Locale.getDefault()).compare(s1.label, s2.label)
+        }
+    }
+
+    private fun sortByCount(): Comparator<AppInfo> {
+        return compareByDescending { it.count }
+    }
+
+    private fun sortByCountTime(): Comparator<AppInfo> {
+        return compareByDescending { it.countTime }
+    }
 
 //    suspend fun AppList(appInfos: List<AppInfo>, status: Int, query: String): List<AppInfo> =
 //        withContext(Dispatchers.Default) {

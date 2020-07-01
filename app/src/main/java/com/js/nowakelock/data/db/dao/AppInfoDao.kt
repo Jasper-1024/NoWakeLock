@@ -48,11 +48,22 @@ interface AppInfoDao {
 //    @Query("select * from appInfo where packageName = :packageName")
 //    suspend fun loadAppInfo(packageName: String): AppInfo
 
-//    @Query("select wakeLock_packageName from wakeLock")
-//    suspend fun loadWLPackageNames(): List<String>
-//
-//    @Query("update appInfo set count = (select sum(wakeLock_count) from wakeLock where wakeLock_packageName = :packageName) where packageName = :packageName")
-//    suspend fun updateAppInfoCount(packageName: String)
+    @Query("select packageName from appInfo")
+    suspend fun loadPackageNames(): List<String>
+
+    @Transaction
+    @Query(
+        """
+        update appInfo set count = (
+            ifnull((select sum(wakeLock_count) from wakeLock where wakeLock_packageName = :packageName),0)
+            - ifnull((select sum(wakeLock_blockCount) from wakeLock where wakeLock_packageName = :packageName),0)
+            + ifnull((select sum(alarm_count) from alarm where alarm_packageName = :packageName) ,0)
+            - ifnull((select sum(alarm_blockCount) from alarm where alarm_packageName = :packageName),0)
+        )
+        where packageName = :packageName
+        """
+    )
+    suspend fun updateAppInfoCount(packageName: String)
 //
 //    @Query("update appInfo set blockCount = (select sum(wakeLock_blockCount) from wakeLock where wakeLock_packageName = :packageName) where packageName = :packageName")
 //    suspend fun updateAppInfoBlockCount(packageName: String)
