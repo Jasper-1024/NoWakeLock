@@ -36,6 +36,7 @@ class AppListViewModel(private var AppInfoRepository: AppInfoRepository) : ViewM
         return when (a) {
             Status.userApp -> ::useApp
             Status.systemApp -> ::systemApp
+            Status.modifiedApp -> ::modifiedApp
             Status.allApp -> ::allApp
             else -> ::allApp
         }
@@ -43,6 +44,7 @@ class AppListViewModel(private var AppInfoRepository: AppInfoRepository) : ViewM
 
     private fun useApp(appInfo: AppInfo) = !appInfo.system
     private fun systemApp(appInfo: AppInfo) = appInfo.system
+    private fun modifiedApp(appInfo: AppInfo) = appInfo.flag
     private fun allApp(appInfo: AppInfo) = true
 
     private fun search(appInfo: AppInfo) = "${appInfo.label}${appInfo.packageName}"

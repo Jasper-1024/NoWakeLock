@@ -115,6 +115,11 @@ class MainActivity : AppCompatActivity() {
         menu.isChecked = true
     }
 
+    fun statusModified(menu: MenuItem) {
+        viewModel.postapp(Status.modifiedApp)
+        menu.isChecked = true
+    }
+
     fun statusAll(menu: MenuItem) {
         viewModel.postapp(Status.allApp)
         menu.isChecked = true

@@ -19,6 +19,12 @@
                     android:id="@+id/menu_filter_system"
                     android:onClick="statusSystem"
                     android:title="@string/menu_filter_system" />
+
+                <item
+                    android:id="@+id/menu_filter_modified"
+                    android:onClick="statusModified"
+                    android:title="@string/menu_filter_modified" />
+
                 <item
                     android:id="@+id/menu_filter_all"
                     android:onClick="statusAll"

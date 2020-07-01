@@ -7,6 +7,7 @@ import com.js.nowakelock.data.db.entity.AppInfo
 import com.js.nowakelock.data.db.entity.WakeLockSt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class IWakelockIR(private val infoDao: InfoDao) : InfoRepository {
@@ -19,11 +20,13 @@ class IWakelockIR(private val infoDao: InfoDao) : InfoRepository {
     }
 
     override fun getItemSt(name: String): Flow<ItemSt> {
-        return infoDao.loadWakeLockSt(name)
+        return infoDao.loadWakeLockSt(name).map {
+            it ?: WakeLockSt(name = name)
+        }
     }
 
     override suspend fun setItemSt(itemSt: ItemSt) = withContext(Dispatchers.IO) {
-        val tmp = WakeLockSt(itemSt.name, itemSt.flag, itemSt.allowTimeinterval)
+        val tmp = WakeLockSt(itemSt.name, itemSt.flag, itemSt.allowTimeinterval, itemSt.packageName)
         infoDao.insert(tmp)
     }
 }

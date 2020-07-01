@@ -10,6 +10,7 @@ import com.js.nowakelock.data.db.base.ItemSt
 import com.js.nowakelock.data.db.entity.AppInfo
 import com.js.nowakelock.data.repository.inforepository.InfoRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class InfoViewModel(
@@ -18,7 +19,12 @@ class InfoViewModel(
     private var infoRepository: InfoRepository
 ) : ViewModel() {
 
-    var itemInfo: LiveData<ItemInfo> = infoRepository.getItem(name).asLiveData()
+    var itemInfo: LiveData<ItemInfo> = infoRepository.getItem(name).map {
+        if (it.packageName == "") {
+            it.packageName = packageName
+        }
+        it
+    }.asLiveData()
 
     var appInfo: LiveData<AppInfo> = infoRepository.getAppInfo(packageName).asLiveData()
 

@@ -38,6 +38,7 @@
     <string name="menu_filter">显示</string>
     <string name="menu_filter_user">用户应用</string>
     <string name="menu_filter_system">系统应用</string>
+    <string name="menu_filter_modified">已修改应用</string>
     <string name="menu_filter_all">所有应用</string>
     <string name="menu_filter_count">唤醒次数排序</string>
     <string name="menu_filter_name">名称排序</string>

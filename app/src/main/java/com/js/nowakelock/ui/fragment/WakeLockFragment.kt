@@ -17,7 +17,15 @@ class WakeLockFragment : FFragment() {
 
     //set toolbar menu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        menuGone(menu, setOf(R.id.menu_filter_user, R.id.menu_filter_system, R.id.menu_filter_all))
+        menuGone(
+            menu,
+            setOf(
+                R.id.menu_filter_user,
+                R.id.menu_filter_system,
+                R.id.menu_filter_all,
+                R.id.menu_filter_modified
+            )
+        )
         super.onCreateOptionsMenu(menu, inflater)
     }
 }

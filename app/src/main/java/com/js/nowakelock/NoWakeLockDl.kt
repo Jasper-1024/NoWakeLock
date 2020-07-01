@@ -34,7 +34,8 @@ var noWakeLockModule = module {
     /** AppInfoRepository */
     single<AppInfoRepository>(named("APR")) {
         IAppInfoRepository(
-            AppDatabase.getInstance(BasicApp.context).appInfoDao()
+            AppDatabase.getInstance(BasicApp.context).appInfoDao(),
+            AppDatabase.getInstance(BasicApp.context).backupDao()
         )
     }
 

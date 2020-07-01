@@ -20,6 +20,9 @@ interface AppInfoDao {
     suspend fun loadAppInfo(packageName: String): AppInfo
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(appInfos: List<AppInfo>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(appInfos: MutableCollection<AppInfo>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

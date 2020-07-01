@@ -6,13 +6,16 @@ import android.content.pm.PackageManager
 import androidx.collection.ArrayMap
 import androidx.lifecycle.LiveData
 import com.js.nowakelock.BasicApp
+import com.js.nowakelock.data.db.base.ItemSt
 import com.js.nowakelock.data.db.dao.AppInfoDao
+import com.js.nowakelock.data.db.dao.BackupDao
 import com.js.nowakelock.data.db.entity.AppInfo
 import com.js.nowakelock.data.db.entity.AppInfoSt
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
-class IAppInfoRepository(private var appInfoDao: AppInfoDao) :
+class IAppInfoRepository(private var appInfoDao: AppInfoDao, private var backupDao: BackupDao) :
     AppInfoRepository {
     private val pm: PackageManager = BasicApp.context.packageManager
 
@@ -28,6 +31,8 @@ class IAppInfoRepository(private var appInfoDao: AppInfoDao) :
         deleteAll(dbAppInfos.keys subtract sysAppInfos.keys, dbAppInfos)
 
         updateCount()
+
+        updateFlag()
     }
 
     /**get AppSetting*/
@@ -112,6 +117,44 @@ class IAppInfoRepository(private var appInfoDao: AppInfoDao) :
     private suspend fun updateCount() = withContext(Dispatchers.IO) {
         appInfoDao.loadPackageNames().forEach {
             appInfoDao.updateAppInfoCount(it)
+        }
+    }
+
+    private suspend fun updateFlag() = withContext(Dispatchers.IO) {
+        val tmp = appInfoDao.loadAllAppInfos()
+        tmp.forEach {
+            it.flag = getModFlag(it.packageName)
+        }
+        appInfoDao.insert(tmp)
+    }
+
+    private suspend fun getModFlag(packageName: String): Boolean = withContext(Dispatchers.IO) {
+
+        val appInfoSt = async { backupDao.loadAppSt(packageName) }
+        val lAlarmSt = async { backupDao.loadAlarmSts(packageName).validData() }
+        val lServiceSt = async { backupDao.loadServiceSts(packageName).validData() }
+        val lWakeLockSt = async { backupDao.loadWakeLockSts(packageName).validData() }
+
+        return@withContext modFlag(
+            appInfoSt.await(),
+            lAlarmSt.await(),
+            lServiceSt.await(),
+            lWakeLockSt.await()
+        )
+    }
+
+    private suspend fun modFlag(
+        appInfoSt: AppInfoSt?,
+        l_Alarm: List<ItemSt>,
+        l_Service: List<ItemSt>,
+        l_Wakelock: List<ItemSt>
+    ): Boolean = withContext(Dispatchers.Default) {
+        return@withContext !(appInfoSt == null && l_Alarm.isEmpty() && l_Service.isEmpty() && l_Wakelock.isEmpty())
+    }
+
+    private fun <T : ItemSt> List<T>.validData(): List<T> {
+        return this.filter {
+            !it.flag || (it.allowTimeinterval != 0.toLong())
         }
     }
 }
