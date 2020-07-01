@@ -1,4 +1,4 @@
-package com.js.nowakelock
+package com.js.nowakelock.tool
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer

@@ -1,4 +1,4 @@
-package com.js.nowakelock
+package com.js.nowakelock.data.repository
 
 class DataRepositoryTest {
 //

@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.js.nowakelock.LiveDataTestUtil
 import com.js.nowakelock.data.TestData
 import com.js.nowakelock.data.db.AppDatabase
+import com.js.nowakelock.tool.LiveDataTestUtil
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals

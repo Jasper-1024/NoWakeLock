@@ -1,21 +1,5 @@
 package com.js.nowakelock.data.repository
 
-import android.content.Context
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
-import com.js.nowakelock.LiveDataTestUtil
-import com.js.nowakelock.data.TestData
-import com.js.nowakelock.data.db.AppDatabase
-import kotlinx.coroutines.runBlocking
-import org.junit.After
-import org.junit.Assert.assertEquals
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
-
 class mWakeLockRepository2Test {
 //
 //    @get:Rule
