@@ -19,16 +19,16 @@ class InfoViewModel(
     private var infoRepository: InfoRepository
 ) : ViewModel() {
 
-    var itemInfo: LiveData<ItemInfo> = infoRepository.getItem(name).map {
+    var itemInfo: LiveData<ItemInfo> = infoRepository.getItem(name).asLiveData()
+
+    var appInfo: LiveData<AppInfo> = infoRepository.getAppInfo(packageName).asLiveData()
+
+    var itemSt: LiveData<ItemSt> = infoRepository.getItemSt(name).map {
         if (it.packageName == "") {
             it.packageName = packageName
         }
         it
     }.asLiveData()
-
-    var appInfo: LiveData<AppInfo> = infoRepository.getAppInfo(packageName).asLiveData()
-
-    var itemSt: LiveData<ItemSt> = infoRepository.getItemSt(name).asLiveData()
 
 
     fun saveST(itemSt: ItemSt) = viewModelScope.launch(Dispatchers.IO) {

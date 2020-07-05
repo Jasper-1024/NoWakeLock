@@ -110,7 +110,6 @@
             android:layout_marginEnd="8dp"
             android:afterTextChanged="@{() -> handler.onTextChanged(item)}"
             android:autofillHints=""
-            android:enabled="@{item.st.flag}"
             android:hint="@string/ATIUnit"
             android:inputType="number"
             android:maxEms="5"

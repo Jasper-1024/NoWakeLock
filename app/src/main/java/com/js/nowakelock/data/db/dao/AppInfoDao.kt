@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.js.nowakelock.data.db.entity.AppInfo
 import com.js.nowakelock.data.db.entity.AppInfoSt
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AppInfoDao {
@@ -36,7 +37,7 @@ interface AppInfoDao {
 
     /**for appinfo_st*/
     @Query("select * from appInfo_st where packageName_st = :packageName")
-    fun loadAppSetting(packageName: String): LiveData<AppInfoSt>
+    fun loadAppSetting(packageName: String): Flow<AppInfoSt?>
 
     @Query("select * from appInfo_st")
     fun loadAppSettings(): List<AppInfoSt>

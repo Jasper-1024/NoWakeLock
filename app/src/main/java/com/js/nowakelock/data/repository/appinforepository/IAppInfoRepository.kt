@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import androidx.collection.ArrayMap
-import androidx.lifecycle.LiveData
 import com.js.nowakelock.BasicApp
 import com.js.nowakelock.data.db.base.ItemSt
 import com.js.nowakelock.data.db.dao.AppInfoDao
@@ -13,6 +12,8 @@ import com.js.nowakelock.data.db.entity.AppInfo
 import com.js.nowakelock.data.db.entity.AppInfoSt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class IAppInfoRepository(private var appInfoDao: AppInfoDao, private var backupDao: BackupDao) :
@@ -36,8 +37,11 @@ class IAppInfoRepository(private var appInfoDao: AppInfoDao, private var backupD
     }
 
     /**get AppSetting*/
-    override fun getAppSetting(packageName: String): LiveData<AppInfoSt> =
-        appInfoDao.loadAppSetting(packageName)
+    override fun getAppSetting(packageName: String): Flow<AppInfoSt> {
+        return appInfoDao.loadAppSetting(packageName).map {
+            it ?: AppInfoSt(packageName = packageName).apply { appInfoDao.insert(this) }
+        }
+    }
 
     /**save AppSetting*/
     override suspend fun saveAppSetting(appinfoSt: AppInfoSt) = withContext(Dispatchers.IO) {

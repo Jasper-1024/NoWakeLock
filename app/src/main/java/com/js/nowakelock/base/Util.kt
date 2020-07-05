@@ -84,7 +84,6 @@ object Util {
     fun setToString(values: Set<String>?): String? {
         return if (values == null || values.isEmpty()) {
             ""
-
         } else {
             var tmp = ""
             values.forEach {
@@ -94,4 +93,64 @@ object Util {
             tmp
         }
     }
+
+//    @JvmStatic
+//    fun stringToSet2(value: String?): Set<String>? {
+//        return when (value) {
+//            null -> null
+//            "" -> mutableSetOf()
+//            else -> {
+//                value.split("\n")
+//                    .filter { it.matches(Regex("[^\n ]+")) }
+//                    .toSet()
+//            }
+//        }
+//    }
+//
+//    @JvmStatic
+//    fun setToString2(values: Set<String>?): String? {
+//        return when (values) {
+//            null -> null
+////            mutableSetOf<String>() -> ""
+//            else -> {
+//                if (values.isEmpty()) {
+//                    ""
+//                } else {
+//                    var tmp = ""
+//                    values.forEach {
+//                        tmp += "$it\n"
+//                    }
+////            tmp = tmp.substring(0, tmp.length - 1)
+//                    tmp
+//                }
+//            }
+//        }
+//    }
+
+//    @JvmStatic
+//    fun stringToSet3(value: String): Set<String> {
+//        return when (value) {
+//            "" -> mutableSetOf()
+//            else -> {
+//                value.split("\n")
+//                    .filter { it.matches(Regex("[^\n ]+")) }
+//                    .toSet()
+//            }
+//        }
+//    }
+//
+//    @JvmStatic
+//    fun setToString3(values: Set<String>): String {
+//        return if (values.isEmpty()) {
+//            ""
+//        } else {
+//            var tmp = ""
+//            values.forEach {
+//                tmp += "$it\n"
+//            }
+//            tmp
+//        }
+//
+//    }
 }
+

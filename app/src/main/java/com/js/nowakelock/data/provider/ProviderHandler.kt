@@ -6,9 +6,7 @@ import androidx.preference.PreferenceManager
 import com.js.nowakelock.BasicApp
 import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.data.db.AppDatabase
-import com.js.nowakelock.data.db.entity.AlarmInfo
-import com.js.nowakelock.data.db.entity.ServiceInfo
-import com.js.nowakelock.data.db.entity.WakeLockInfo
+import com.js.nowakelock.data.db.entity.*
 import com.js.nowakelock.xposedhook.model.DB
 import com.js.nowakelock.xposedhook.model.DBModel
 import com.js.nowakelock.xposedhook.model.STModel
@@ -92,9 +90,9 @@ class ProviderHandler(
             tmp.blockCount += it.blockCount
             db.alarmDao().insert(tmp)
             // make sure st not empty
-//            if (db.alarmDao().loadAlarmStName(tmp.name) == null) {
-//                db.alarmDao().insertST(AlarmSt(name = tmp.name, packageName = tmp.packageName))
-//            }
+            if (db.alarmDao().loadAlarmStName(tmp.name) == null) {
+                db.alarmDao().insertST(AlarmSt(name = tmp.name, packageName = tmp.packageName))
+            }
         }
     }
 
@@ -106,9 +104,9 @@ class ProviderHandler(
             tmp.blockCount += it.blockCount
             db.serviceDao().insert(tmp)
             // make sure st not empty
-//            if (db.serviceDao().loadServiceStName(it.name) == null) {
-//                db.serviceDao().insertST(ServiceSt(name = it.name, packageName = it.packageName))
-//            }
+            if (db.serviceDao().loadServiceStName(it.name) == null) {
+                db.serviceDao().insertST(ServiceSt(name = it.name, packageName = it.packageName))
+            }
         }
     }
 
@@ -122,9 +120,9 @@ class ProviderHandler(
             tmp.blockCountTime += it.blockCountTime
             db.wakeLockDao().insert(tmp)
             // make sure st not empty
-//            if (db.wakeLockDao().loadWakeLockStName(it.name) == null) {
-//                db.wakeLockDao().insertST(WakeLockSt(name = it.name, packageName = it.packageName))
-//            }
+            if (db.wakeLockDao().loadWakeLockStName(it.name) == null) {
+                db.wakeLockDao().insertST(WakeLockSt(name = it.name, packageName = it.packageName))
+            }
         }
     }
 

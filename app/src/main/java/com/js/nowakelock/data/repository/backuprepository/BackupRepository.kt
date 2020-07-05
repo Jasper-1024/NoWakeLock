@@ -15,6 +15,7 @@ class BackupRepository(private var backupDao: BackupDao) {
     suspend fun getAppBs(): List<AppB>? = withContext(Dispatchers.IO) {
         return@withContext backupDao.loadAppNames()
             .mapNotNull {
+//                LogUtil.d("test1","${getAppB(it)}")
                 getAppB(it)
             }
     }
@@ -38,6 +39,7 @@ class BackupRepository(private var backupDao: BackupDao) {
             } else {
                 AppB(
                     packageName = packageName,
+                    appInfoSt = appInfoSt!!,
                     l_Alarm = l_Alarm,
                     l_Service = l_Service,
                     l_Wakelock = l_Wakelock

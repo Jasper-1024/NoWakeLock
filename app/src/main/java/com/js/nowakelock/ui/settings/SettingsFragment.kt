@@ -85,7 +85,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private fun getData(): String {
         val c: Calendar = Calendar.getInstance()
         val year: Int = c.get(Calendar.YEAR)
-        val month: Int = c.get(Calendar.MONTH)
+        val month: Int = c.get(Calendar.MONTH) + 1
         val date: Int = c.get(Calendar.DATE)
         val hour: Int = c.get(Calendar.HOUR_OF_DAY)
         val minute: Int = c.get(Calendar.MINUTE)

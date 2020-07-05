@@ -43,18 +43,18 @@ class AppInfoDaoTest {
         assertTrue(LiveDataTestUtil.getValue(appInfos).isEmpty())
     }
 
-    @Test
-    @Throws(Exception::class)
-    fun loadAll() {
-
-        runBlocking {
-            dao.insert(TestData.appInfos)
-        }
-
-        assertEquals(runBlocking {
-            LiveDataTestUtil.getValue(dao.loadAppInfos())
-        }, TestData.appInfos)
-    }
+//    @Test
+//    @Throws(Exception::class)
+//    fun loadAll() {
+//
+//        runBlocking {
+//            dao.insert(TestData.appInfos)
+//        }
+//
+//        assertEquals(runBlocking {
+//            LiveDataTestUtil.getValue(dao.loadAppInfos())
+//        }, TestData.appInfos)
+//    }
 
     @Test
     @Throws(Exception::class)
@@ -69,16 +69,16 @@ class AppInfoDaoTest {
         )
     }
 
-    @Test
-    @Throws(Exception::class)
-    fun load_st() {
-        runBlocking {
-            dao.insert(TestData.appInfoST)
-        }
-
-        assertEquals(
-            LiveDataTestUtil.getValue(dao.loadAppSetting(TestData.appInfoST.packageName)),
-            TestData.appInfoST
-        )
-    }
+//    @Test
+//    @Throws(Exception::class)
+//    fun load_st() {
+//        runBlocking {
+//            dao.insert(TestData.appInfoST)
+//        }
+//
+//        assertEquals(
+//            LiveDataTestUtil.getValue(dao.loadAppSetting(TestData.appInfoST.packageName)),
+//            TestData.appInfoST
+//        )
+//    }
 }
