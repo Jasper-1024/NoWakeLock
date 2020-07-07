@@ -16,7 +16,7 @@ class LogUtil {
 
         private const val NOTHING = 6 //什么也不打印出来
 
-        private const val level = DEBUG //LEVEL:标准
+        private const val level = NOTHING //LEVEL:标准
 
 
         fun v(tag: String, msg: String) {
