@@ -63,7 +63,7 @@ class FViewModel(
     //save st
     fun saveST(item: Item) = viewModelScope.launch(Dispatchers.IO) {
         item.st?.let {
-//            it.flag = item.stFlag.get()
+            it.flag = item.stFlag.get()
             FRepository.setItemSt(it)
         }
     }

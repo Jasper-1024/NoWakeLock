@@ -27,7 +27,18 @@ class IAlarmR(private val alarmDao: AlarmDao) :
     }
 
     override fun getLists(packageName: String): Flow<List<Item>> {
-        return alarmDao.loadAlarms(packageName)
+        return alarmDao.loadAlarms(packageName).map { items ->
+            items.forEach {
+                if (it.st == null) {
+                    it.st = AlarmSt(
+                        name = it.info.name,
+                        packageName = it.info.packageName
+                    ).apply { alarmDao.insertST(this) }
+                }
+                it.stFlag.set(it.st!!.flag)
+            }
+            items
+        }
     }
 
     override suspend fun sync(pN: String) {

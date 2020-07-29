@@ -28,7 +28,18 @@ class IWakelockR(private var wakeLockDao: WakeLockDao) :
     }
 
     override fun getLists(packageName: String): Flow<List<Item>> {
-        return wakeLockDao.loadWakeLocks(packageName)
+        return wakeLockDao.loadWakeLocks(packageName).map { items ->
+            items.forEach {
+                if (it.st == null) {
+                    it.st = WakeLockSt(
+                        name = it.info.name,
+                        packageName = it.info.packageName
+                    ).apply { wakeLockDao.insertST(this) }
+                }
+                it.stFlag.set(it.st!!.flag)
+            }
+            items
+        }
     }
 
     override suspend fun sync(pN: String) {

@@ -28,7 +28,18 @@ class IServiceR(private val serviceDao: ServiceDao) :
     }
 
     override fun getLists(packageName: String): Flow<List<Service>> {
-        return serviceDao.loadServices(packageName)
+        return serviceDao.loadServices(packageName).map { items ->
+            items.forEach {
+                if (it.st == null) {
+                    it.st = ServiceSt(
+                        name = it.info.name,
+                        packageName = it.info.packageName
+                    ).apply { serviceDao.insertST(this) }
+                }
+                it.stFlag.set(it.st!!.flag)
+            }
+            items
+        }
     }
 
     override suspend fun sync(pN: String) {
