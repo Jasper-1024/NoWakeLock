@@ -35,7 +35,7 @@
 
 ## Compatibility
 
-* NoWakeLock is available for Android N and later. For previous versions of Android N, please use [Amplify](https://github.com/mh0rst/Amplify).
+* NoWakeLock is available for Android N and later. For previous versions of Android N, please use [Amplify](https://github.com/rsteckler/unbounce-android).
 
 * NoWakeLock was tested with the EdXposed framework only.
 
@@ -70,6 +70,6 @@
 
 * NoWakelock is written with reference to the need for more open source applications. Thanks here.
 
-* [Amplify](https://github.com/mh0rst/Amplify).
+* [Amplify](https://github.com/rsteckler/unbounce-android).
 * [XPrivacyLua](https://github.com/M66B/XPrivacyLua)
 * [GravityBox](https://github.com/GravityBox/GravityBox)
