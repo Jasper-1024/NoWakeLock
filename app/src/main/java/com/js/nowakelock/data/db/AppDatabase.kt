@@ -10,11 +10,12 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.js.nowakelock.data.db.converters.Converters
 import com.js.nowakelock.data.db.dao.*
 import com.js.nowakelock.data.db.entity.*
+import com.js.nowakelock.data.db.network.Description
 
 @Database(
     entities = [AppInfo::class, AppInfoSt::class, WakeLockInfo::class, WakeLockSt::class,
-        AlarmInfo::class, AlarmSt::class, ServiceInfo::class, ServiceSt::class],
-    version = 5
+        AlarmInfo::class, AlarmSt::class, ServiceInfo::class, ServiceSt::class, Description::class],
+    version = 6
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -41,7 +42,7 @@ abstract class AppDatabase : RoomDatabase() {
         private fun buildInstance(context: Context) = Room.databaseBuilder(
             context.applicationContext, AppDatabase::class.java,
             DATABASE_NAME
-        ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+        ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
             .build()
 
 
@@ -148,6 +149,14 @@ abstract class AppDatabase : RoomDatabase() {
 
                 database.execSQL("DROP TABLE wakeLock_st")
                 database.execSQL("ALTER TABLE wakeLock_st_tmp RENAME TO wakeLock_st")
+            }
+        }
+
+        private val MIGRATION_5_6 = object : Migration(5, 6) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `description` (`name` TEXT NOT NULL, `language` TEXT NOT NULL, `packageName` TEXT NOT NULL, `re` INTEGER NOT NULL, `info` TEXT NOT NULL, PRIMARY KEY(`name`, `language`))"
+                )
             }
         }
     }

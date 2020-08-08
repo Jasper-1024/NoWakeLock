@@ -122,9 +122,17 @@ class AppDatabaseTest {
         }
     }
 
+    private val MIGRATION_5_6 = object : Migration(5, 6) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL(
+                "CREATE TABLE IF NOT EXISTS `description` (`name` TEXT NOT NULL, `language` TEXT NOT NULL, `packageName` TEXT NOT NULL, `re` INTEGER NOT NULL, `info` TEXT NOT NULL, PRIMARY KEY(`name`, `language`))"
+            )
+        }
+    }
+
 
     private val ALL_MIGRATIONS = arrayOf(
-        MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5
+        MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6
     )
 
 
