@@ -11,6 +11,7 @@ import com.js.nowakelock.data.db.converters.Converters
 import com.js.nowakelock.data.db.dao.*
 import com.js.nowakelock.data.db.entity.*
 import com.js.nowakelock.data.db.network.Description
+import com.js.nowakelock.data.db.network.DescriptionDao
 
 @Database(
     entities = [AppInfo::class, AppInfoSt::class, WakeLockInfo::class, WakeLockSt::class,
@@ -25,6 +26,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun serviceDao(): ServiceDao
     abstract fun wakeLockDao(): WakeLockDao
     abstract fun backupDao(): BackupDao
+
+    abstract fun descriptionDao(): DescriptionDao
 
     companion object {
         private const val DATABASE_NAME = "nowakelock-db"
