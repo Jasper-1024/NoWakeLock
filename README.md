@@ -26,8 +26,8 @@
   * ~~Data backup and recovery~~
   * ~~UI adjust~~
   * ~~Long press to copy information~~
-  * Multi-select processing operation.
-  * Data reset
+  * ~~Multi-select processing operation.~~ refactoring...
+  * ~~Data reset~~
   * Tai Chi Support
 
 * Release:
