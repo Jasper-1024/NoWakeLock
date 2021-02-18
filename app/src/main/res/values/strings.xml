@@ -53,7 +53,7 @@
     <string name="Apps">Apps</string>
     <string name="help">Help</string>
     <string name="help_instructions">        click the application icon or name to enter wakelock settings,disable wakelock.
-        <![CDATA[<br><br>]]> cerious warning, don\'t restrict system application, it will cause unpredictable consequences.
+        <![CDATA[<br><br>]]> Serious warning, don\'t restrict system application, it will cause unpredictable consequences.
         <![CDATA[<br><br>]]>for other information <![CDATA[<a href="https://github.com/Jasper-1024/NoWakeLock/blob/dev/README.md"> Application Introduction </a>]]>;
            <![CDATA[<a href="https://github.com/Jasper-1024/NoWakeLock/blob/dev/README/FAQ.md">FAQ</a>]]>;
     </string>
