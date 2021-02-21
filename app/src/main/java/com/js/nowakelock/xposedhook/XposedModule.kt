@@ -21,9 +21,9 @@ open class XposedModule : IXposedHookZygoteInit, IXposedHookLoadPackage {
 //        XposedBridge.log("$TAG $pN: handleLoadPackage ,mypid ${Process.myUid()}")
 
         if (lpparam.packageName == "android") {
+            WakelockHook.hookWakeLocks(lpparam)
             AlarmHook.hookAlarm(lpparam)
             ServiceHook.hookService(lpparam)
-            WakelockHook.hookWakeLocks(lpparam)
         } else if (lpparam.packageName == BuildConfig.APPLICATION_ID) {
 
             XposedHelpers.findAndHookMethod(

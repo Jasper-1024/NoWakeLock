@@ -22,7 +22,7 @@ class AlarmHook {
 
             when (Build.VERSION.SDK_INT) {
                 //Try for alarm hooks for API levels >= 29 (Q or higher)
-                Build.VERSION_CODES.Q -> alarmHook29(
+                in Build.VERSION_CODES.Q..40 -> alarmHook29(
                     lpparam
                 )
                 //Try for alarm hooks for API levels < 29 > 24.(N ~ P)
