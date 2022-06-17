@@ -32,9 +32,13 @@
             android:value="@string/xposeddescription" />
         <meta-data
             android:name="xposedminversion"
-            android:value="53" />
+            android:value="93" />
+        <meta-data
+            android:name="xposedsharedprefs"
+            android:value="true" />
 
-        <activity android:name=".ui.mainActivity.MainActivity">
+        <activity android:name=".ui.mainActivity.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
