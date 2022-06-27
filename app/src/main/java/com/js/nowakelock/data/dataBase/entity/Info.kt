@@ -1,13 +1,13 @@
-package com.js.nowakelock.data.infoDB.entity
+package com.js.nowakelock.data.dataBase.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.js.nowakelock.data.dataBase.Type
 
-@Entity(tableName = "info")
+@Entity(tableName = "info", primaryKeys = ["name", "type"])
 data class Info(
-    @PrimaryKey
     var name: String = "",
-    var type: String = "",
+    var type: Type = Type.UnKnow,
     var packageName: String = "",
     var count: Int = 0,
     var blockCount: Int = 0,
