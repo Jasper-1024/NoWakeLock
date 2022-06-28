@@ -1,23 +1,33 @@
 package com.js.nowakelock.data.provider
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import com.js.nowakelock.base.stringToType
 import com.js.nowakelock.data.db.InfoDatabase
+import com.js.nowakelock.data.db.Type
+import com.js.nowakelock.data.db.dao.InfoDao
 import com.js.nowakelock.data.db.entity.Info
 import kotlinx.coroutines.runBlocking
 
+fun getURI(): Uri {
+    return Settings.System.CONTENT_URI
+}
+
 enum class ProviderMethod(var value: String) {
-    GetAppSt("GetInfo"),
-    GetExtends("GetExtends")
+    UpCount("UpCount"),
+    UpBlockCount("GetExtends"),
+    UpCountTime("UpCountTime"),
 }
 
 class XProvider(
     context: Context
 ) {
-    private val tag = "ProviderHandler"
+//    private val tag = "ProviderHandler"
 
     private var db: InfoDatabase = InfoDatabase.getInstance(context)
+    private var dao: InfoDao = db.infoDao()
 
     companion object {
         @Volatile
@@ -33,8 +43,9 @@ class XProvider(
 
     fun getMethod(methodName: String, bundle: Bundle): Bundle? {
         return when (methodName) {
-//            ProviderMethod.GetAppSt.value -> getAppSt(bundle)
-//            ProviderMethod.GetExtends.value -> getExtends(bundle)
+            ProviderMethod.UpCount.value -> upCount(bundle)
+            ProviderMethod.UpBlockCount.value -> upBlockCount(bundle)
+            ProviderMethod.UpCountTime.value -> upCountTime(bundle)
             "test" -> test(bundle)
             else -> null
         }
@@ -59,5 +70,67 @@ class XProvider(
         val tmp = Bundle()
         tmp.putString("name", name)
         return tmp
+    }
+
+    private fun upCount(bundle: Bundle): Bundle {
+        val name: String = bundle.getString("name") ?: ""
+        val type: Type = stringToType(bundle.getString("type") ?: "")
+        val packageName = bundle.getString("packageName") ?: ""
+
+        runBlocking {
+            val info = dao.loadInfo(name, type)
+            if (info != null) {
+                dao.upCountPO(name, type)
+            } else {
+                dao.insert(Info(name = name, type = type, packageName = packageName, count = 1))
+            }
+        }
+        return Bundle().let {
+            it.putString("name", name)
+            it
+        }
+    }
+
+    private fun upBlockCount(bundle: Bundle): Bundle {
+        val name: String = bundle.getString("name") ?: ""
+        val type: Type = stringToType(bundle.getString("type") ?: "")
+        val packageName = bundle.getString("packageName") ?: ""
+
+        runBlocking {
+            val info = dao.loadInfo(name, type)
+            if (info != null) {
+                dao.upBlockCountPO(name, type)
+            } else {
+                dao.insert(
+                    Info(name = name, type = type, packageName = packageName, blockCount = 1)
+                )
+            }
+        }
+        return Bundle().let {
+            it.putString("name", name)
+            it
+        }
+    }
+
+    private fun upCountTime(bundle: Bundle): Bundle {
+        val name: String = bundle.getString("name") ?: ""
+        val type: Type = stringToType(bundle.getString("type") ?: "")
+        val packageName = bundle.getString("packageName") ?: ""
+        val time = bundle.getLong("time")
+
+        runBlocking {
+            val info = dao.loadInfo(name, type)
+            if (info != null) {
+                dao.upCountTime(time, name, type)
+            } else {
+                dao.insert(
+                    Info(name = name, type = type, packageName = packageName, countTime = time)
+                )
+            }
+        }
+        return Bundle().let {
+            it.putString("name", name)
+            it
+        }
     }
 }

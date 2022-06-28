@@ -4,18 +4,15 @@ import android.content.Context
 import android.os.IBinder
 import android.os.SystemClock
 import android.os.WorkSource
+import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.xposedhook.XpUtil
-import com.js.nowakelock.xposedhook.model.IModel
-import com.js.nowakelock.xposedhook.model.Model
-import com.js.nowakelock.xposedhook.model.XPM
+import com.js.nowakelock.xposedhook.model.XpRecord
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class WakelockHook {
     companion object {
-
-        private val model: Model = IModel(XPM.wakelock)
 
         @Volatile
         private var wlTs = HashMap<IBinder, WLT>()//wakelock witch active
@@ -98,10 +95,9 @@ class WakelockHook {
             if (block) {//block wakelock
 
                 XpUtil.log("$pN wakeLock:$wN block")
-
-                //TODO: update blockCount
-
                 param.result = null
+
+                XpRecord.upBlockCount(wN, pN, Type.Wakelock, context) //update blockCount
             } else { // allow wakelock
                 lastAllowTime[wN] = now //update last allow time
 
@@ -121,6 +117,14 @@ class WakelockHook {
             //TODO: update count countTime
             val wlT: WLT = wlTs[lock]!!
 
+            XpRecord.upCount(
+                wlT.wakelockName, wlT.packageName, Type.Wakelock, context
+            ) //update count
+
+            XpRecord.upCountTime(
+                now - wlT.startTime, wlT.wakelockName, wlT.packageName, Type.Wakelock, context
+            ) //update countTime
+
             wlTs.remove(lock)
         }
 
@@ -133,7 +137,6 @@ class WakelockHook {
     data class WLT(
         val wakelockName: String,
         val packageName: String,
-        var startTime: Long = 0,
-        var endTime: Long = 0
+        var startTime: Long = 0
     )
 }

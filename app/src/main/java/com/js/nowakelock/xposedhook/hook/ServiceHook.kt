@@ -5,10 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.SystemClock
+import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.xposedhook.XpUtil
 import com.js.nowakelock.xposedhook.model.IModel
 import com.js.nowakelock.xposedhook.model.Model
 import com.js.nowakelock.xposedhook.model.XPM
+import com.js.nowakelock.xposedhook.model.XpRecord
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -178,12 +180,15 @@ class ServiceHook {
             val block = false
 
             if (block) {
-                //TODO: update blockCount
-                param.result = null
                 XpUtil.log("$packageName service: $serviceName block")
+                param.result = null
+
+                XpRecord.upBlockCount(
+                    serviceName, packageName, Type.Service, context
+                )//update BlockCount
             } else {
                 lastAllowTime[serviceName] = now
-                //TODO: update Count
+                XpRecord.upCount(serviceName, packageName, Type.Service, context)//update Count
             }
 
         }

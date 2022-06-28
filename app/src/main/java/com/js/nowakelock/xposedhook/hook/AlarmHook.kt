@@ -2,10 +2,12 @@ package com.js.nowakelock.xposedhook.hook
 
 import android.content.Context
 import android.os.Build
+import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.xposedhook.XpUtil
 import com.js.nowakelock.xposedhook.model.IModel
 import com.js.nowakelock.xposedhook.model.Model
 import com.js.nowakelock.xposedhook.model.XPM
+import com.js.nowakelock.xposedhook.model.XpRecord
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -110,11 +112,15 @@ class AlarmHook {
 
                     triggerList.removeAt(i)
 
-                    //TODO: update blockCount
-//                    model.upBlockCount(alarmName, packageName)
+                    XpRecord.upBlockCount(
+                        alarmName, packageName, Type.Alarm, context
+                    )//update blockCount
 
                 } else {//allow alarm
-                    //TODO: update Count
+
+                    XpRecord.upCount(
+                        alarmName, packageName, Type.Alarm, context
+                    )//update count
                 }
             }
         }
