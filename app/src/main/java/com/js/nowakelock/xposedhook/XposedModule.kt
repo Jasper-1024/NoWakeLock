@@ -3,6 +3,7 @@ package com.js.nowakelock.xposedhook
 import com.js.nowakelock.BuildConfig
 import com.js.nowakelock.xposedhook.hook.AlarmHook
 import com.js.nowakelock.xposedhook.hook.ServiceHook
+import com.js.nowakelock.xposedhook.hook.SettingsProviderHook
 import com.js.nowakelock.xposedhook.hook.WakelockHook
 import de.robv.android.xposed.*
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
@@ -20,16 +21,23 @@ open class XposedModule : IXposedHookZygoteInit, IXposedHookLoadPackage {
 //        val pN = lpparam.packageName
 //        XposedBridge.log("$TAG $pN: handleLoadPackage ,mypid ${Process.myUid()}")
 
-        if (lpparam.packageName == "android") {
-            WakelockHook.hookWakeLocks(lpparam)
-            AlarmHook.hookAlarm(lpparam)
-            ServiceHook.hookService(lpparam)
-        } else if (lpparam.packageName == BuildConfig.APPLICATION_ID) {
-
-            XposedHelpers.findAndHookMethod(
-                "${BuildConfig.APPLICATION_ID}.ui.mainActivity.MainActivity", lpparam.classLoader,
-                "isModuleActive", XC_MethodReplacement.returnConstant(true)
-            )
+        when (lpparam.packageName) {
+            "android" -> {//hook Android system
+                WakelockHook.hookWakeLocks(lpparam)
+                AlarmHook.hookAlarm(lpparam)
+                ServiceHook.hookService(lpparam)
+            }
+            "com.android.providers.settings" -> {//hook SettingsProvider
+                SettingsProviderHook.hook(lpparam)
+            }
+            BuildConfig.APPLICATION_ID -> {// hook myself
+                XposedHelpers.findAndHookMethod(
+                    "${BuildConfig.APPLICATION_ID}.ui.mainActivity.MainActivity",
+                    lpparam.classLoader,
+                    "isModuleActive",
+                    XC_MethodReplacement.returnConstant(true)
+                )
+            }
         }
     }
 }

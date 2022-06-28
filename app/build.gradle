@@ -102,6 +102,9 @@ dependencies {
     testImplementation "io.insert-koin:koin-test:$koin_version"
     testImplementation "io.insert-koin:koin-test-junit4:$koin_version"
 
+    //gson
+    implementation 'com.google.code.gson:gson:2.9.0'
+
 
     def lifecycle_version = "2.4.1"
     def arch_version = "2.1.0"

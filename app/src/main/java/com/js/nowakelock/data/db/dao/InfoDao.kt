@@ -1,44 +1,47 @@
 package com.js.nowakelock.data.db.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import com.js.nowakelock.data.db.entity.*
-import kotlinx.coroutines.flow.Flow
+import androidx.room.*
+import com.js.nowakelock.data.db.Type
+import com.js.nowakelock.data.db.entity.Info
 
 @Dao
-interface InfoDao {
-    @Query("select * from alarm where alarmName = :alarmName")
-    fun loadAlarm(alarmName: String): Flow<AlarmInfo>
+interface InfoDao : BaseDao<Info> {
 
-    @Query("select * from service where serviceName = :serviceName")
-    fun loadService(serviceName: String): Flow<ServiceInfo>
+    @Query("select * from info")
+    suspend fun loadInfos(): List<Info>
 
-    @Query("select * from wakeLock where wakeLockName = :wakelockName")
-    fun loadWakeLock(wakelockName: String): Flow<WakeLockInfo>
+    @Query("select * from info where type = :type")
+    suspend fun loadInfos(type: Type): List<Info>
 
-    @Query("select * from appInfo where packageName = :packageName ")
-    fun loadAppInfo(packageName: String): Flow<AppInfo>
+    @Query("select * from info where packageName = :packageName")
+    suspend fun loadInfos(packageName: String): List<Info>
 
-    /**alarm_st*/
-    @Query("select * from alarm_st where alarmName_st = :alarmName")
-    fun loadAlarmSt(alarmName: String): Flow<AlarmSt?>
+    @Query("select * from info where packageName = :packageName and type = :type")
+    suspend fun loadInfos(packageName: String, type: Type): List<Info>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(alarmSt: AlarmSt)
+    @Query("select * from info where name = :name")
+    suspend fun loadInfo(name: String): Info?
 
-    /**service_st*/
-    @Query("select * from service_st where serviceName_st = :serviceName")
-    fun loadServiceSt(serviceName: String): Flow<ServiceSt?>
+    @Query("select * from info where name = :name and type = :type")
+    suspend fun loadInfo(name: String, type: Type): Info?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(serviceSt: ServiceSt)
+    @Query("update info set count = count+:count where name = :name and type = :type")
+    suspend fun upCount(count: Int, name: String, type: Type)
 
-    /**wakelock_st*/
-    @Query("select * from wakeLock_st where wakeLockName_st = :wakelockName")
-    fun loadWakeLockSt(wakelockName: String): Flow<WakeLockSt?>
+    suspend fun upCountPO(name: String, type: Type) = upCount(1, name, type)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(wNLock_st: WakeLockSt)
+    @Query("update info set blockCount = blockCount+:count where name = :name and type = :type")
+    suspend fun upBlockCount(count: Int, name: String, type: Type)
+
+    suspend fun upBlockCountPO(name: String, type: Type) = upBlockCount(1, name, type)
+
+    @Query("update info set countTime = countTime+:time where name = :name and type = :type")
+    suspend fun upCountTime(time: Long, name: String, type: Type)
+
+
+    @Query("update info set count = 0 where type = :type")
+    suspend fun rstAllCount(type: Type)
+
+    @Query("update info set countTime = 0 where type = :type")
+    suspend fun rstAllCountTime(type: Type)
 }

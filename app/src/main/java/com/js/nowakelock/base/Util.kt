@@ -10,6 +10,7 @@ import android.view.Menu
 import android.widget.Toast
 import com.js.nowakelock.BasicApp
 import com.js.nowakelock.R
+import com.js.nowakelock.data.db.Type
 import java.util.*
 
 //Long to Time
@@ -43,12 +44,12 @@ inline fun <T : BaseItem> List<T>.app(status: (T) -> Boolean): List<T> {
 // search list
 inline fun <T : BaseItem> List<T>.search(query: String, text: (T) -> String): List<T> {
     /*lowerCase and no " " */
-    val q = query.toLowerCase(Locale.ROOT).trim { it <= ' ' }
+    val q = query.lowercase(Locale.ROOT).trim { it <= ' ' }
     if (q == "") {
         return this
     }
     return this.filter {
-        text(it).toLowerCase(Locale.ROOT).contains(q)
+        text(it).lowercase(Locale.ROOT).contains(q)
     }
 }
 
@@ -69,7 +70,7 @@ fun clipboardCopy(str: String): Boolean {
 
 object Util {
     @JvmStatic
-    fun stringToSet(value: String?): Set<String>? {
+    fun stringToSet(value: String?): Set<String> {
         return if (value == null || value == "") {
             mutableSetOf()
         } else {
@@ -81,7 +82,7 @@ object Util {
     }
 
     @JvmStatic
-    fun setToString(values: Set<String>?): String? {
+    fun setToString(values: Set<String>?): String {
         return if (values == null || values.isEmpty()) {
             ""
         } else {
@@ -93,64 +94,18 @@ object Util {
             tmp
         }
     }
+}
 
-//    @JvmStatic
-//    fun stringToSet2(value: String?): Set<String>? {
-//        return when (value) {
-//            null -> null
-//            "" -> mutableSetOf()
-//            else -> {
-//                value.split("\n")
-//                    .filter { it.matches(Regex("[^\n ]+")) }
-//                    .toSet()
-//            }
-//        }
-//    }
-//
-//    @JvmStatic
-//    fun setToString2(values: Set<String>?): String? {
-//        return when (values) {
-//            null -> null
-////            mutableSetOf<String>() -> ""
-//            else -> {
-//                if (values.isEmpty()) {
-//                    ""
-//                } else {
-//                    var tmp = ""
-//                    values.forEach {
-//                        tmp += "$it\n"
-//                    }
-////            tmp = tmp.substring(0, tmp.length - 1)
-//                    tmp
-//                }
-//            }
-//        }
-//    }
+fun stringToType(value: String): Type {
+    return when (value) {
+        "Wakelock" -> Type.Wakelock
+        "Alarm" -> Type.Alarm
+        "Service" -> Type.Service
+        else -> Type.UnKnow
+    }
+}
 
-//    @JvmStatic
-//    fun stringToSet3(value: String): Set<String> {
-//        return when (value) {
-//            "" -> mutableSetOf()
-//            else -> {
-//                value.split("\n")
-//                    .filter { it.matches(Regex("[^\n ]+")) }
-//                    .toSet()
-//            }
-//        }
-//    }
-//
-//    @JvmStatic
-//    fun setToString3(values: Set<String>): String {
-//        return if (values.isEmpty()) {
-//            ""
-//        } else {
-//            var tmp = ""
-//            values.forEach {
-//                tmp += "$it\n"
-//            }
-//            tmp
-//        }
-//
-//    }
+fun typeToString(type: Type): String {
+    return type.value
 }
 

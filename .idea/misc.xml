@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/layout/activity_main.xml" value="0.14719202898550723" />
         <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/layout/item_appinfo.xml" value="0.20425724637681159" />
+        <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/menu/action_menu.xml" value="0.21388888888888888" />
+        <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/menu/nav.xml" value="0.21388888888888888" />
+        <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/menu/options_menu.xml" value="0.21388888888888888" />
+        <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/xml/settings.xml" value="0.12132725430597771" />
       </map>
     </option>
   </component>

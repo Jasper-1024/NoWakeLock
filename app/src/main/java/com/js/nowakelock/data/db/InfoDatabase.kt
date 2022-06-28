@@ -7,32 +7,26 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.js.nowakelock.data.db.converters.SetConvert
 import com.js.nowakelock.data.db.converters.TypeConvert
-import com.js.nowakelock.data.db.dao.AppInfoDao
-import com.js.nowakelock.data.db.dao.AppStDao
-import com.js.nowakelock.data.db.dao.StDao
-import com.js.nowakelock.data.db.entity.AppInfo
-import com.js.nowakelock.data.db.entity.AppSt
-import com.js.nowakelock.data.db.entity.St
+import com.js.nowakelock.data.db.dao.InfoDao
+import com.js.nowakelock.data.db.entity.Info
 
 @Database(
     entities = [
-        AppInfo::class, AppSt::class, St::class
+        Info::class
     ],
     version = 1
 )
 @TypeConverters(SetConvert::class, TypeConvert::class)
-abstract class AppDatabase : RoomDatabase() {
-    abstract fun appInfoDao(): AppInfoDao
-    abstract fun appStDao(): AppStDao
-    abstract fun stDao(): StDao
+abstract class InfoDatabase : RoomDatabase() {
+    abstract fun infoDao(): InfoDao
 
     companion object {
-        private const val DATABASE_NAME = "noWakelock_db"
+        private const val DATABASE_NAME = "info_db"
 
         @Volatile
-        private var instance: AppDatabase? = null
+        private var instance: InfoDatabase? = null
 
-        fun getInstance(context: Context): AppDatabase =
+        fun getInstance(context: Context): InfoDatabase =
             instance ?: synchronized(this) {
                 instance ?: buildInstance(context).also {
                     instance = it
@@ -40,7 +34,7 @@ abstract class AppDatabase : RoomDatabase() {
             }
 
         private fun buildInstance(context: Context) = Room.databaseBuilder(
-            context.applicationContext, AppDatabase::class.java,
+            context, InfoDatabase::class.java,
             DATABASE_NAME
         )
 //            .addMigrations()
