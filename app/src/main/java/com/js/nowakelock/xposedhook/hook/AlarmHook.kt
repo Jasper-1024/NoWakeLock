@@ -15,9 +15,6 @@ import java.util.*
 class AlarmHook {
     companion object {
 
-        // model
-        private val model: Model = IModel(XPM.alarm)
-
         fun hookAlarm(lpparam: XC_LoadPackage.LoadPackageParam) {
 
             when (Build.VERSION.SDK_INT) {
@@ -86,15 +83,12 @@ class AlarmHook {
 
         // handle alarm
         private fun hookAlarmsLocked(
-//            param: XC_MethodHook.MethodHookParam,
             triggerList: ArrayList<*>,
             context: Context
         ) {
-//            val now = SystemClock.elapsedRealtime() //real time
             var alarmName: String
             var packageName: String
 
-//            XpUtil.log(" alarmlist: ${triggerList.size};$triggerList")
             for (i in 0 until triggerList.size) {
 
                 try {
@@ -108,29 +102,26 @@ class AlarmHook {
                 }
 
                 // block or not
-                val flag =
-                    flag(
-                        alarmName,
-                        packageName
-                    )
+                val block = false
 
-                if (flag) {
-                    //allow alarm
-//                    XpUtil.log("$packageName alarm: $alarmName allow")
-                    model.upCount(alarmName, packageName)
-                } else {
-                    //block alarm
+                if (block) {//block alarm
+
                     XpUtil.log("$packageName alarm: $alarmName block")
+
                     triggerList.removeAt(i)
-                    model.upBlockCount(alarmName, packageName)
+
+                    //TODO: update blockCount
+//                    model.upBlockCount(alarmName, packageName)
+
+                } else {//allow alarm
+                    //TODO: update Count
                 }
             }
-            model.handleTimer(context)
         }
 
         // get weather alarm should block or not
-        private fun flag(aN: String, packageName: String): Boolean {
-            return model.flag(aN) && model.re(aN, packageName)
-        }
+//        private fun block(aN: String, packageName: String): Boolean {
+//            return model.flag(aN) && model.re(aN, packageName)
+//        }
     }
 }

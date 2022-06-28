@@ -16,9 +16,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 class ServiceHook {
     companion object {
 
-        // model
-        private val model: Model = IModel(XPM.service)
-
         @Volatile
         private var lastAllowTime = HashMap<String, Long>()//wakelock last allow time
 
@@ -66,7 +63,7 @@ class ServiceHook {
                         val context: Context =
                             AndroidAppHelper.currentApplication().applicationContext
                         hookStartServiceLocked(
-//                            param,
+                            param,
                             service,
                             callingPackage,
                             context
@@ -98,7 +95,7 @@ class ServiceHook {
                         val context: Context =
                             AndroidAppHelper.currentApplication().applicationContext
                         hookStartServiceLocked(
-//                            param,
+                            param,
                             service,
                             callingPackage,
                             context
@@ -128,7 +125,7 @@ class ServiceHook {
                         val context: Context =
                             AndroidAppHelper.currentApplication().applicationContext
                         hookStartServiceLocked(
-//                            param,
+                            param,
                             service,
                             callingPackage,
                             context
@@ -157,7 +154,7 @@ class ServiceHook {
                         val context: Context =
                             AndroidAppHelper.currentApplication().applicationContext
                         hookStartServiceLocked(
-//                            param,
+                            param,
                             service,
                             callingPackage,
                             context
@@ -167,7 +164,7 @@ class ServiceHook {
         }
 
         private fun hookStartServiceLocked(
-//            param: XC_MethodHook.MethodHookParam,
+            param: XC_MethodHook.MethodHookParam,
             service: Intent?,
             packageName: String?,
             context: Context
@@ -177,30 +174,24 @@ class ServiceHook {
             val serviceName: String = service.component?.flattenToShortString() ?: ""
 //            val serviceName: String = tmp.replace(Regex(".*/"), "")
 
-            XpUtil.log("service: package $packageName name $serviceName")
 
-            val flag =
-                flag(
-                    serviceName,
-                    packageName,
-                    lastAllowTime[serviceName]
-                        ?: 0
-                )
+            val block = false
 
-            if (flag) {
-                lastAllowTime[serviceName] = now
-                model.upCount(serviceName, packageName)
+            if (block) {
+                //TODO: update blockCount
+                param.result = null
+                XpUtil.log("$packageName service: $serviceName block")
             } else {
-                model.upBlockCount(serviceName, packageName)
+                lastAllowTime[serviceName] = now
+                //TODO: update Count
             }
 
-            model.handleTimer(context)
         }
 
         // get service should block or not
-        private fun flag(sN: String, packageName: String, aTI: Long): Boolean {
-            return model.flag(sN) && model.re(sN, packageName) && model.aTi(sN, aTI)
-        }
+//        private fun block(sN: String, packageName: String, aTI: Long): Boolean {
+//            return model.flag(sN) && model.re(sN, packageName) && model.aTi(sN, aTI)
+//        }
 
     }
 }
