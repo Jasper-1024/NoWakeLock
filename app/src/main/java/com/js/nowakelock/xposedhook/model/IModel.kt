@@ -37,7 +37,7 @@ class IModel(var type: String) : Model {
     }
 
     override fun aTi(name: String, lastAllowTime: Long): Boolean {
-        return (SystemClock.elapsedRealtime() - lastAllowTime) >= st.atIHM[name] ?: 0
+        return (SystemClock.elapsedRealtime() - lastAllowTime) >= (st.atIHM[name] ?: 0)
     }
 
     override fun re(name: String, packageName: String): Boolean {
@@ -78,7 +78,6 @@ class IModel(var type: String) : Model {
     override fun upBlockCountTime(name: String, packageName: String, time: Long) {
         val tmp: DB = db.dbHM[name] ?: DB(name, packageName)
         tmp.countTime += time
-        tmp.blockCountTime += time
         db.dbHM[name] = tmp
     }
 

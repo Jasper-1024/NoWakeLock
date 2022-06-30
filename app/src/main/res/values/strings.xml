@@ -81,4 +81,9 @@
     <string name="action_select_all">Select all</string>
     <string name="action_select_inverse">"Select inverse"</string>
     <string name="action_set_ATI">"Set allow time interval"</string>
+    <string-array name="scopes" translatable="false">
+        <item>android</item>
+        <item>com.android.providers.settings</item>
+        <item>com.js.nowakelock</item>
+    </string-array>
 </resources>

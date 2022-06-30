@@ -1,22 +1,21 @@
 package com.js.nowakelock.data.db
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
+import androidx.room.*
+import androidx.room.migration.AutoMigrationSpec
 import com.js.nowakelock.data.db.converters.SetConvert
 import com.js.nowakelock.data.db.converters.TypeConvert
 import com.js.nowakelock.data.db.dao.AppInfoDao
 import com.js.nowakelock.data.db.dao.AppStDao
-import com.js.nowakelock.data.db.dao.StDao
+import com.js.nowakelock.data.db.dao.DADao
 import com.js.nowakelock.data.db.entity.AppInfo
 import com.js.nowakelock.data.db.entity.AppSt
+import com.js.nowakelock.data.db.entity.Info
 import com.js.nowakelock.data.db.entity.St
 
 @Database(
     entities = [
-        AppInfo::class, AppSt::class, St::class
+        AppInfo::class, AppSt::class, St::class, Info::class
     ],
     version = 1
 )
@@ -24,7 +23,7 @@ import com.js.nowakelock.data.db.entity.St
 abstract class AppDatabase : RoomDatabase() {
     abstract fun appInfoDao(): AppInfoDao
     abstract fun appStDao(): AppStDao
-    abstract fun stDao(): StDao
+    abstract fun dADao(): DADao
 
     companion object {
         private const val DATABASE_NAME = "noWakelock_db"

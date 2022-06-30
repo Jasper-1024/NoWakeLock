@@ -10,38 +10,38 @@ interface InfoDao : BaseDao<Info> {
     @Query("select * from info")
     suspend fun loadInfos(): List<Info>
 
-    @Query("select * from info where type = :type")
+    @Query("select * from info where type_info = :type")
     suspend fun loadInfos(type: Type): List<Info>
 
-    @Query("select * from info where packageName = :packageName")
+    @Query("select * from info where packageName_info = :packageName")
     suspend fun loadInfos(packageName: String): List<Info>
 
-    @Query("select * from info where packageName = :packageName and type = :type")
+    @Query("select * from info where packageName_info = :packageName and type_info = :type")
     suspend fun loadInfos(packageName: String, type: Type): List<Info>
 
-    @Query("select * from info where name = :name")
+    @Query("select * from info where name_info = :name")
     suspend fun loadInfo(name: String): Info?
 
-    @Query("select * from info where name = :name and type = :type")
+    @Query("select * from info where name_info = :name and type_info = :type")
     suspend fun loadInfo(name: String, type: Type): Info?
 
-    @Query("update info set count = count+:count where name = :name and type = :type")
+    @Query("update info set count = count+:count where name_info = :name and type_info = :type")
     suspend fun upCount(count: Int, name: String, type: Type)
 
     suspend fun upCountPO(name: String, type: Type) = upCount(1, name, type)
 
-    @Query("update info set blockCount = blockCount+:count where name = :name and type = :type")
+    @Query("update info set blockCount = blockCount+:count where name_info = :name and type_info = :type")
     suspend fun upBlockCount(count: Int, name: String, type: Type)
 
     suspend fun upBlockCountPO(name: String, type: Type) = upBlockCount(1, name, type)
 
-    @Query("update info set countTime = countTime+:time where name = :name and type = :type")
+    @Query("update info set countTime = countTime+:time where name_info = :name and type_info = :type")
     suspend fun upCountTime(time: Long, name: String, type: Type)
 
 
-    @Query("update info set count = 0 where type = :type")
+    @Query("update info set count = 0 where type_info = :type")
     suspend fun rstAllCount(type: Type)
 
-    @Query("update info set countTime = 0 where type = :type")
+    @Query("update info set countTime = 0 where type_info = :type")
     suspend fun rstAllCountTime(type: Type)
 }

@@ -1,0 +1,22 @@
+package com.js.nowakelock.data.repository
+
+import com.js.nowakelock.data.db.Type
+import com.js.nowakelock.data.db.entity.DA
+import com.js.nowakelock.data.db.entity.Info
+import com.js.nowakelock.data.db.entity.St
+import kotlinx.coroutines.flow.Flow
+
+interface FR {
+    fun getDAs(): Flow<List<DA>>
+    fun getDAs(packageName: String): Flow<List<DA>>
+
+    suspend fun insertInfos(infos: List<Info>)
+    suspend fun insertSt(st: St)
+
+    /**
+     * call ContentProvider for infos
+     * @param packageName String
+     * @return List<Info>
+     */
+    suspend fun getCPInfos(packageName: String): List<Info>
+}

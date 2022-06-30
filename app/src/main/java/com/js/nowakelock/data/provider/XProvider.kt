@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import com.js.nowakelock.base.LogUtil
+import com.js.nowakelock.base.infoToBundle
 import com.js.nowakelock.base.stringToType
 import com.js.nowakelock.data.db.InfoDatabase
 import com.js.nowakelock.data.db.Type
@@ -19,6 +21,8 @@ enum class ProviderMethod(var value: String) {
     UpCount("UpCount"),
     UpBlockCount("GetExtends"),
     UpCountTime("UpCountTime"),
+    LoadInfos("LoadInfos"),
+    LoadInfo("LoadInfo"),
 }
 
 class XProvider(
@@ -46,6 +50,8 @@ class XProvider(
             ProviderMethod.UpCount.value -> upCount(bundle)
             ProviderMethod.UpBlockCount.value -> upBlockCount(bundle)
             ProviderMethod.UpCountTime.value -> upCountTime(bundle)
+            ProviderMethod.LoadInfos.value -> loadInfos(bundle)
+            ProviderMethod.LoadInfo.value -> loadInfo(bundle)
             "test" -> test(bundle)
             else -> null
         }
@@ -132,5 +138,32 @@ class XProvider(
             it.putString("name", name)
             it
         }
+    }
+
+    private fun loadInfos(bundle: Bundle): Bundle {
+        val type: Type = stringToType(bundle.getString("type") ?: "")
+        val packageName = bundle.getString("packageName") ?: ""
+        val infos: Array<Info> = runBlocking {
+            if (packageName == "")
+                dao.loadInfos(type).toTypedArray()
+            else
+                dao.loadInfos(packageName, type).toTypedArray()
+        }
+
+        return Bundle().let {
+            it.putSerializable("infos", infos)
+            it
+        }
+    }
+
+    private fun loadInfo(bundle: Bundle): Bundle {
+        val name: String = bundle.getString("name") ?: ""
+        val type: Type = stringToType(bundle.getString("type") ?: "")
+
+        val info: Info = runBlocking {
+            dao.loadInfo(name, type) ?: Info(name = name, type = type)
+        }
+
+        return infoToBundle(info)
     }
 }

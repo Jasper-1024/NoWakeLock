@@ -6,11 +6,15 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
+import android.os.Bundle
 import android.view.Menu
 import android.widget.Toast
 import com.js.nowakelock.BasicApp
 import com.js.nowakelock.R
 import com.js.nowakelock.data.db.Type
+import com.js.nowakelock.data.db.entity.Info
+import com.js.nowakelock.data.provider.getURI
+import com.js.nowakelock.ui.databinding.item.BaseItem
 import java.util.*
 
 //Long to Time
@@ -42,7 +46,7 @@ inline fun <T : BaseItem> List<T>.app(status: (T) -> Boolean): List<T> {
 }
 
 // search list
-inline fun <T : BaseItem> List<T>.search(query: String, text: (T) -> String): List<T> {
+inline fun <T : Any> List<T>.search(query: String, text: (T) -> String): List<T> {
     /*lowerCase and no " " */
     val q = query.lowercase(Locale.ROOT).trim { it <= ' ' }
     if (q == "") {
@@ -54,7 +58,7 @@ inline fun <T : BaseItem> List<T>.search(query: String, text: (T) -> String): Li
 }
 
 // sort list
-fun <T : BaseItem> List<T>.sort(comparator: Comparator<in T>): List<T> {
+fun <T : Any> List<T>.sort(comparator: Comparator<in T>): List<T> {
     return this.sortedWith(comparator)
 }
 
@@ -107,5 +111,69 @@ fun stringToType(value: String): Type {
 
 fun typeToString(type: Type): String {
     return type.value
+}
+
+fun bundleToInfo(bundle: Bundle): Info {
+    return Info(
+        bundle.getString("name") ?: "",
+        stringToType(bundle.getString("package") ?: ""),
+        bundle.getString("packageName") ?: "",
+        bundle.getInt("count"),
+        bundle.getInt("blockCount"),
+        bundle.getLong("countTime")
+    )
+}
+
+fun infoToBundle(info: Info): Bundle {
+    return Bundle().apply {
+        putString("name", info.name)
+        putString("package", typeToString(info.type))
+        putString("packageName", info.packageName)
+        putInt("count", info.count)
+        putInt("blockCount", info.blockCount)
+        putLong("countTime", info.countTime)
+    }
+}
+
+/**
+ * Call XP ContentProvider
+ * @param context Context
+ * @param args Bundle
+ * @param method String
+ * @return Bundle?
+ */
+fun getCPResult(context: Context, method: String, args: Bundle): Bundle? {
+    val contentResolver = context.contentResolver
+    return contentResolver.call(getURI(), "NoWakelock", method, args)
+}
+
+/**
+ * transform seq to string
+ * @param paramTimes Array<out Any>
+ * @return String
+ */
+fun getFormattedTime(vararg paramTimes: Any): String {
+    val sBuff = StringBuilder()
+    var offset = 0
+    if (5 == paramTimes.size) {
+        offset = 2
+    } else if (4 == paramTimes.size) {
+        offset = 1
+    }
+    for (i in paramTimes.indices) {
+        if (i < paramTimes.size - offset) {
+            if (paramTimes[i] as Long > 0) {
+                sBuff.append(String.format("%02d", paramTimes[i]))
+                sBuff.append(":")
+            } else {
+                continue
+            }
+        } else {
+            sBuff.append(String.format("%02d", paramTimes[i]))
+            sBuff.append(":")
+        }
+    }
+    sBuff.deleteCharAt(sBuff.lastIndexOf(":"))
+    return sBuff.toString()
 }
 

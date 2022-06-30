@@ -20,7 +20,7 @@ class BasicApp : Application() {
         //koin
         startKoin {
             androidContext(this@BasicApp)
-            modules(noWakeLockModule)
+            modules(repository, viewModel)
         }
 
         // set Theme

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navgraph"
+    app:startDestination="@id/wakeLockFragment">
+
+
+    <fragment
+        android:id="@+id/wakeLockFragment"
+        android:name="com.js.nowakelock.ui.fragment.WakeLockFragment"
+        android:label="@string/WakeLock"
+        tools:layout="@layout/fragment_da" />
+
+
+</navigation>

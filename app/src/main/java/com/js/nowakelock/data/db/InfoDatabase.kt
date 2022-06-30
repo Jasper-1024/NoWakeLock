@@ -14,7 +14,10 @@ import com.js.nowakelock.data.db.entity.Info
     entities = [
         Info::class
     ],
-    version = 1
+    version = 3,
+    autoMigrations = [
+        androidx.room.AutoMigration(from = 1, to = 2)
+    ]
 )
 @TypeConverters(SetConvert::class, TypeConvert::class)
 abstract class InfoDatabase : RoomDatabase() {
@@ -37,7 +40,7 @@ abstract class InfoDatabase : RoomDatabase() {
             context, InfoDatabase::class.java,
             DATABASE_NAME
         )
-//            .addMigrations()
+            .fallbackToDestructiveMigration() //if version change, it will delete all data.
             .build()
     }
 }

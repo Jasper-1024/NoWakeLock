@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
     id("androidx.navigation.safeargs.kotlin")
 }
 
@@ -13,8 +14,8 @@ android {
         applicationId "com.js.nowakelock"
         minSdkVersion 24
         targetSdkVersion 32
-        versionCode 38
-        versionName "1.1.0-beta4-6"
+        versionCode 39
+        versionName "2.0.0-alpha1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

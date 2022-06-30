@@ -29,7 +29,11 @@
             android:name="xposedsharedprefs"
             android:value="true" />
 
-        <activity android:name=".MainActivity"
+        <meta-data
+            android:name="xposedscope"
+            android:resource="@array/scopes" />
+
+        <activity android:name=".ui.mainActivity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

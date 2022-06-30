@@ -2,15 +2,13 @@ package com.js.nowakelock.xposedhook.model
 
 import android.content.Context
 import android.os.Bundle
+import com.js.nowakelock.base.getCPResult
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.data.provider.ProviderMethod
 import com.js.nowakelock.data.provider.getURI
 import com.js.nowakelock.xposedhook.XpUtil
 
 object XpRecord {
-    private const val tag = "NoWakelock"
-    private val uri = getURI()
-
     /**
      * count++
      * @param name String
@@ -27,7 +25,7 @@ object XpRecord {
         }
         val method = ProviderMethod.UpCount.value
 
-        val result: Bundle? = getResult(context, args, method)
+        val result: Bundle? = getCPResult(context, method, args)
         checkResult(result, method, name, packageName, type)
     }
 
@@ -47,7 +45,7 @@ object XpRecord {
         }
         val method = ProviderMethod.UpBlockCount.value
 
-        val result: Bundle? = getResult(context, args, method)
+        val result: Bundle? = getCPResult(context, method, args)
         checkResult(result, method, name, packageName, type)
     }
 
@@ -69,13 +67,8 @@ object XpRecord {
         }
         val method = ProviderMethod.UpCountTime.value
 
-        val result: Bundle? = getResult(context, args, method)
+        val result: Bundle? = getCPResult(context, method, args)
         checkResult(result, method, name, packageName, type)
-    }
-
-    private fun getResult(context: Context, args: Bundle, method: String): Bundle? {
-        val contentResolver = context.contentResolver
-        return contentResolver.call(uri, tag, method, args)
     }
 
     private fun checkResult(

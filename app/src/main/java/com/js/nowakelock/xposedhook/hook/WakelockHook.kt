@@ -113,8 +113,6 @@ class WakelockHook {
             context: Context
         ) {
             val now = SystemClock.elapsedRealtime() //current time
-
-            //TODO: update count countTime
             val wlT: WLT = wlTs[lock]!!
 
             XpRecord.upCount(
