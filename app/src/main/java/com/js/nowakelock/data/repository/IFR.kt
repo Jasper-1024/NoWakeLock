@@ -10,6 +10,7 @@ import com.js.nowakelock.data.db.entity.Info
 import com.js.nowakelock.data.db.entity.St
 import com.js.nowakelock.data.provider.ProviderMethod
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
 open class IFR(private val daDao: DADao) : FR {
@@ -19,12 +20,9 @@ open class IFR(private val daDao: DADao) : FR {
     private val tag = "NoWakelock"
 
     override fun getDAs(): Flow<List<DA>> {
-        return daDao.loadDAs(type).map { das ->
+        return daDao.loadDAs(type).distinctUntilChanged().map { das ->
+
             das.forEach {
-                // calculate blocCountTime
-                //                it.info.blockCountTime = if (it.info.count == 0) 0 else
-                //                    (it.info.countTime / it.info.count) * it.info.blockCount
-                //                // if st is null,get an instance of stk
                 if (it.st == null) {
                     it.st = St(
                         name = it.info.name,
@@ -38,7 +36,7 @@ open class IFR(private val daDao: DADao) : FR {
     }
 
     override fun getDAs(packageName: String): Flow<List<DA>> {
-        return daDao.loadAppDAs(packageName, type).map { das ->
+        return daDao.loadAppDAs(packageName, type).distinctUntilChanged().map { das ->
             das.forEach {
                 if (it.st == null) {
                     it.st = St(
@@ -58,6 +56,10 @@ open class IFR(private val daDao: DADao) : FR {
 
     override suspend fun insertSt(st: St) {
         daDao.insert(st)
+    }
+
+    override suspend fun getSts(): Flow<List<St>> {
+        return daDao.loadSts(type).distinctUntilChanged()
     }
 
     override suspend fun getCPInfos(packageName: String): List<Info> {

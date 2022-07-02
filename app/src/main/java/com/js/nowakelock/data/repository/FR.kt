@@ -1,6 +1,5 @@
 package com.js.nowakelock.data.repository
 
-import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.data.db.entity.DA
 import com.js.nowakelock.data.db.entity.Info
 import com.js.nowakelock.data.db.entity.St
@@ -12,6 +11,8 @@ interface FR {
 
     suspend fun insertInfos(infos: List<Info>)
     suspend fun insertSt(st: St)
+
+    suspend fun getSts(): Flow<List<St>>
 
     /**
      * call ContentProvider for infos

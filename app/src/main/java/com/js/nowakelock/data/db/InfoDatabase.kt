@@ -14,9 +14,11 @@ import com.js.nowakelock.data.db.entity.Info
     entities = [
         Info::class
     ],
-    version = 3,
+    version = 4,
     autoMigrations = [
-        androidx.room.AutoMigration(from = 1, to = 2)
+        androidx.room.AutoMigration(from = 1, to = 2),
+        androidx.room.AutoMigration(from = 2, to = 3),
+        androidx.room.AutoMigration(from = 3, to = 4)
     ]
 )
 @TypeConverters(SetConvert::class, TypeConvert::class)

@@ -3,6 +3,7 @@ package com.js.nowakelock.ui.fragment.fbase
 import androidx.lifecycle.*
 import com.js.nowakelock.R
 import com.js.nowakelock.base.LogUtil
+import com.js.nowakelock.base.SPTools
 import com.js.nowakelock.base.search
 import com.js.nowakelock.base.sort
 import com.js.nowakelock.data.db.entity.DA
@@ -10,6 +11,7 @@ import com.js.nowakelock.data.db.entity.St
 import com.js.nowakelock.data.repository.FR
 import com.js.nowakelock.ui.base.Sort
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.text.Collator
 import java.util.*
@@ -40,6 +42,16 @@ class FBaseViewModel(private var packageName: String = "", private var fR: FR) :
     fun setSt(st: St) {
         viewModelScope.launch(Dispatchers.IO) {
             fR.insertSt(st)
+        }
+    }
+
+    fun syncSt() {
+        viewModelScope.launch(Dispatchers.IO) {
+            fR.getSts().collect { list ->
+                list.map {
+                    saveSt(it)
+                }
+            }
         }
     }
 
@@ -86,5 +98,13 @@ class FBaseViewModel(private var packageName: String = "", private var fR: FR) :
 
     private fun sortByCountTime(): Comparator<DA> {
         return compareByDescending { it.info.countTime }
+    }
+
+    private fun saveSt(st: St) {
+        SPTools.setBoolean("${st.name}_${st.type}_${st.packageName}_flag", st.flag)
+        SPTools.setLong(
+            "${st.name}_${st.type}_${st.packageName}_aTI",
+            st.allowTimeInterval
+        )
     }
 }

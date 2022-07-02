@@ -6,6 +6,7 @@ import android.os.SystemClock
 import android.os.WorkSource
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.xposedhook.XpUtil
+import com.js.nowakelock.xposedhook.model.XpNSP
 import com.js.nowakelock.xposedhook.model.XpRecord
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
@@ -13,6 +14,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class WakelockHook {
     companion object {
+
+        private val type = Type.Wakelock
 
         @Volatile
         private var wlTs = HashMap<IBinder, WLT>()//wakelock witch active
@@ -90,7 +93,7 @@ class WakelockHook {
         ) {
             val now = SystemClock.elapsedRealtime() //current time
 
-            val block = false
+            val block = block(wN, pN, lastAllowTime[wN] ?: 0, now)
 
             if (block) {//block wakelock
 
@@ -127,9 +130,15 @@ class WakelockHook {
         }
 
         // get wakelock should block or not
-//        private fun flag(wN: String, packageName: String, aTI: Long): Boolean {
-//            return model.flag(wN) && model.re(wN, packageName) && model.aTi(wN, aTI)
-//        }
+        private fun block(
+            wN: String, packageName: String,
+            lastActive: Long, now: Long
+        ): Boolean {
+            val xpNSP = XpNSP.getInstance()
+
+            return xpNSP.flag(wN, packageName, type)
+                    && xpNSP.aTI(now, lastActive, wN, packageName, type)
+        }
     }
 
     data class WLT(

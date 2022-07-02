@@ -45,6 +45,8 @@ open class FBaseFragment : Fragment() {
         addSubscription(mainViewModel.type)
         addSubscription(mainViewModel.query)
         addSubscription(mainViewModel.sort)
+
+        viewModel.syncSt()
     }
 
     override fun onCreateView(

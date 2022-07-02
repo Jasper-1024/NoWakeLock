@@ -24,8 +24,8 @@ interface DADao : BaseDao<St> {
 //    @Query("select * from st")
 //    fun loadSts(): Flow<List<St>>
 //
-//    @Query("select * from st where type_st = :type")
-//    fun loadSts(type: Type): Flow<List<St>>
+    @Query("select * from st where type_st = :type")
+    fun loadSts(type: Type): Flow<List<St>>
 //
 //
 //    @Query("select * from st where type_st = :type and name_st = :name")

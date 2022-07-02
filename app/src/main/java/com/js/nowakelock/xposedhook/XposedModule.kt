@@ -5,6 +5,7 @@ import com.js.nowakelock.xposedhook.hook.AlarmHook
 import com.js.nowakelock.xposedhook.hook.ServiceHook
 import com.js.nowakelock.xposedhook.hook.SettingsProviderHook
 import com.js.nowakelock.xposedhook.hook.WakelockHook
+import com.js.nowakelock.xposedhook.model.XpNSP
 import de.robv.android.xposed.*
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -23,6 +24,9 @@ open class XposedModule : IXposedHookZygoteInit, IXposedHookLoadPackage {
 
         when (lpparam.packageName) {
             "android" -> {//hook Android system
+                // New SP
+                XpNSP.getInstance()
+                //hook
                 WakelockHook.hookWakeLocks(lpparam)
 //                AlarmHook.hookAlarm(lpparam)
 //                ServiceHook.hookService(lpparam)
