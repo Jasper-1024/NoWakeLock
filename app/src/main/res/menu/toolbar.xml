@@ -42,6 +42,13 @@
                     android:title="@string/menu_filter_countime"
                     android:visible="true" />
 
+                <item
+                    android:id="@+id/menu_test"
+                    android:checkable="true"
+                    android:onClick="test"
+                    android:title="clearAll"
+                    android:visible="true" />
+
             </group>
         </menu>
     </item>

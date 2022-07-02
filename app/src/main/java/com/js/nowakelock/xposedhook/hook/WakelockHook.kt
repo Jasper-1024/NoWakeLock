@@ -101,7 +101,7 @@ class WakelockHook {
             } else { // allow wakelock
                 lastAllowTime[wN] = now //update last allow time
 
-                wlTs[lock] ?: WLT(pN, wN, startTime = now).let {
+                wlTs[lock] ?: WLT(wN, pN, startTime = now).let {
                     wlTs[lock] = it // add to wlT
                 }
             }

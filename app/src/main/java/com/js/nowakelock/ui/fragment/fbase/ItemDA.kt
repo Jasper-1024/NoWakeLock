@@ -11,13 +11,11 @@ class ItemDA(
 ) : BaseItem(data, handle, layoutId) {
 
     override fun getID(): String {
-        return data.info.name
+        return data.info.name + data.info.packageName + data.info.type.value
     }
 
     override fun getContent(): Int {
         val info = data.info
-        val st = data.st
-        return ((if (st!!.flag) 1 else 0) + st.allowTimeInterval
-                + info.count * 5 + info.blockCount * 10).toInt()
+        return info.count * 5 + info.blockCount * 10
     }
 }

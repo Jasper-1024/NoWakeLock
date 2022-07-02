@@ -23,6 +23,7 @@ enum class ProviderMethod(var value: String) {
     UpCountTime("UpCountTime"),
     LoadInfos("LoadInfos"),
     LoadInfo("LoadInfo"),
+    ClearAll("ClearAll")
 }
 
 class XProvider(
@@ -52,6 +53,7 @@ class XProvider(
             ProviderMethod.UpCountTime.value -> upCountTime(bundle)
             ProviderMethod.LoadInfos.value -> loadInfos(bundle)
             ProviderMethod.LoadInfo.value -> loadInfo(bundle)
+            ProviderMethod.ClearAll.value -> clearAll(bundle)
             "test" -> test(bundle)
             else -> null
         }
@@ -91,6 +93,7 @@ class XProvider(
                 dao.insert(Info(name = name, type = type, packageName = packageName, count = 1))
             }
         }
+
         return Bundle().let {
             it.putString("name", name)
             it
@@ -165,5 +168,15 @@ class XProvider(
         }
 
         return infoToBundle(info)
+    }
+
+    private fun clearAll(bundle: Bundle): Bundle {
+        runBlocking {
+            dao.clearAll()
+        }
+        return Bundle().let {
+            it.putString("clear", "clear")
+            it
+        }
     }
 }

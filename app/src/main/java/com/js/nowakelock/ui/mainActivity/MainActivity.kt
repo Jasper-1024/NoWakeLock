@@ -8,15 +8,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
+import com.js.nowakelock.BasicApp
 import com.js.nowakelock.R
 import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.Status
+import com.js.nowakelock.base.getCPResult
+import com.js.nowakelock.data.db.entity.Info
+import com.js.nowakelock.data.provider.ProviderMethod
 import com.js.nowakelock.ui.base.AppType
 import com.js.nowakelock.ui.base.Sort
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
 
@@ -110,6 +117,19 @@ class MainActivity : AppCompatActivity() {
         toolbar.menu.findItem(R.id.menu_sort_count).isChecked = false
         toolbar.menu.findItem(R.id.menu_sort_countime).isChecked = false
         item.isChecked = true
+    }
+
+    fun test(menu: MenuItem) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val args = Bundle()
+            val result = getCPResult(BasicApp.context, ProviderMethod.ClearAll.value, args)
+            if (result != null) {
+                if (result.getString("clear") == "clear") {
+                    LogUtil.d("main", "clear success")
+                }
+            }
+        }
+
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
