@@ -48,6 +48,7 @@ class FBaseViewModel(private var packageName: String = "", private var fR: FR) :
     fun syncSt() {
         viewModelScope.launch(Dispatchers.IO) {
             fR.getSts().collect { list ->
+//                LogUtil.d("sync", "${list.size}")
                 list.map {
                     saveSt(it)
                 }
@@ -105,6 +106,12 @@ class FBaseViewModel(private var packageName: String = "", private var fR: FR) :
         SPTools.setLong(
             "${st.name}_${st.type}_${st.packageName}_aTI",
             st.allowTimeInterval
+        )
+
+        LogUtil.d("Nowakelcok", "${st.name}_${st.type}_${st.packageName}_flag: ${st.flag}")
+        LogUtil.d(
+            "Nowakelcok",
+            "${st.name}_${st.type}_${st.packageName}_aTI: ${st.allowTimeInterval}"
         )
     }
 }

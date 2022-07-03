@@ -80,10 +80,15 @@ object XpRecord {
     ) {
         result?.let {
             if (name == (it.getString("name") ?: "")) {
-                XpUtil.log("$packageName ${type.value}:$name $method success")
+//                XpUtil.log("$packageName ${type.value}:$name $method success")
                 return
             }
         }
         XpUtil.log("$packageName ${type.value}:$name $method failed")
+    }
+
+    private fun getCPResult(context: Context, method: String, args: Bundle): Bundle? {
+        val contentResolver = context.contentResolver
+        return contentResolver.call(getURI(), "NoWakelock", method, args)
     }
 }

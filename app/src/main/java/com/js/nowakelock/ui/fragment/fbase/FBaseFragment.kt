@@ -57,7 +57,7 @@ open class FBaseFragment : Fragment() {
         binding = FragmentDaBinding.inflate(inflater, container, false)
         context ?: return binding.root
 
-//        //bind viewModel
+        //bind viewModel
         binding.vm = viewModel
         //lifecycleOwner
         binding.lifecycleOwner = this

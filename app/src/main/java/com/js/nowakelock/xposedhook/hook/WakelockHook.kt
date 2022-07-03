@@ -132,10 +132,7 @@ class WakelockHook {
         ) {
             val now = SystemClock.elapsedRealtime() //current time
 
-            XpUtil.log("$pN wakeLock:$wN")
-
-//            val block = block(wN, pN, lastAllowTime[wN] ?: 0, now)
-            val block = false
+            val block = block(wN, pN, lastAllowTime[wN] ?: 0, now)
 
             if (block) {//block wakelock
 
@@ -177,9 +174,8 @@ class WakelockHook {
             lastActive: Long, now: Long
         ): Boolean {
             val xpNSP = XpNSP.getInstance()
-
             return xpNSP.flag(wN, packageName, type)
-                    && xpNSP.aTI(now, lastActive, wN, packageName, type)
+                    || xpNSP.aTI(now, lastActive, wN, packageName, type)
         }
     }
 

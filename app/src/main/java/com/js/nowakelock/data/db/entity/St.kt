@@ -12,6 +12,6 @@ data class St(
     var type: Type = Type.UnKnow,
     @ColumnInfo(name = "packageName_st")
     var packageName: String = "",
-    var flag: Boolean = true,
+    var flag: Boolean = false,
     var allowTimeInterval: Long = 0
 )

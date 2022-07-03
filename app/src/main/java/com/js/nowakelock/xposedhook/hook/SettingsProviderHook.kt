@@ -52,7 +52,7 @@ class SettingsProviderHook {
                         val context: Context =
                             mGetContext.invoke(param.thisObject) as Context
 
-                        XpUtil.log("$method,$arg,$extras")
+//                        XpUtil.log("$method,$arg,$extras")
 
                         param.result = call(context, arg, extras) // call XProvider
                     } catch (ex: IllegalArgumentException) {
