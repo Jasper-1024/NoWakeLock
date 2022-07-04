@@ -2,11 +2,10 @@ package com.js.nowakelock.xposedhook.hook
 
 import android.content.Context
 import android.os.Build
+import android.os.SystemClock
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.xposedhook.XpUtil
-import com.js.nowakelock.xposedhook.model.IModel
-import com.js.nowakelock.xposedhook.model.Model
-import com.js.nowakelock.xposedhook.model.XPM
+import com.js.nowakelock.xposedhook.model.XpNSP
 import com.js.nowakelock.xposedhook.model.XpRecord
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
@@ -17,17 +16,18 @@ import java.util.*
 class AlarmHook {
     companion object {
 
+        private val type = Type.Alarm
+
+        @Volatile
+        private var lastAllowTime = HashMap<String, Long>()//last allow time
+
         fun hookAlarm(lpparam: XC_LoadPackage.LoadPackageParam) {
 
             when (Build.VERSION.SDK_INT) {
                 //Try for alarm hooks for API levels >= 29 (Q or higher)
-                in Build.VERSION_CODES.Q..40 -> alarmHook29(
-                    lpparam
-                )
+                in Build.VERSION_CODES.Q..40 -> alarmHook29(lpparam)
                 //Try for alarm hooks for API levels < 29 > 24.(N ~ P)
-                in Build.VERSION_CODES.N..Build.VERSION_CODES.P -> alarmHook24to28(
-                    lpparam
-                )
+                in Build.VERSION_CODES.N..Build.VERSION_CODES.P -> alarmHook24to28(lpparam)
             }
         }
 
@@ -35,22 +35,16 @@ class AlarmHook {
             XposedHelpers.findAndHookMethod("com.android.server.AlarmManagerService",
                 lpparam.classLoader,
                 "triggerAlarmsLocked",
-                ArrayList::class.java,
-                Long::class.javaPrimitiveType,
+                ArrayList::class.java, Long::class.javaPrimitiveType,
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: MethodHookParam) {
                         val triggerList = param.args[0] as ArrayList<*>
-//                        val nowELAPSED = param.args[1] as Long
-                        val context = XposedHelpers.getObjectField(
-                            param.thisObject,
-                            "mContext"
-                        ) as Context
-//                            log("Alarm Q ${triggerList.size} $nowELAPSED")
+                        val context =
+                            XposedHelpers.getObjectField(param.thisObject, "mContext") as Context
                         hookAlarmsLocked(
 //                            param,
-                            triggerList,
-                            context
+                            triggerList, context
                         )
                     }
                 })
@@ -60,9 +54,7 @@ class AlarmHook {
             XposedHelpers.findAndHookMethod("com.android.server.AlarmManagerService",
                 lpparam.classLoader,
                 "triggerAlarmsLocked",
-                ArrayList::class.java,
-                Long::class.javaPrimitiveType,
-                Long::class.javaPrimitiveType,
+                ArrayList::class.java, Long::class.javaPrimitiveType, Long::class.javaPrimitiveType,
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: MethodHookParam) {
@@ -70,14 +62,11 @@ class AlarmHook {
 //                        val nowELAPSED = param.args[1] as Long
 //                        val nowRTC = param.args[2] as Long
 //                            log("Alarm N ${triggerList.size} $nowELAPSED $nowRTC")
-                        val context = XposedHelpers.getObjectField(
-                            param.thisObject,
-                            "mContext"
-                        ) as Context
+                        val context =
+                            XposedHelpers.getObjectField(param.thisObject, "mContext") as Context
                         hookAlarmsLocked(
 //                            param,
-                            triggerList,
-                            context
+                            triggerList, context
                         )
                     }
                 })
@@ -103,31 +92,31 @@ class AlarmHook {
                     continue
                 }
 
+                val now = SystemClock.elapsedRealtime() //current time
+
                 // block or not
-                val block = false
+                val block = block(alarmName, packageName, lastAllowTime[alarmName] ?: 0, now)
 
                 if (block) {//block alarm
-
-                    XpUtil.log("$packageName alarm: $alarmName block")
-
                     triggerList.removeAt(i)
 
-                    XpRecord.upBlockCount(
-                        alarmName, packageName, Type.Alarm, context
-                    )//update blockCount
+                    XpUtil.log("$packageName alarm: $alarmName block")
+                    //update blockCount
+                    XpRecord.upBlockCount(alarmName, packageName, type, context)
 
                 } else {//allow alarm
-
-                    XpRecord.upCount(
-                        alarmName, packageName, Type.Alarm, context
-                    )//update count
+                    lastAllowTime[alarmName] = now
+                    XpRecord.upCount(alarmName, packageName, type, context)//update count
                 }
             }
         }
 
-        // get weather alarm should block or not
-//        private fun block(aN: String, packageName: String): Boolean {
-//            return model.flag(aN) && model.re(aN, packageName)
-//        }
+        private fun block(
+            name: String, packageName: String, lastActive: Long, now: Long
+        ): Boolean {
+            val xpNSP = XpNSP.getInstance()
+            return xpNSP.flag(name, packageName, type)
+                    || xpNSP.aTI(now, lastActive, name, packageName, type)
+        }
     }
 }

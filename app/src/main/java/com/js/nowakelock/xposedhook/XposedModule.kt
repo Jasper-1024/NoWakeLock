@@ -25,8 +25,8 @@ open class XposedModule : IXposedHookZygoteInit, IXposedHookLoadPackage {
         when (lpparam.packageName) {
             "android" -> {//hook Android system
                 WakelockHook.hookWakeLocks(lpparam)
-//                AlarmHook.hookAlarm(lpparam)
-//                ServiceHook.hookService(lpparam)
+                AlarmHook.hookAlarm(lpparam)
+                ServiceHook.hookService(lpparam)
             }
             "com.android.providers.settings" -> {//hook SettingsProvider
                 SettingsProviderHook.hook(lpparam)

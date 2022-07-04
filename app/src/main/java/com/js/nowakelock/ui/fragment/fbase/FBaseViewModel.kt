@@ -57,20 +57,16 @@ class FBaseViewModel(private var packageName: String = "", private var fR: FR) :
     }
 
 
-    private fun List<DA>.toItemDAs(): List<ItemDA> {
+    private fun List<DA>.toItemDAs(layout: Int): List<ItemDA> {
         return this.map { app ->
-            ItemDA(
-                app,
-                handleDA,
-                R.layout.item_da
-            )
+            ItemDA(app, handleDA, layout)
         }
     }
 
-    fun getList(das: List<DA>, query: String, sort: Sort): List<ItemDA> {
+    fun getList(das: List<DA>, query: String, sort: Sort, layout: Int): List<ItemDA> {
         return das.search(query, ::search)
             .sort(sort(sort))
-            .toItemDAs()
+            .toItemDAs(layout)
     }
 
 
@@ -108,10 +104,10 @@ class FBaseViewModel(private var packageName: String = "", private var fR: FR) :
             st.allowTimeInterval
         )
 
-        LogUtil.d("Nowakelcok", "${st.name}_${st.type}_${st.packageName}_flag: ${st.flag}")
-        LogUtil.d(
-            "Nowakelcok",
-            "${st.name}_${st.type}_${st.packageName}_aTI: ${st.allowTimeInterval}"
-        )
+//        LogUtil.d("Nowakelcok", "${st.name}_${st.type}_${st.packageName}_flag: ${st.flag}")
+//        LogUtil.d(
+//            "Nowakelcok",
+//            "${st.name}_${st.type}_${st.packageName}_aTI: ${st.allowTimeInterval}"
+//        )
     }
 }

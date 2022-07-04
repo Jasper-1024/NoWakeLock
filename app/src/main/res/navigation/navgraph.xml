@@ -11,6 +11,11 @@
         android:name="com.js.nowakelock.ui.fragment.WakeLockFragment"
         android:label="@string/WakeLock"
         tools:layout="@layout/fragment_da" />
+    <fragment
+        android:id="@+id/alarmFragment"
+        android:name="com.js.nowakelock.ui.fragment.AlarmFragment"
+        android:label="AlarmFragment"
+        tools:layout="@layout/fragment_da" />
 
 
 </navigation>

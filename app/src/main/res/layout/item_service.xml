@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.js.nowakelock.ui.databinding.Converter" />
+
+        <variable
+            name="item"
+            type="com.js.nowakelock.ui.fragment.fbase.ItemDA" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_background"
+        android:padding="8dp">
+
+
+        <TextView
+            android:id="@+id/ListName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:text="@{item.data.info.name}"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/Count"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints,SmallSp,UnknownIdInLayout" />
+
+        <TextView
+            android:id="@+id/Count"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showCount="@{item.data.info.count}"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/FlagText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/FlagText"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/Flag"
+            app:layout_constraintStart_toEndOf="@+id/Count"
+            app:layout_constraintTop_toTopOf="@+id/Flag"
+            tools:ignore="MissingConstraints" />
+
+        <Switch
+            android:id="@+id/Flag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:checked="@={!item.data.st.flag}"
+            android:onClick="@{()-> item.handle.saveSt(item.data)}"
+            android:text=""
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/FlagText"
+            app:layout_constraintTop_toBottomOf="@+id/ListName"
+            tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -8,9 +8,6 @@ import android.os.IBinder
 import android.os.SystemClock
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.xposedhook.XpUtil
-import com.js.nowakelock.xposedhook.model.IModel
-import com.js.nowakelock.xposedhook.model.Model
-import com.js.nowakelock.xposedhook.model.XPM
 import com.js.nowakelock.xposedhook.model.XpRecord
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers

@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.js.nowakelock.base.LogUtil
+import com.js.nowakelock.R
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.databinding.FragmentDaBinding
 import com.js.nowakelock.ui.mainActivity.MainViewModel
@@ -27,6 +27,7 @@ open class FBaseFragment : Fragment() {
 
     open var packageName: String = ""
     open val type: Type = Type.Wakelock
+    open val layout = R.layout.item_wakelock
 
     private val mainViewModel: MainViewModel by sharedViewModel(named("MainVm"))
     private lateinit var binding: FragmentDaBinding
@@ -97,7 +98,7 @@ open class FBaseFragment : Fragment() {
         mainViewModel.query.value?.let { query ->
             mainViewModel.sort.value?.let { sort ->
                 viewModel.getList(
-                    apps, query, sort
+                    apps, query, sort, layout
                 )
             }
         }
