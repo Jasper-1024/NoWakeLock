@@ -5,7 +5,6 @@
     android:id="@+id/navgraph"
     app:startDestination="@id/wakeLockFragment">
 
-
     <fragment
         android:id="@+id/wakeLockFragment"
         android:name="com.js.nowakelock.ui.fragment.WakeLockFragment"
@@ -15,6 +14,11 @@
         android:id="@+id/alarmFragment"
         android:name="com.js.nowakelock.ui.fragment.AlarmFragment"
         android:label="AlarmFragment"
+        tools:layout="@layout/fragment_da" />
+    <fragment
+        android:id="@+id/serviceFragment"
+        android:name="com.js.nowakelock.ui.fragment.ServiceFragment"
+        android:label="ServiceFragment"
         tools:layout="@layout/fragment_da" />
 
 

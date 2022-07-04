@@ -125,10 +125,8 @@ class WakelockHook {
         // handle wakelock acquire
         private fun handleWakeLockAcquire(
             param: XC_MethodHook.MethodHookParam,
-            pN: String,
-            wN: String,
-            lock: IBinder,
-            context: Context
+            pN: String, wN: String,
+            lock: IBinder, context: Context
         ) {
             val now = SystemClock.elapsedRealtime() //current time
 
@@ -150,10 +148,7 @@ class WakelockHook {
         }
 
         //handle wakelock release
-        private fun handleWakeLockRelease(
-            lock: IBinder,
-            context: Context
-        ) {
+        private fun handleWakeLockRelease(lock: IBinder, context: Context) {
             val now = SystemClock.elapsedRealtime() //current time
             val wlT: WLT = wlTs[lock]!!
 
