@@ -5,6 +5,7 @@ import com.js.nowakelock.BuildConfig
 import com.js.nowakelock.base.SPTools
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.xposedhook.XpUtil
+import com.js.nowakelock.xposedhook.hook.WakelockHook
 import de.robv.android.xposed.XSharedPreferences
 
 class XpNSP() {
@@ -38,6 +39,7 @@ class XpNSP() {
     }
 
     fun flag(name: String, packageName: String, type: Type): Boolean {
+        //XpUtil.log("$type name:$name package:$packageName flag:${getBool("${name}_${type}_${packageName}_flag")}")
         return getBool("${name}_${type}_${packageName}_flag")
     }
 
@@ -45,6 +47,9 @@ class XpNSP() {
         now: Long, lastActive: Long,
         name: String, packageName: String, type: Type
     ): Boolean {
+
+        //XpUtil.log("$type name:$name package:$packageName ati:${getLong("${name}_${type}_${packageName}_aTI")}")
+
         val ati = getLong("${name}_${type}_${packageName}_aTI")
 
         return (now - lastActive) < (ati * 1000)
@@ -70,7 +75,7 @@ class XpNSP() {
         return pref?.getBoolean(key, defValue) ?: defValue
     }
 
-    private fun getLong(key: String, defValue: Long = 0): Long {
+    fun getLong(key: String, defValue: Long = 0): Long {
         reFresh()
         return pref?.getLong(key, defValue) ?: defValue
     }

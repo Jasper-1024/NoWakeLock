@@ -16,9 +16,7 @@ import com.google.android.material.navigation.NavigationView
 import com.js.nowakelock.BasicApp
 import com.js.nowakelock.R
 import com.js.nowakelock.base.LogUtil
-import com.js.nowakelock.base.Status
 import com.js.nowakelock.base.getCPResult
-import com.js.nowakelock.data.db.entity.Info
 import com.js.nowakelock.data.provider.ProviderMethod
 import com.js.nowakelock.ui.base.AppType
 import com.js.nowakelock.ui.base.Sort
@@ -115,7 +113,7 @@ class MainActivity : AppCompatActivity() {
     private fun setSortCheck(item: MenuItem) {
         toolbar.menu.findItem(R.id.menu_sort_name).isChecked = false
         toolbar.menu.findItem(R.id.menu_sort_count).isChecked = false
-        toolbar.menu.findItem(R.id.menu_sort_countime).isChecked = false
+        toolbar.menu.findItem(R.id.menu_sort_counTime).isChecked = false
         item.isChecked = true
     }
 

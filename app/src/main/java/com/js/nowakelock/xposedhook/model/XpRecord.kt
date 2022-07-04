@@ -26,7 +26,7 @@ object XpRecord {
         val method = ProviderMethod.UpCount.value
 
         val result: Bundle? = getCPResult(context, method, args)
-        checkResult(result, method, name, packageName, type)
+//        checkResult(result, method, name, packageName, type)
     }
 
     /**
@@ -46,7 +46,7 @@ object XpRecord {
         val method = ProviderMethod.UpBlockCount.value
 
         val result: Bundle? = getCPResult(context, method, args)
-        checkResult(result, method, name, packageName, type)
+//        checkResult(result, method, name, packageName, type)
     }
 
     /**
@@ -68,24 +68,24 @@ object XpRecord {
         val method = ProviderMethod.UpCountTime.value
 
         val result: Bundle? = getCPResult(context, method, args)
-        checkResult(result, method, name, packageName, type)
+//        checkResult(result, method, name, packageName, type)
     }
 
-    private fun checkResult(
-        result: Bundle?,
-        method: String,
-        name: String,
-        packageName: String,
-        type: Type
-    ) {
-        result?.let {
-            if (name == (it.getString("name") ?: "")) {
-//                XpUtil.log("$packageName ${type.value}:$name $method success")
-                return
-            }
-        }
-        XpUtil.log("$packageName ${type.value}:$name $method failed")
-    }
+//    private fun checkResult(
+//        result: Bundle?,
+//        method: String,
+//        name: String,
+//        packageName: String,
+//        type: Type
+//    ) {
+//        result?.let {
+//            if (name == (it.getString("name") ?: "")) {
+////                XpUtil.log("$packageName ${type.value}:$name $method success")
+//                return
+//            }
+//        }
+//        XpUtil.log("$packageName ${type.value}:$name $method failed")
+//    }
 
     private fun getCPResult(context: Context, method: String, args: Bundle): Bundle? {
         val contentResolver = context.contentResolver
