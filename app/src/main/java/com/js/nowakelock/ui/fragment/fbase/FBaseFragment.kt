@@ -61,7 +61,8 @@ open class FBaseFragment : Fragment() {
         //bind viewModel
         binding.vm = viewModel
         //lifecycleOwner
-        binding.lifecycleOwner = this
+        //binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         //Divided Line
         setItemDecoration(binding.appList)
         // Refresh
