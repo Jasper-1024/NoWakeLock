@@ -68,6 +68,8 @@ open class FBaseFragment : Fragment() {
         // Refresh
         setSwipeRefreshLayout(binding.refresh)
 
+        setHasOptionsMenu(true)
+
         return binding.root
     }
 

@@ -40,9 +40,9 @@
     <string name="menu_filter_system">系统应用</string>
     <string name="menu_filter_modified">已修改应用</string>
     <string name="menu_filter_all">所有应用</string>
-    <string name="menu_filter_count">唤醒次数排序</string>
+    <string name="menu_filter_count">累计次数排序</string>
     <string name="menu_filter_name">名称排序</string>
-    <string name="menu_filter_countime">唤醒时间排序</string>
+    <string name="menu_filter_countime">累计时间排序</string>
     <string name="WakeLock">唤醒锁</string>
     <string name="Alarm">定时器</string>
     <string name="Service">服务</string>

@@ -36,11 +36,10 @@
                     android:onClick="sortCount"
                     android:title="@string/menu_filter_count" />
                 <item
-                    android:id="@+id/menu_sort_countime"
+                    android:id="@+id/menu_sort_counTime"
                     android:checkable="true"
                     android:onClick="sortCountTime"
-                    android:title="@string/menu_filter_countime"
-                    android:visible="true" />
+                    android:title="@string/menu_filter_countime" />
 
                 <item
                     android:id="@+id/menu_test"
