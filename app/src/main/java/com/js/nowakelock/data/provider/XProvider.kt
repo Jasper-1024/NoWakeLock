@@ -147,8 +147,13 @@ class XProvider(
         val type: Type = stringToType(bundle.getString("type") ?: "")
         val packageName = bundle.getString("packageName") ?: ""
         val infos: Array<Info> = runBlocking {
-            if (packageName == "")
+
+            if (packageName == "" && type == Type.UnKnow)
+                dao.loadInfos().toTypedArray()
+            else if (packageName == "" && type != Type.UnKnow)
                 dao.loadInfos(type).toTypedArray()
+            else if (packageName != "" && type == Type.UnKnow)
+                dao.loadInfos(packageName).toTypedArray()
             else
                 dao.loadInfos(packageName, type).toTypedArray()
         }

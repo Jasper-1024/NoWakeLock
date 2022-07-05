@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.js.nowakelock.ui.appDa.ItemAppDA" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@{item.data.info.system? @color/SystemApp : @color/UserApp}"
+        android:onClick="@{(theView)->item.handle.onClick(theView,item.data.info)}"
+        android:padding="8dp">
+
+
+        <TextView
+            android:id="@+id/contTime2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showTime="@{item.data.count.countTime}" />
+
+        <TextView
+            android:id="@+id/count"
+            android:layout_width="44dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showCount="@{item.data.count.count}"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:id="@+id/appListIcon"
+            android:layout_width="@android:dimen/app_icon_size"
+            android:layout_height="@android:dimen/app_icon_size"
+            android:contentDescription="TODO"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/count"
+            app:layout_constraintTop_toTopOf="parent"
+            app:loadIcon="@{item.data.info}"
+            tools:ignore="ContentDescription,HardcodedText,MissingConstraints" />
+
+        <TextView
+            android:id="@+id/appListPackageName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:gravity="center_vertical"
+            android:text="@{item.data.info.label}"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/contTime2"
+            app:layout_constraintStart_toEndOf="@+id/appListIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints,SmallSp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

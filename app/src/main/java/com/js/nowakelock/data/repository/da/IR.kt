@@ -1,4 +1,4 @@
-package com.js.nowakelock.data.repository
+package com.js.nowakelock.data.repository.da
 
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.data.db.dao.DADao

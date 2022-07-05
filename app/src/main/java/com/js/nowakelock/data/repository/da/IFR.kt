@@ -1,4 +1,4 @@
-package com.js.nowakelock.data.repository
+package com.js.nowakelock.data.repository.da
 
 import android.os.Bundle
 import com.js.nowakelock.BasicApp

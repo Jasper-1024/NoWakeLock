@@ -8,16 +8,17 @@ import com.js.nowakelock.data.db.converters.TypeConvert
 import com.js.nowakelock.data.db.dao.AppInfoDao
 import com.js.nowakelock.data.db.dao.AppStDao
 import com.js.nowakelock.data.db.dao.DADao
-import com.js.nowakelock.data.db.entity.AppInfo
-import com.js.nowakelock.data.db.entity.AppSt
-import com.js.nowakelock.data.db.entity.Info
-import com.js.nowakelock.data.db.entity.St
+import com.js.nowakelock.data.db.entity.*
 
 @Database(
     entities = [
         AppInfo::class, AppSt::class, St::class, Info::class
     ],
-    version = 1
+    views = [AppCount::class],
+    version = 2,
+    autoMigrations = [
+        androidx.room.AutoMigration(from = 1, to = 2)
+    ]
 )
 @TypeConverters(SetConvert::class, TypeConvert::class)
 abstract class AppDatabase : RoomDatabase() {

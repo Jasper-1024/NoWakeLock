@@ -2,10 +2,13 @@ package com.js.nowakelock
 
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.Type
-import com.js.nowakelock.data.repository.FR
-import com.js.nowakelock.data.repository.IAlarmR
-import com.js.nowakelock.data.repository.IServiceR
-import com.js.nowakelock.data.repository.IWakelockR
+import com.js.nowakelock.data.repository.appda.AppDaAR
+import com.js.nowakelock.data.repository.appda.AppDaRepo
+import com.js.nowakelock.data.repository.da.FR
+import com.js.nowakelock.data.repository.da.IAlarmR
+import com.js.nowakelock.data.repository.da.IServiceR
+import com.js.nowakelock.data.repository.da.IWakelockR
+import com.js.nowakelock.ui.appDa.AppDaViewModel
 import com.js.nowakelock.ui.fragment.fbase.FBaseViewModel
 import com.js.nowakelock.ui.mainActivity.MainViewModel
 import org.koin.core.qualifier.named
@@ -13,6 +16,14 @@ import org.koin.dsl.module
 import org.koin.androidx.viewmodel.dsl.viewModel
 
 var repository = module {
+
+    /** AppRepo */
+    single<AppDaRepo>(named("AppDaR")) {
+        AppDaAR(
+            AppDatabase.getInstance(BasicApp.context).appInfoDao(),
+            AppDatabase.getInstance(BasicApp.context).dADao(),
+        )
+    }
     single<FR>(named("WakelockR")) {
         IWakelockR(AppDatabase.getInstance(BasicApp.context).dADao())
     }
@@ -43,6 +54,10 @@ var viewModel = module {
     // MainViewModel
     viewModel(named("MainVm")) {
         MainViewModel()
+    }
+
+    viewModel(named("AppDaVM")) {
+        AppDaViewModel(get(named("AppDaR")))
     }
 
 }

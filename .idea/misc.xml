@@ -5,9 +5,11 @@
       <map>
         <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/layout/fragment.xml" value="0.264" />
+        <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/layout/fragment_appda.xml" value="0.24947916666666667" />
         <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/layout/fragment_da.xml" value="0.15715579710144928" />
         <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/layout/item.xml" value="0.2477355072463768" />
         <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/layout/item_alarm.xml" value="0.24947916666666667" />
+        <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/layout/item_appda.xml" value="0.264" />
         <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/layout/item_appinfo.xml" value="0.20425724637681159" />
         <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/layout/item_da.xml" value="0.264" />
         <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/layout/item_service.xml" value="0.24947916666666667" />

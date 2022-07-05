@@ -24,7 +24,7 @@
         tools:ignore="ExtraText" />
 
     <item
-        android:id="@+id/appListFragment"
+        android:id="@+id/appDaFragment"
         android:icon="@drawable/ic_apps_24dp"
         android:title="@string/Apps"
         android:visible="true"

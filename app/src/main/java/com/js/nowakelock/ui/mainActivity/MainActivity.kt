@@ -48,7 +48,11 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.wakeLockFragment), drawerLayout)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.appDaFragment, R.id.wakeLockFragment, R.id.alarmFragment, R.id.serviceFragment
+            ), drawerLayout
+        )
 
         // 初始化
         drawerLayout = findViewById(R.id.drawer_layout)

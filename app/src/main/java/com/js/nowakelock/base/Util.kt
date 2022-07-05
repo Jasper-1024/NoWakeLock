@@ -26,23 +26,16 @@ fun getTime(time: Long): String {
 //    return (time/1000).toString()
 }
 
+// filter list
+inline fun <T : Any> List<T>.appType(status: (T) -> Boolean): List<T> {
+    return this.filter { status(it) }
+}
+
 fun menuGone(menu: Menu, set: Set<Int>) {
     set.forEach {
         val filterUser = menu.findItem(it)
         filterUser.isVisible = false
     }
-}
-
-//status
-data class cache(
-    var app: Int = 1,
-    var sort: Int = 1,
-    var query: String = ""
-)
-
-// filter list
-inline fun <T : BaseItem> List<T>.app(status: (T) -> Boolean): List<T> {
-    return this.filter { status(it) }
 }
 
 // search list
