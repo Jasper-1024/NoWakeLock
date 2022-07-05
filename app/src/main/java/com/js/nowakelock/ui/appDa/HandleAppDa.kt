@@ -7,11 +7,11 @@ import com.js.nowakelock.ui.databinding.item.BaseItemHandle
 
 class HandleAppDa : BaseItemHandle() {
     fun onClick(view: View, appInfo: AppInfo) {
-//        val direction =
-//            AppListFragmentDirections.actionAppListFragmentToAppFragment(
-//                appInfo.packageName,
-//                appInfo.label
-//            )
-//        view.findNavController().navigate(direction)
+        val direction =
+            AppDaFragmentDirections.actionAppDaFragmentToAppFragment(
+                appInfo.packageName,
+                appInfo.label
+            )
+        view.findNavController().navigate(direction)
     }
 }

@@ -8,7 +8,30 @@
     <fragment
         android:id="@+id/appDaFragment"
         android:name="com.js.nowakelock.ui.appDa.AppDaFragment"
-        android:label="AppDaFragment" />
+        android:label="AppDaFragment">
+        <action
+            android:id="@+id/action_appDaFragment_to_appFragment"
+            app:destination="@id/appFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/appFragment"
+        android:name="com.js.nowakelock.ui.app.AppFragment"
+        android:label="{label}"
+        tools:layout="@layout/fragment_app">
+        <argument
+            android:name="packageName"
+            android:defaultValue='""'
+            app:argType="string" />
+        <argument
+            android:name="label"
+            android:defaultValue='""'
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/wakeLockFragment"
