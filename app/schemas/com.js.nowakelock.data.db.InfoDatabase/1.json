@@ -1,0 +1,65 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "5b683cfbdf458b730fca586ceba76831",
+    "entities": [
+      {
+        "tableName": "info",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name_info` TEXT NOT NULL, `type_info` TEXT NOT NULL, `packageName_info` TEXT NOT NULL, `count` INTEGER NOT NULL, `blockCount` INTEGER NOT NULL, `countTime` INTEGER NOT NULL, PRIMARY KEY(`name_info`, `type_info`))",
+        "fields": [
+          {
+            "fieldPath": "name",
+            "columnName": "name_info",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type_info",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName_info",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "count",
+            "columnName": "count",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "blockCount",
+            "columnName": "blockCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "countTime",
+            "columnName": "countTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "name_info",
+            "type_info"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5b683cfbdf458b730fca586ceba76831')"
+    ]
+  }
+}

@@ -1,0 +1,177 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "3b0722a292c175b0db1408c2721bcb41",
+    "entities": [
+      {
+        "tableName": "appInfo",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`packageName` TEXT NOT NULL, `uid` INTEGER NOT NULL, `label` TEXT NOT NULL, `icon` INTEGER NOT NULL, `system` INTEGER NOT NULL, `enabled` INTEGER NOT NULL, `persistent` INTEGER NOT NULL, `processName` TEXT NOT NULL, PRIMARY KEY(`packageName`))",
+        "fields": [
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "label",
+            "columnName": "label",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "icon",
+            "columnName": "icon",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "system",
+            "columnName": "system",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "enabled",
+            "columnName": "enabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "persistent",
+            "columnName": "persistent",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "processName",
+            "columnName": "processName",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "packageName"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "appSt",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`packageName_st` TEXT NOT NULL, `wakelock` INTEGER NOT NULL, `alarm` INTEGER NOT NULL, `service` INTEGER NOT NULL, `rE_Wakelock` TEXT NOT NULL, `rE_Alarm` TEXT NOT NULL, `rE_Service` TEXT NOT NULL, PRIMARY KEY(`packageName_st`))",
+        "fields": [
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName_st",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wakelock",
+            "columnName": "wakelock",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "alarm",
+            "columnName": "alarm",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "service",
+            "columnName": "service",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rE_Wakelock",
+            "columnName": "rE_Wakelock",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rE_Alarm",
+            "columnName": "rE_Alarm",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rE_Service",
+            "columnName": "rE_Service",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "packageName_st"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "st",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `type` TEXT NOT NULL, `packageName` TEXT NOT NULL, `flag` INTEGER NOT NULL, `allowTimeInterval` INTEGER NOT NULL, PRIMARY KEY(`name`, `type`))",
+        "fields": [
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "flag",
+            "columnName": "flag",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "allowTimeInterval",
+            "columnName": "allowTimeInterval",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "name",
+            "type"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3b0722a292c175b0db1408c2721bcb41')"
+    ]
+  }
+}
