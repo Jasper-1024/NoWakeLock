@@ -2,16 +2,18 @@ package com.js.nowakelock.ui.fragment.fbase
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.js.nowakelock.R
+import com.js.nowakelock.base.menuGone
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.databinding.FragmentDaBinding
 import com.js.nowakelock.ui.mainActivity.MainViewModel
@@ -67,8 +69,8 @@ open class FBaseFragment : Fragment() {
         setItemDecoration(binding.appList)
         // Refresh
         setSwipeRefreshLayout(binding.refresh)
-
-        setHasOptionsMenu(true)
+        // Menu
+        setMenu()
 
         return binding.root
     }
@@ -129,4 +131,22 @@ open class FBaseFragment : Fragment() {
             DividerItemDecoration.VERTICAL
         )
     )
+
+    open fun setMenu() {
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuGone(
+                    menu,
+                    setOf(
+                        R.id.menu_filter_user,
+                        R.id.menu_filter_system,
+                        R.id.menu_filter_all
+                    )
+                )
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean = true
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
 }

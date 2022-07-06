@@ -9,7 +9,6 @@ import com.js.nowakelock.data.db.entity.St
 import com.js.nowakelock.data.repository.da.FR
 import com.js.nowakelock.ui.base.Sort
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.text.Collator
 import java.util.*

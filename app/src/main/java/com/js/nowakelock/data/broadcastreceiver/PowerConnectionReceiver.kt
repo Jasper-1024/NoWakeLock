@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.preference.PreferenceManager
 import com.js.nowakelock.BasicApp
-import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.getCPResult
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.dao.DADao

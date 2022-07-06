@@ -5,7 +5,6 @@ import com.js.nowakelock.BuildConfig
 import com.js.nowakelock.base.SPTools
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.xposedhook.XpUtil
-import com.js.nowakelock.xposedhook.hook.WakelockHook
 import de.robv.android.xposed.XSharedPreferences
 
 class XpNSP {
@@ -75,7 +74,7 @@ class XpNSP {
         return pref?.getBoolean(key, defValue) ?: defValue
     }
 
-    fun getLong(key: String, defValue: Long = 0): Long {
+    private fun getLong(key: String, defValue: Long = 0): Long {
         reFresh()
         return pref?.getLong(key, defValue) ?: defValue
     }

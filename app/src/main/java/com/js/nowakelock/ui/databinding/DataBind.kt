@@ -13,7 +13,6 @@ import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.request.RequestOptions
 import com.js.nowakelock.base.getFormattedTime
 import com.js.nowakelock.data.db.entity.AppInfo
-import com.js.nowakelock.data.db.entity.Info
 import com.js.nowakelock.ui.databinding.item.BaseItem
 import java.util.concurrent.TimeUnit
 

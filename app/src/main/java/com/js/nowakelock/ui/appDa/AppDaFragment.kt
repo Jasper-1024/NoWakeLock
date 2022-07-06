@@ -2,9 +2,7 @@ package com.js.nowakelock.ui.appDa
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.js.nowakelock.R
+import com.js.nowakelock.base.menuGone
 import com.js.nowakelock.databinding.FragmentAppdaBinding
 import com.js.nowakelock.ui.mainActivity.MainViewModel
 import kotlinx.coroutines.Dispatchers
@@ -54,8 +53,6 @@ class AppDaFragment : Fragment() {
         setItemDecoration(binding.appList)
         // Refresh
         setSwipeRefreshLayout(binding.refresh)
-
-        setHasOptionsMenu(true)
         return binding.root
     }
 

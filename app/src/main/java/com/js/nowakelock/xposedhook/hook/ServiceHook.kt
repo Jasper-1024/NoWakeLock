@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
-import android.os.SystemClock
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.xposedhook.XpUtil
 import com.js.nowakelock.xposedhook.model.XpNSP
@@ -20,6 +19,9 @@ class ServiceHook {
         private val type = Type.Service
 
         fun hookService(lpparam: XC_LoadPackage.LoadPackageParam) {
+
+            XpUtil.log("Hooking Service ${Build.VERSION.SDK_INT}")
+
             when (Build.VERSION.SDK_INT) {
                 //Try for alarm hooks for API levels >= 31 (S)
                 in Build.VERSION_CODES.S..40 -> serviceHook31to32(lpparam)
@@ -41,6 +43,9 @@ class ServiceHook {
          */
 
         private fun serviceHook31to32(lpparam: XC_LoadPackage.LoadPackageParam) {
+
+            XpUtil.log("Hooking Service for API levels >= 31 (S)")
+
             XposedHelpers.findAndHookMethod("com.android.server.am.ActiveServices",
                 lpparam.classLoader,
                 "startServiceLocked",
@@ -69,6 +74,8 @@ class ServiceHook {
         }
 
         private fun serviceHook30(lpparam: XC_LoadPackage.LoadPackageParam) {
+            XpUtil.log("Hooking Service for API levels 30")
+
             XposedHelpers.findAndHookMethod("com.android.server.am.ActiveServices",
                 lpparam.classLoader,
                 "startServiceLocked",

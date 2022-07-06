@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/appDaFragment"
         android:name="com.js.nowakelock.ui.appDa.AppDaFragment"
-        android:label="AppDaFragment">
+        android:label="@string/Apps">
         <action
             android:id="@+id/action_appDaFragment_to_appFragment"
             app:destination="@id/appFragment"
@@ -52,7 +52,7 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.js.nowakelock.ui.settings.SettingsFragment"
-        android:label="Settings" />
+        android:label="@string/settings"  />
 
 
 </navigation>

@@ -24,14 +24,36 @@ class AlarmHook {
         fun hookAlarm(lpparam: XC_LoadPackage.LoadPackageParam) {
 
             when (Build.VERSION.SDK_INT) {
-                //Try for alarm hooks for API levels >= 29 (Q or higher)
-                in Build.VERSION_CODES.Q..40 -> alarmHook29(lpparam)
+                //Try for alarm hooks for API levels >= 31 (S)
+                in Build.VERSION_CODES.S..40 -> alarmHook31to32(lpparam)
+                //Try for alarm hooks for API levels 29-30 (Q R)
+                in Build.VERSION_CODES.Q..Build.VERSION_CODES.R -> alarmHook29to30(lpparam)
                 //Try for alarm hooks for API levels < 29 > 24.(N ~ P)
                 in Build.VERSION_CODES.N..Build.VERSION_CODES.P -> alarmHook24to28(lpparam)
             }
         }
 
-        private fun alarmHook29(lpparam: XC_LoadPackage.LoadPackageParam) {
+        private fun alarmHook31to32(lpparam: XC_LoadPackage.LoadPackageParam) {
+            XposedHelpers.findAndHookMethod("com.android.server.alarm.AlarmManagerService",
+                lpparam.classLoader,
+                "triggerAlarmsLocked",
+                ArrayList::class.java, Long::class.javaPrimitiveType,
+                object : XC_MethodHook() {
+                    @Throws(Throwable::class)
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        val triggerList = param.args[0] as ArrayList<*>
+                        val context =
+                            XposedHelpers.getObjectField(param.thisObject, "mContext") as Context
+                        hookAlarmsLocked(
+//                            param,
+                            triggerList, context
+                        )
+                    }
+                })
+        }
+
+        private fun alarmHook29to30(lpparam: XC_LoadPackage.LoadPackageParam) {
+
             XposedHelpers.findAndHookMethod("com.android.server.AlarmManagerService",
                 lpparam.classLoader,
                 "triggerAlarmsLocked",

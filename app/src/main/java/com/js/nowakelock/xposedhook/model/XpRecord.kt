@@ -2,11 +2,9 @@ package com.js.nowakelock.xposedhook.model
 
 import android.content.Context
 import android.os.Bundle
-import com.js.nowakelock.base.getCPResult
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.data.provider.ProviderMethod
 import com.js.nowakelock.data.provider.getURI
-import com.js.nowakelock.xposedhook.XpUtil
 
 object XpRecord {
     /**

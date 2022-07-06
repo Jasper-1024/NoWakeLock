@@ -14,7 +14,6 @@ import com.js.nowakelock.R
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.data.db.entity.Info
 import com.js.nowakelock.data.provider.getURI
-import com.js.nowakelock.ui.databinding.item.BaseItem
 import java.util.*
 
 //Long to Time

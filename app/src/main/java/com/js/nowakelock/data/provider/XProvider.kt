@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.infoToBundle
 import com.js.nowakelock.base.stringToType
 import com.js.nowakelock.data.db.InfoDatabase

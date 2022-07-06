@@ -2,6 +2,10 @@ package com.js.nowakelock.ui.fragment
 
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import com.js.nowakelock.R
 import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.menuGone
@@ -12,18 +16,21 @@ class WakeLockFragment : FBaseFragment() {
     override val type: Type = Type.Wakelock
     override val layout: Int = R.layout.item_wakelock
 
-    //set toolbar menu
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        LogUtil.d("menu", "onCreateOptionsMenu")
+    override fun setMenu() {
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuGone(
+                    menu,
+                    setOf(
+                        R.id.menu_filter_user,
+                        R.id.menu_filter_system,
+                        R.id.menu_filter_all
+                    )
+                )
+            }
 
-        menuGone(
-            menu,
-            setOf(
-                R.id.menu_filter_user,
-                R.id.menu_filter_system,
-                R.id.menu_filter_all
-            )
-        )
-        super.onCreateOptionsMenu(menu, inflater)
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean = true
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 }

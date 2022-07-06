@@ -2,26 +2,21 @@ package com.js.nowakelock.ui.mainActivity
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.MenuProvider
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
-import com.js.nowakelock.BasicApp
 import com.js.nowakelock.R
-import com.js.nowakelock.base.LogUtil
-import com.js.nowakelock.base.getCPResult
-import com.js.nowakelock.data.provider.ProviderMethod
 import com.js.nowakelock.ui.base.AppType
 import com.js.nowakelock.ui.base.Sort
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
 
@@ -69,6 +64,8 @@ class MainActivity : AppCompatActivity() {
         if (!isModuleActive()) {
             Toast.makeText(this, getString(R.string.active), Toast.LENGTH_LONG).show()
         }
+
+        test()
     }
 
     private fun setupNavigationDrawer() {
@@ -78,11 +75,25 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    //ToolBar menu
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.toolbar, menu)
-        return true
+    fun test() {
+        // Add menu items without overriding methods in the Activity
+        addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                // Add menu items here
+                menuInflater.inflate(R.menu.toolbar, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return true
+            }
+        })
     }
+
+    //ToolBar menu
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        menuInflater.inflate(R.menu.toolbar, menu)
+//        return true
+//    }
 
     fun statusUser(menu: MenuItem) {
         mainViewModel.type.postValue(AppType.User)
