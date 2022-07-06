@@ -45,6 +45,12 @@ interface InfoDao : BaseDao<Info> {
     @Query("update info set countTime = 0 where type_info = :type")
     suspend fun rstAllCountTime(type: Type)
 
+    @Query("update info set count = 0")
+    suspend fun rstAllCount()
+
+    @Query("update info set countTime = 0")
+    suspend fun rstAllCountTime()
+
     @Query("DELETE FROM info")
     suspend fun clearAll()
 }

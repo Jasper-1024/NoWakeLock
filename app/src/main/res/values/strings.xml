@@ -19,8 +19,8 @@
     <string name="updateDb_title">Data synchronization</string>
     <string name="updateDb_summary">Synchronously wake-up data information(second)</string>
     <string name="other">Other</string>
-    <string name="powerFlag_title">Reset database</string>
-    <string name="powerFlag_summary">After charged, reset database</string>
+    <string name="powerFlag_title">Reset count</string>
+    <string name="powerFlag_summary">After charged, reset count</string>
     <string name="theme">Theme</string>
     <string name="theme_list">General theme</string>
     <string name="light_theme_name">Light</string>
@@ -81,6 +81,9 @@
     <string name="action_select_all">Select all</string>
     <string name="action_select_inverse">"Select inverse"</string>
     <string name="action_set_ATI">"Set allow time interval"</string>
+    <string name="database">DataBase</string>
+    <string name="clear_summary">When reset count,clear inactive records.</string>
+    <string name="clear_title">Clear inactive records</string>
     <string-array name="scopes" translatable="false">
         <item>android</item>
         <item>com.android.providers.settings</item>

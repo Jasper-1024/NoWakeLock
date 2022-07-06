@@ -79,4 +79,11 @@ open class IFR(private val daDao: DADao) : FR {
         }
     }
 
+    override suspend fun resumeSt2Info() {
+        daDao.insert(
+            daDao.loadStsDB(type).map {
+                Info(name = it.name, type = it.type, packageName = it.packageName)
+            })
+    }
+
 }

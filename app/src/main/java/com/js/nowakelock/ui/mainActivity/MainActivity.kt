@@ -121,19 +121,6 @@ class MainActivity : AppCompatActivity() {
         item.isChecked = true
     }
 
-    fun test(menu: MenuItem) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val args = Bundle()
-            val result = getCPResult(BasicApp.context, ProviderMethod.ClearAll.value, args)
-            if (result != null) {
-                if (result.getString("clear") == "clear") {
-                    LogUtil.d("main", "clear success")
-                }
-            }
-        }
-
-    }
-
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         // 搜索栏
         val searchView = menu.findItem(R.id.search).actionView as SearchView

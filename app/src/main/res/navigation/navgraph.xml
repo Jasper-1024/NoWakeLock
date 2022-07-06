@@ -49,5 +49,10 @@
         android:label="@string/Service"
         tools:layout="@layout/fragment_da" />
 
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.js.nowakelock.ui.settings.SettingsFragment"
+        android:label="Settings" />
+
 
 </navigation>

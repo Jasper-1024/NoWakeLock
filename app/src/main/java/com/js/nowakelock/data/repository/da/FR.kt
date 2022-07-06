@@ -20,4 +20,9 @@ interface FR {
      * @return List<Info>
      */
     suspend fun getCPInfos(packageName: String): List<Info>
+
+    /**
+     * db st -> db info
+     */
+    suspend fun resumeSt2Info()
 }

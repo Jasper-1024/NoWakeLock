@@ -23,6 +23,7 @@ enum class ProviderMethod(var value: String) {
     UpCountTime("UpCountTime"),
     LoadInfos("LoadInfos"),
     LoadInfo("LoadInfo"),
+    ClearCount("ClearCount"),
     ClearAll("ClearAll")
 }
 
@@ -53,6 +54,7 @@ class XProvider(
             ProviderMethod.UpCountTime.value -> upCountTime(bundle)
             ProviderMethod.LoadInfos.value -> loadInfos(bundle)
             ProviderMethod.LoadInfo.value -> loadInfo(bundle)
+            ProviderMethod.ClearCount.value -> clearCount(bundle)
             ProviderMethod.ClearAll.value -> clearAll(bundle)
             "test" -> test(bundle)
             else -> null
@@ -94,10 +96,11 @@ class XProvider(
             }
         }
 
-        return Bundle().let {
-            it.putString("name", name)
-            it
-        }
+//        return Bundle().let {
+//            it.putString("name", name)
+//            it
+//        }
+        return Bundle()
     }
 
     private fun upBlockCount(bundle: Bundle): Bundle {
@@ -115,10 +118,11 @@ class XProvider(
                 )
             }
         }
-        return Bundle().let {
-            it.putString("name", name)
-            it
-        }
+//        return Bundle().let {
+//            it.putString("name", name)
+//            it
+//        }
+        return Bundle()
     }
 
     private fun upCountTime(bundle: Bundle): Bundle {
@@ -137,10 +141,11 @@ class XProvider(
                 )
             }
         }
-        return Bundle().let {
-            it.putString("name", name)
-            it
-        }
+//        return Bundle().let {
+//            it.putString("name", name)
+//            it
+//        }
+        return Bundle()
     }
 
     private fun loadInfos(bundle: Bundle): Bundle {
@@ -175,13 +180,18 @@ class XProvider(
         return infoToBundle(info)
     }
 
+    private fun clearCount(bundle: Bundle): Bundle {
+        runBlocking {
+            dao.rstAllCount()
+            dao.rstAllCountTime()
+        }
+        return Bundle()
+    }
+
     private fun clearAll(bundle: Bundle): Bundle {
         runBlocking {
             dao.clearAll()
         }
-        return Bundle().let {
-            it.putString("clear", "clear")
-            it
-        }
+        return Bundle()
     }
 }

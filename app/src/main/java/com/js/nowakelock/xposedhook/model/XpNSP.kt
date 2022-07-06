@@ -8,7 +8,7 @@ import com.js.nowakelock.xposedhook.XpUtil
 import com.js.nowakelock.xposedhook.hook.WakelockHook
 import de.robv.android.xposed.XSharedPreferences
 
-class XpNSP() {
+class XpNSP {
 
     @Volatile
     var pref: XSharedPreferences? = null

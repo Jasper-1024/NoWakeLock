@@ -8,7 +8,6 @@ import com.js.nowakelock.data.db.entity.AppDA
 import com.js.nowakelock.data.repository.appda.AppDaRepo
 import com.js.nowakelock.ui.base.AppType
 import com.js.nowakelock.ui.base.Sort
-import com.js.nowakelock.ui.fragment.fbase.ItemDA
 import kotlinx.coroutines.launch
 import java.text.Collator
 import java.util.*

@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/drawable/ic_apps_24dp.xml" value="0.247" />
+        <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/drawable/ic_database_24.xml" value="0.247" />
+        <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/drawable/ic_filter_list_24dp.xml" value="0.247" />
+        <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/drawable/ic_help_24dp.xml" value="0.247" />
+        <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/drawable/ic_other_24dp.xml" value="0.255" />
         <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/layout/fragment.xml" value="0.264" />
         <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/layout/fragment_app.xml" value="0.24947916666666667" />
@@ -20,7 +25,7 @@
         <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/menu/nav.xml" value="0.21388888888888888" />
         <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/menu/options_menu.xml" value="0.21388888888888888" />
         <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/menu/toolbar.xml" value="0.24947916666666667" />
-        <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/xml/settings.xml" value="0.12132725430597771" />
+        <entry key="..\:/Android/repository/NoWakeLock/app/src/main/res/xml/settings.xml" value="0.2" />
       </map>
     </option>
   </component>

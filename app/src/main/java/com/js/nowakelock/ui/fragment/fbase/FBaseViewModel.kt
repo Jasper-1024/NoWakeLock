@@ -34,6 +34,7 @@ class FBaseViewModel(private var packageName: String = "", private var fR: FR) :
         viewModelScope.launch(Dispatchers.IO) {
             val infos = fR.getCPInfos(packageName)
             fR.insertInfos(infos)
+            fR.resumeSt2Info()
         }
     }
 

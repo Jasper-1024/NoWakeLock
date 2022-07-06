@@ -16,7 +16,6 @@ import com.js.nowakelock.databinding.FragmentAppdaBinding
 import com.js.nowakelock.ui.mainActivity.MainViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
