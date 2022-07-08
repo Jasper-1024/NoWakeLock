@@ -2,6 +2,7 @@ package com.js.nowakelock.ui.fragment.fbase
 
 import androidx.lifecycle.*
 import com.js.nowakelock.base.SPTools
+import com.js.nowakelock.base.clipboardCopy
 import com.js.nowakelock.base.search
 import com.js.nowakelock.base.sort
 import com.js.nowakelock.data.db.entity.DA
@@ -52,6 +53,10 @@ class FBaseViewModel(private var packageName: String = "", private var fR: FR) :
                 }
             }
         }
+    }
+
+    fun copy(str: String): Boolean {
+        return clipboardCopy(str)
     }
 
 

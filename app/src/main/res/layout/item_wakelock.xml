@@ -31,6 +31,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:gravity="center_vertical"
+            android:onLongClick="@{() -> item.handle.copy(item.data)}"
             android:text="@{item.data.info.name}"
             android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/contTime"

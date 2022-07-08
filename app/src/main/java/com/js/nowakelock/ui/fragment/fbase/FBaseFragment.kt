@@ -16,6 +16,7 @@ import com.js.nowakelock.R
 import com.js.nowakelock.base.menuGone
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.databinding.FragmentDaBinding
+import com.js.nowakelock.databinding.FragmentDasBinding
 import com.js.nowakelock.ui.mainActivity.MainViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,7 +33,7 @@ open class FBaseFragment : Fragment() {
     open val layout = R.layout.item_wakelock
 
     private val mainViewModel: MainViewModel by sharedViewModel(named("MainVm"))
-    private lateinit var binding: FragmentDaBinding
+    private lateinit var binding: FragmentDasBinding
 
     open val viewModel: FBaseViewModel by viewModel(named("FVm")) {
         parametersOf(packageName, type)
@@ -57,7 +58,7 @@ open class FBaseFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentDaBinding.inflate(inflater, container, false)
+        binding = FragmentDasBinding.inflate(inflater, container, false)
         context ?: return binding.root
 
         //bind viewModel

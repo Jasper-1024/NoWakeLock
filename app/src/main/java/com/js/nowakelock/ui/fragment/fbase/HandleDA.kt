@@ -7,4 +7,8 @@ class HandleDA(private val FBVm: FBaseViewModel) : BaseItemHandle() {
     fun saveSt(da: DA) {
         da.st?.let { FBVm.setSt(it) }
     }
+
+    fun copy(da: DA): Boolean {
+        return FBVm.copy(da.info.name)
+    }
 }
