@@ -1,4 +1,4 @@
-package com.js.nowakelock.data.repository.da
+package com.js.nowakelock.data.repository.das
 
 import com.js.nowakelock.data.db.entity.DA
 import com.js.nowakelock.data.db.entity.Info

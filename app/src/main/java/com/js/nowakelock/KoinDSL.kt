@@ -4,10 +4,10 @@ import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.data.repository.appda.AppDaAR
 import com.js.nowakelock.data.repository.appda.AppDaRepo
-import com.js.nowakelock.data.repository.da.FR
-import com.js.nowakelock.data.repository.da.IAlarmR
-import com.js.nowakelock.data.repository.da.IServiceR
-import com.js.nowakelock.data.repository.da.IWakelockR
+import com.js.nowakelock.data.repository.das.FR
+import com.js.nowakelock.data.repository.das.IAlarmR
+import com.js.nowakelock.data.repository.das.IServiceR
+import com.js.nowakelock.data.repository.das.IWakelockR
 import com.js.nowakelock.ui.appDa.AppDaViewModel
 import com.js.nowakelock.ui.fragment.fbase.FBaseViewModel
 import com.js.nowakelock.ui.mainActivity.MainViewModel

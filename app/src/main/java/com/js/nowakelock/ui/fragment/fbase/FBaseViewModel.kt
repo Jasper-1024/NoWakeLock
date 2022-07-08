@@ -1,13 +1,12 @@
 package com.js.nowakelock.ui.fragment.fbase
 
 import androidx.lifecycle.*
-import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.SPTools
 import com.js.nowakelock.base.search
 import com.js.nowakelock.base.sort
 import com.js.nowakelock.data.db.entity.DA
 import com.js.nowakelock.data.db.entity.St
-import com.js.nowakelock.data.repository.da.FR
+import com.js.nowakelock.data.repository.das.FR
 import com.js.nowakelock.ui.base.Sort
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
