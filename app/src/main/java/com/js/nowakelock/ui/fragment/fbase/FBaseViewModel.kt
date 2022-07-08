@@ -1,6 +1,7 @@
 package com.js.nowakelock.ui.fragment.fbase
 
 import androidx.lifecycle.*
+import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.SPTools
 import com.js.nowakelock.base.search
 import com.js.nowakelock.base.sort
@@ -31,9 +32,9 @@ class FBaseViewModel(private var packageName: String = "", private var fR: FR) :
 
     fun syncInfos() {
         viewModelScope.launch(Dispatchers.IO) {
+            fR.resumeSt2Info()
             val infos = fR.getCPInfos(packageName)
             fR.insertInfos(infos)
-            fR.resumeSt2Info()
         }
     }
 

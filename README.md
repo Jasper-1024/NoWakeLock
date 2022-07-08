@@ -1,43 +1,51 @@
 # NoWakeLock
 
-* This is English version(although a lot of google translation😂), for china user [中文版](https://github.com/Jasper-1024/NoWakeLock/blob/dev/README/README_zh_cn.md)
+* This is English version(although a lot of google translation😂), for china
+  user [中文版](https://github.com/Jasper-1024/NoWakeLock/blob/dev/README/README_zh_cn.md)
 
-* A major update is being planned, but it will take a lot of time.
+* ~~A major update is being planned, but it will take a lot of time.~~ it came now 2.0 alpha.
 
 * An application that controls Android wake can run on Android N and later.
 
-* **Serious warning** This application is still in Beta testing stage. I will not be responsible for any damage caused by the software to your device.
+* **Serious warning**
+    * This application is still in Beta testing stage. I will not be responsible for any damage
+      caused by the software to your device.
+    * Version 2.0 is not compatible with the previous configuration, you need to clear all
+      application data.
 
 ## About
 
-* With the update of Android version, doze mode is enough to suppress the power consumption of the background of the application, but some advanced users still hope to be able to control the wakelock alarm or service by themselves.
+* With the update of Android version, doze mode is enough to suppress the power consumption of the
+  background of the application, but some advanced users still hope to be able to control the
+  wakelock alarm or service by themselves.
 
-* Amplify is good enough to meet the needs of most people, but after Android N, Amplify stops updating.
+* Amplify is good enough to meet the needs of most people, but after Android N, Amplify stops
+  updating.
 
 * So NoWakeLock expects to achieve the same function as Amplify does on Android N and later.
 
-## Features
+## 2.x Features
 
-* ~~Alpha~~:
-  * ~~record/block alarm~~
-  * ~~record/block wakelock~~
-  * ~~record/block service~~
-  * ~~check module active status~~
+* Alpha:
+    * ~~record/block alarm~~
+    * ~~record/block wakelock~~
+    * ~~record/block service~~
+    * ~~check module active status~~
+    * ~~Data reset~~
+    * Regular expressions support
 
 * Beta:
-  * ~~Data backup and recovery~~
-  * ~~UI adjust~~
-  * ~~Long press to copy information~~
-  * ~~Multi-select processing operation.~~ refactoring...
-  * ~~Data reset~~
-  * Tai Chi Support
+    * Data backup and recovery
+    * Long press to copy information
+    * Application statistics
 
 * Release:
-  * Application statistics
+    * Application statistics
 
 ## Compatibility
 
-* NoWakeLock is available for Android N and later. For previous versions of Android N, please use [Amplify](https://github.com/rsteckler/unbounce-android).
+* NoWakeLock is available for Android N and later. For previous versions of Android N, please
+  use [Amplify](https://github.com/rsteckler/unbounce-android).
 
 * NoWakeLock was tested with the EdXposed / LSPosed.
 
@@ -51,7 +59,8 @@
 
 ## Installation
 
-* [Github releases](https://github.com/Jasper-1024/NoWakeLock/releases), including the alpha/beta version.
+* [Github releases](https://github.com/Jasper-1024/NoWakeLock/releases), including the alpha/beta
+  version.
 * [酷 安](https://www.coolapk.com/apk/260112), beta version but stable.
 * [Play](https://play.google.com/store/apps/details?id=com.js.nowakelocke), beta version.
 
@@ -66,7 +75,8 @@
 
 ## License
 
-* NoWakeLock is released under GNU GPLv3 ([License](https://github.com/Jasper-1024/NoWakeLock/blob/master/LICENSE)).
+* NoWakeLock is released under GNU
+  GPLv3 ([License](https://github.com/Jasper-1024/NoWakeLock/blob/master/LICENSE)).
 
 ## Thanks
 

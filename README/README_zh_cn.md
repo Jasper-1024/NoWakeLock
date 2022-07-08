@@ -1,21 +1,24 @@
 # NoWakeLock
 
-* 一个控制 Android 唤醒的应用,可以运行在 Android N 以后版本.
+* 控制 Android 唤醒的应用,尝试复刻 amplify,可以运行在 Android N 以后版本.
 
-* **严重警告**: 这款应用依旧处于 Beta 测试阶段.因为软件给您设备带来的损伤,本人概不负责.
+* **严重警告**: 
+  * 这款应用依旧处于 ~~Beta~~ alpha(2.0) 测试阶段.因为软件给您设备带来的损伤,本人概不负责.
+  * 2.0 版本与之前版本数据库不兼容,需要清除全部应用.
 
 ## 关于
 
 * 随着 Android 版本更新, doze 模式已经足够压制住应用后台耗电,但高级用户依旧希望可以自行控制唤醒.
 * Android N 以后随着系统安全的升级 XSharedPreferences 基本被废, Amplify 的更新随之停滞.
-* NoWakeLock 可以算是 [Amplify](https://github.com/mh0rst/Amplify) 的复刻,期望能在 Android N 以上版本带来同样的功能.
+* NoWakeLock 可以算是 [Amplify](https://github.com/rsteckler/unbounce-android) 的复刻,期望能在 Android N 以上版本带来同样的功能.
 
-## 功能
+## 2.0 功能
 
-* ~~Alpha~~:
+* Alpha(现在):
+  * 
   * ~~Alarm 记录~~
-  * ~~Alarm 限制 Alarm 正则限制~~
-  * ~~设置项~~
+  * ~~Alarm 限制~~
+  * Alarm 正则限制
   * ~~Service 记录~~
   * ~~Service 限制~~
   * ~~Wakelock 唤醒时间统计.~~
@@ -29,7 +32,7 @@
   * 唤醒锁信息
   * 禁用方案加载
   * ~~批处理操作.~~ 重构中
-  * 数据重置选项
+  * ~~数据重置选项~~
   * 太极支持
   * 正则改进
 
@@ -72,6 +75,6 @@
 
 * NoWakelock 编写中参考了需多开源应用.这里表示致谢.
 
-* [Amplify](https://github.com/mh0rst/Amplify).
+* [Amplify](https://github.com/rsteckler/unbounce-android).
 * [XPrivacyLua](https://github.com/M66B/XPrivacyLua)
 * [GravityBox](https://github.com/GravityBox/GravityBox)
