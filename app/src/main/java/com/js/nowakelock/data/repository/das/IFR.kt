@@ -23,6 +23,9 @@ open class IFR(private val daDao: DADao) : FR {
         return daDao.loadDAs(type).distinctUntilChanged().map { das ->
 
             das.forEach {
+                if (it.info.count != 0)// calculate blockCountTime
+                    it.info.blockCountTime =
+                        it.info.blockCount * (it.info.countTime / it.info.count)
                 if (it.st == null) {
                     it.st = St(
                         name = it.info.name,

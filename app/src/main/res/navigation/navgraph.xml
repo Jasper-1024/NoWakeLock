@@ -52,7 +52,28 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.js.nowakelock.ui.settings.SettingsFragment"
-        android:label="@string/settings"  />
+        android:label="@string/settings" />
+
+    <fragment
+        android:id="@+id/daFragment"
+        android:name="com.js.nowakelock.ui.dafragment.DaFragment"
+        android:label="{name}">
+        <argument
+            android:name="name"
+            android:defaultValue='""'
+            app:argType="string" />
+        <argument
+            android:name="packageName"
+            android:defaultValue='""'
+            app:argType="string" />
+        <argument
+            android:name="type"
+            android:defaultValue='""'
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_daFragment"
+        app:destination="@id/daFragment" />
 
 
 </navigation>

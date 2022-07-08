@@ -21,9 +21,11 @@ interface DADao : BaseDao<St> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(infos: List<Info>)
 
-    //    @Query("select * from st")
-//    fun loadSts(): Flow<List<St>>
-//
+    @Transaction
+    @Query("SELECT * FROM info where name_info =:name and type_info = :type ")
+    fun loadDA(name: String, type: Type): Flow<DA>
+
+
     @Query("select * from st where type_st = :type")
     fun loadSts(type: Type): Flow<List<St>>
 

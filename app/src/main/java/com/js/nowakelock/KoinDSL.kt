@@ -4,11 +4,15 @@ import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.data.repository.appda.AppDaAR
 import com.js.nowakelock.data.repository.appda.AppDaRepo
+import com.js.nowakelock.data.repository.da.DaR
+import com.js.nowakelock.data.repository.da.DaRepo
+import com.js.nowakelock.data.repository.da.IDaR
 import com.js.nowakelock.data.repository.das.FR
 import com.js.nowakelock.data.repository.das.IAlarmR
 import com.js.nowakelock.data.repository.das.IServiceR
 import com.js.nowakelock.data.repository.das.IWakelockR
 import com.js.nowakelock.ui.appDa.AppDaViewModel
+import com.js.nowakelock.ui.dafragment.DaViewModel
 import com.js.nowakelock.ui.fragment.fbase.FBaseViewModel
 import com.js.nowakelock.ui.mainActivity.MainViewModel
 import org.koin.core.qualifier.named
@@ -35,6 +39,10 @@ var repository = module {
     single<FR>(named("ServiceR")) {
         IServiceR(AppDatabase.getInstance(BasicApp.context).dADao())
     }
+
+    single<DaRepo>(named("DaR")) {
+        DaR(AppDatabase.getInstance(BasicApp.context).dADao())
+    }
 }
 
 var viewModel = module {
@@ -58,6 +66,10 @@ var viewModel = module {
 
     viewModel(named("AppDaVM")) {
         AppDaViewModel(get(named("AppDaR")))
+    }
+
+    viewModel(named("DaVm")) { (name: String, type: Type) ->
+        DaViewModel(name, type)
     }
 
 }

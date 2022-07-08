@@ -35,6 +35,12 @@ android {
         }
 
     }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "${buildType.name}-${versionName}.apk"
+        }
+    }
     //room test
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
