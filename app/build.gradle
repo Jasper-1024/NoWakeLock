@@ -14,8 +14,8 @@ android {
         applicationId "com.js.nowakelock"
         minSdkVersion 24
         targetSdkVersion 32
-        versionCode 40
-        versionName "2.0.0-alpha3"
+        versionCode 41
+        versionName "2.0.0-alpha4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -101,7 +101,7 @@ dependencies {
     // Test helpers
     androidTestImplementation "androidx.room:room-testing:$room_version"
 
-    def koin_version  = "3.1.6"
+    def koin_version = "3.1.6"
     // Koin main features for Android
     implementation "io.insert-koin:koin-android:$koin_version"
     // No more koin-android-viewmodel, koin-android-scope, koin-android-fragment
