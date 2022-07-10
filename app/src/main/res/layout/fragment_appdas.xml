@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.js.nowakelock.ui.appDa.AppDaViewModel" />
+            type="com.js.nowakelock.ui.appDaS.AppDaSViewModel" />
 
     </data>
 

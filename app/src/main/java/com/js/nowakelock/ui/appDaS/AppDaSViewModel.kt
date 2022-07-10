@@ -1,4 +1,4 @@
-package com.js.nowakelock.ui.appDa
+package com.js.nowakelock.ui.appDaS
 
 import androidx.lifecycle.*
 import com.js.nowakelock.base.appType
@@ -13,14 +13,14 @@ import java.text.Collator
 import java.util.*
 import kotlin.Comparator
 
-class AppDaViewModel(private var appDasRepo: AppDasRepo) : ViewModel() {
+class AppDaSViewModel(private var appDasRepo: AppDasRepo) : ViewModel() {
 
     var appDas: LiveData<List<AppDA>> = appDasRepo.getAppDAs().asLiveData()
 
-    private val handleAppDa = HandleAppDa()
+    private val handleAppDaS = HandleAppDaS()
 
     // for recyclerview
-    var list = MediatorLiveData<List<ItemAppDA>>()
+    var list = MediatorLiveData<List<ItemAppDAS>>()
 
     init {
         viewModelScope.launch {
@@ -36,7 +36,7 @@ class AppDaViewModel(private var appDasRepo: AppDasRepo) : ViewModel() {
     fun getList(
         appDAs: List<AppDA>,
         type: AppType, query: String, sort: Sort, layout: Int
-    ): List<ItemAppDA> {
+    ): List<ItemAppDAS> {
         return appDAs.appType(appType(type))
             .search(query, ::search)
             .sort(sort(sort))
@@ -80,9 +80,9 @@ class AppDaViewModel(private var appDasRepo: AppDasRepo) : ViewModel() {
         return compareByDescending { it.count?.countTime ?: 0 }
     }
 
-    private fun List<AppDA>.toItemAppDAs(layout: Int): List<ItemAppDA> {
+    private fun List<AppDA>.toItemAppDAs(layout: Int): List<ItemAppDAS> {
         return this.map { app ->
-            ItemAppDA(app, handleAppDa, layout)
+            ItemAppDAS(app, handleAppDaS, layout)
         }
     }
 }

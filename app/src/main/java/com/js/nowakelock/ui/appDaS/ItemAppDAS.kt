@@ -1,12 +1,12 @@
-package com.js.nowakelock.ui.appDa
+package com.js.nowakelock.ui.appDaS
 
 import androidx.annotation.LayoutRes
 import com.js.nowakelock.data.db.entity.AppDA
 import com.js.nowakelock.ui.databinding.item.BaseItem
 
-class ItemAppDA(
+class ItemAppDAS(
     override var data: AppDA,
-    override val handle: HandleAppDa,
+    override val handle: HandleAppDaS,
     @LayoutRes override val layoutId: Int
 ) : BaseItem(data, handle, layoutId) {
     override fun getID(): String {

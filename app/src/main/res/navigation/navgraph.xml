@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/appDaFragment"
-        android:name="com.js.nowakelock.ui.appDa.AppDaFragment"
+        android:name="com.js.nowakelock.ui.appDaS.AppDaSFragment"
         android:label="@string/Apps">
         <action
             android:id="@+id/action_appDaFragment_to_appFragment"

@@ -1,4 +1,4 @@
-package com.js.nowakelock.ui.appDa
+package com.js.nowakelock.ui.appDaS
 
 import android.graphics.Color
 import android.os.Bundle
@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.js.nowakelock.R
-import com.js.nowakelock.base.menuGone
-import com.js.nowakelock.databinding.FragmentAppdaBinding
+import com.js.nowakelock.databinding.FragmentAppdasBinding
 import com.js.nowakelock.ui.mainActivity.MainViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,13 +18,13 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
 
-class AppDaFragment : Fragment() {
+class AppDaSFragment : Fragment() {
     private val layout = R.layout.item_appda
 
     private val mainViewModel: MainViewModel by sharedViewModel(named("MainVm"))
-    private val viewModel: AppDaViewModel by viewModel(named("AppDaVM"))
+    private val viewModel: AppDaSViewModel by viewModel(named("AppDaVM"))
 
-    private lateinit var binding: FragmentAppdaBinding
+    private lateinit var binding: FragmentAppdasBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +40,7 @@ class AppDaFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentAppdaBinding.inflate(inflater, container, false)
+        binding = FragmentAppdasBinding.inflate(inflater, container, false)
         context ?: return binding.root
 
         //bind viewModel
