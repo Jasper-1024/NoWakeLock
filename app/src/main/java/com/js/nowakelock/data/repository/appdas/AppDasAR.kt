@@ -1,4 +1,4 @@
-package com.js.nowakelock.data.repository.appda
+package com.js.nowakelock.data.repository.appdas
 
 import android.annotation.SuppressLint
 import android.content.pm.ApplicationInfo
@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
-class AppDaAR(private val appInfoDao: AppInfoDao, private val daDao: DADao) : AppDaRepo {
+class AppDasAR(private val appInfoDao: AppInfoDao, private val daDao: DADao) : AppDasRepo {
 
     private val pm: PackageManager = BasicApp.context.packageManager
 

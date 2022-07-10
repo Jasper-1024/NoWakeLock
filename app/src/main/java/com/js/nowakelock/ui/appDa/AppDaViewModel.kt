@@ -5,7 +5,7 @@ import com.js.nowakelock.base.appType
 import com.js.nowakelock.base.search
 import com.js.nowakelock.base.sort
 import com.js.nowakelock.data.db.entity.AppDA
-import com.js.nowakelock.data.repository.appda.AppDaRepo
+import com.js.nowakelock.data.repository.appdas.AppDasRepo
 import com.js.nowakelock.ui.base.AppType
 import com.js.nowakelock.ui.base.Sort
 import kotlinx.coroutines.launch
@@ -13,9 +13,9 @@ import java.text.Collator
 import java.util.*
 import kotlin.Comparator
 
-class AppDaViewModel(private var appDaRepo: AppDaRepo) : ViewModel() {
+class AppDaViewModel(private var appDasRepo: AppDasRepo) : ViewModel() {
 
-    var appDas: LiveData<List<AppDA>> = appDaRepo.getAppDAs().asLiveData()
+    var appDas: LiveData<List<AppDA>> = appDasRepo.getAppDAs().asLiveData()
 
     private val handleAppDa = HandleAppDa()
 
@@ -29,8 +29,8 @@ class AppDaViewModel(private var appDaRepo: AppDaRepo) : ViewModel() {
     }
 
     suspend fun sync() {
-        appDaRepo.syncAppInfos()
-        appDaRepo.syncInfos()
+        appDasRepo.syncAppInfos()
+        appDasRepo.syncInfos()
     }
 
     fun getList(
