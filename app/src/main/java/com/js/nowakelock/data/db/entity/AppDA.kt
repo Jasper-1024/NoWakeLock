@@ -10,5 +10,10 @@ data class AppDA(
         parentColumn = "packageName",
         entityColumn = "packageName"
     )
-    var count: AppCount?
+    var count: AppCount?,
+    @Relation(
+        parentColumn = "packageName",
+        entityColumn = "packageName_st"
+    )
+    var st: AppSt?
 )

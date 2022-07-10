@@ -1,4 +1,4 @@
-package com.js.nowakelock.ui.dafragment
+package com.js.nowakelock.ui.da
 
 import android.os.Bundle
 import android.view.*
@@ -7,7 +7,6 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import com.js.nowakelock.R
-import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.menuGone
 import com.js.nowakelock.base.stringToType
 import com.js.nowakelock.data.db.Type

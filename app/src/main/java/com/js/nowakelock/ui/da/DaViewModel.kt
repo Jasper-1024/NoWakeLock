@@ -1,16 +1,12 @@
-package com.js.nowakelock.ui.dafragment
+package com.js.nowakelock.ui.da
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.js.nowakelock.base.clipboardCopy
 import com.js.nowakelock.data.db.Type
-import com.js.nowakelock.data.db.entity.DA
-import com.js.nowakelock.data.db.entity.Info
 import com.js.nowakelock.data.db.entity.St
-import com.js.nowakelock.data.repository.da.DaR
 import com.js.nowakelock.data.repository.da.DaRepo
-import com.js.nowakelock.data.repository.das.FR
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent

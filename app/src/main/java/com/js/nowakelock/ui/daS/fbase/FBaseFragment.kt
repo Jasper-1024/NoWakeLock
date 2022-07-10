@@ -1,4 +1,4 @@
-package com.js.nowakelock.ui.fragment.fbase
+package com.js.nowakelock.ui.daS.fbase
 
 import android.graphics.Color
 import android.os.Bundle
@@ -15,7 +15,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.js.nowakelock.R
 import com.js.nowakelock.base.menuGone
 import com.js.nowakelock.data.db.Type
-import com.js.nowakelock.databinding.FragmentDaBinding
 import com.js.nowakelock.databinding.FragmentDasBinding
 import com.js.nowakelock.ui.mainActivity.MainViewModel
 import kotlinx.coroutines.Dispatchers

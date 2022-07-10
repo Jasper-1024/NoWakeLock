@@ -12,7 +12,7 @@
 
         <variable
             name="item"
-            type="com.js.nowakelock.ui.fragment.fbase.ItemDA" />
+            type="com.js.nowakelock.ui.daS.fbase.ItemDA" />
 
     </data>
 

@@ -1,4 +1,4 @@
-package com.js.nowakelock.ui.fragment
+package com.js.nowakelock.ui.daS
 
 import android.view.Menu
 import android.view.MenuInflater
@@ -7,14 +7,13 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import com.js.nowakelock.R
-import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.menuGone
 import com.js.nowakelock.data.db.Type
-import com.js.nowakelock.ui.fragment.fbase.FBaseFragment
+import com.js.nowakelock.ui.daS.fbase.FBaseFragment
 
-class WakeLockFragment : FBaseFragment() {
-    override val type: Type = Type.Wakelock
-    override val layout: Int = R.layout.item_wakelock
+class ServiceFragment : FBaseFragment() {
+    override val type: Type = Type.Service
+    override val layout: Int = R.layout.item_service
 
     override fun setMenu() {
         val menuHost: MenuHost = requireActivity()
@@ -25,7 +24,8 @@ class WakeLockFragment : FBaseFragment() {
                     setOf(
                         R.id.menu_filter_user,
                         R.id.menu_filter_system,
-                        R.id.menu_filter_all
+                        R.id.menu_filter_all,
+                        R.id.menu_sort_counTime
                     )
                 )
             }

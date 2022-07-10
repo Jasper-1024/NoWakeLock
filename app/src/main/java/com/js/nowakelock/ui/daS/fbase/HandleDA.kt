@@ -1,4 +1,4 @@
-package com.js.nowakelock.ui.fragment.fbase
+package com.js.nowakelock.ui.daS.fbase
 
 import android.view.View
 import androidx.navigation.findNavController

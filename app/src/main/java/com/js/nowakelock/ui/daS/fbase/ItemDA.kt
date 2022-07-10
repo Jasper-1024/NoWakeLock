@@ -1,4 +1,4 @@
-package com.js.nowakelock.ui.fragment.fbase
+package com.js.nowakelock.ui.daS.fbase
 
 import androidx.annotation.LayoutRes
 import com.js.nowakelock.data.db.entity.DA

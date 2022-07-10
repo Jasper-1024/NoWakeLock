@@ -11,7 +11,7 @@
 
         <variable
             name="vm"
-            type="com.js.nowakelock.ui.dafragment.DaViewModel" />
+            type="com.js.nowakelock.ui.da.DaViewModel" />
     </data>
 
 
