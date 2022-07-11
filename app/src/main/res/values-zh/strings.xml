@@ -63,8 +63,8 @@
     <string name="FlagText">允许</string>
     <string name="wakelockFlagText">允许唤醒锁</string>
     <string name="ATIUnit">秒</string>
-    <string name="Re_Alarm">定时器正则(一个规则一行)</string>
-    <string name="Re_Wakelock">唤醒锁正则(一个规则一行)</string>
+    <string name="Re_Alarm">阻止定时器(正则)</string>
+    <string name="Re_Wakelock">阻止唤醒锁(正则)</string>
     <string name="Save">保存</string>
     <string name="name">名称</string>
     <string name="application">应用</string>
@@ -81,4 +81,5 @@
     <string name="database">数据库</string>
     <string name="clear_summary">清空计数时,一同清理不活跃记录.</string>
     <string name="clear_title">清理不活跃记录</string>
+    <string name="re_hint">一行一个规则,新规则回车另起新行.</string>
 </resources>

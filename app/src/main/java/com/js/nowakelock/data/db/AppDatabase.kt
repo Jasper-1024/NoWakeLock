@@ -5,7 +5,7 @@ import androidx.room.*
 import com.js.nowakelock.data.db.converters.SetConvert
 import com.js.nowakelock.data.db.converters.TypeConvert
 import com.js.nowakelock.data.db.dao.AppInfoDao
-import com.js.nowakelock.data.db.dao.AppStDao
+import com.js.nowakelock.data.db.dao.AppDaDao
 import com.js.nowakelock.data.db.dao.DADao
 import com.js.nowakelock.data.db.dao.InfoDao
 import com.js.nowakelock.data.db.entity.*
@@ -24,7 +24,7 @@ import com.js.nowakelock.data.db.entity.*
 @TypeConverters(SetConvert::class, TypeConvert::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun appInfoDao(): AppInfoDao
-    abstract fun appStDao(): AppStDao
+    abstract fun appDaDao(): AppDaDao
     abstract fun dADao(): DADao
     abstract fun infoDao(): InfoDao
 

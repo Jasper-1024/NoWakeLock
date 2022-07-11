@@ -22,7 +22,7 @@ class AppDaSFragment : Fragment() {
     private val layout = R.layout.item_appda
 
     private val mainViewModel: MainViewModel by sharedViewModel(named("MainVm"))
-    private val viewModel: AppDaSViewModel by viewModel(named("AppDaVM"))
+    private val viewModel: AppDaSViewModel by viewModel(named("AppDaSVM"))
 
     private lateinit var binding: FragmentAppdasBinding
 

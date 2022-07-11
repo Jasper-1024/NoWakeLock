@@ -2,6 +2,8 @@ package com.js.nowakelock
 
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.Type
+import com.js.nowakelock.data.repository.appda.AppDaR
+import com.js.nowakelock.data.repository.appda.AppDaRepo
 import com.js.nowakelock.data.repository.appdas.AppDasAR
 import com.js.nowakelock.data.repository.appdas.AppDasRepo
 import com.js.nowakelock.data.repository.da.DaR
@@ -11,8 +13,9 @@ import com.js.nowakelock.data.repository.das.IAlarmR
 import com.js.nowakelock.data.repository.das.IServiceR
 import com.js.nowakelock.data.repository.das.IWakelockR
 import com.js.nowakelock.ui.appDa.AppDaViewModel
-import com.js.nowakelock.ui.dafragment.DaViewModel
-import com.js.nowakelock.ui.fragment.fbase.FBaseViewModel
+import com.js.nowakelock.ui.appDaS.AppDaSViewModel
+import com.js.nowakelock.ui.da.DaViewModel
+import com.js.nowakelock.ui.daS.fbase.FBaseViewModel
 import com.js.nowakelock.ui.mainActivity.MainViewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -21,12 +24,19 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 var repository = module {
 
     /** AppRepo */
-    single<AppDasRepo>(named("AppDaR")) {
+    single<AppDasRepo>(named("AppDasR")) {
         AppDasAR(
             AppDatabase.getInstance(BasicApp.context).appInfoDao(),
             AppDatabase.getInstance(BasicApp.context).dADao(),
         )
     }
+
+    single<AppDaRepo>(named("AppDaR")) {
+        AppDaR(
+            AppDatabase.getInstance(BasicApp.context).appDaDao()
+        )
+    }
+
     single<FR>(named("WakelockR")) {
         IWakelockR(AppDatabase.getInstance(BasicApp.context).dADao())
     }
@@ -63,12 +73,16 @@ var viewModel = module {
         MainViewModel()
     }
 
-    viewModel(named("AppDaVM")) {
-        AppDaViewModel(get(named("AppDaR")))
+    viewModel(named("AppDaSVM")) {
+        AppDaSViewModel(get(named("AppDasR")))
     }
 
     viewModel(named("DaVm")) { (name: String, type: Type) ->
         DaViewModel(name, type)
+    }
+
+    viewModel(named("AppDaVm")) { (packageName: String) ->
+        AppDaViewModel(packageName)
     }
 
 }

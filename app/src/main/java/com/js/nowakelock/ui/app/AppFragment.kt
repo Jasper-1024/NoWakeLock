@@ -39,10 +39,11 @@ class AppFragment : Fragment() {
 
     private fun getTabText(position: Int): String {
         return when (position) {
-            0 -> getString(R.string.WakeLock)
-            1 -> getString(R.string.Alarm)
-            2 -> getString(R.string.Service)
-            else -> getString(R.string.Apps)
+            0 -> getString(R.string.Apps)
+            1 -> getString(R.string.WakeLock)
+            2 -> getString(R.string.Alarm)
+            3 -> getString(R.string.Service)
+            else -> getString(R.string.WakeLock)
         }
     }
 }

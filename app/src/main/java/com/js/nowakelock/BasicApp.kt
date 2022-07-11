@@ -20,6 +20,7 @@ class BasicApp : Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
+        gson = Gson()
 
         //koin
         startKoin {
