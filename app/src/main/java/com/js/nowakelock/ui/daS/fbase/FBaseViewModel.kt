@@ -1,10 +1,7 @@
 package com.js.nowakelock.ui.daS.fbase
 
 import androidx.lifecycle.*
-import com.js.nowakelock.base.SPTools
-import com.js.nowakelock.base.clipboardCopy
-import com.js.nowakelock.base.search
-import com.js.nowakelock.base.sort
+import com.js.nowakelock.base.*
 import com.js.nowakelock.data.db.entity.DA
 import com.js.nowakelock.data.db.entity.St
 import com.js.nowakelock.data.repository.das.FR
@@ -47,7 +44,7 @@ class FBaseViewModel(private var packageName: String = "", private var fR: FR) :
     fun syncSt() {
         viewModelScope.launch(Dispatchers.IO) {
             fR.getSts().collect { list ->
-//                LogUtil.d("sync", "${list.size}")
+                LogUtil.d("sync", "${list.size}")
                 list.map {
                     saveSt(it)
                 }

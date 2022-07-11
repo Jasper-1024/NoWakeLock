@@ -16,6 +16,7 @@ class ItemDA(
 
     override fun getContent(): Int {
         val info = data.info
-        return info.count * 5 + info.blockCount * 10
+        val st = data.st
+        return info.count * 5 + info.blockCount * 10 + (if (st!!.flag) 1 else 0) + st.allowTimeInterval.toInt()
     }
 }
