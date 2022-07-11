@@ -98,20 +98,20 @@ object Converter {
     @JvmStatic
     fun setToString(values: Set<String>?): String {
         return if (values == null || values.isEmpty()) {
-            "\n"
+            ""
         } else {
             var tmp = ""
             values.forEach {
                 tmp += "$it\n"
             }
-//            tmp = tmp.substring(0, tmp.length - 1)
+            tmp = tmp.substring(0, tmp.length - 1)
             tmp
         }
     }
 
     @JvmStatic
     fun stringToSet(value: String?): Set<String> {
-        return if (value == null || value == "\n") {
+        return if (value == null || value == "" || value == "\n") {
             mutableSetOf()
         } else {
             value.split("\n")

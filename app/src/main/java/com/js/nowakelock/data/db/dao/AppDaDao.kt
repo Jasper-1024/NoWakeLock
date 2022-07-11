@@ -12,4 +12,7 @@ interface AppDaDao : BaseDao<AppSt> {
     @Transaction
     @Query("select * from appInfo where packageName = :packageName")
     fun loadAppDa(packageName: String): Flow<AppDA>
+
+    @Query("select * from appSt where packageName_st = :packageName")
+    fun loadAppSt(packageName: String): Flow<AppSt?>
 }

@@ -66,5 +66,16 @@ class SPTools {
                 commit()
             }
         }
+
+        fun setSet(key: String, value: Set<String>) {
+            with(prefs?.edit() ?: return) {
+                putStringSet(key, value)
+                commit()
+            }
+        }
+
+        fun getSet(key: String, defaultValue: Set<String> = setOf()): Set<String> {
+            return prefs?.getStringSet(key, defaultValue) ?: defaultValue
+        }
     }
 }

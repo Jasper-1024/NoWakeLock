@@ -4,15 +4,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.js.nowakelock.base.LogUtil
+import com.js.nowakelock.base.SPTools
+import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.data.db.entity.AppSt
 import com.js.nowakelock.data.repository.appda.AppDaRepo
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.qualifier.named
 
-class AppDaViewModel(packageName: String) : ViewModel(), KoinComponent {
+class AppDaViewModel(val packageName: String) : ViewModel(), KoinComponent {
     private val appDaR: AppDaRepo by inject(named("AppDaR"))
 
     var appDa = appDaR.getAppDa(packageName).asLiveData()
@@ -22,4 +25,18 @@ class AppDaViewModel(packageName: String) : ViewModel(), KoinComponent {
             appDaR.setAppSt(appSt)
         }
     }
+
+    fun syncAppSt() {
+        viewModelScope.launch(Dispatchers.IO) {
+            appDaR.getAppSt(packageName).collect {
+                saveAppStSP(it)
+            }
+        }
+    }
+
+    private fun saveAppStSP(appSt: AppSt) {
+        SPTools.setSet("${Type.Wakelock}_${appSt.packageName}_rE", appSt.rE_Wakelock)
+        SPTools.setSet("${Type.Alarm}_${appSt.packageName}_rE", appSt.rE_Alarm)
+    }
+
 }

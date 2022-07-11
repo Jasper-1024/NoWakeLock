@@ -44,7 +44,7 @@ class FBaseViewModel(private var packageName: String = "", private var fR: FR) :
     fun syncSt() {
         viewModelScope.launch(Dispatchers.IO) {
             fR.getSts().collect { list ->
-                LogUtil.d("sync", "${list.size}")
+//                LogUtil.d("sync", "${list.size}")
                 list.map {
                     saveSt(it)
                 }

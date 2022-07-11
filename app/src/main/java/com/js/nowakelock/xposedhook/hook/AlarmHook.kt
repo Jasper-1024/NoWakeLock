@@ -139,6 +139,7 @@ class AlarmHook {
             val xpNSP = XpNSP.getInstance()
             return xpNSP.flag(name, packageName, type)
                     || xpNSP.aTI(now, lastActive, name, packageName, type)
+                    || xpNSP.rE(name, packageName, type)
         }
     }
 }

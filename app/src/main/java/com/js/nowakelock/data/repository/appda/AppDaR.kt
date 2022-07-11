@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.map
 class AppDaR(private val appDaDao: AppDaDao) : AppDaRepo {
     override fun getAppDa(packageName: String): Flow<AppDA> =
         appDaDao.loadAppDa(packageName).distinctUntilChanged().map { appDa ->
-            LogUtil.d("test", "1")
             if (appDa.count == null) {
                 appDa.count = AppCount(packageName = appDa.info.packageName)
             }
@@ -20,6 +19,11 @@ class AppDaR(private val appDaDao: AppDaDao) : AppDaRepo {
                 appDa.st = AppSt(packageName = appDa.info.packageName)
             }
             appDa
+        }
+
+    override fun getAppSt(packageName: String): Flow<AppSt> =
+        appDaDao.loadAppSt(packageName).distinctUntilChanged().map {
+            it ?: AppSt(packageName = packageName)
         }
 
     override suspend fun setAppSt(appSt: AppSt) {

@@ -171,6 +171,7 @@ class WakelockHook {
             val xpNSP = XpNSP.getInstance()
             return xpNSP.flag(wN, packageName, type)
                     || xpNSP.aTI(now, lastActive, wN, packageName, type)
+                    || xpNSP.rE(wN, packageName, type)
         }
     }
 

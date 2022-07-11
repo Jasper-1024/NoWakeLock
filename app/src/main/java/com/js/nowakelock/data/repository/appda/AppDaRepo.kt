@@ -6,5 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface AppDaRepo {
     fun getAppDa(packageName: String): Flow<AppDA>
+    fun getAppSt(packageName: String): Flow<AppSt>
     suspend fun setAppSt(appSt: AppSt)
 }

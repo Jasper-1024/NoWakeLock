@@ -25,6 +25,9 @@ class AppDaFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         packageName = arguments?.getString("packageName") ?: ""
         super.onCreate(savedInstanceState)
+
+        viewModel.syncAppSt()
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
