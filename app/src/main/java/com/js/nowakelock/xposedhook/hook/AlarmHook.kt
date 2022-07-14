@@ -3,6 +3,7 @@ package com.js.nowakelock.xposedhook.hook
 import android.content.Context
 import android.os.Build
 import android.os.SystemClock
+import com.js.nowakelock.base.getUserId
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.xposedhook.XpUtil
 import com.js.nowakelock.xposedhook.model.XpNSP
@@ -33,6 +34,9 @@ class AlarmHook {
             }
         }
 
+        /*
+        * https://cs.android.com/android/platform/superproject/+/master:frameworks/base/apex/jobscheduler/service/java/com/android/server/alarm/AlarmManagerService.java;l=171;bpv=0;bpt=1?hl=zh-cn
+        * */
         private fun alarmHook31to32(lpparam: XC_LoadPackage.LoadPackageParam) {
             XposedHelpers.findAndHookMethod("com.android.server.alarm.AlarmManagerService",
                 lpparam.classLoader,
@@ -101,6 +105,7 @@ class AlarmHook {
         ) {
             var alarmName: String
             var packageName: String
+            var uid: Int
 
             for (i in 0 until triggerList.size) {
 
@@ -109,10 +114,15 @@ class AlarmHook {
                     val tmp2 = tmp.javaClass.getDeclaredField("statsTag").get(tmp) as String
                     alarmName = tmp2.replace(Regex("\\*.*\\*:"), "")
                     packageName = tmp.javaClass.getDeclaredField("packageName").get(tmp) as String
+                    uid = tmp.javaClass.getDeclaredField("uid").get(tmp) as Int
                 } catch (e: Exception) {
                     XpUtil.log(" alarm: hookAlarmsLocked err:$e")
                     continue
                 }
+
+                val userId = getUserId(uid)
+
+//                XpUtil.log("$packageName alarm: $alarmName uid:$uid userid:$userId")
 
                 val now = SystemClock.elapsedRealtime() //current time
 
@@ -124,11 +134,11 @@ class AlarmHook {
 
                     XpUtil.log("$packageName alarm: $alarmName block")
                     //update blockCount
-                    XpRecord.upBlockCount(alarmName, packageName, type, context)
+                    XpRecord.upBlockCount(alarmName, packageName, type, context, userId)
 
                 } else {//allow alarm
                     lastAllowTime[alarmName] = now
-                    XpRecord.upCount(alarmName, packageName, type, context)//update count
+                    XpRecord.upCount(alarmName, packageName, type, context, userId)//update count
                 }
             }
         }

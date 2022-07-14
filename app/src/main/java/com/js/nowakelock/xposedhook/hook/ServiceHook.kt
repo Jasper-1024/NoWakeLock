@@ -44,8 +44,6 @@ class ServiceHook {
 
         private fun serviceHook31to32(lpparam: XC_LoadPackage.LoadPackageParam) {
 
-            XpUtil.log("Hooking Service for API levels >= 31 (S)")
-
             XposedHelpers.findAndHookMethod("com.android.server.am.ActiveServices",
                 lpparam.classLoader,
                 "startServiceLocked",
@@ -66,13 +64,15 @@ class ServiceHook {
 //                        XpUtil.log("serviceHook31to32")
                         val service = param.args[1] as Intent?
                         val callingPackage = param.args[6] as String
+                        val userId: Int = param.args[8] as Int
                         val context: Context =
                             AndroidAppHelper.currentApplication().applicationContext
-                        hookStartServiceLocked(param, service, callingPackage, context)
+                        hookStartServiceLocked(param, service, callingPackage, context, userId)
                     }
                 })
         }
 
+        //https://cs.android.com/android/platform/superproject/+/android-10.0.0_r1:frameworks/base/services/core/java/com/android/server/am/ActiveServices.java;l=184?q=ActiveServices&ss=android%2Fplatform%2Fsuperproject:
         private fun serviceHook30(lpparam: XC_LoadPackage.LoadPackageParam) {
             XpUtil.log("Hooking Service for API levels 30")
 
@@ -95,9 +95,10 @@ class ServiceHook {
 //                        XpUtil.log("serviceHook30")
                         val service = param.args[1] as Intent?
                         val callingPackage = param.args[6] as String
+                        val userId: Int = param.args[8] as Int
                         val context: Context =
                             AndroidAppHelper.currentApplication().applicationContext
-                        hookStartServiceLocked(param, service, callingPackage, context)
+                        hookStartServiceLocked(param, service, callingPackage, context, userId)
                     }
                 })
         }
@@ -122,9 +123,10 @@ class ServiceHook {
 //                        XpUtil.log("serviceHook29")
                         val service = param.args[1] as Intent?
                         val callingPackage = param.args[6] as String
+                        val userId: Int = param.args[7] as Int
                         val context: Context =
                             AndroidAppHelper.currentApplication().applicationContext
-                        hookStartServiceLocked(param, service, callingPackage, context)
+                        hookStartServiceLocked(param, service, callingPackage, context, userId)
                     }
                 })
         }
@@ -147,9 +149,10 @@ class ServiceHook {
 //                        XpUtil.log("serviceHook26to28")
                         val service = param.args[1] as Intent?
                         val callingPackage = param.args[6] as String
+                        val userId: Int = param.args[7] as Int
                         val context: Context =
                             AndroidAppHelper.currentApplication().applicationContext
-                        hookStartServiceLocked(param, service, callingPackage, context)
+                        hookStartServiceLocked(param, service, callingPackage, context, userId)
                     }
                 })
         }
@@ -171,9 +174,10 @@ class ServiceHook {
 //                        XpUtil.log("serviceHook24to25")
                         val service = param.args[1] as Intent?
                         val callingPackage = param.args[5] as String
+                        val userId: Int = param.args[6] as Int
                         val context: Context =
                             AndroidAppHelper.currentApplication().applicationContext
-                        hookStartServiceLocked(param, service, callingPackage, context)
+                        hookStartServiceLocked(param, service, callingPackage, context, userId)
                     }
                 })
         }
@@ -182,10 +186,15 @@ class ServiceHook {
             param: XC_MethodHook.MethodHookParam,
             service: Intent?,
             packageName: String?,
-            context: Context
+            context: Context,
+            userId: Int = 0
         ) {
             if (service == null || packageName == null) return
             val serviceName = service.component?.flattenToShortString() ?: return
+
+
+//            XpUtil.log("$packageName service: $serviceName userid:$userId")
+
 
             val block = block(serviceName, packageName)
 
@@ -193,9 +202,12 @@ class ServiceHook {
                 param.result = null
 
                 XpUtil.log("$packageName service: $serviceName block")
-                XpRecord.upBlockCount(serviceName, packageName, type, context)//update BlockCount
+                XpRecord.upBlockCount(
+                    serviceName, packageName, type,
+                    context, userId
+                )//update BlockCount
             } else {
-                XpRecord.upCount(serviceName, packageName, type, context)//update Count
+                XpRecord.upCount(serviceName, packageName, type, context, userId)//update Count
             }
         }
 

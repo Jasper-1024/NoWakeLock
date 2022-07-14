@@ -1,10 +1,12 @@
 package com.js.nowakelock.xposedhook.hook
 
 import android.content.Context
+import android.content.LocusId
 import android.os.Build
 import android.os.IBinder
 import android.os.SystemClock
 import android.os.WorkSource
+import com.js.nowakelock.base.getUserId
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.xposedhook.XpUtil
 import com.js.nowakelock.xposedhook.model.XpNSP
@@ -52,10 +54,11 @@ class WakelockHook {
                         val lock = param.args[0] as IBinder
                         val wN = param.args[3] as String
                         val pN = param.args[4] as String
+                        val uid = param.args[7] as Int
                         val context =
                             XposedHelpers.getObjectField(param.thisObject, "mContext") as Context
 
-                        handleWakeLockAcquire(param, pN, wN, lock, context)
+                        handleWakeLockAcquire(param, pN, wN, uid, lock, context)
                     }
                 })
 
@@ -95,12 +98,12 @@ class WakelockHook {
                         val pN = param.args[3] as String
 //                        val ws = param.args[4] as WorkSource?
 //                        val historyTag = param.args[5] as String
-//                        val uId = param.args[6] as Int
+                        val uid = param.args[6] as Int
 //                        val pid = param.args[7] as Int
                         val context =
                             XposedHelpers.getObjectField(param.thisObject, "mContext") as Context
 
-                        handleWakeLockAcquire(param, pN, wN, lock, context)
+                        handleWakeLockAcquire(param, pN, wN, uid, lock, context)
                     }
                 })
 
@@ -125,9 +128,13 @@ class WakelockHook {
         // handle wakelock acquire
         private fun handleWakeLockAcquire(
             param: XC_MethodHook.MethodHookParam,
-            pN: String, wN: String,
+            pN: String, wN: String, uid: Int,
             lock: IBinder, context: Context
         ) {
+            val userId = getUserId(uid)
+
+//            XpUtil.log("$pN wakeLock:$wN uid:$uid userid:$userId")
+
             val now = SystemClock.elapsedRealtime() //current time
 
             val block = block(wN, pN, lastAllowTime[wN] ?: 0, now)
@@ -137,11 +144,11 @@ class WakelockHook {
                 XpUtil.log("$pN wakeLock:$wN block")
                 param.result = null
 
-                XpRecord.upBlockCount(wN, pN, Type.Wakelock, context) //update blockCount
+                XpRecord.upBlockCount(wN, pN, Type.Wakelock, context, userId) //update blockCount
             } else { // allow wakelock
                 lastAllowTime[wN] = now //update last allow time
 
-                wlTs[lock] ?: WLT(wN, pN, startTime = now).let {
+                wlTs[lock] ?: WLT(wN, pN, userId, startTime = now).let {
                     wlTs[lock] = it // add to wlT
                 }
             }
@@ -153,11 +160,13 @@ class WakelockHook {
             val wlT: WLT = wlTs[lock]!!
 
             XpRecord.upCount(
-                wlT.wakelockName, wlT.packageName, Type.Wakelock, context
+                wlT.wakelockName, wlT.packageName, Type.Wakelock, context, wlT.userId
             ) //update count
 
             XpRecord.upCountTime(
-                now - wlT.startTime, wlT.wakelockName, wlT.packageName, Type.Wakelock, context
+                now - wlT.startTime,
+                wlT.wakelockName, wlT.packageName, Type.Wakelock,
+                context, wlT.userId
             ) //update countTime
 
             wlTs.remove(lock)
@@ -178,6 +187,7 @@ class WakelockHook {
     data class WLT(
         val wakelockName: String,
         val packageName: String,
+        var userId: Int = 0,
         var startTime: Long = 0
     )
 }
