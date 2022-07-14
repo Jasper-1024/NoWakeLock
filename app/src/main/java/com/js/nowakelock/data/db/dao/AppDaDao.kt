@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface AppDaDao : BaseDao<AppSt> {
     @Transaction
-    @Query("select * from appInfo where packageName = :packageName")
-    fun loadAppDa(packageName: String): Flow<AppDA>
+    @Query("select * from appInfo where packageName = :packageName and userId = :userId")
+    fun loadAppDa(packageName: String, userId: Int = 0): Flow<AppDA>
 
-    @Query("select * from appSt where packageName_st = :packageName")
-    fun loadAppSt(packageName: String): Flow<AppSt?>
+    @Query("select * from appSt where packageName_st = :packageName and userId = :userId")
+    fun loadAppSt(packageName: String, userId: Int = 0): Flow<AppSt?>
 }

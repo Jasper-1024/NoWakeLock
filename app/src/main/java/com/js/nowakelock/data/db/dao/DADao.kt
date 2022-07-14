@@ -11,26 +11,26 @@ import kotlinx.coroutines.flow.Flow
 interface DADao : BaseDao<St> {
 
     @Transaction
-    @Query("SELECT * FROM info where type_info = :type ")
-    fun loadDAs(type: Type): Flow<List<DA>>
+    @Query("SELECT * FROM info where type_info = :type and userId = :userId")
+    fun loadDAs(type: Type, userId: Int = 0): Flow<List<DA>>
 
     @Transaction
-    @Query("select * from info where type_info = :type and packageName_info = :packageName")
-    fun loadAppDAs(packageName: String, type: Type): Flow<List<DA>>
+    @Query("select * from info where type_info = :type and packageName_info = :packageName and userId = :userId")
+    fun loadAppDAs(packageName: String, type: Type, userId: Int = 0): Flow<List<DA>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(infos: List<Info>)
 
     @Transaction
-    @Query("SELECT * FROM info where name_info =:name and type_info = :type ")
-    fun loadDA(name: String, type: Type): Flow<DA>
+    @Query("SELECT * FROM info where name_info =:name and type_info = :type and userId = :userId")
+    fun loadDA(name: String, type: Type, userId: Int = 0): Flow<DA>
 
 
-    @Query("select * from st where type_st = :type")
-    fun loadSts(type: Type): Flow<List<St>>
+    @Query("select * from st where type_st = :type and userId = :userId")
+    fun loadSts(type: Type, userId: Int = 0): Flow<List<St>>
 
-    @Query("select * from st where type_st = :type")
-    suspend fun loadStsDB(type: Type): List<St>
+    @Query("select * from st where type_st = :type and userId = :userId")
+    suspend fun loadStsDB(type: Type, userId: Int = 0): List<St>
 
     @Query("select * from st")
     suspend fun loadStsDB(): List<St>

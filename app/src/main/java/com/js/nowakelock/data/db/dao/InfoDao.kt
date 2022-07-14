@@ -16,8 +16,8 @@ interface InfoDao : BaseDao<Info> {
     @Query("select * from info where packageName_info = :packageName")
     suspend fun loadInfos(packageName: String): List<Info>
 
-    @Query("select * from info where packageName_info = :packageName and type_info = :type")
-    suspend fun loadInfos(packageName: String, type: Type): List<Info>
+    @Query("select * from info where packageName_info = :packageName and type_info = :type and userId = :userId")
+    suspend fun loadInfos(packageName: String, type: Type, userId: Int = 0): List<Info>
 
     @Query("select * from info where name_info = :name")
     suspend fun loadInfo(name: String): Info?

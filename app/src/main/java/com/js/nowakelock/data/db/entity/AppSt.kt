@@ -4,9 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "appSt")
+@Entity(tableName = "appSt",primaryKeys = ["packageName_st","userId"])
 data class AppSt(
-    @PrimaryKey
     @ColumnInfo(name = "packageName_st")
     var packageName: String = "",
     var wakelock: Boolean = false,
@@ -14,5 +13,7 @@ data class AppSt(
     var service: Boolean = false,
     var rE_Wakelock: Set<String> = mutableSetOf(),
     var rE_Alarm: Set<String> = mutableSetOf(),
-    var rE_Service: Set<String> = mutableSetOf()
+    var rE_Service: Set<String> = mutableSetOf(),
+    @ColumnInfo(defaultValue = "0")
+    var userId: Int = 0,
 )

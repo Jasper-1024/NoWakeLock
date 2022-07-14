@@ -2,17 +2,24 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "9da03cc25a6e4e65c601254e6578ef12",
+    "identityHash": "1f7d777e1c2f5ab6be2fe05ce7af2b2e",
     "entities": [
       {
         "tableName": "appInfo",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`packageName` TEXT NOT NULL, `uid` INTEGER NOT NULL, `label` TEXT NOT NULL, `icon` INTEGER NOT NULL, `system` INTEGER NOT NULL, `enabled` INTEGER NOT NULL, `persistent` INTEGER NOT NULL, `processName` TEXT NOT NULL, `flag` INTEGER NOT NULL, `count` INTEGER NOT NULL, `blockCount` INTEGER NOT NULL, `countTime` INTEGER NOT NULL, `blockCountTime` INTEGER NOT NULL, PRIMARY KEY(`packageName`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`packageName` TEXT NOT NULL, `userId` INTEGER NOT NULL DEFAULT 0, `uid` INTEGER NOT NULL, `label` TEXT NOT NULL, `icon` INTEGER NOT NULL, `system` INTEGER NOT NULL, `enabled` INTEGER NOT NULL, `persistent` INTEGER NOT NULL, `processName` TEXT NOT NULL, PRIMARY KEY(`packageName`, `userId`))",
         "fields": [
           {
             "fieldPath": "packageName",
             "columnName": "packageName",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
           },
           {
             "fieldPath": "uid",
@@ -55,41 +62,12 @@
             "columnName": "processName",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "flag",
-            "columnName": "flag",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "count",
-            "columnName": "count",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "blockCount",
-            "columnName": "blockCount",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "countTime",
-            "columnName": "countTime",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "blockCountTime",
-            "columnName": "blockCountTime",
-            "affinity": "INTEGER",
-            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "packageName"
+            "packageName",
+            "userId"
           ],
           "autoGenerate": false
         },
@@ -97,8 +75,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "appInfo_st",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`packageName_st` TEXT NOT NULL, `flag` INTEGER NOT NULL, `allowTimeinterval` INTEGER NOT NULL, `rE_Wakelock` TEXT NOT NULL, `rE_Alarm` TEXT NOT NULL, `rE_Service` TEXT NOT NULL, PRIMARY KEY(`packageName_st`))",
+        "tableName": "appSt",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`packageName_st` TEXT NOT NULL, `userId` INTEGER NOT NULL DEFAULT 0, `wakelock` INTEGER NOT NULL, `alarm` INTEGER NOT NULL, `service` INTEGER NOT NULL, `rE_Wakelock` TEXT NOT NULL, `rE_Alarm` TEXT NOT NULL, `rE_Service` TEXT NOT NULL, PRIMARY KEY(`packageName_st`, `userId`))",
         "fields": [
           {
             "fieldPath": "packageName",
@@ -107,14 +85,27 @@
             "notNull": true
           },
           {
-            "fieldPath": "flag",
-            "columnName": "flag",
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "wakelock",
+            "columnName": "wakelock",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "allowTimeinterval",
-            "columnName": "allowTimeinterval",
+            "fieldPath": "alarm",
+            "columnName": "alarm",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "service",
+            "columnName": "service",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -139,7 +130,8 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "packageName_st"
+            "packageName_st",
+            "userId"
           ],
           "autoGenerate": false
         },
@@ -147,70 +139,33 @@
         "foreignKeys": []
       },
       {
-        "tableName": "wakeLock",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`wakeLockName` TEXT NOT NULL, `wakeLock_packageName` TEXT NOT NULL, `wakeLock_uid` INTEGER NOT NULL, `wakeLock_count` INTEGER NOT NULL, `wakeLock_blockCount` INTEGER NOT NULL, `wakeLock_countTime` INTEGER NOT NULL, `wakeLock_blockCountTime` INTEGER NOT NULL, PRIMARY KEY(`wakeLockName`))",
+        "tableName": "st",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name_st` TEXT NOT NULL, `type_st` TEXT NOT NULL, `packageName_st` TEXT NOT NULL, `userId` INTEGER NOT NULL DEFAULT 0, `flag` INTEGER NOT NULL, `allowTimeInterval` INTEGER NOT NULL, PRIMARY KEY(`name_st`, `type_st`, `userId`))",
         "fields": [
           {
-            "fieldPath": "wakeLockName",
-            "columnName": "wakeLockName",
+            "fieldPath": "name",
+            "columnName": "name_st",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type_st",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "packageName",
-            "columnName": "wakeLock_packageName",
+            "columnName": "packageName_st",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "uid",
-            "columnName": "wakeLock_uid",
+            "fieldPath": "userId",
+            "columnName": "userId",
             "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "count",
-            "columnName": "wakeLock_count",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "blockCount",
-            "columnName": "wakeLock_blockCount",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "countTime",
-            "columnName": "wakeLock_countTime",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "blockCountTime",
-            "columnName": "wakeLock_blockCountTime",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "wakeLockName"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "wakeLock_st",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`wakeLockName_st` TEXT NOT NULL, `flag` INTEGER NOT NULL, `allowTimeinterval` INTEGER NOT NULL, PRIMARY KEY(`wakeLockName_st`))",
-        "fields": [
-          {
-            "fieldPath": "wakeLockName",
-            "columnName": "wakeLockName_st",
-            "affinity": "TEXT",
-            "notNull": true
+            "notNull": true,
+            "defaultValue": "0"
           },
           {
             "fieldPath": "flag",
@@ -219,15 +174,17 @@
             "notNull": true
           },
           {
-            "fieldPath": "allowTimeinterval",
-            "columnName": "allowTimeinterval",
+            "fieldPath": "allowTimeInterval",
+            "columnName": "allowTimeInterval",
             "affinity": "INTEGER",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "wakeLockName_st"
+            "name_st",
+            "type_st",
+            "userId"
           ],
           "autoGenerate": false
         },
@@ -235,163 +192,58 @@
         "foreignKeys": []
       },
       {
-        "tableName": "alarm",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`alarmName` TEXT NOT NULL, `alarm_packageName` TEXT NOT NULL, `alarm_count` INTEGER NOT NULL, `alarm_blockCount` INTEGER NOT NULL, `alarm_countTime` INTEGER NOT NULL, `alarm_blockCountTime` INTEGER NOT NULL, PRIMARY KEY(`alarmName`))",
+        "tableName": "info",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name_info` TEXT NOT NULL, `type_info` TEXT NOT NULL, `packageName_info` TEXT NOT NULL, `userId` INTEGER NOT NULL DEFAULT 0, `count` INTEGER NOT NULL, `blockCount` INTEGER NOT NULL, `countTime` INTEGER NOT NULL, PRIMARY KEY(`name_info`, `type_info`, `userId`))",
         "fields": [
           {
-            "fieldPath": "alarmName",
-            "columnName": "alarmName",
+            "fieldPath": "name",
+            "columnName": "name_info",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type_info",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "packageName",
-            "columnName": "alarm_packageName",
+            "columnName": "packageName_info",
             "affinity": "TEXT",
             "notNull": true
           },
           {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
             "fieldPath": "count",
-            "columnName": "alarm_count",
+            "columnName": "count",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "blockCount",
-            "columnName": "alarm_blockCount",
+            "columnName": "blockCount",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "countTime",
-            "columnName": "alarm_countTime",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "blockCountTime",
-            "columnName": "alarm_blockCountTime",
+            "columnName": "countTime",
             "affinity": "INTEGER",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "alarmName"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "alarm_st",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`alarmName_st` TEXT NOT NULL, `flag` INTEGER NOT NULL, `allowTimeinterval` INTEGER NOT NULL, PRIMARY KEY(`alarmName_st`))",
-        "fields": [
-          {
-            "fieldPath": "alarmName",
-            "columnName": "alarmName_st",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "flag",
-            "columnName": "flag",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "allowTimeinterval",
-            "columnName": "allowTimeinterval",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "alarmName_st"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "service",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serviceName` TEXT NOT NULL, `service_packageName` TEXT NOT NULL, `service_count` INTEGER NOT NULL, `service_blockCount` INTEGER NOT NULL, `service_countTime` INTEGER NOT NULL, `service_blockCountTime` INTEGER NOT NULL, PRIMARY KEY(`serviceName`))",
-        "fields": [
-          {
-            "fieldPath": "serviceName",
-            "columnName": "serviceName",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "packageName",
-            "columnName": "service_packageName",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "count",
-            "columnName": "service_count",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "blockCount",
-            "columnName": "service_blockCount",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "countTime",
-            "columnName": "service_countTime",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "blockCountTime",
-            "columnName": "service_blockCountTime",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "serviceName"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "service_st",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`serviceName_st` TEXT NOT NULL, `flag` INTEGER NOT NULL, `allowTimeinterval` INTEGER NOT NULL, PRIMARY KEY(`serviceName_st`))",
-        "fields": [
-          {
-            "fieldPath": "serviceName",
-            "columnName": "serviceName_st",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "flag",
-            "columnName": "flag",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "allowTimeinterval",
-            "columnName": "allowTimeinterval",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "serviceName_st"
+            "name_info",
+            "type_info",
+            "userId"
           ],
           "autoGenerate": false
         },
@@ -399,10 +251,15 @@
         "foreignKeys": []
       }
     ],
-    "views": [],
+    "views": [
+      {
+        "viewName": "AppCount",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS select packageName_info as packageName,sum(count) as count,sum(countTime) as countTime,sum(blockCount) as blockCount,(select (sum(countTime) / sum(count) * sum(blockCount)) from info where packageName_info = packageName_info and type_info = 'Wakelock') as blockCountTime from info group by packageName_info"
+      }
+    ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9da03cc25a6e4e65c601254e6578ef12')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1f7d777e1c2f5ab6be2fe05ce7af2b2e')"
     ]
   }
 }
