@@ -10,6 +10,9 @@ import com.js.nowakelock.data.db.InfoDatabase
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.data.db.dao.InfoDao
 import com.js.nowakelock.data.db.entity.Info
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 fun getURI(): Uri {
@@ -85,20 +88,22 @@ class XProvider(
         val name: String = bundle.getString("name") ?: ""
         val type: Type = stringToType(bundle.getString("type") ?: "")
         val packageName = bundle.getString("packageName") ?: ""
+        val userId: Int = bundle.getInt("userId", 0)
 
-        runBlocking {
-            val info = dao.loadInfo(name, type)
+        CoroutineScope(Dispatchers.IO).launch {
+            val info = dao.loadInfo(name, type, userId)
             if (info != null) {
-                dao.upCountPO(name, type)
+                dao.upCountPO(name, type, userId)
             } else {
-                dao.insert(Info(name = name, type = type, packageName = packageName, count = 1))
+                dao.insert(
+                    Info(
+                        name = name, type = type,
+                        packageName = packageName, userId = userId,
+                        count = 1
+                    )
+                )
             }
         }
-
-//        return Bundle().let {
-//            it.putString("name", name)
-//            it
-//        }
         return Bundle()
     }
 
@@ -106,21 +111,23 @@ class XProvider(
         val name: String = bundle.getString("name") ?: ""
         val type: Type = stringToType(bundle.getString("type") ?: "")
         val packageName = bundle.getString("packageName") ?: ""
+        val userId: Int = bundle.getInt("userId", 0)
 
-        runBlocking {
-            val info = dao.loadInfo(name, type)
+        CoroutineScope(Dispatchers.IO).launch {
+            val info = dao.loadInfo(name, type, userId)
             if (info != null) {
-                dao.upBlockCountPO(name, type)
+                dao.upBlockCountPO(name, type, userId)
             } else {
                 dao.insert(
-                    Info(name = name, type = type, packageName = packageName, blockCount = 1)
+                    Info(
+                        name = name, type = type,
+                        packageName = packageName, userId = userId,
+                        blockCount = 1
+                    )
                 )
             }
         }
-//        return Bundle().let {
-//            it.putString("name", name)
-//            it
-//        }
+
         return Bundle()
     }
 
@@ -128,30 +135,31 @@ class XProvider(
         val name: String = bundle.getString("name") ?: ""
         val type: Type = stringToType(bundle.getString("type") ?: "")
         val packageName = bundle.getString("packageName") ?: ""
+        val userId: Int = bundle.getInt("userId", 0)
         val time = bundle.getLong("time")
 
-        runBlocking {
-            val info = dao.loadInfo(name, type)
+        CoroutineScope(Dispatchers.IO).launch {
+            val info = dao.loadInfo(name, type, userId)
             if (info != null) {
-                dao.upCountTime(time, name, type)
+                dao.upCountTime(time, name, type, userId)
             } else {
                 dao.insert(
-                    Info(name = name, type = type, packageName = packageName, countTime = time)
+                    Info(
+                        name = name, type = type,
+                        packageName = packageName, userId = userId,
+                        countTime = time
+                    )
                 )
             }
         }
-//        return Bundle().let {
-//            it.putString("name", name)
-//            it
-//        }
+
         return Bundle()
     }
 
     private fun loadInfos(bundle: Bundle): Bundle {
         val type: Type = stringToType(bundle.getString("type") ?: "")
         val packageName = bundle.getString("packageName") ?: ""
-        val infos: Array<Info> = runBlocking {
-
+        val infos: Array<Info> = runBlocking(Dispatchers.IO) {
             if (packageName == "" && type == Type.UnKnow)
                 dao.loadInfos().toTypedArray()
             else if (packageName == "" && type != Type.UnKnow)
