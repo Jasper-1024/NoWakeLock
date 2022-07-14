@@ -5,6 +5,9 @@ import android.os.Bundle
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.data.provider.ProviderMethod
 import com.js.nowakelock.data.provider.getURI
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 object XpRecord {
     /**
@@ -14,18 +17,18 @@ object XpRecord {
      * @param type Type
      * @param context Context
      */
-    fun upCount(name: String, packageName: String, type: Type, context: Context) {
-        val args = Bundle()
-        args.let {
-            it.putString("name", name)
-            it.putString("type", type.value)
-            it.putString("packageName", packageName)
+    fun upCount(name: String, packageName: String, type: Type, context: Context, userId: Int = 0) =
+        CoroutineScope(Dispatchers.Default).launch {
+            val args = Bundle()
+            args.let {
+                it.putString("name", name)
+                it.putString("type", type.value)
+                it.putString("packageName", packageName)
+                it.putInt("userId", userId)
+            }
+            val method = ProviderMethod.UpCount.value
+            getCPResult(context, method, args)
         }
-        val method = ProviderMethod.UpCount.value
-
-        val result: Bundle? = getCPResult(context, method, args)
-//        checkResult(result, method, name, packageName, type)
-    }
 
     /**
      * blockCount++
@@ -34,17 +37,20 @@ object XpRecord {
      * @param type Type
      * @param context Context
      */
-    fun upBlockCount(name: String, packageName: String, type: Type, context: Context) {
+    fun upBlockCount(
+        name: String, packageName: String, type: Type,
+        context: Context, userId: Int = 0
+    ) = CoroutineScope(Dispatchers.Default).launch {
         val args = Bundle()
         args.let {
             it.putString("name", name)
             it.putString("type", type.value)
             it.putString("packageName", packageName)
+            it.putInt("userId", userId)
         }
         val method = ProviderMethod.UpBlockCount.value
 
-        val result: Bundle? = getCPResult(context, method, args)
-//        checkResult(result, method, name, packageName, type)
+        getCPResult(context, method, args)
     }
 
     /**
@@ -55,35 +61,22 @@ object XpRecord {
      * @param type Type
      * @param context Context
      */
-    fun upCountTime(time: Long, name: String, packageName: String, type: Type, context: Context) {
+    fun upCountTime(
+        time: Long, name: String, packageName: String, type: Type,
+        context: Context, userId: Int
+    ) = CoroutineScope(Dispatchers.Default).launch {
         val args = Bundle()
         args.let {
             it.putString("name", name)
             it.putString("type", type.value)
             it.putString("packageName", packageName)
             it.putLong("time", time)
+            it.putInt("userId", userId)
         }
         val method = ProviderMethod.UpCountTime.value
 
-        val result: Bundle? = getCPResult(context, method, args)
-//        checkResult(result, method, name, packageName, type)
+        getCPResult(context, method, args)
     }
-
-//    private fun checkResult(
-//        result: Bundle?,
-//        method: String,
-//        name: String,
-//        packageName: String,
-//        type: Type
-//    ) {
-//        result?.let {
-//            if (name == (it.getString("name") ?: "")) {
-////                XpUtil.log("$packageName ${type.value}:$name $method success")
-//                return
-//            }
-//        }
-//        XpUtil.log("$packageName ${type.value}:$name $method failed")
-//    }
 
     private fun getCPResult(context: Context, method: String, args: Bundle): Bundle? {
         val contentResolver = context.contentResolver
