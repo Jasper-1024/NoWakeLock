@@ -7,20 +7,26 @@ import com.js.nowakelock.data.db.entity.Info
 @Dao
 interface InfoDao : BaseDao<Info> {
 
+    @Query("select * from info")
+    suspend fun loadInfos(): List<Info>
+
     @Query("select * from info where userId = :userId")
-    suspend fun loadInfos(userId: Int = 0): List<Info>
+    suspend fun loadInfos(userId: Int): List<Info>
+
+    @Query("select * from info where type_info = :type")
+    suspend fun loadInfos(type: Type): List<Info>
 
     @Query("select * from info where type_info = :type and userId = :userId")
-    suspend fun loadInfos(type: Type, userId: Int = 0): List<Info>
+    suspend fun loadInfos(type: Type, userId: Int): List<Info>
 
     @Query("select * from info where packageName_info = :packageName and userId = :userId")
-    suspend fun loadInfos(packageName: String, userId: Int = 0): List<Info>
+    suspend fun loadInfos(packageName: String, userId: Int): List<Info>
 
     @Query("select * from info where packageName_info = :packageName and type_info = :type and userId = :userId")
-    suspend fun loadInfos(packageName: String, type: Type, userId: Int = 0): List<Info>
+    suspend fun loadInfos(packageName: String, type: Type, userId: Int): List<Info>
 
-    @Query("select * from info where name_info = :name and userId = :userId")
-    suspend fun loadInfo(name: String, userId: Int = 0): Info?
+//    @Query("select * from info where name_info = :name and userId = :userId")
+//    suspend fun loadInfo(name: String, userId: Int = 0): Info?
 
     @Query("select * from info where name_info = :name and type_info = :type and userId = :userId")
     suspend fun loadInfo(name: String, type: Type, userId: Int = 0): Info?

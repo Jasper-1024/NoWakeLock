@@ -4,12 +4,14 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import com.js.nowakelock.base.LogUtil
 import com.js.nowakelock.base.infoToBundle
 import com.js.nowakelock.base.stringToType
 import com.js.nowakelock.data.db.InfoDatabase
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.data.db.dao.InfoDao
 import com.js.nowakelock.data.db.entity.Info
+import com.js.nowakelock.xposedhook.XpUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -90,7 +92,9 @@ class XProvider(
         val packageName = bundle.getString("packageName") ?: ""
         val userId: Int = bundle.getInt("userId", 0)
 
-        CoroutineScope(Dispatchers.IO).launch {
+//        LogUtil.d(XpUtil.Tag, "upCount: $name, $type, $packageName, $userId")
+
+        runBlocking(Dispatchers.IO) {
             val info = dao.loadInfo(name, type, userId)
             if (info != null) {
                 dao.upCountPO(name, type, userId)
@@ -159,15 +163,16 @@ class XProvider(
     private fun loadInfos(bundle: Bundle): Bundle {
         val type: Type = stringToType(bundle.getString("type") ?: "")
         val packageName = bundle.getString("packageName") ?: ""
+        val userId: Int = bundle.getInt("userId", 0)
         val infos: Array<Info> = runBlocking(Dispatchers.IO) {
             if (packageName == "" && type == Type.UnKnow)
                 dao.loadInfos().toTypedArray()
             else if (packageName == "" && type != Type.UnKnow)
                 dao.loadInfos(type).toTypedArray()
             else if (packageName != "" && type == Type.UnKnow)
-                dao.loadInfos(packageName).toTypedArray()
+                dao.loadInfos(packageName, userId).toTypedArray()
             else
-                dao.loadInfos(packageName, type).toTypedArray()
+                dao.loadInfos(packageName, type, userId).toTypedArray()
         }
 
         return Bundle().let {
