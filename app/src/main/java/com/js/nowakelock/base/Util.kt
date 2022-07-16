@@ -7,6 +7,7 @@ import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
 import android.os.Bundle
+import android.os.UserHandle
 import android.view.Menu
 import android.widget.Toast
 import com.js.nowakelock.BasicApp
@@ -167,5 +168,18 @@ fun getFormattedTime(vararg paramTimes: Any): String {
     }
     sBuff.deleteCharAt(sBuff.lastIndexOf(":"))
     return sBuff.toString()
+}
+
+private const val PER_USER_RANGE = 100000
+
+fun getUserId(uid: Int): Int {
+    return try {
+        // public static final int getUserId(int uid)
+        val method =
+            UserHandle::class.java.getDeclaredMethod("getUserId", Int::class.javaPrimitiveType)
+        method.invoke(null, uid) as Int
+    } catch (ex: Throwable) {
+        return uid / PER_USER_RANGE
+    }
 }
 

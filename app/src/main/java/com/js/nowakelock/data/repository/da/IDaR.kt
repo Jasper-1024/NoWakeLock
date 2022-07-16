@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 
 class IDaR(private val daDao: DADao) : DaRepo {
 
-    override fun getDa(name: String, type: Type): Flow<DA> {
-        return daDao.loadDA(name, type)
+    override fun getDa(name: String, type: Type, userId: Int): Flow<DA> {
+        return daDao.loadDA(name, type, userId)
     }
 
     override suspend fun insertSt(st: St) {

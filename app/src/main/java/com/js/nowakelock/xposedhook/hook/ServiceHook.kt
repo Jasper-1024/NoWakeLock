@@ -195,7 +195,6 @@ class ServiceHook {
 
 //            XpUtil.log("$packageName service: $serviceName userid:$userId")
 
-
             val block = block(serviceName, packageName)
 
             if (block) {

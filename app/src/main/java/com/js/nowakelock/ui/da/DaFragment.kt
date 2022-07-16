@@ -20,11 +20,12 @@ class DaFragment : Fragment() {
     var name: String = ""
     var packageName: String = ""
     var type: Type = Type.UnKnow
+    var userId: Int = 0
 
     private lateinit var binding: FragmentDaBinding
 
     val viewModel: DaViewModel by viewModel(named("DaVm")) {
-        parametersOf(name, type)
+        parametersOf(name, type, userId)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +34,8 @@ class DaFragment : Fragment() {
         arguments?.getString("type")?.let {
             type = stringToType(it)
         }
+        userId = arguments?.getInt("userId") ?: 0
+
         super.onCreate(savedInstanceState)
     }
 

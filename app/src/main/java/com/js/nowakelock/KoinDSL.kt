@@ -77,8 +77,8 @@ var viewModel = module {
         AppDaSViewModel(get(named("AppDasR")))
     }
 
-    viewModel(named("DaVm")) { (name: String, type: Type) ->
-        DaViewModel(name, type)
+    viewModel(named("DaVm")) { (name: String, type: Type, userId: Int) ->
+        DaViewModel(name, type, userId)
     }
 
     viewModel(named("AppDaVm")) { (packageName: String) ->

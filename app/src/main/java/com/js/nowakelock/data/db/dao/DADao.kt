@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.Flow
 interface DADao : BaseDao<St> {
 
     @Transaction
-    @Query("SELECT * FROM info where type_info = :type and userId = :userId")
-    fun loadDAs(type: Type, userId: Int = 0): Flow<List<DA>>
+    @Query("SELECT * FROM info where type_info = :type")
+    fun loadDAs(type: Type): Flow<List<DA>>
 
     @Transaction
     @Query("select * from info where type_info = :type and packageName_info = :packageName and userId = :userId")

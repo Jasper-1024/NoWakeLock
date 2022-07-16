@@ -70,6 +70,10 @@
             android:name="type"
             android:defaultValue='""'
             app:argType="string" />
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <action
         android:id="@+id/action_global_daFragment"

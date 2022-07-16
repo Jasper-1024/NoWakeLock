@@ -12,7 +12,7 @@ interface DaRepo {
      * @param type Type
      * @return Flow<DA>
      */
-    fun getDa(name: String, type: Type): Flow<DA>
+    fun getDa(name: String, type: Type, userId: Int): Flow<DA>
 
     /**
      * install st

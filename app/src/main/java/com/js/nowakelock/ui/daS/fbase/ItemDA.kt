@@ -11,7 +11,7 @@ class ItemDA(
 ) : BaseItem(data, handle, layoutId) {
 
     override fun getID(): String {
-        return data.info.name + data.info.packageName + data.info.type.value
+        return data.info.name + data.info.packageName + data.info.type.value + data.info.userId
     }
 
     override fun getContent(): Int {

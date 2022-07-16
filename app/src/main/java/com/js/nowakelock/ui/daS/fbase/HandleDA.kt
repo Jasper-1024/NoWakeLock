@@ -20,7 +20,8 @@ class HandleDA(private val FBVm: FBaseViewModel) : BaseItemHandle() {
             NavgraphDirections.actionGlobalDaFragment(
                 da.info.name,
                 da.info.packageName,
-                da.info.type.value
+                da.info.type.value,
+                da.info.userId
             )
         view.findNavController().navigate(direction)
     }

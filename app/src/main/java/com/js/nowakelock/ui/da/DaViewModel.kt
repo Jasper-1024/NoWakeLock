@@ -13,11 +13,11 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.qualifier.named
 
-class DaViewModel(name: String, type: Type) : ViewModel(), KoinComponent {
+class DaViewModel(name: String, type: Type, userId: Int) : ViewModel(), KoinComponent {
 
     private val daR: DaRepo by inject(named("DaR"))
 
-    var da = daR.getDa(name, type).asLiveData()
+    var da = daR.getDa(name, type, userId).asLiveData()
 
     fun setSt(st: St) {
         viewModelScope.launch(Dispatchers.IO) {

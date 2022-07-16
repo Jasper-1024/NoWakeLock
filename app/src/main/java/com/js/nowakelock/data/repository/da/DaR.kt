@@ -15,8 +15,8 @@ class DaR(private val daDao: DADao) : DaRepo {
      * @param type Type
      * @return Flow<DA>
      */
-    override fun getDa(name: String, type: Type): Flow<DA> =
-        daDao.loadDA(name, type).distinctUntilChanged().map {
+    override fun getDa(name: String, type: Type, userId: Int): Flow<DA> =
+        daDao.loadDA(name, type, userId).distinctUntilChanged().map {
             if (it.info.count != 0)// calculate blockCountTime
                 it.info.blockCountTime =
                     it.info.blockCount * (it.info.countTime / it.info.count)
@@ -24,7 +24,8 @@ class DaR(private val daDao: DADao) : DaRepo {
                 it.st = St(
                     name = it.info.name,
                     type = it.info.type,
-                    packageName = it.info.packageName
+                    packageName = it.info.packageName,
+                    userId = userId
                 )
             }
             it
