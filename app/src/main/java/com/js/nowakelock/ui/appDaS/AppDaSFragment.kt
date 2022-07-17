@@ -18,7 +18,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
 
-class AppDaSFragment : Fragment() {
+class AppDaSFragment(val userId: Int = 0) : Fragment() {
     private val layout = R.layout.item_appda
 
     private val mainViewModel: MainViewModel by sharedViewModel(named("MainVm"))

@@ -6,7 +6,7 @@ import androidx.room.Ignore
 import com.js.nowakelock.data.db.Type
 import java.io.Serializable
 
-@Entity(tableName = "info", primaryKeys = ["name_info", "type_info", "userId"])
+@Entity(tableName = "info", primaryKeys = ["name_info", "type_info", "userid_info"])
 data class Info(
     @ColumnInfo(name = "name_info")
     var name: String = "",
@@ -17,7 +17,7 @@ data class Info(
     var count: Int = 0,
     var blockCount: Int = 0,
     var countTime: Long = 0,
-    @ColumnInfo(defaultValue = "0")
+    @ColumnInfo(name = "userid_info", defaultValue = "0")
     var userId: Int = 0,
     @Ignore
     var blockCountTime: Long = 0

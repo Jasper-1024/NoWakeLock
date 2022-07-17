@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
 class AppDaR(private val appDaDao: AppDaDao) : AppDaRepo {
-    override fun getAppDa(packageName: String): Flow<AppDA> =
-        appDaDao.loadAppDa(packageName).distinctUntilChanged().map { appDa ->
+    override fun getAppDa(packageName: String, userId: Int): Flow<AppDA> =
+        appDaDao.loadAppDa(packageName, userId).distinctUntilChanged().map { appDa ->
             if (appDa.count == null) {
-                appDa.count = AppCount(packageName = appDa.info.packageName)
+                appDa.count = AppCount(packageName = appDa.info.packageName, userId = userId)
             }
             if (appDa.st == null) {
                 appDa.st = AppSt(packageName = appDa.info.packageName)
@@ -21,8 +21,8 @@ class AppDaR(private val appDaDao: AppDaDao) : AppDaRepo {
             appDa
         }
 
-    override fun getAppSt(packageName: String): Flow<AppSt> =
-        appDaDao.loadAppSt(packageName).distinctUntilChanged().map {
+    override fun getAppSt(packageName: String, userId: Int): Flow<AppSt> =
+        appDaDao.loadAppSt(packageName, userId).distinctUntilChanged().map {
             it ?: AppSt(packageName = packageName)
         }
 

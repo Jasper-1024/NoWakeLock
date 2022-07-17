@@ -29,9 +29,7 @@ class AppDasAR(private val appInfoDao: AppInfoDao, private val daDao: DADao) : A
         appInfoDao.loadAppInfos().distinctUntilChanged().map { appDas ->
             appDas.forEach {
                 if (it.count == null) {
-                    it.count = AppCount(
-                        packageName = it.info.packageName
-                    )
+                    it.count = AppCount(packageName = it.info.packageName, userId = it.info.userId)
                 }
             }
             appDas

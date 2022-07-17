@@ -18,7 +18,7 @@ import org.koin.core.qualifier.named
 class AppDaViewModel(val packageName: String) : ViewModel(), KoinComponent {
     private val appDaR: AppDaRepo by inject(named("AppDaR"))
 
-    var appDa = appDaR.getAppDa(packageName).asLiveData()
+    var appDa = appDaR.getAppDa(packageName, userId = 0).asLiveData()
 
     fun saveAppSt(appSt: AppSt) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -28,7 +28,7 @@ class AppDaViewModel(val packageName: String) : ViewModel(), KoinComponent {
 
     fun syncAppSt() {
         viewModelScope.launch(Dispatchers.IO) {
-            appDaR.getAppSt(packageName).collect {
+            appDaR.getAppSt(packageName, userId = 0).collect {
                 saveAppStSP(it)
             }
         }

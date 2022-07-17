@@ -15,27 +15,30 @@ interface DADao : BaseDao<St> {
     fun loadDAs(type: Type): Flow<List<DA>>
 
     @Transaction
-    @Query("select * from info where type_info = :type and packageName_info = :packageName and userId = :userId")
+    @Query(
+        "SELECT * FROM info left outer join st on info.userid_info = st.userId_st and info.name_info = st.name_st " +
+                "where type_info = :type"
+    )
+    fun loadDAsT(type: Type): Flow<Map<Info, St?>>
+
+    @Transaction
+    @Query("select * from info where type_info = :type and packageName_info = :packageName and userid_info = :userId")
     fun loadAppDAs(packageName: String, type: Type, userId: Int = 0): Flow<List<DA>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(infos: List<Info>)
 
     @Transaction
-    @Query("SELECT * FROM info where name_info =:name and type_info = :type and userId = :userId")
+    @Query("SELECT * FROM info where name_info =:name and type_info = :type and userid_info = :userId")
     fun loadDA(name: String, type: Type, userId: Int = 0): Flow<DA>
 
 
-    @Query("select * from st where type_st = :type and userId = :userId")
+    @Query("select * from st where type_st = :type and userId_st = :userId")
     fun loadSts(type: Type, userId: Int = 0): Flow<List<St>>
 
-    @Query("select * from st where type_st = :type and userId = :userId")
+    @Query("select * from st where type_st = :type and userId_st = :userId")
     suspend fun loadStsDB(type: Type, userId: Int = 0): List<St>
 
     @Query("select * from st")
     suspend fun loadStsDB(): List<St>
-//
-//
-//    @Query("select * from st where type_st = :type and name_st = :name")
-//    suspend fun loadSt(name: String, type: Type): St?
 }

@@ -13,6 +13,6 @@ interface AppDaDao : BaseDao<AppSt> {
     @Query("select * from appInfo where packageName = :packageName and userId = :userId")
     fun loadAppDa(packageName: String, userId: Int = 0): Flow<AppDA>
 
-    @Query("select * from appSt where packageName_st = :packageName and userId = :userId")
+    @Query("select * from appSt where packageName_st = :packageName and userId_appSt = :userId")
     fun loadAppSt(packageName: String, userId: Int = 0): Flow<AppSt?>
 }
