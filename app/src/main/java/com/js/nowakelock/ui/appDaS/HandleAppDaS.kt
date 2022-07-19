@@ -10,7 +10,8 @@ class HandleAppDaS : BaseItemHandle() {
         val direction =
             AppDaSFragmentDirections.actionAppDaFragmentToAppFragment(
                 appInfo.packageName,
-                appInfo.label
+                appInfo.label,
+                appInfo.userId
             )
         view.findNavController().navigate(direction)
     }

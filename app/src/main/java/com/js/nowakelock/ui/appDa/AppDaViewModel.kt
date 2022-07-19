@@ -15,10 +15,10 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.qualifier.named
 
-class AppDaViewModel(val packageName: String) : ViewModel(), KoinComponent {
+class AppDaViewModel(val packageName: String, val userId: Int) : ViewModel(), KoinComponent {
     private val appDaR: AppDaRepo by inject(named("AppDaR"))
 
-    var appDa = appDaR.getAppDa(packageName, userId = 0).asLiveData()
+    var appDa = appDaR.getAppDa(packageName, userId).asLiveData()
 
     fun saveAppSt(appSt: AppSt) {
         viewModelScope.launch(Dispatchers.IO) {

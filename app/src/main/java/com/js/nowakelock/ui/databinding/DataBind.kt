@@ -13,6 +13,7 @@ import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.request.RequestOptions
 import com.js.nowakelock.base.getFormattedTime
 import com.js.nowakelock.data.db.entity.AppInfo
+import com.js.nowakelock.data.db.entity.DA
 import com.js.nowakelock.ui.databinding.item.BaseItem
 import java.util.concurrent.TimeUnit
 
@@ -45,6 +46,13 @@ object DataBind {
         }
         // items 为空 orEmpty 返回空实例
         adapter.submitList(items.orEmpty())
+    }
+
+    @JvmStatic
+    @SuppressLint("SetTextI18n")
+    @BindingAdapter("showUser")
+    fun loadUser(textView: TextView, userId: Int) {
+        textView.text = "$userId"
     }
 
     @JvmStatic

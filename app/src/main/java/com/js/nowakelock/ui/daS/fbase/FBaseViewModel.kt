@@ -12,10 +12,13 @@ import java.text.Collator
 import java.util.*
 import kotlin.Comparator
 
-class FBaseViewModel(private var packageName: String = "", private var fR: FR) : ViewModel() {
+class FBaseViewModel(
+    private var packageName: String = "", private var userId: Int,
+    private var fR: FR
+) : ViewModel() {
     var das: LiveData<List<DA>> =
         if (packageName == "") fR.getDAs().asLiveData()
-        else fR.getDAs(packageName).asLiveData()
+        else fR.getDAs(packageName, userId).asLiveData()
 
     private val handleDA = HandleDA(this)
 
@@ -98,9 +101,9 @@ class FBaseViewModel(private var packageName: String = "", private var fR: FR) :
     }
 
     private fun saveSt(st: St) {
-        SPTools.setBoolean("${st.name}_${st.type}_${st.packageName}_flag", st.flag)
+        SPTools.setBoolean("${st.name}_${st.type}_${st.packageName}_${st.userId}_flag", st.flag)
         SPTools.setLong(
-            "${st.name}_${st.type}_${st.packageName}_aTI",
+            "${st.name}_${st.type}_${st.packageName}_${st.userId}_aTI",
             st.allowTimeInterval
         )
 

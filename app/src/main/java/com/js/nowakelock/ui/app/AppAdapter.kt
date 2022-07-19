@@ -8,7 +8,8 @@ import com.js.nowakelock.ui.daS.AlarmFragment
 import com.js.nowakelock.ui.daS.ServiceFragment
 import com.js.nowakelock.ui.daS.WakeLockFragment
 
-class AppAdapter(fragment: Fragment, val packageName: String) : FragmentStateAdapter(fragment) {
+class AppAdapter(fragment: Fragment, val packageName: String, val userId: Int) :
+    FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = 4
 
@@ -16,6 +17,7 @@ class AppAdapter(fragment: Fragment, val packageName: String) : FragmentStateAda
         val fragment = getFragment(position)
         fragment.arguments = Bundle().apply {
             putString("packageName", packageName)
+            putInt("userId", userId)
         }
         return fragment
     }

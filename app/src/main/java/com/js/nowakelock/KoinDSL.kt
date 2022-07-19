@@ -56,9 +56,9 @@ var repository = module {
 
 var viewModel = module {
 
-    viewModel(named("FVm")) { (packageName: String, type: Type) ->
+    viewModel(named("FVm")) { (packageName: String, userId: Int, type: Type) ->
         FBaseViewModel(
-            packageName,
+            packageName, userId,
             when (type) {
                 Type.Wakelock -> get(named("WakelockR"))
                 Type.Alarm -> get(named("AlarmR"))
@@ -73,16 +73,16 @@ var viewModel = module {
         MainViewModel()
     }
 
-    viewModel(named("AppDaSVM")) {
-        AppDaSViewModel(get(named("AppDasR")))
+    viewModel(named("AppDaSVM")) { (userId: Int) ->
+        AppDaSViewModel(userId, get(named("AppDasR")))
     }
 
     viewModel(named("DaVm")) { (name: String, type: Type, userId: Int) ->
         DaViewModel(name, type, userId)
     }
 
-    viewModel(named("AppDaVm")) { (packageName: String) ->
-        AppDaViewModel(packageName)
+    viewModel(named("AppDaVm")) { (packageName: String, userId: Int) ->
+        AppDaViewModel(packageName, userId)
     }
 
 }

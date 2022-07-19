@@ -6,6 +6,7 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.navArgs
 import com.js.nowakelock.R
 import com.js.nowakelock.base.menuGone
 import com.js.nowakelock.databinding.FragmentAppdaBinding
@@ -15,15 +16,17 @@ import org.koin.core.qualifier.named
 
 class AppDaFragment : Fragment() {
     var packageName: String = ""
+    var userId: Int = 0
 
     private lateinit var binding: FragmentAppdaBinding
 
     val viewModel: AppDaViewModel by viewModel(named("AppDaVm")) {
-        parametersOf(packageName)
+        parametersOf(packageName, userId)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         packageName = arguments?.getString("packageName") ?: ""
+        userId = arguments?.getInt("userId") ?: 0
         super.onCreate(savedInstanceState)
 
         viewModel.syncAppSt()

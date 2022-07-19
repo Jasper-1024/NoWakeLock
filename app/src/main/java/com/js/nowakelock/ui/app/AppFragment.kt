@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -12,7 +13,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.js.nowakelock.R
 
 class AppFragment : Fragment() {
+
     private lateinit var packageName: String
+    private var userId: Int = 0
+
+    private val args: AppFragmentArgs by navArgs()
 
     private lateinit var adapter: AppAdapter
     private lateinit var viewPager: ViewPager2
@@ -20,12 +25,13 @@ class AppFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        packageName = arguments?.getString("packageName") ?: ""
+        packageName = args.packageName
+        userId = args.userId
         return inflater.inflate(R.layout.fragment_app, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adapter = AppAdapter(this, packageName)
+        adapter = AppAdapter(this, packageName, userId)
         viewPager = view.findViewById(R.id.app_pager)
         viewPager.offscreenPageLimit = 1
         (viewPager.getChildAt(0) as RecyclerView).layoutManager!!.isItemPrefetchEnabled = false

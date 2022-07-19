@@ -13,9 +13,9 @@ import java.text.Collator
 import java.util.*
 import kotlin.Comparator
 
-class AppDaSViewModel(private var appDasRepo: AppDasRepo) : ViewModel() {
+class AppDaSViewModel(private val userId: Int, private var appDasRepo: AppDasRepo) : ViewModel() {
 
-    var appDas: LiveData<List<AppDA>> = appDasRepo.getAppDAs().asLiveData()
+    var appDas: LiveData<List<AppDA>> = appDasRepo.getAppDAs(userId).asLiveData()
 
     private val handleAppDaS = HandleAppDaS()
 
@@ -29,7 +29,7 @@ class AppDaSViewModel(private var appDasRepo: AppDasRepo) : ViewModel() {
     }
 
     suspend fun sync() {
-        appDasRepo.syncAppInfos()
+        appDasRepo.syncAppInfos(userId)
         appDasRepo.syncInfos()
     }
 

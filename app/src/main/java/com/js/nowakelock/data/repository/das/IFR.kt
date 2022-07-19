@@ -20,36 +20,49 @@ open class IFR(private val daDao: DADao) : FR {
     private val tag = "NoWakelock"
 
     override fun getDAs(): Flow<List<DA>> {
-        return daDao.loadDAs(type).distinctUntilChanged().map { das ->
+        return daDao.loadISs(type).distinctUntilChanged().map { map ->
+            val list = mutableListOf<DA>()
 
-            das.forEach {
-                if (it.info.count != 0)// calculate blockCountTime
-                    it.info.blockCountTime =
-                        it.info.blockCount * (it.info.countTime / it.info.count)
-                if (it.st == null) {
-                    it.st = St(
-                        name = it.info.name,
-                        type = it.info.type,
-                        packageName = it.info.packageName
+            map.forEach {
+                if (it.key.count != 0)// calculate blockCountTime
+                    it.key.blockCountTime =
+                        it.key.blockCount * (it.key.countTime / it.key.count)
+
+                if (it.value == null) {
+                    list.add(
+                        DA(
+                            info = it.key,
+                            st = St(name = it.key.name, type = it.key.type, userId = it.key.userId)
+                        )
                     )
+                } else {
+                    list.add(DA(info = it.key, st = it.value))
                 }
             }
-            das
+            list
         }
     }
 
-    override fun getDAs(packageName: String): Flow<List<DA>> {
-        return daDao.loadAppDAs(packageName, type).distinctUntilChanged().map { das ->
-            das.forEach {
-                if (it.st == null) {
-                    it.st = St(
-                        name = it.info.name,
-                        type = it.info.type,
-                        packageName = it.info.packageName
+    override fun getDAs(packageName: String, userId: Int): Flow<List<DA>> {
+        return daDao.loadISs(packageName, type, userId).distinctUntilChanged().map { map ->
+            val list = mutableListOf<DA>()
+            map.forEach {
+                if (it.key.count != 0)// calculate blockCountTime
+                    it.key.blockCountTime =
+                        it.key.blockCount * (it.key.countTime / it.key.count)
+
+                if (it.value == null) {
+                    list.add(
+                        DA(
+                            info = it.key,
+                            st = St(name = it.key.name, type = it.key.type, userId = it.key.userId)
+                        )
                     )
+                } else {
+                    list.add(DA(info = it.key, st = it.value))
                 }
             }
-            das
+            list
         }
     }
 

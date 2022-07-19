@@ -38,7 +38,7 @@
 
         <TextView
             android:id="@+id/packageName"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -46,7 +46,6 @@
             android:onLongClick="@{() -> vm.copy(vm.da.info.packageName)}"
             android:text="@{vm.da.info.packageName}"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView2"
             app:layout_constraintTop_toBottomOf="@+id/textView2"
             tools:ignore="MissingConstraints,SmallSp" />
@@ -243,6 +242,27 @@
             app:layout_constraintBottom_toBottomOf="@+id/blockContTime"
             app:layout_constraintStart_toEndOf="@+id/contTime"
             app:layout_constraintTop_toTopOf="@+id/blockContTime" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/user_name"
+            app:layout_constraintBottom_toBottomOf="@+id/textView10"
+            app:layout_constraintStart_toEndOf="@+id/packageName"
+            app:layout_constraintTop_toTopOf="@+id/textView10" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView6"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:showUser="@{vm.da.info.userId}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -7,7 +7,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface FR {
     fun getDAs(): Flow<List<DA>>
-    fun getDAs(packageName: String): Flow<List<DA>>
+
+    /**
+     * for das get one app's info
+     * @param packageName String
+     * @param userId Int
+     * @return Flow<List<DA>>
+     */
+    fun getDAs(packageName: String, userId: Int): Flow<List<DA>>
 
     suspend fun insertInfos(infos: List<Info>)
     suspend fun insertSt(st: St)

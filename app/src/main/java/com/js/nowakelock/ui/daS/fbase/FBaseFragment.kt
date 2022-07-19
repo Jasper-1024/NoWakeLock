@@ -28,6 +28,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 open class FBaseFragment : Fragment() {
 
     open var packageName: String = ""
+    open var userId: Int = 0
     open val type: Type = Type.Wakelock
     open val layout = R.layout.item_wakelock
 
@@ -35,13 +36,15 @@ open class FBaseFragment : Fragment() {
     private lateinit var binding: FragmentDasBinding
 
     open val viewModel: FBaseViewModel by viewModel(named("FVm")) {
-        parametersOf(packageName, type)
+        parametersOf(packageName, userId, type)
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // 获取 packageName
         packageName = arguments?.getString("packageName") ?: ""
+        userId = arguments?.getInt("userId") ?: 0
+
         super.onCreate(savedInstanceState)
 
         addSubscription(viewModel.das)

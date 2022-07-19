@@ -31,6 +31,10 @@
             android:name="label"
             android:defaultValue='""'
             app:argType="string" />
+        <argument
+            android:name="userId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 
     <fragment

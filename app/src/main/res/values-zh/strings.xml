@@ -82,4 +82,6 @@
     <string name="clear_summary">清空计数时,一同清理不活跃记录.</string>
     <string name="clear_title">清理不活跃记录</string>
     <string name="re_hint">一行一个规则,新规则回车另起新行.</string>
+    <string name="user_name_owner">主用户</string>
+    <string name="user_name">用户</string>
 </resources>

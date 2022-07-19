@@ -5,8 +5,8 @@ import com.js.nowakelock.data.db.entity.AppInfo
 import kotlinx.coroutines.flow.Flow
 
 interface AppDasRepo {
-    fun getAppDAs(): Flow<List<AppDA>>
-    suspend fun getAppInfo(packageName: String): AppInfo
-    suspend fun syncAppInfos()
+    fun getAppDAs(userId: Int): Flow<List<AppDA>>
+    suspend fun getAppInfo(packageName: String, useId: Int): AppInfo
+    suspend fun syncAppInfos(userId: Int)
     suspend fun syncInfos()
 }

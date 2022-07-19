@@ -1,19 +1,22 @@
 package com.js.nowakelock.data.repository.appdas
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.ApplicationInfo
+import android.content.pm.LauncherApps
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.UserManager
 import androidx.collection.ArrayMap
+import androidx.core.content.getSystemService
 import com.js.nowakelock.BasicApp
+import com.js.nowakelock.BasicApp.Companion.context
 import com.js.nowakelock.base.getCPResult
+import com.js.nowakelock.base.getUserId
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.data.db.dao.AppInfoDao
 import com.js.nowakelock.data.db.dao.DADao
-import com.js.nowakelock.data.db.entity.AppCount
-import com.js.nowakelock.data.db.entity.AppDA
-import com.js.nowakelock.data.db.entity.AppInfo
-import com.js.nowakelock.data.db.entity.Info
+import com.js.nowakelock.data.db.entity.*
 import com.js.nowakelock.data.provider.ProviderMethod
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -23,25 +26,31 @@ import kotlinx.coroutines.withContext
 
 class AppDasAR(private val appInfoDao: AppInfoDao, private val daDao: DADao) : AppDasRepo {
 
-    private val pm: PackageManager = BasicApp.context.packageManager
+    private val pm: PackageManager = context.packageManager
+    private val um = context.getSystemService(Context.USER_SERVICE) as UserManager
+    private val launcherApps = context.getSystemService<LauncherApps>()!!
 
-    override fun getAppDAs(): Flow<List<AppDA>> =
-        appInfoDao.loadAppInfos().distinctUntilChanged().map { appDas ->
-            appDas.forEach {
-                if (it.count == null) {
-                    it.count = AppCount(packageName = it.info.packageName, userId = it.info.userId)
-                }
+    override fun getAppDAs(userId: Int): Flow<List<AppDA>> {
+        return appInfoDao.loadAIACs(userId).map { map ->
+            val list = mutableListOf<AppDA>()
+
+            map.forEach {
+                list.add(
+                    AppDA(
+                        it.key, it.value ?: AppCount(it.key.packageName, it.key.userId), null
+                    )
+                )
             }
-            appDas
+            list
         }
+    }
 
+    override suspend fun getAppInfo(packageName: String, useId: Int): AppInfo =
+        appInfoDao.loadAppInfo(packageName, useId)
 
-    override suspend fun getAppInfo(packageName: String): AppInfo =
-        appInfoDao.loadAppInfo(packageName)
-
-    override suspend fun syncAppInfos() = withContext(Dispatchers.Default) {
-        val dbAppInfos = getDBAppInfos()//db AppInfos
-        val sysAppInfos = getSysAppInfos()//system AppInfos
+    override suspend fun syncAppInfos(userId: Int) = withContext(Dispatchers.Default) {
+        val dbAppInfos = getDBAppInfos(userId)//db AppInfos
+        val sysAppInfos = getSysAppInfos(userId)//system AppInfos
 
         //取差集更新删除
         insertAll(sysAppInfos.keys subtract dbAppInfos.keys, sysAppInfos)
@@ -91,24 +100,28 @@ class AppDasAR(private val appInfoDao: AppInfoDao, private val daDao: DADao) : A
 
     // 获取全部 system AppInfos
     @SuppressLint("QueryPermissionsNeeded")
-    private suspend fun getSysAppInfos(): ArrayMap<String, AppInfo> =
+    private suspend fun getSysAppInfos(userId: Int): ArrayMap<String, AppInfo> =
         withContext(Dispatchers.IO) {
             val sysAppInfo = ArrayMap<String, AppInfo>()
 
-//            LogUtil.d("test2", "${pm.getInstalledApplications(0).size}")
-
-            pm.getInstalledApplications(0).forEach {
-                sysAppInfo[it.packageName] = getSysAppInfo(it)
+            if (userId == 0) { // main user
+                pm.getInstalledApplications(0).forEach {
+                    sysAppInfo[it.packageName] = getSysAppInfo(it)
+                }
+            } else {// other
+                val user = um.getUserForSerialNumber(userId.toLong())
+                launcherApps.getActivityList(null, user).map {
+                    sysAppInfo[it.applicationInfo.packageName] = getSysAppInfo(it.applicationInfo)
+                }
             }
-
             return@withContext sysAppInfo
         }
 
     // 获取全部数据库 AppInfos
-    private suspend fun getDBAppInfos(): ArrayMap<String, AppInfo> =
+    private suspend fun getDBAppInfos(userId: Int): ArrayMap<String, AppInfo> =
         withContext(Dispatchers.IO) {
             val dbAppInfos = ArrayMap<String, AppInfo>()
-            appInfoDao.loadAppInfosDB().forEach {
+            appInfoDao.loadAppInfosDB(userId).forEach {
                 dbAppInfos[it.packageName] = it
             }
             return@withContext dbAppInfos
@@ -133,7 +146,8 @@ class AppDasAR(private val appInfoDao: AppInfoDao, private val daDao: DADao) : A
             system,
             enabled,
             persistent,
-            ai.processName
+            ai.processName,
+            getUserId(ai.uid)
         )
     }
 }

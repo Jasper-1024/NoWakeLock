@@ -10,28 +10,39 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface DADao : BaseDao<St> {
 
-    @Transaction
-    @Query("SELECT * FROM info where type_info = :type")
-    fun loadDAs(type: Type): Flow<List<DA>>
+//    @Transaction
+//    @Query("SELECT * FROM info where type_info = :type")
+//    fun loadDAs(type: Type): Flow<List<DA>>
 
     @Transaction
     @Query(
         "SELECT * FROM info left outer join st on info.userid_info = st.userId_st and info.name_info = st.name_st " +
                 "where type_info = :type"
     )
-    fun loadDAsT(type: Type): Flow<Map<Info, St?>>
+    fun loadISs(type: Type): Flow<Map<Info, St?>>
 
     @Transaction
-    @Query("select * from info where type_info = :type and packageName_info = :packageName and userid_info = :userId")
-    fun loadAppDAs(packageName: String, type: Type, userId: Int = 0): Flow<List<DA>>
+    @Query(
+        "SELECT * FROM info left outer join st on info.userid_info = st.userId_st and info.name_info = st.name_st " +
+                "where type_info = :type and packageName_info = :packageName and userid_info = :userId"
+    )
+    fun loadISs(packageName: String, type: Type, userId: Int = 0): Flow<Map<Info, St?>>
+
+//    @Transaction
+//    @Query(
+//        "SELECT * FROM info left outer join st on info.userid_info = st.userId_st and info.name_info = st.name_st " +
+//                "where name_info=:name and type_info = :type and userid_info = :userId"
+//    )
+//    fun loadDA(name: String, type: Type, userId: Int = 0): Flow<DA>
+
+    @Query("select * from info where name_info = :name and type_info = :type and userid_info = :userId")
+    fun loadInfo(name: String, type: Type, userId: Int = 0): Flow<Info>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(infos: List<Info>)
 
-    @Transaction
-    @Query("SELECT * FROM info where name_info =:name and type_info = :type and userid_info = :userId")
-    fun loadDA(name: String, type: Type, userId: Int = 0): Flow<DA>
-
+    @Query("select * from st where name_st = :name and type_st = :type and userId_st = :userId")
+    fun loadSt(name: String, type: Type, userId: Int = 0): Flow<St?>
 
     @Query("select * from st where type_st = :type and userId_st = :userId")
     fun loadSts(type: Type, userId: Int = 0): Flow<List<St>>

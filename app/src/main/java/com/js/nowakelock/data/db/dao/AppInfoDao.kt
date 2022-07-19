@@ -9,21 +9,19 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AppInfoDao : BaseDao<AppInfo> {
-
     @Transaction
-    @Query("select * from appInfo where userId = :userId")
-    fun loadAppInfos(userId: Int = 0): Flow<List<AppDA>>
+    @Query(
+        "SELECT * FROM appInfo left outer join appcount on appInfo.packageName = appcount.packageName_count and appInfo.userId = appcount.userId_count " +
+                "where userId = :userId"
+    )
+    fun loadAIACs(userId: Int = 0): Flow<Map<AppInfo, AppCount?>>
 
-    @Query("select * from appInfo")
-    fun loadAppInfosDB(): List<AppInfo>
+    @Query("select * from appInfo where userId = :userId")
+    fun loadAppInfosDB(userId: Int): List<AppInfo>
 
     @Query("select * from appInfo where packageName = :packageName and userId = :userId")
     suspend fun loadAppInfo(packageName: String, userId: Int = 0): AppInfo
 
-    //    @Query("select count,countTime,blockCount from info where name_info = :name")
     @Query("select * from AppCount")
     suspend fun loadAppCount(): List<AppCount>
-
-//    @Query("select * from appInfo")
-//    fun loadAppInfos2(): Flow<List<AppDA>>
 }
