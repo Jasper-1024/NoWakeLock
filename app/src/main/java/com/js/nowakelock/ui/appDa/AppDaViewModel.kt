@@ -28,7 +28,7 @@ class AppDaViewModel(val packageName: String, val userId: Int) : ViewModel(), Ko
 
     fun syncAppSt() {
         viewModelScope.launch(Dispatchers.IO) {
-            appDaR.getAppSt(packageName, userId = 0).collect {
+            appDaR.getAppSt(packageName, userId).collect {
                 saveAppStSP(it)
             }
         }
@@ -43,6 +43,14 @@ class AppDaViewModel(val packageName: String, val userId: Int) : ViewModel(), Ko
             "${Type.Alarm}_${appSt.packageName}_${appSt.userId}_rE",
             appSt.rE_Alarm
         )
+//        LogUtil.d(
+//            "Xposed.NoWakeLock",
+//            "${Type.Wakelock}_${appSt.packageName}_${appSt.userId}_rE:${appSt.rE_Wakelock}"
+//        )
+//        LogUtil.d(
+//            "Xposed.NoWakeLock",
+//            "${Type.Alarm}_${appSt.packageName}_${appSt.userId}_rE:${appSt.rE_Alarm}"
+//        )
     }
 
 }

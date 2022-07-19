@@ -28,7 +28,7 @@ class AppDaR(private val appDaDao: AppDaDao) : AppDaRepo {
 
     override fun getAppSt(packageName: String, userId: Int): Flow<AppSt> =
         appDaDao.loadAppSt(packageName, userId).distinctUntilChanged().map {
-            it ?: AppSt(packageName = packageName)
+            it ?: AppSt(packageName = packageName, userId = userId)
         }
 
     override suspend fun setAppSt(appSt: AppSt) {

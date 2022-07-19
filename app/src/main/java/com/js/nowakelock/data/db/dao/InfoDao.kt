@@ -3,6 +3,7 @@ package com.js.nowakelock.data.db.dao
 import androidx.room.*
 import com.js.nowakelock.data.db.Type
 import com.js.nowakelock.data.db.entity.Info
+import com.js.nowakelock.data.db.entity.St
 
 @Dao
 interface InfoDao : BaseDao<Info> {
@@ -61,6 +62,13 @@ interface InfoDao : BaseDao<Info> {
 
     @Query("update info set countTime = 0")
     suspend fun rstAllCountTime()
+
+//    @Transaction
+//    @Query(
+//        "select * from info where not exists (select 1 from st " +
+//                "where info.name_info = st.name_st)"
+//    )
+//    suspend fun clearNoActive(): List<Info>
 
     @Query("DELETE FROM info")
     suspend fun clearAll()

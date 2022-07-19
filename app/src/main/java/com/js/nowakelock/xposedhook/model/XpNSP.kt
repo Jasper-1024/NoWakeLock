@@ -55,7 +55,13 @@ class XpNSP {
     }
 
     fun rE(name: String, packageName: String, type: Type, userId: Int): Boolean {
-        val rE = getSet("$${type}_${packageName}_${userId}_rE")
+
+//        XpUtil.log(
+//            "${type}_${packageName}_${userId}_rE, " +
+//                    "re:${getSet("${type}_${packageName}_${userId}_rE")}"
+//        )
+
+        val rE = getSet("${type}_${packageName}_${userId}_rE")
         if (rE.isEmpty()) {
             return false
         } else {

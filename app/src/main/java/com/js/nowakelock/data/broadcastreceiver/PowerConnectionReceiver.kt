@@ -10,7 +10,6 @@ import com.js.nowakelock.base.getCPResult
 import com.js.nowakelock.data.db.AppDatabase
 import com.js.nowakelock.data.db.dao.DADao
 import com.js.nowakelock.data.db.dao.InfoDao
-import com.js.nowakelock.data.db.entity.Info
 import com.js.nowakelock.data.provider.ProviderMethod
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -44,26 +43,25 @@ class PowerConnectionReceiver : BroadcastReceiver() {
                 clearCount(db.infoDao())
 
                 if (clearFlag) {
-                    clearAll(db.infoDao(), db.dADao())
+                    clearNoActive(db.dADao())
                 }
 
             }
         }
 
+    // clear all count
     private suspend fun clearCount(infoDao: InfoDao) {
         infoDao.rstAllCount()
+        infoDao.rstAllBlockCount()
         infoDao.rstAllCountTime()
     }
 
-    private suspend fun clearAll(infoDao: InfoDao, daDao: DADao) {
-        infoDao.clearAll()
-        // for st info
-        infoDao.insert(
-            daDao.loadStsDB().map {
-                Info(name = it.name, type = it.type, packageName = it.packageName)
-            })
+    // clear all no active(no exist in appDb.st)
+    private suspend fun clearNoActive(daDao: DADao) {
+        daDao.clearNoActive()
     }
 
+    // clear infoDb
     private fun clearCPAll() {
         val args = Bundle()
         getCPResult(BasicApp.context, ProviderMethod.ClearAll.value, args)

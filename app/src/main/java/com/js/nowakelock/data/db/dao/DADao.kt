@@ -52,4 +52,12 @@ interface DADao : BaseDao<St> {
 
     @Query("select * from st")
     suspend fun loadStsDB(): List<St>
+
+    @Transaction
+    @Query(
+        "delete from info where not exists (select 1 from st " +
+                "where name_info = name_st and type_info=type_st " +
+                "and packageName_info = packageName_st and userId_info = userId_st)"
+    )
+    suspend fun clearNoActive()
 }
