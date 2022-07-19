@@ -44,8 +44,8 @@ interface DADao : BaseDao<St> {
     @Query("select * from st where name_st = :name and type_st = :type and userId_st = :userId")
     fun loadSt(name: String, type: Type, userId: Int = 0): Flow<St?>
 
-    @Query("select * from st where type_st = :type and userId_st = :userId")
-    fun loadSts(type: Type, userId: Int = 0): Flow<List<St>>
+    @Query("select * from st where type_st = :type")
+    fun loadSts(type: Type): Flow<List<St>>
 
     @Query("select * from st where type_st = :type and userId_st = :userId")
     suspend fun loadStsDB(type: Type, userId: Int = 0): List<St>

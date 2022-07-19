@@ -47,14 +47,17 @@ interface InfoDao : BaseDao<Info> {
     suspend fun upCountTime(time: Long, name: String, type: Type, userId: Int = 0)
 
 
-    @Query("update info set count = 0 where type_info = :type and userid_info = :userId")
-    suspend fun rstAllCount(type: Type, userId: Int = 0)
+    @Query("update info set count = 0 where type_info = :type")
+    suspend fun rstAllCount(type: Type)
 
-    @Query("update info set countTime = 0 where type_info = :type and userid_info = :userId")
-    suspend fun rstAllCountTime(type: Type, userId: Int = 0)
+    @Query("update info set countTime = 0 where type_info = :type")
+    suspend fun rstAllCountTime(type: Type)
 
     @Query("update info set count = 0")
     suspend fun rstAllCount()
+
+    @Query("update info set blockCount = 0")
+    suspend fun rstAllBlockCount()
 
     @Query("update info set countTime = 0")
     suspend fun rstAllCountTime()

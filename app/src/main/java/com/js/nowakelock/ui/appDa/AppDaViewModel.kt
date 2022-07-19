@@ -35,8 +35,14 @@ class AppDaViewModel(val packageName: String, val userId: Int) : ViewModel(), Ko
     }
 
     private fun saveAppStSP(appSt: AppSt) {
-        SPTools.setSet("${Type.Wakelock}_${appSt.packageName}_rE", appSt.rE_Wakelock)
-        SPTools.setSet("${Type.Alarm}_${appSt.packageName}_rE", appSt.rE_Alarm)
+        SPTools.setSet(
+            "${Type.Wakelock}_${appSt.packageName}_${appSt.userId}_rE",
+            appSt.rE_Wakelock
+        )
+        SPTools.setSet(
+            "${Type.Alarm}_${appSt.packageName}_${appSt.userId}_rE",
+            appSt.rE_Alarm
+        )
     }
 
 }

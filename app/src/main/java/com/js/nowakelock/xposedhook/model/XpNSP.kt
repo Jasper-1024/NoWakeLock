@@ -37,25 +37,25 @@ class XpNSP {
         }
     }
 
-    fun flag(name: String, packageName: String, type: Type): Boolean {
-        //XpUtil.log("$type name:$name package:$packageName flag:${getBool("${name}_${type}_${packageName}_flag")}")
-        return getBool("${name}_${type}_${packageName}_flag")
+    fun flag(name: String, packageName: String, type: Type, userId: Int): Boolean {
+//        XpUtil.log("${name}_${type}_${packageName}_${userId}_flag, flag:${getBool("${name}_${type}_${packageName}_${userId}_flag")}")
+        return getBool("${name}_${type}_${packageName}_${userId}_flag")
     }
 
     fun aTI(
         now: Long, lastActive: Long,
-        name: String, packageName: String, type: Type
+        name: String, packageName: String, type: Type, userId: Int
     ): Boolean {
 
-        //XpUtil.log("$type name:$name package:$packageName ati:${getLong("${name}_${type}_${packageName}_aTI")}")
+//        XpUtil.log("${name}_${type}_${packageName}_${userId}_aTI, ati:${getLong("${name}_${type}_${packageName}_${userId}_aTI")}")
 
-        val ati = getLong("${name}_${type}_${packageName}_aTI")
+        val ati = getLong("${name}_${type}_${packageName}_${userId}_aTI")
 
         return (now - lastActive) < (ati * 1000)
     }
 
-    fun rE(name: String, packageName: String, type: Type): Boolean {
-        val rE = getSet("$${type}_${packageName}_rE")
+    fun rE(name: String, packageName: String, type: Type, userId: Int): Boolean {
+        val rE = getSet("$${type}_${packageName}_${userId}_rE")
         if (rE.isEmpty()) {
             return false
         } else {

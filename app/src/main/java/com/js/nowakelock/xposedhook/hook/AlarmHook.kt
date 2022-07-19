@@ -127,7 +127,8 @@ class AlarmHook {
                 val now = SystemClock.elapsedRealtime() //current time
 
                 // block or not
-                val block = block(alarmName, packageName, lastAllowTime[alarmName] ?: 0, now)
+                val block =
+                    block(alarmName, packageName, userId, lastAllowTime[alarmName] ?: 0, now)
 
                 if (block) {//block alarm
                     triggerList.removeAt(i)
@@ -144,12 +145,12 @@ class AlarmHook {
         }
 
         private fun block(
-            name: String, packageName: String, lastActive: Long, now: Long
+            name: String, packageName: String, userId: Int, lastActive: Long, now: Long
         ): Boolean {
             val xpNSP = XpNSP.getInstance()
-            return xpNSP.flag(name, packageName, type)
-                    || xpNSP.aTI(now, lastActive, name, packageName, type)
-                    || xpNSP.rE(name, packageName, type)
+            return xpNSP.flag(name, packageName, type, userId)
+                    || xpNSP.aTI(now, lastActive, name, packageName, type, userId)
+                    || xpNSP.rE(name, packageName, type, userId)
         }
     }
 }

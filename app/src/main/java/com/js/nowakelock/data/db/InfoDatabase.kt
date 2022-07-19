@@ -1,10 +1,8 @@
 package com.js.nowakelock.data.db
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
+import androidx.room.*
+import androidx.room.migration.AutoMigrationSpec
 import com.js.nowakelock.data.db.converters.SetConvert
 import com.js.nowakelock.data.db.converters.TypeConvert
 import com.js.nowakelock.data.db.dao.InfoDao
@@ -14,12 +12,12 @@ import com.js.nowakelock.data.db.entity.Info
     entities = [
         Info::class
     ],
-    version = 5,
+    version = 6,
     autoMigrations = [
         androidx.room.AutoMigration(from = 1, to = 2),
         androidx.room.AutoMigration(from = 2, to = 3),
         androidx.room.AutoMigration(from = 3, to = 4),
-        androidx.room.AutoMigration(from = 4, to = 5)
+        androidx.room.AutoMigration(from = 4, to = 5, spec = InfoDatabase.C4To5::class)
     ]
 )
 @TypeConverters(SetConvert::class, TypeConvert::class)
@@ -46,4 +44,9 @@ abstract class InfoDatabase : RoomDatabase() {
             .fallbackToDestructiveMigration() //if version change, it will delete all data.
             .build()
     }
+
+    @RenameColumn(
+        tableName = "info", fromColumnName = "userId", toColumnName = "userid_info"
+    )
+    class C4To5 : AutoMigrationSpec
 }

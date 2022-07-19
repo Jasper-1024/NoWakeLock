@@ -107,10 +107,13 @@ class FBaseViewModel(
             st.allowTimeInterval
         )
 
-//        LogUtil.d("Nowakelcok", "${st.name}_${st.type}_${st.packageName}_flag: ${st.flag}")
 //        LogUtil.d(
 //            "Nowakelcok",
-//            "${st.name}_${st.type}_${st.packageName}_aTI: ${st.allowTimeInterval}"
+//            "${st.name}_${st.type}_${st.packageName}_${st.userId}_flag: ${st.flag}"
+//        )
+//        LogUtil.d(
+//            "Nowakelcok",
+//            "${st.name}_${st.type}_${st.packageName}_${st.userId}_aTI: ${st.allowTimeInterval}"
 //        )
     }
 }

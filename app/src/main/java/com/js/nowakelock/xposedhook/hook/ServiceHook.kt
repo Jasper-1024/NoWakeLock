@@ -195,7 +195,7 @@ class ServiceHook {
 
 //            XpUtil.log("$packageName service: $serviceName userid:$userId")
 
-            val block = block(serviceName, packageName)
+            val block = block(serviceName, packageName, userId)
 
             if (block) {
                 param.result = null
@@ -210,9 +210,9 @@ class ServiceHook {
             }
         }
 
-        private fun block(name: String, packageName: String): Boolean {
+        private fun block(name: String, packageName: String, userId: Int): Boolean {
             val xpNSP = XpNSP.getInstance()
-            return xpNSP.flag(name, packageName, type)
+            return xpNSP.flag(name, packageName, type, userId)
         }
 
     }

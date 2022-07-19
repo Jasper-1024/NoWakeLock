@@ -32,7 +32,10 @@ open class IFR(private val daDao: DADao) : FR {
                     list.add(
                         DA(
                             info = it.key,
-                            st = St(name = it.key.name, type = it.key.type, userId = it.key.userId)
+                            st = St(
+                                name = it.key.name, type = it.key.type,
+                                packageName = it.key.packageName, userId = it.key.userId
+                            )
                         )
                     )
                 } else {
@@ -55,7 +58,10 @@ open class IFR(private val daDao: DADao) : FR {
                     list.add(
                         DA(
                             info = it.key,
-                            st = St(name = it.key.name, type = it.key.type, userId = it.key.userId)
+                            st = St(
+                                name = it.key.name, type = it.key.type,
+                                packageName = it.key.packageName, userId = it.key.userId
+                            )
                         )
                     )
                 } else {
@@ -98,7 +104,10 @@ open class IFR(private val daDao: DADao) : FR {
     override suspend fun resumeSt2Info() {
         daDao.insert(
             daDao.loadStsDB(type).map {
-                Info(name = it.name, type = it.type, packageName = it.packageName)
+                Info(
+                    name = it.name, type = it.type,
+                    packageName = it.packageName, userId = it.userId
+                )
             })
     }
 
