@@ -62,7 +62,7 @@
 * [Github releases](https://github.com/Jasper-1024/NoWakeLock/releases), including the alpha/beta
   version.
 * [酷 安](https://www.coolapk.com/apk/260112), beta version but stable.
-* [Play](https://play.google.com/store/apps/details?id=com.js.nowakelocke), beta version.
+* [Play](https://play.google.com/store/apps/details?id=com.js.nowakelock), beta version.
 
 ## Support
 
