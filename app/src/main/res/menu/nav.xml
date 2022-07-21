@@ -41,7 +41,7 @@
         android:id="@+id/helpFragment"
         android:icon="@drawable/ic_help_24dp"
         android:title="@string/help"
-        android:visible="true"
+        android:visible="false"
         tools:ignore="ExtraText" />
 
 </menu>
