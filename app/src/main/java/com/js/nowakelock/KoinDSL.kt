@@ -73,8 +73,8 @@ var viewModel = module {
         MainViewModel()
     }
 
-    viewModel(named("AppDaSVM")) { (userId: Int) ->
-        AppDaSViewModel(userId, get(named("AppDasR")))
+    viewModel(named("AppDaSVM")) {
+        AppDaSViewModel(get(named("AppDasR")))
     }
 
     viewModel(named("DaVm")) { (name: String, type: Type, userId: Int) ->

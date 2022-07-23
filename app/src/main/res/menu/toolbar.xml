@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_user"
+        android:icon="@drawable/ic_user_24"
+        android:title="@string/user"
+        android:visible="false"
+        app:showAsAction="ifRoom|collapseActionView">
+        <menu>
+            <group
+                android:id="@+id/userShow"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/user_ower"
+                    android:onClick="setMainUser"
+                    android:title="@string/user_ower" />
+                <item
+                    android:id="@+id/user_work"
+                    android:onClick="setWorkUser"
+                    android:title="@string/user_work" />
+
+            </group>
+        </menu>
+    </item>
+
     <item
         android:id="@+id/menu_filter"
         android:icon="@drawable/ic_filter_list_24dp"
@@ -51,4 +75,5 @@
         android:title="@string/search_title"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />
+
 </menu>

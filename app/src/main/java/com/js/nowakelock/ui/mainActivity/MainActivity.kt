@@ -1,9 +1,13 @@
 package com.js.nowakelock.ui.mainActivity
 
+import android.content.Context
 import android.os.Bundle
+import android.os.UserHandle
+import android.os.UserManager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.SubMenu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -14,10 +18,12 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
+import com.js.nowakelock.BasicApp.Companion.context
 import com.js.nowakelock.R
 import com.js.nowakelock.ui.base.AppType
 import com.js.nowakelock.ui.base.Sort
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.component.getScopeId
 import org.koin.core.qualifier.named
 
 
@@ -130,6 +136,16 @@ class MainActivity : AppCompatActivity() {
         toolbar.menu.findItem(R.id.menu_sort_count).isChecked = false
         toolbar.menu.findItem(R.id.menu_sort_counTime).isChecked = false
         item.isChecked = true
+    }
+
+    fun setMainUser(menu: MenuItem) {
+        mainViewModel.user.postValue(0)
+        setSortCheck(menu)
+    }
+
+    fun setWorkUser(menu: MenuItem) {
+        mainViewModel.user.postValue(10)
+        setSortCheck(menu)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {

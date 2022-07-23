@@ -85,8 +85,10 @@
     <string name="clear_summary">When reset count,clear inactive records.</string>
     <string name="clear_title">Clear inactive records</string>
     <string name="re_hint">One rule per line, new rule input enter</string>
-    <string name="user_name_owner">Primary user</string>
+    <string name="user_ower">Primary user</string>
+    <string name="user_work">Work profile</string>
     <string name="user_name">User</string>
+    <string name="user">User</string>
     <string-array name="scopes" translatable="false">
         <item>android</item>
         <item>com.android.providers.settings</item>

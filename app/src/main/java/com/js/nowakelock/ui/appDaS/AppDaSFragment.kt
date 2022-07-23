@@ -3,13 +3,18 @@ package com.js.nowakelock.ui.appDaS
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.js.nowakelock.R
+import com.js.nowakelock.base.menuGone
+import com.js.nowakelock.base.multiUser
 import com.js.nowakelock.databinding.FragmentAppdasBinding
 import com.js.nowakelock.ui.mainActivity.MainViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,13 +24,11 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 
-class AppDaSFragment(val userId: Int = 0) : Fragment() {
+class AppDaSFragment : Fragment() {
     private val layout = R.layout.item_appda
 
     private val mainViewModel: MainViewModel by sharedViewModel(named("MainVm"))
-    private val viewModel: AppDaSViewModel by viewModel(named("AppDaSVM")) {
-        parametersOf(userId)
-    }
+    private val viewModel: AppDaSViewModel by viewModel(named("AppDaSVM"))
 
     private lateinit var binding: FragmentAppdasBinding
 
@@ -33,6 +36,7 @@ class AppDaSFragment(val userId: Int = 0) : Fragment() {
         super.onCreate(savedInstanceState)
 
         addSubscription(viewModel.appDas)
+        addSubscription(mainViewModel.user)
         addSubscription(mainViewModel.type)
         addSubscription(mainViewModel.query)
         addSubscription(mainViewModel.sort)
@@ -55,12 +59,16 @@ class AppDaSFragment(val userId: Int = 0) : Fragment() {
         setItemDecoration(binding.appList)
         // Refresh
         setSwipeRefreshLayout(binding.refresh)
+        // Menu
+        setMenu()
+
         return binding.root
     }
 
     override fun onDestroy() {
         super.onDestroy()
         removeSubscription(viewModel.appDas)
+        removeSubscription(mainViewModel.user)
         removeSubscription(mainViewModel.type)
         removeSubscription(mainViewModel.query)
         removeSubscription(mainViewModel.sort)
@@ -83,12 +91,14 @@ class AppDaSFragment(val userId: Int = 0) : Fragment() {
 
     //读取值
     private fun list() = viewModel.appDas.value?.let { appDas ->
-        mainViewModel.query.value?.let { query ->
-            mainViewModel.sort.value?.let { sort ->
-                mainViewModel.type.value?.let { type ->
-                    viewModel.getList(
-                        appDas, type, query, sort, layout
-                    )
+        mainViewModel.user.value?.let { user ->
+            mainViewModel.query.value?.let { query ->
+                mainViewModel.sort.value?.let { sort ->
+                    mainViewModel.type.value?.let { type ->
+                        viewModel.getList(
+                            appDas, user, type, query, sort, layout
+                        )
+                    }
                 }
             }
         }
@@ -117,4 +127,16 @@ class AppDaSFragment(val userId: Int = 0) : Fragment() {
         )
     )
 
+    private fun setMenu() {
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                if (!multiUser()) return
+                val userItem = menu.findItem(R.id.menu_user)
+                userItem.isVisible = true
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean = true
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
 }

@@ -8,6 +8,7 @@ import android.icu.text.SimpleDateFormat
 import android.icu.util.TimeZone
 import android.os.Bundle
 import android.os.UserHandle
+import android.os.UserManager
 import android.view.Menu
 import android.widget.Toast
 import com.js.nowakelock.BasicApp
@@ -181,5 +182,23 @@ fun getUserId(uid: Int): Int {
     } catch (ex: Throwable) {
         return uid / PER_USER_RANGE
     }
+}
+
+/**
+ * whether device has multiple active users
+ * @return Boolean
+ */
+
+fun multiUser(): Boolean {
+    val um = BasicApp.context.getSystemService(Context.USER_SERVICE) as UserManager
+    val userList: List<UserHandle> = um.userProfiles
+
+    if (userList.size <= 1) return false
+
+    for (user in userList) {
+        if (user.hashCode() == 0) continue
+        return um.isUserRunning(user)
+    }
+    return false
 }
 

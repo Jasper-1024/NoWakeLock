@@ -10,7 +10,7 @@ class ItemAppDAS(
     @LayoutRes override val layoutId: Int
 ) : BaseItem(data, handle, layoutId) {
     override fun getID(): String {
-        return data.info.packageName + data.info.label
+        return "${data.info.packageName}${data.info.userId}"
     }
 
     override fun getContent(): Int {

@@ -20,4 +20,9 @@ class MainViewModel : ViewModel() {
     val query: MutableLiveData<String> by lazy {
         MutableLiveData<String>("")
     }
+
+    // userId
+    val user: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>(0)
+    }
 }
