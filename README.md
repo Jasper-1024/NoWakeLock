@@ -1,81 +1,89 @@
 # NoWakeLock
 
-This is English version(although a lot of google translation😂), for china
-  user [中文版](https://github.com/Jasper-1024/NoWakeLock/blob/dev/README/README_zh_cn.md)
+For china user 中文用户 -> [NoWakelock Wiki](https://github.com/Jasper-1024/NoWakeLock/wiki)
 
-~~A major update is being planned, but it will take a lot of time.~~ it came now 2.0 beta.
+## Introduction
 
-NoWakelock allows you to easily control the frequency and duration of waking up your Android device to save power consumption.
+NoWakelock allows you to easily control the frequency and duration of waking up your Android device
+to save power consumption.
 
 - Take full control of Wakelock/Alarm/Service, no feature limitations.
 - Application level support
-  - Control Wakelock/Alarm/Service by application
-  - Application-level Wakelock/Alarm regular expression interception support.
-  - Limited multi-user support
+    - Control Wakelock/Alarm/Service by application
+    - Application-level Wakelock/Alarm regular expression interception support.
+    - Limited multi-user support
 - Support for Android N and above.
 - Fully open source, no private data collected and stored.
 
 **Serious warning**:
 
-- This application is still in Beta testing stage. I will not be responsible for any damage
-      caused by the software to your device.
-- Version 2.0 is not compatible with the previous configuration, you need to clear all
-      application data.
+- This application is still in Beta testing stage. I will not be responsible for any damage caused
+  by the software to your device.
+- Version 2.0 is not compatible with the previous configuration, you need to clear all application
+  data.
+
+## Compatibility
+
+Android 7 ~ Android 12.
+
+Tested with the EdXposed / LSPosed.
+
+## Installation
+
+[Play](https://play.google.com/store/apps/details?id=com.js.nowakelock) beta (Recommend)
+
+[酷 安](https://www.coolapk.com/apk/260112) beta version
+
+[Github releases](https://github.com/Jasper-1024/NoWakeLock/releases) alpha/beta version.
+
+## FAQ
+
+Please check [NoWakelock Wiki](https://github.com/Jasper-1024/NoWakeLock/wiki)
 
 ## About
 
 With the update of Android version, doze mode is enough to suppress the power consumption of the
-  background of the application, but some advanced users still hope to be able to control the
-  wakelock alarm or service by themselves.
+background of the application, but some advanced users still hope to be able to control the wakelock
+alarm or service by themselves.
 
 Amplify is good enough to meet the needs of most people, but after Android N, Amplify stops
-  updating.
+updating.
 
 So NoWakeLock expects to achieve the same function as Amplify does on Android N and later.
 
 ## 2.x Features
 
-- Alpha:
-  - ~~record/block alarm~~
-  - ~~record/block wakelock~~
-  - ~~record/block service~~
-  - ~~check module active status~~
-  - ~~Data reset~~
-  - ~~Regular expressions support~~
+Alpha:
 
-- Beta:
-  - Data backup and recovery
-  - ~~Long press to copy information~~
+- ~~record/block alarm~~
+- ~~record/block wakelock~~
+- ~~record/block service~~
+- ~~check module active status~~
+- ~~Data reset~~
+- ~~Regular expressions support~~
 
-- Release:
-  - Application statistics
+Beta:
 
-## Compatibility
+- Data backup and recovery
+- ~~Long press to copy information~~
 
-- NoWakeLock is available for Android N ~ Android S. For previous versions of Android N, please
-  use [Amplify](https://github.com/rsteckler/unbounce-android).
+Release:
 
-- NoWakeLock was tested with the EdXposed / LSPosed.
+- Application statistics
 
 ## Compile
 
-- ~~[master](https://github.com/Jasper-1024/NoWakeLock): stable version (not ready yet)~~
+~~[master](https://github.com/Jasper-1024/NoWakeLock): stable version (not ready yet)~~
 
-- [dev](https://github.com/Jasper-1024/NoWakeLock/tree/dev): Beta version, may not be stable.
+[dev](https://github.com/Jasper-1024/NoWakeLock/tree/dev): Beta version, may not be stable.
 
-- [feature](https://github.com/Jasper-1024/NoWakeLock/tree/feature): Alpha version
-
-## Installation
-
-- [Github releases](https://github.com/Jasper-1024/NoWakeLock/releases), including the alpha/beta
-  version.
-- [酷 安](https://www.coolapk.com/apk/260112), beta version but stable.
-- [Play](https://play.google.com/store/apps/details?id=com.js.nowakelock), beta version.
+[feature](https://github.com/Jasper-1024/NoWakeLock/tree/feature): Alpha version
 
 ## Support
 
-- Only NoWakeLock downloaded from the above channels is supported
-- Please submit [ISSUE](https://github.com/Jasper-1024/NoWakeLock/issues)
+Only NoWakeLock downloaded from the above channels is supported
+
+Please submit [ISSUE](https://github.com/Jasper-1024/NoWakeLock/issues)
 
 ## Contributing
 
@@ -83,12 +91,12 @@ So NoWakeLock expects to achieve the same function as Amplify does on Android N 
 
 ## License
 
-- NoWakeLock is released under GNU
-  GPLv3 ([License](https://github.com/Jasper-1024/NoWakeLock/blob/master/LICENSE)).
+NoWakeLock is released under GNU
+GPLv3 ([License](https://github.com/Jasper-1024/NoWakeLock/blob/master/LICENSE)).
 
 ## Thanks
 
-- NoWakelock is written with reference to the need for more open source applications. Thanks here.
+NoWakelock is written with reference to the need for more open source applications. Thanks here.
 
 - [Amplify](https://github.com/rsteckler/unbounce-android).
 - [XPrivacyLua](https://github.com/M66B/XPrivacyLua)
