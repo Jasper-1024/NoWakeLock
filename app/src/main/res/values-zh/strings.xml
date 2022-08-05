@@ -86,4 +86,7 @@
     <string name="user_work">工作资料</string>
     <string name="user_name">用户</string>
     <string name="user">用户</string>
+    <string name="experimental">实验功能</string>
+    <string name="Debug">调试模式</string>
+    <string name="Debug_summary">遇到唤醒锁/定时器/服务无记录时启用此项,在 Xposed 中导出完整日志,您可以在任何渠道发送给我以排查问题.</string>
 </resources>

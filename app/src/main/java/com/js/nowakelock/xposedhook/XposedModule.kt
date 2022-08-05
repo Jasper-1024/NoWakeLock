@@ -16,16 +16,30 @@ open class XposedModule : IXposedHookZygoteInit, IXposedHookLoadPackage {
         XpUtil.log(": initZygote")
     }
 
-    @Throws(Throwable::class)
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
 //        val pN = lpparam.packageName
 //        XposedBridge.log("$TAG $pN: handleLoadPackage ,mypid ${Process.myUid()}")
 
         when (lpparam.packageName) {
             "android" -> {//hook Android system
-                WakelockHook.hookWakeLocks(lpparam)
-                AlarmHook.hookAlarm(lpparam)
-                ServiceHook.hookService(lpparam)
+                try {
+                    WakelockHook.hookWakeLocks(lpparam)
+                } catch (e: Exception) {
+                    XpUtil.log("${e.message}")
+                    XpUtil.log("${e.stackTrace}")
+                }
+                try {
+                    AlarmHook.hookAlarm(lpparam)
+                } catch (e: Exception) {
+                    XpUtil.log("${e.message}")
+                    XpUtil.log("${e.stackTrace}")
+                }
+                try {
+                    ServiceHook.hookService(lpparam)
+                } catch (e: Exception) {
+                    XpUtil.log("${e.message}")
+                    XpUtil.log("${e.stackTrace}")
+                }
             }
             "com.android.providers.settings" -> {//hook SettingsProvider
                 SettingsProviderHook.hook(lpparam)

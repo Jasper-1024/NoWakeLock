@@ -11,7 +11,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreferenceCompat
 import com.js.nowakelock.R
+import com.js.nowakelock.base.SPTools
 import com.js.nowakelock.base.menuGone
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -32,6 +34,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 Preference.OnPreferenceChangeListener { _, newValue ->
                     val themeOption = newValue as String
                     ThemeHelper.applyTheme(themeOption)
+                    true
+                }
+        }
+
+        //debug
+        val debugPreference = findPreference<SwitchPreferenceCompat>("debug")
+        if (debugPreference != null) {
+            debugPreference.onPreferenceChangeListener =
+                Preference.OnPreferenceChangeListener { _, newValue ->
+                    val themeOption = newValue as Boolean
+                    SPTools.setBoolean("debug", themeOption)
                     true
                 }
         }

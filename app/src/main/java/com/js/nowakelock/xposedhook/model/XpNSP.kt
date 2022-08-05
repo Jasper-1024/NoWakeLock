@@ -74,6 +74,10 @@ class XpNSP {
         }
     }
 
+    fun getDebug(): Boolean {
+        return getBool("debug")
+    }
+
 
     private fun getBool(key: String, defValue: Boolean = false): Boolean {
         reFresh()

@@ -89,6 +89,9 @@
     <string name="user_work">Work profile</string>
     <string name="user_name">User</string>
     <string name="user">User</string>
+    <string name="experimental">Experimental function</string>
+    <string name="Debug">Debug mode</string>
+    <string name="Debug_summary">Enable this when you encounter a wakelock/alarm/service that is not logged, export the full log in Xposed and you can send it to me in any channel to troubleshoot the problem."</string>
     <string-array name="scopes" translatable="false">
         <item>android</item>
         <item>com.android.providers.settings</item>

@@ -12,6 +12,7 @@ import com.js.nowakelock.xposedhook.XpUtil
 import com.js.nowakelock.xposedhook.model.XpNSP
 import com.js.nowakelock.xposedhook.model.XpRecord
 import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
@@ -27,11 +28,53 @@ class WakelockHook {
         private var lastAllowTime = HashMap<String, Long>()//wakelock last allow time
 
         fun hookWakeLocks(lpparam: XC_LoadPackage.LoadPackageParam) {
+            //for test
+            wakelockTest(lpparam)
+
             when (Build.VERSION.SDK_INT) {
                 //Try for alarm hooks for API levels >= 31 (S or higher)
                 in Build.VERSION_CODES.S..40 -> wakeLockHook31(lpparam)
                 //hooks for API levels 24-30 (N ~ R)
                 in Build.VERSION_CODES.N..Build.VERSION_CODES.R -> wakeLockHook24to30(lpparam)
+            }
+        }
+
+        private fun wakelockTest(lpparam: XC_LoadPackage.LoadPackageParam) {
+            val tmp: Class<*>? =
+                XpUtil.getClass("com.android.server.power.PowerManagerService", lpparam.classLoader)
+
+            tmp?.let {
+                XposedBridge.hookAllMethods(
+                    it, "acquireWakeLockInternal",
+                    object : XC_MethodHook() {
+                        @Throws(Throwable::class)
+                        override fun beforeHookedMethod(param: MethodHookParam) {
+                            // no debug
+                            if (!XpNSP.getInstance().getDebug())
+                                return
+                            XpUtil.log("${param.args.size}")
+                            try {
+                                val lock = param.args[0] as IBinder
+                                val wN = param.args[3] as String
+                                val pN = param.args[4] as String
+                                val uid = param.args[7] as Int
+                                XpUtil.log("S $lock $wN $pN $uid")
+                            } catch (e: Exception) {
+                                XpUtil.log("${e.message}")
+                            }
+
+                            try {
+                                val lock = param.args[0] as IBinder
+                                val wN = param.args[2] as String
+                                val pN = param.args[3] as String
+                                val uid = param.args[6] as Int
+                                XpUtil.log("R $lock $wN $pN $uid")
+                            } catch (e: Exception) {
+                                XpUtil.log("${e.message}")
+                            }
+                        }
+                    }
+                )
             }
         }
 
@@ -81,6 +124,7 @@ class WakelockHook {
         }
 
         private fun wakeLockHook24to30(lpparam: XC_LoadPackage.LoadPackageParam) {
+            //https://cs.android.com/android/platform/superproject/+/android-11.0.0_r1:frameworks/base/services/core/java/com/android/server/power/PowerManagerService.java
             XposedHelpers.findAndHookMethod("com.android.server.power.PowerManagerService",
                 lpparam.classLoader,
                 "acquireWakeLockInternal",

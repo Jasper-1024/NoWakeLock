@@ -37,6 +37,19 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:icon="@drawable/ic_other_24dp"
+        android:key="experimental"
+        android:title="@string/experimental">
+
+        <SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:key="debug"
+            app:summary="@string/Debug_summary"
+            app:title="@string/Debug" />
+
+    </PreferenceCategory>
+
     <!--    <PreferenceCategory-->
     <!--        android:icon="@drawable/ic_sync_24dp"-->
     <!--        android:key="sync"-->
