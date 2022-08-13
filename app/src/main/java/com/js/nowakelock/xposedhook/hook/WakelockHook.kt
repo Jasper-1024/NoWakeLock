@@ -82,28 +82,59 @@ class WakelockHook {
             //https://cs.android.com/android/platform/superproject/+/android-12.1.0_r8:frameworks/base/services/core/java/com/android/server/power/PowerManagerService.java?hl=zh-cn
             //private void acquireWakeLockInternal(IBinder lock, int displayId, int flags, String tag,
             //         String packageName, WorkSource ws, String historyTag, int uid, int pid)
-            XposedHelpers.findAndHookMethod("com.android.server.power.PowerManagerService",
-                lpparam.classLoader,
-                "acquireWakeLockInternal",
-                IBinder::class.java,
-                Int::class.javaPrimitiveType, Int::class.javaPrimitiveType,
-                String::class.java, String::class.java,//wakeLockName packageName
-                WorkSource::class.java,
-                String::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType,
-                object : XC_MethodHook() {
-                    @Throws(Throwable::class)
-                    override fun beforeHookedMethod(param: MethodHookParam) {
+//            XposedHelpers.findAndHookMethod("com.android.server.power.PowerManagerService",
+//                lpparam.classLoader,
+//                "acquireWakeLockInternal",
+//                IBinder::class.java,
+//                Int::class.javaPrimitiveType, Int::class.javaPrimitiveType,
+//                String::class.java, String::class.java,//wakeLockName packageName
+//                WorkSource::class.java,
+//                String::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType,
+//                object : XC_MethodHook() {
+//                    @Throws(Throwable::class)
+//                    override fun beforeHookedMethod(param: MethodHookParam) {
+//
+//                        val lock = param.args[0] as IBinder
+//                        val wN = param.args[3] as String
+//                        val pN = param.args[4] as String
+//                        val uid = param.args[7] as Int
+//                        val context =
+//                            XposedHelpers.getObjectField(param.thisObject, "mContext") as Context
+//
+//                        handleWakeLockAcquire(param, pN, wN, uid, lock, context)
+//                    }
+//                })
 
-                        val lock = param.args[0] as IBinder
-                        val wN = param.args[3] as String
-                        val pN = param.args[4] as String
-                        val uid = param.args[7] as Int
-                        val context =
-                            XposedHelpers.getObjectField(param.thisObject, "mContext") as Context
+            val tmp: Class<*>? =
+                XpUtil.getClass("com.android.server.power.PowerManagerService", lpparam.classLoader)
 
-                        handleWakeLockAcquire(param, pN, wN, uid, lock, context)
+            tmp?.let {
+                XposedBridge.hookAllMethods(
+                    it, "acquireWakeLockInternal",
+                    object : XC_MethodHook() {
+                        @Throws(Throwable::class)
+                        override fun beforeHookedMethod(param: MethodHookParam) {
+
+                            try {
+                                val lock = param.args[0] as IBinder
+                                val wN = param.args[2] as String
+                                val pN = param.args[3] as String
+                                val uid = param.args[6] as Int
+
+                                val context =
+                                    XposedHelpers.getObjectField(
+                                        param.thisObject,
+                                        "mContext"
+                                    ) as Context
+
+                                handleWakeLockAcquire(param, pN, wN, uid, lock, context)
+                            } catch (e: Exception) {
+                                XpUtil.log("${e.message}")
+                            }
+                        }
                     }
-                })
+                )
+            }
 
             XposedHelpers.findAndHookMethod("com.android.server.power.PowerManagerService",
                 lpparam.classLoader,
@@ -125,31 +156,61 @@ class WakelockHook {
 
         private fun wakeLockHook24to30(lpparam: XC_LoadPackage.LoadPackageParam) {
             //https://cs.android.com/android/platform/superproject/+/android-11.0.0_r1:frameworks/base/services/core/java/com/android/server/power/PowerManagerService.java
-            XposedHelpers.findAndHookMethod("com.android.server.power.PowerManagerService",
-                lpparam.classLoader,
-                "acquireWakeLockInternal",
-                IBinder::class.java, Int::class.javaPrimitiveType,
-                String::class.java, String::class.java,////wakeLockName packageName
-                WorkSource::class.java, String::class.java,
-                Int::class.javaPrimitiveType, Int::class.javaPrimitiveType,
-                object : XC_MethodHook() {
-                    @Throws(Throwable::class)
-                    override fun beforeHookedMethod(param: MethodHookParam) {
+//            XposedHelpers.findAndHookMethod("com.android.server.power.PowerManagerService",
+//                lpparam.classLoader,
+//                "acquireWakeLockInternal",
+//                IBinder::class.java, Int::class.javaPrimitiveType,
+//                String::class.java, String::class.java,////wakeLockName packageName
+//                WorkSource::class.java, String::class.java,
+//                Int::class.javaPrimitiveType, Int::class.javaPrimitiveType,
+//                object : XC_MethodHook() {
+//                    @Throws(Throwable::class)
+//                    override fun beforeHookedMethod(param: MethodHookParam) {
+//
+//                        val lock = param.args[0] as IBinder
+////                        val flags = param.args[1] as Int
+//                        val wN = param.args[2] as String
+//                        val pN = param.args[3] as String
+////                        val ws = param.args[4] as WorkSource?
+////                        val historyTag = param.args[5] as String
+//                        val uid = param.args[6] as Int
+////                        val pid = param.args[7] as Int
+//                        val context =
+//                            XposedHelpers.getObjectField(param.thisObject, "mContext") as Context
+//
+//                        handleWakeLockAcquire(param, pN, wN, uid, lock, context)
+//                    }
+//                })
 
-                        val lock = param.args[0] as IBinder
-//                        val flags = param.args[1] as Int
-                        val wN = param.args[2] as String
-                        val pN = param.args[3] as String
-//                        val ws = param.args[4] as WorkSource?
-//                        val historyTag = param.args[5] as String
-                        val uid = param.args[6] as Int
-//                        val pid = param.args[7] as Int
-                        val context =
-                            XposedHelpers.getObjectField(param.thisObject, "mContext") as Context
+            val tmp: Class<*>? =
+                XpUtil.getClass("com.android.server.power.PowerManagerService", lpparam.classLoader)
 
-                        handleWakeLockAcquire(param, pN, wN, uid, lock, context)
+            tmp?.let {
+                XposedBridge.hookAllMethods(
+                    it, "acquireWakeLockInternal",
+                    object : XC_MethodHook() {
+                        @Throws(Throwable::class)
+                        override fun beforeHookedMethod(param: MethodHookParam) {
+                            try {
+                                val lock = param.args[0] as IBinder
+                                val wN = param.args[3] as String
+                                val pN = param.args[4] as String
+                                val uid = param.args[7] as Int
+
+                                val context =
+                                    XposedHelpers.getObjectField(
+                                        param.thisObject,
+                                        "mContext"
+                                    ) as Context
+
+                                handleWakeLockAcquire(param, pN, wN, uid, lock, context)
+                            } catch (e: Exception) {
+                                XpUtil.log("${e.message}")
+                            }
+                        }
                     }
-                })
+                )
+            }
 
             XposedHelpers.findAndHookMethod("com.android.server.power.PowerManagerService",
                 lpparam.classLoader,
