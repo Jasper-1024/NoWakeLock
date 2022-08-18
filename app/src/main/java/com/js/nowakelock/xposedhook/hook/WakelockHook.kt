@@ -117,9 +117,9 @@ class WakelockHook {
 
                             try {
                                 val lock = param.args[0] as IBinder
-                                val wN = param.args[2] as String
-                                val pN = param.args[3] as String
-                                val uid = param.args[6] as Int
+                                val wN = param.args[3] as String
+                                val pN = param.args[4] as String
+                                val uid = param.args[7] as Int
 
                                 val context =
                                     XposedHelpers.getObjectField(
@@ -193,9 +193,9 @@ class WakelockHook {
                         override fun beforeHookedMethod(param: MethodHookParam) {
                             try {
                                 val lock = param.args[0] as IBinder
-                                val wN = param.args[3] as String
-                                val pN = param.args[4] as String
-                                val uid = param.args[7] as Int
+                                val wN = param.args[2] as String
+                                val pN = param.args[3] as String
+                                val uid = param.args[6] as Int
 
                                 val context =
                                     XposedHelpers.getObjectField(
