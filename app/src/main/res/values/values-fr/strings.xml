@@ -1,0 +1,100 @@
+<resources>
+    <string name="app_name">NoWakeLock</string>
+    <string name="xposeddescription">Juste pour bloquer les alarmes</string>
+    <string name="navigation_view_header_title">NoWakeLock</string>
+    <string name="active">Le module n\’est pas activé</string>
+    <string name="backup">Sauvegarde terminée</string>
+    <string name="restore">Restauration terminée</string>
+    <string name="BackupAndRestore">Sauvegarde et restauration</string>
+    <string name="clipboard">copier dans le press-papier</string>
+    <string name="test">Test</string>
+    <string name="android">Système Android</string>
+    <string name="settings">Réglages</string>
+    <string name="sync">Syncchronisation</string>
+    <string name="recordFlag_title">Enregistrement des données</string>
+    <string name="recordFlag_summary">Enregistrer les données d'alarmes du périphérique</string>
+    <string name="Save">Enregistrer</string>
+    <string name="updateST_summary">Désactivation synchrone des informations de configuration (en seconde)</string>
+    <string name="updateST_title">Synchronisation des réglages</string>
+    <string name="updateDb_title">Synchronisation des données</string>
+    <string name="updateDb_summary">Synchronisation des informations des alarmes (en seconde)</string>
+    <string name="other">Autre</string>
+    <string name="powerFlag_title">Réinitialiser compteur</string>
+    <string name="powerFlag_summary">Après chargement, compteur réinitialisé</string>
+    <string name="theme">Thème</string>
+    <string name="theme_list">Thème général</string>
+    <string name="light_theme_name">Clair</string>
+    <string name="dark_theme_name">Sombre</string>
+    <string name="black_theme_name">Noire (AMOLED)</string>
+    <string name="system_theme_name">Identique au système</string>
+    <string name="channel_name">Services d\’arrière-plan</string>
+    <string name="channel_description">Ignorer simplement cette notification ou la masquer</string>
+    <string name="channel_id" translatable="false">aucun réveil</string>
+    <string name="notofication_title">Services d\’arrière-plan</string>
+    <string name="notofication_text">NoWakeLock a besoin d\’un service pour maintenir la base de données. Ignorez juste cette notification ou masquez la</string>
+    <string name="Count">Compteur</string>
+    <string name="BlockCount">Nombre de blocs</string>
+    <string name="CountTime">Date de compteur</string>
+    <string name="BlockCountTime">BlockCountTime</string>
+    <string name="search_title">Rechercher</string>
+    <string name="menu_filter">filtre</string>
+    <string name="menu_filter_user">afficher applications utilisateur</string>
+    <string name="menu_filter_system">afficher applications système</string>
+    <string name="menu_filter_modified">afficher applications modifiées</string>
+    <string name="menu_filter_all">afficher toutes les applications</string>
+    <string name="menu_filter_count">trier par compteur</string>
+    <string name="menu_filter_name">trier par nom</string>
+    <string name="menu_filter_countime">ordre par temps de comptage</string>
+
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="WakeLock">WakeLock</string>
+    <string name="Alarm">Alarme</string>
+    <string name="Service">Service</string>
+    <string name="Apps">Applications</string>
+    <string name="help">Aide</string>
+    <string name="help_instructions">        appuyer sur l\’icône ou le nom de l\’application pour renseigner les réglages d\’alarme, désactiver des alarmes.
+        <![CDATA[<br><br>]]> Avertissement sérieux, ne restrégnez pas les applications du système, celà causera des conséquences imprévisibles.
+        <![CDATA[<br><br>]]>pour d\’autres informations <![CDATA[<a href="https://github.com/Jasper-1024/NoWakeLock/blob/dev/README.md"> Introduction à l\’Application</a>]]>;
+           <![CDATA[<a href="https://github.com/Jasper-1024/NoWakeLock/blob/dev/README/FAQ.md">FAQ</a>]]>;
+    </string>
+    <string name="help_contact">Contact:\n
+            Si vous avez des questions ou problèmes rencontrés durant votre utilisation, vous pouvez m\’envoyer un email ou débuter un nouveau sujet.\n
+        \n
+        Sujet : https://github.com/Jasper-1024/NoWakeLock/issues \n
+        \n
+        JasperHale: ljy087621@gmail.com</string>
+    <string name="ATIText">Permettre les intervales</string>
+    <string name="FlagText">Permettre</string>
+    <string name="wakelockFlagText">Permettre les alarmes</string>
+    <string name="ATIUnit">seconde(s)</string>
+    <string name="Re_Alarm">Expression régulière de bloquage d\’alarmes</string>
+    <string name="Re_Wakelock">Expression régulière de bloquage de réveils</string>
+    <string name="name">Nom</string>
+    <string name="application">Application</string>
+    <string name="statistics">Statistiques</string>
+    <string name="backup_title">Créer un nouveau fichier de sauvegarde</string>
+    <string name="backup_summary">Sauvegarder les réglages des applications installés dans un fichier</string>
+    <string name="restore_title">Restaurer depuis un fichier de sauvegarde</string>
+    <string name="restore_summary">Restauration depuis un fichier de sauvegarde outrepassera les réglages actuels</string>
+    <string name="action_allow_all">Tout autoriser</string>
+    <string name="action_block_all">Tout bloquer</string>
+    <string name="action_select_all">Tout sélectionner</string>
+    <string name="action_select_inverse">"Inverser la sélection"</string>
+    <string name="action_set_ATI">"Définir l\’'intervalle de temps autorisé"</string>
+    <string name="database">Base de données</string>
+    <string name="clear_summary">Quand on remet le compte à zéro, on efface les enregistrements inactifs.</string>
+    <string name="clear_title">Éffacer les enregistrements inactifs</string>
+    <string name="re_hint">Une règle par ligne, nouvelle ligne entrée</string>
+    <string name="user_ower">Utilisateur principal</string>
+    <string name="user_work">Profile de travail</string>
+    <string name="user_name">Nom d\’utilisateur</string>
+    <string name="user">Utilisateur</string>
+    <string name="experimental">Fonction expérimentale</string>
+    <string name="Debug">Mode débuggage</string>
+    <string name="Debug_summary">Activer celà quand vous rencontrez un réveil/alarme/service qui n'est pas listé, exportez le journal complet dans Xposed et vous pourrez me l'envoyer dans mon canal pour investiguer le problème."</string>
+    <string-array name="scopes" translatable="false">
+        <item>android</item>
+        <item>com.android.providers.settings</item>
+        <item>com.js.nowakelock</item>
+    </string-array>
+</resources>
