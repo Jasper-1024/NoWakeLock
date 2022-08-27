@@ -12,7 +12,7 @@
     <string name="settings">Réglages</string>
     <string name="sync">Syncchronisation</string>
     <string name="recordFlag_title">Enregistrement des données</string>
-    <string name="recordFlag_summary">Enregistrer les données d'alarmes du périphérique</string>
+    <string name="recordFlag_summary">Enregistrer les données d\'alarmes du périphérique</string>
     <string name="Save">Enregistrer</string>
     <string name="updateST_summary">Désactivation synchrone des informations de configuration (en seconde)</string>
     <string name="updateST_title">Synchronisation des réglages</string>
@@ -80,7 +80,7 @@
     <string name="action_block_all">Tout bloquer</string>
     <string name="action_select_all">Tout sélectionner</string>
     <string name="action_select_inverse">"Inverser la sélection"</string>
-    <string name="action_set_ATI">"Définir l\’'intervalle de temps autorisé"</string>
+    <string name="action_set_ATI">"Définir l\’\'intervalle de temps autorisé"</string>
     <string name="database">Base de données</string>
     <string name="clear_summary">Quand on remet le compte à zéro, on efface les enregistrements inactifs.</string>
     <string name="clear_title">Éffacer les enregistrements inactifs</string>
@@ -91,7 +91,7 @@
     <string name="user">Utilisateur</string>
     <string name="experimental">Fonction expérimentale</string>
     <string name="Debug">Mode débuggage</string>
-    <string name="Debug_summary">Activer celà quand vous rencontrez un réveil/alarme/service qui n'est pas listé, exportez le journal complet dans Xposed et vous pourrez me l'envoyer dans mon canal pour investiguer le problème."</string>
+    <string name="Debug_summary">Activer celà quand vous rencontrez un réveil/alarme/service qui n\'est pas listé, exportez le journal complet dans Xposed et vous pourrez me l\'envoyer dans mon canal pour investiguer le problème."</string>
     <string-array name="scopes" translatable="false">
         <item>android</item>
         <item>com.android.providers.settings</item>
