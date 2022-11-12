@@ -14,6 +14,10 @@ data class St(
     var packageName: String = "",
     var flag: Boolean = false,
     var allowTimeInterval: Long = 0,
-    @ColumnInfo(name = "userId_st",defaultValue = "0")
+    @ColumnInfo(name = "userId_st", defaultValue = "0")
     var userId: Int = 0,
-)
+) {
+    fun isNotEmpty(): Boolean {
+        return name != "" && packageName != ""
+    }
+}

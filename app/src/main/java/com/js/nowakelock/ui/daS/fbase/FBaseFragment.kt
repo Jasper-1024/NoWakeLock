@@ -53,6 +53,7 @@ open class FBaseFragment : Fragment() {
         addSubscription(mainViewModel.sort)
 
         viewModel.syncSt()
+        viewModel.saveSt()
     }
 
     override fun onCreateView(

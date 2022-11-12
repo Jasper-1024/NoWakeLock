@@ -7,18 +7,18 @@ import com.js.nowakelock.data.db.entity.St
 import com.js.nowakelock.data.repository.das.FR
 import com.js.nowakelock.ui.base.Sort
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.text.Collator
 import java.util.*
 import kotlin.Comparator
 
 class FBaseViewModel(
-    private var packageName: String = "", private var userId: Int,
-    private var fR: FR
+    private var packageName: String = "", private var userId: Int, private var fR: FR
 ) : ViewModel() {
-    var das: LiveData<List<DA>> =
-        if (packageName == "") fR.getDAs().asLiveData()
-        else fR.getDAs(packageName, userId).asLiveData()
+    var das: LiveData<List<DA>> = if (packageName == "") fR.getDAs().asLiveData()
+    else fR.getDAs(packageName, userId).asLiveData()
 
     private val handleDA = HandleDA(this)
 
@@ -27,6 +27,22 @@ class FBaseViewModel(
 
     init {
         syncInfos()
+    }
+
+
+    private val stSave = MutableStateFlow(St())
+
+    @OptIn(FlowPreview::class)
+    fun saveSt() {
+        viewModelScope.launch(Dispatchers.IO) {
+            stSave
+                .filter { it.isNotEmpty() }// 过滤空内容，避免无效网络请求
+                .debounce(1000) // 300ms防抖
+                .collect {
+                    fR.insertSt(it)
+//                    LogUtil.d("flow", it.toString())
+                }
+        }
     }
 
 
@@ -40,7 +56,9 @@ class FBaseViewModel(
 
     fun setSt(st: St) {
         viewModelScope.launch(Dispatchers.IO) {
-            fR.insertSt(st)
+            stSave.update {
+                st.copy()
+            }
         }
     }
 
@@ -67,9 +85,7 @@ class FBaseViewModel(
     }
 
     fun getList(das: List<DA>, query: String, sort: Sort, layout: Int): List<ItemDA> {
-        return das.search(query, ::search)
-            .sort(sort(sort))
-            .toItemDAs(layout)
+        return das.search(query, ::search).sort(sort(sort)).toItemDAs(layout)
     }
 
 
@@ -103,8 +119,7 @@ class FBaseViewModel(
     private fun saveSt(st: St) {
         SPTools.setBoolean("${st.name}_${st.type}_${st.packageName}_${st.userId}_flag", st.flag)
         SPTools.setLong(
-            "${st.name}_${st.type}_${st.packageName}_${st.userId}_aTI",
-            st.allowTimeInterval
+            "${st.name}_${st.type}_${st.packageName}_${st.userId}_aTI", st.allowTimeInterval
         )
 
 //        LogUtil.d(

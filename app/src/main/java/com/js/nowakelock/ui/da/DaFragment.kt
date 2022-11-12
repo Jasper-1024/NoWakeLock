@@ -37,6 +37,8 @@ class DaFragment : Fragment() {
         userId = arguments?.getInt("userId") ?: 0
 
         super.onCreate(savedInstanceState)
+
+        viewModel.saveSt()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
