@@ -8,14 +8,14 @@ plugins {
 
 android {
     compileSdkVersion 33
-    buildToolsVersion "31.0.0"
+    buildToolsVersion '33.0.0'
 
     defaultConfig {
         applicationId "com.js.nowakelock"
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 53
-        versionName "2.0.0-beta2-1"
+        versionCode 55
+        versionName "2.0.0-beta3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -67,7 +67,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.0"
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -77,8 +77,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
     //Xposed
     compileOnly 'de.robv.android.xposed:api:82'
@@ -141,7 +141,7 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.5.0'
 
     //navigation
-    def nav_version = "2.5.2"
+    def nav_version = "2.5.3"
     // Kotlin
     implementation "androidx.navigation:navigation-runtime-ktx:$nav_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -166,13 +166,13 @@ dependencies {
 
     //viewpager2
     implementation "androidx.viewpager2:viewpager2:1.0.0"
-    implementation 'androidx.fragment:fragment-ktx:1.5.3'
+    implementation 'androidx.fragment:fragment-ktx:1.5.4'
     implementation 'com.google.android.material:material:1.7.0'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.0'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.21'
 
     //glide4
     implementation 'com.github.bumptech.glide:glide:4.12.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    kapt 'com.github.bumptech.glide:compiler:4.12.0'
 
     //noinspection GradleCompatible
     implementation 'androidx.core:core-ktx:1.9.0'
@@ -194,11 +194,11 @@ dependencies {
 //    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 
     // Core library
-    androidTestImplementation 'androidx.test:core:1.4.0'
+    androidTestImplementation 'androidx.test:core:1.5.0'
 
     // AndroidJUnitRunner and JUnit Rules
-    androidTestImplementation 'androidx.test:runner:1.4.0'
-    androidTestImplementation 'androidx.test:rules:1.4.0'
+    androidTestImplementation 'androidx.test:runner:1.5.1'
+    androidTestImplementation 'androidx.test:rules:1.5.0'
 
     // Assertions
 //    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -206,17 +206,17 @@ dependencies {
 //    androidTestImplementation 'com.google.truth:truth:1.1.2'
 
     // Espresso dependencies
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.4.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-web:3.4.0'
-    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.5.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.5.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-web:3.5.0'
+    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.5.0'
 
     // The following Espresso dependency can be either "implementation"
     // or "androidTestImplementation", depending on whether you want the
     // dependency to appear on your APK's compile classpath or the test APK
     // classpath.
-    androidTestImplementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-idling-resource:3.5.0'
 
 }
