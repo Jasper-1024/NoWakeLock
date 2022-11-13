@@ -27,7 +27,6 @@
             android:id="@+id/ListName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:gravity="center_vertical"
             android:onClick="@{(view) -> item.handle.directToDa(view,item.data)}"
@@ -70,6 +69,7 @@
             android:onClick="@{()-> item.handle.saveSt(item.data)}"
             android:text=""
             android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ATI"
             app:layout_constraintStart_toEndOf="@+id/FlagText"
             app:layout_constraintTop_toBottomOf="@+id/ListName"
             tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml" />
