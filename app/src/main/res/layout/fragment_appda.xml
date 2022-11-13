@@ -24,11 +24,12 @@
 
         <TextView
             android:id="@+id/wakelock_textView3"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/Re_Alarm"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/wakelock_button3"
+            app:layout_constraintEnd_toStartOf="@+id/wakelock_button3"
             app:layout_constraintStart_toStartOf="@+id/wakelock_editText"
             app:layout_constraintTop_toTopOf="@+id/wakelock_button3"
             tools:ignore="MissingConstraints" />
@@ -36,12 +37,13 @@
 
         <TextView
             android:id="@+id/wakelock_textView2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/Re_Wakelock"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/wakelock_button"
+            app:layout_constraintEnd_toStartOf="@+id/wakelock_button"
             app:layout_constraintStart_toStartOf="@+id/textView4"
             app:layout_constraintTop_toTopOf="@+id/wakelock_button"
             tools:ignore="MissingConstraints" />
