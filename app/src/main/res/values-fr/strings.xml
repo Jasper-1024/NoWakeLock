@@ -50,7 +50,7 @@
     <string name="WakeLock">WakeLock</string>
     <string name="Alarm">Alarme</string>
     <string name="Service">Service</string>
-    <string name="Apps">Applications</string>
+    <string name="Apps">App</string>
     <string name="help">Aide</string>
     <string name="help_instructions">        appuyer sur l\’icône ou le nom de l\’application pour renseigner les réglages d\’alarme, désactiver des alarmes.
         <![CDATA[<br><br>]]> Avertissement sérieux, ne restrégnez pas les applications du système, celà causera des conséquences imprévisibles.
@@ -63,10 +63,10 @@
         Sujet : https://github.com/Jasper-1024/NoWakeLock/issues \n
         \n
         JasperHale: ljy087621@gmail.com</string>
-    <string name="ATIText">Permettre les intervales</string>
+    <string name="ATIText">Permettre intervales</string>
     <string name="FlagText">Permettre</string>
     <string name="wakelockFlagText">Permettre les alarmes</string>
-    <string name="ATIUnit">seconde(s)</string>
+    <string name="ATIUnit">sec</string>
     <string name="Re_Alarm">Expression régulière de bloquage d\’alarmes</string>
     <string name="Re_Wakelock">Expression régulière de bloquage de réveils</string>
     <string name="name">Nom</string>

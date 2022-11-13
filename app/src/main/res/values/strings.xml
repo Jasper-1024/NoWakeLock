@@ -50,7 +50,7 @@
     <string name="WakeLock">WakeLock</string>
     <string name="Alarm">Alarm</string>
     <string name="Service">Service</string>
-    <string name="Apps">Apps</string>
+    <string name="Apps">App</string>
     <string name="help">Help</string>
     <string name="help_instructions">        click the application icon or name to enter wakelock settings,disable wakelock.
         <![CDATA[<br><br>]]> Serious warning, don\'t restrict system application, it will cause unpredictable consequences.
@@ -66,7 +66,7 @@
     <string name="ATIText">Allow interval</string>
     <string name="FlagText">Allow</string>
     <string name="wakelockFlagText">Allow wakelock</string>
-    <string name="ATIUnit">second</string>
+    <string name="ATIUnit">sec</string>
     <string name="Re_Alarm">Alarm Block Regular expression</string>
     <string name="Re_Wakelock">Wakelock Block Regular expression</string>
     <string name="name">Name</string>
