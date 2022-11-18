@@ -6,6 +6,7 @@ import com.js.nowakelock.data.repository.appda.AppDaR
 import com.js.nowakelock.data.repository.appda.AppDaRepo
 import com.js.nowakelock.data.repository.appdas.AppDasAR
 import com.js.nowakelock.data.repository.appdas.AppDasRepo
+import com.js.nowakelock.data.repository.backup.BackupRepo
 import com.js.nowakelock.data.repository.da.DaR
 import com.js.nowakelock.data.repository.da.DaRepo
 import com.js.nowakelock.data.repository.das.FR
@@ -17,6 +18,7 @@ import com.js.nowakelock.ui.appDaS.AppDaSViewModel
 import com.js.nowakelock.ui.da.DaViewModel
 import com.js.nowakelock.ui.daS.fbase.FBaseViewModel
 import com.js.nowakelock.ui.mainActivity.MainViewModel
+import com.js.nowakelock.ui.settings.SettingViewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -52,14 +54,20 @@ var repository = module {
     single<DaRepo>(named("DaR")) {
         DaR(AppDatabase.getInstance(BasicApp.context).dADao())
     }
+
+    single<BackupRepo>(named("BackupR")) {
+        BackupRepo(
+            AppDatabase.getInstance(BasicApp.context).appDaDao(),
+            AppDatabase.getInstance(BasicApp.context).dADao()
+        )
+    }
 }
 
 var viewModel = module {
 
     viewModel(named("FVm")) { (packageName: String, userId: Int, type: Type) ->
         FBaseViewModel(
-            packageName, userId,
-            when (type) {
+            packageName, userId, when (type) {
                 Type.Wakelock -> get(named("WakelockR"))
                 Type.Alarm -> get(named("AlarmR"))
                 Type.Service -> get(named("ServiceR"))
@@ -83,6 +91,10 @@ var viewModel = module {
 
     viewModel(named("AppDaVm")) { (packageName: String, userId: Int) ->
         AppDaViewModel(packageName, userId)
+    }
+
+    viewModel(named("SettingVm")) {
+        SettingViewModel(get(named("BackupR")))
     }
 
 }
