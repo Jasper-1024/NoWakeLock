@@ -2,7 +2,6 @@ package com.js.nowakelock.data.db.dao
 
 import androidx.room.*
 import com.js.nowakelock.data.db.Type
-import com.js.nowakelock.data.db.entity.DA
 import com.js.nowakelock.data.db.entity.Info
 import com.js.nowakelock.data.db.entity.St
 import kotlinx.coroutines.flow.Flow
@@ -51,7 +50,7 @@ interface DADao : BaseDao<St> {
     suspend fun loadStsDB(type: Type, userId: Int = 0): List<St>
 
     @Query("select * from st")
-    suspend fun loadStsDB(): List<St>
+    suspend fun loadAllSts(): List<St>
 
     @Transaction
     @Query(
