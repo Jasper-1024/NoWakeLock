@@ -14,8 +14,8 @@ android {
         applicationId "com.js.nowakelock"
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 56
-        versionName "2.0.0-beta4"
+        versionCode 57
+        versionName "2.0.0-beta4-1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

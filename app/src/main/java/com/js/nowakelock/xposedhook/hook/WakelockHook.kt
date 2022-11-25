@@ -262,7 +262,7 @@ class WakelockHook {
         //handle wakelock release
         private fun handleWakeLockRelease(lock: IBinder, context: Context) {
             val now = SystemClock.elapsedRealtime() //current time
-            val wlT: WLT = wlTs[lock]!!
+            val wlT: WLT = wlTs[lock] ?: return
 
             XpRecord.upCount(
                 wlT.wakelockName, wlT.packageName, Type.Wakelock, context, wlT.userId
