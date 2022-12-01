@@ -66,12 +66,45 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:checked="@={!item.data.st.flag}"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
             android:onClick="@{()-> item.handle.saveSt(item.data)}"
             android:text=""
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/FlagText"
             app:layout_constraintTop_toBottomOf="@+id/ListName"
             tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml" />
+
+        <TextView
+            android:id="@+id/ATIText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ATIText"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ATI"
+            app:layout_constraintEnd_toStartOf="@+id/ATI"
+            app:layout_constraintTop_toTopOf="@+id/ATI"
+            tools:ignore="MissingConstraints" />
+
+        <EditText
+            android:id="@+id/ATI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:afterTextChanged="@{() -> item.handle.saveSt(item.data)}"
+            android:autofillHints=""
+            android:hint="@string/ATIUnit"
+            android:inputType="number"
+            android:maxEms="5"
+            android:minHeight="48dp"
+            android:minEms="3"
+            android:text="@={Converter.longToString(item.data.st.allowTimeInterval)}"
+            android:textAlignment="textEnd"
+            android:textColorHint="#546E7A"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ListName"
+            tools:ignore="MissingConstraints" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
