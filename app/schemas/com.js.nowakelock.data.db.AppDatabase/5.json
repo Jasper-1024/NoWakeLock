@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "39412c2595a4ca67dd55ed14ba2d0e5d",
+    "identityHash": "3fdd0a556f2f5e462ed9b836b1c0eb83",
     "entities": [
       {
         "tableName": "appInfo",
@@ -65,11 +65,11 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": false,
           "columnNames": [
             "packageName",
             "userId"
-          ],
-          "autoGenerate": false
+          ]
         },
         "indices": [],
         "foreignKeys": []
@@ -129,11 +129,11 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": false,
           "columnNames": [
             "packageName_st",
             "userId_appSt"
-          ],
-          "autoGenerate": false
+          ]
         },
         "indices": [],
         "foreignKeys": []
@@ -181,12 +181,12 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": false,
           "columnNames": [
             "name_st",
             "type_st",
             "userId_st"
-          ],
-          "autoGenerate": false
+          ]
         },
         "indices": [],
         "foreignKeys": []
@@ -240,12 +240,12 @@
           }
         ],
         "primaryKey": {
+          "autoGenerate": false,
           "columnNames": [
             "name_info",
             "type_info",
             "userid_info"
-          ],
-          "autoGenerate": false
+          ]
         },
         "indices": [],
         "foreignKeys": []
@@ -254,12 +254,12 @@
     "views": [
       {
         "viewName": "AppCount",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS select packageName_info as packageName,userid_info as userId,sum(count) as count,sum(countTime) as countTime,sum(blockCount) as blockCount,(select (sum(countTime / count * blockCount)) from info where packageName_info = packageName_info and userid_info = userid_info and type_info = 'Wakelock') as blockCountTime from info group by packageName_info,userId"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS select packageName_info as packageName_count,userid_info as userId_count,sum(count) as count,sum(countTime) as countTime,sum(blockCount) as blockCount,(select (sum(countTime / count * blockCount)) from info where packageName_info = packageName_info and userid_info = userid_info and type_info = 'Wakelock') as blockCountTime from info group by packageName_info,userid_info"
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '39412c2595a4ca67dd55ed14ba2d0e5d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3fdd0a556f2f5e462ed9b836b1c0eb83')"
     ]
   }
 }
