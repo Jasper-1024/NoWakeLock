@@ -16,7 +16,7 @@ import com.js.nowakelock.data.db.entity.*
         AppInfo::class, AppSt::class, St::class, Info::class
     ],
     views = [AppCount::class],
-    version = 5,
+    version = 8,
     autoMigrations = [
         androidx.room.AutoMigration(from = 1, to = 2),
         androidx.room.AutoMigration(from = 2, to = 3),

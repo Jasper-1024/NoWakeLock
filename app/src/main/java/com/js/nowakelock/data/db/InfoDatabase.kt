@@ -12,7 +12,7 @@ import com.js.nowakelock.data.db.entity.Info
     entities = [
         Info::class
     ],
-    version = 7,
+    version = 8,
     autoMigrations = [
         androidx.room.AutoMigration(from = 1, to = 2),
         androidx.room.AutoMigration(from = 2, to = 3),
