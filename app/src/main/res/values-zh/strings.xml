@@ -30,7 +30,7 @@
     <string name="channel_description">请忽略通知,或者将其隐藏</string>
     <string name="notofication_title">后台服务</string>
     <string name="notofication_text">NoWakeLock 需要使用后台服务来维护数据库,请忽略或隐藏这条通知.</string>
-    <string name="Count">总计</string>
+    <string name="Count">计数</string>
     <string name="BlockCount">阻止</string>
     <string name="CountTime">唤醒时间</string>
     <string name="BlockCountTime">阻止时间</string>

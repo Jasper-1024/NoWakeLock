@@ -37,37 +37,18 @@
             android:layout_marginEnd="16dp"
             android:visibility="@{item.data.info.userId == 0? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/contTime2"
-            app:layout_constraintTop_toTopOf="parent"
-            app:showUser="@{item.data.info.userId}" />
-
-        <TextView
-            android:id="@+id/contTime2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showTime="@{item.data.count.countTime}" />
-
-        <TextView
-            android:id="@+id/count"
-            android:layout_width="44dp"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:showCount="@{item.data.count.count}"
-            tools:ignore="MissingConstraints" />
+            app:showUser="@{item.data.info.userId}" />
 
         <ImageView
             android:id="@+id/appListIcon"
             android:layout_width="@android:dimen/app_icon_size"
             android:layout_height="@android:dimen/app_icon_size"
+            android:layout_marginStart="8dp"
             android:contentDescription="TODO"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/count"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:loadIcon="@{item.data.info}"
             tools:ignore="ContentDescription,HardcodedText,MissingConstraints" />
@@ -76,7 +57,7 @@
             android:id="@+id/appListPackageName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:gravity="center_vertical"
             android:text="@{item.data.info.label}"
             android:textSize="18sp"

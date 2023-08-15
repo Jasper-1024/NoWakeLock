@@ -24,6 +24,17 @@
 
 
         <TextView
+            android:id="@+id/flagText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Count"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/Count"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/Count"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
             android:id="@+id/ListName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -33,8 +44,8 @@
             android:onLongClick="@{() -> item.handle.copy(item.data.info.name)}"
             android:text="@{item.data.info.name}"
             android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/contTime"
-            app:layout_constraintStart_toEndOf="@+id/Count"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints,SmallSp,UnknownIdInLayout" />
 
@@ -42,10 +53,12 @@
             android:id="@+id/Count"
             android:layout_width="44dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/Flag"
+            app:layout_constraintStart_toStartOf="@+id/Flag"
+            app:layout_constraintTop_toBottomOf="@+id/ListName"
             app:showCount="@{item.data.info.count}"
             tools:ignore="MissingConstraints" />
 
@@ -56,7 +69,7 @@
             android:text="@string/FlagText"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/Flag"
-            app:layout_constraintStart_toEndOf="@+id/Count"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/Flag"
             tools:ignore="MissingConstraints" />
 
@@ -64,22 +77,22 @@
             android:id="@+id/Flag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
             android:checked="@={!item.data.st.flag}"
             android:minWidth="48dp"
             android:minHeight="48dp"
             android:onClick="@{()-> item.handle.saveSt(item.data)}"
             android:text=""
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/ATI"
-            app:layout_constraintStart_toEndOf="@+id/FlagText"
-            app:layout_constraintTop_toBottomOf="@+id/ListName"
+            app:layout_constraintStart_toEndOf="@+id/flagText2"
+            app:layout_constraintTop_toBottomOf="@+id/Count"
             tools:ignore="MissingConstraints,UseSwitchCompatOrMaterialXml" />
 
         <TextView
             android:id="@+id/ATIText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:text="@string/ATIText"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/ATI"
@@ -87,11 +100,22 @@
             app:layout_constraintTop_toTopOf="@+id/ATI"
             tools:ignore="MissingConstraints" />
 
+        <TextView
+            android:id="@+id/ATIText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/CountTime"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/Flag"
+            app:layout_constraintStart_toStartOf="@+id/ATIText"
+            app:layout_constraintTop_toTopOf="@+id/Count"
+            tools:ignore="MissingConstraints" />
+
         <EditText
             android:id="@+id/ATI"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:afterTextChanged="@{() -> item.handle.saveSt(item.data)}"
             android:autofillHints=""
             android:hint="@string/ATIUnit"
@@ -103,17 +127,20 @@
             android:textAlignment="textEnd"
             android:textColorHint="#546E7A"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/contTime"
-            app:layout_constraintTop_toBottomOf="@+id/ListName"
+            app:layout_constraintBottom_toBottomOf="@+id/Flag"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/Flag"
             tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/contTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/ATIText2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ATIText"
+            app:layout_constraintTop_toTopOf="@+id/ATIText2"
             app:showTime="@{item.data.info.countTime}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
