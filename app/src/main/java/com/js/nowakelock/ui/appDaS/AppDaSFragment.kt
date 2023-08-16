@@ -131,9 +131,11 @@ class AppDaSFragment : Fragment() {
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-//                if (!multiUser()) return
-//                val userItem = menu.findItem(R.id.menu_user)
-//                userItem.isVisible = true
+                // if there is multi user, show user menu
+                if (multiUser()){
+                    val userItem = menu.findItem(R.id.menu_user)
+                    userItem.isVisible = true
+                }
                 menuGone(
                     menu,
                     setOf(

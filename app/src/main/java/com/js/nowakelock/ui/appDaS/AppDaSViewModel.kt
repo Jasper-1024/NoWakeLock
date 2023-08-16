@@ -72,8 +72,8 @@ class AppDaSViewModel(private var appDasRepo: AppDasRepo) : ViewModel() {
     private fun sort(sort: Sort): Comparator<AppDA> {
         return when (sort) {
             Sort.Name -> sortByName()
-            Sort.Count -> sortByCount()
-            Sort.CountTime -> sortByCountTime()
+            Sort.Count -> sortByName() // All by Name
+            Sort.CountTime -> sortByName() // All by Name
         }
     }
 
@@ -83,13 +83,13 @@ class AppDaSViewModel(private var appDasRepo: AppDasRepo) : ViewModel() {
         }
     }
 
-    private fun sortByCount(): Comparator<AppDA> {
-        return compareByDescending { it.count?.count ?: 0 }
-    }
-
-    private fun sortByCountTime(): Comparator<AppDA> {
-        return compareByDescending { it.count?.countTime ?: 0 }
-    }
+//    private fun sortByCount(): Comparator<AppDA> {
+//        return compareByDescending { it.count?.count ?: 0 }
+//    }
+//
+//    private fun sortByCountTime(): Comparator<AppDA> {
+//        return compareByDescending { it.count?.countTime ?: 0 }
+//    }
 
     private fun List<AppDA>.toItemAppDAs(layout: Int): List<ItemAppDAS> {
         return this.map { app ->

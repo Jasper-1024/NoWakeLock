@@ -14,10 +14,11 @@ class ItemAppDAS(
     }
 
     override fun getContent(): Int {
-        val appCount = data.count
-
-        return appCount?.let {
-            (it.count + it.blockCount + it.countTime).toInt()
-        } ?: 0
+//        val appCount = data.count
+//
+//        return appCount?.let {
+//            (it.count + it.blockCount + it.countTime).toInt()
+//        } ?: 0
+        return 0
     }
 }

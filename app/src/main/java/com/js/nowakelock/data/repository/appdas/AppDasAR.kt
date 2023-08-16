@@ -32,16 +32,13 @@ class AppDasAR(private val appInfoDao: AppInfoDao, private val daDao: DADao) : A
     private val launcherApps = context.getSystemService<LauncherApps>()!!
 
     override fun getAppDAs(): Flow<List<AppDA>> {
-        return appInfoDao.loadAIACs().map { map ->
-            val list = mutableListOf<AppDA>()
-            map.forEach {
-                list.add(
-                    AppDA(
-                        it.key, it.value ?: AppCount(it.key.packageName, it.key.userId), null
-                    )
+        return appInfoDao.loadAppInfosDBFlow().distinctUntilChanged().map { appInfos ->
+            appInfos.map { appInfo ->
+                AppDA(
+                    appInfo,
+                    AppSt(packageName = appInfo.packageName, userId = appInfo.userId)
                 )
             }
-            list
         }
     }
 
