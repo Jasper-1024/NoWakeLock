@@ -40,6 +40,10 @@ class WakelockHook {
         }
 
         private fun wakelockTest(lpparam: XC_LoadPackage.LoadPackageParam) {
+            // if no debug enable
+            if (!XpNSP.getInstance().getDebug())
+                return
+
             val tmp: Class<*>? =
                 XpUtil.getClass("com.android.server.power.PowerManagerService", lpparam.classLoader)
 
@@ -49,16 +53,13 @@ class WakelockHook {
                     object : XC_MethodHook() {
                         @Throws(Throwable::class)
                         override fun beforeHookedMethod(param: MethodHookParam) {
-                            // no debug
-                            if (!XpNSP.getInstance().getDebug())
-                                return
-                            XpUtil.log("${param.args.size}")
+                            XpUtil.log("acquireWakeLockInternal param size: ${param.args.size}")
                             try {
                                 val lock = param.args[0] as IBinder
                                 val wN = param.args[3] as String
                                 val pN = param.args[4] as String
                                 val uid = param.args[7] as Int
-                                XpUtil.log("S $lock $wN $pN $uid")
+                                XpUtil.log("Android S: $lock $wN $pN $uid")
                             } catch (e: Exception) {
                                 XpUtil.log("${e.message}")
                             }
@@ -68,7 +69,7 @@ class WakelockHook {
                                 val wN = param.args[2] as String
                                 val pN = param.args[3] as String
                                 val uid = param.args[6] as Int
-                                XpUtil.log("R $lock $wN $pN $uid")
+                                XpUtil.log("Android  bR: $lock $wN $pN $uid")
                             } catch (e: Exception) {
                                 XpUtil.log("${e.message}")
                             }
