@@ -19,6 +19,7 @@ data class Info(
     var countTime: Long = 0,
     @ColumnInfo(name = "userid_info", defaultValue = "0")
     var userId: Int = 0,
+) : Serializable {
     @Ignore
     var blockCountTime: Long = 0
-) : Serializable
+}

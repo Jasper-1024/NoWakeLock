@@ -122,6 +122,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         return "$year:$month:$date-$hour:$minute"
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
 
         if (requestCode == readJson && resultCode == Activity.RESULT_OK) {
