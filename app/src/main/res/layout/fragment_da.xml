@@ -9,6 +9,8 @@
 
         <import type="com.js.nowakelock.ui.databinding.Converter" />
 
+        <import type="com.js.nowakelock.data.db.Type" />
+
         <variable
             name="vm"
             type="com.js.nowakelock.ui.da.DaViewModel" />
@@ -211,6 +213,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:textSize="16sp"
+            android:visibility="@{vm.da.info.type != Type.Wakelock ? View.GONE : View.VISIBLE}"
             app:layout_constraintStart_toEndOf="@+id/textView8"
             app:layout_constraintTop_toBottomOf="@+id/Count"
             app:showTime="@{vm.da.info.countTime}" />
@@ -222,6 +225,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:textSize="16sp"
+            android:visibility="@{vm.da.info.type != Type.Wakelock ? View.GONE : View.VISIBLE}"
             app:layout_constraintStart_toEndOf="@+id/textView9"
             app:layout_constraintTop_toBottomOf="@+id/Count"
             app:showTime="@{vm.da.info.blockCountTime}" />
@@ -232,6 +236,7 @@
             android:layout_height="wrap_content"
             android:text="@string/CountTime"
             android:textSize="16sp"
+            android:visibility="@{vm.da.info.type != Type.Wakelock ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/contTime"
             app:layout_constraintStart_toStartOf="@+id/textView5"
             app:layout_constraintTop_toTopOf="@+id/contTime" />
@@ -243,6 +248,7 @@
             android:layout_marginStart="16dp"
             android:text="@string/BlockCountTime"
             android:textSize="16sp"
+            android:visibility="@{vm.da.info.type != Type.Wakelock ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/blockContTime"
             app:layout_constraintStart_toEndOf="@+id/contTime"
             app:layout_constraintTop_toTopOf="@+id/blockContTime" />

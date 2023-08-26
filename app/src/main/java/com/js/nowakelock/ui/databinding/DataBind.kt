@@ -105,7 +105,7 @@ object Converter {
     @InverseMethod("stringToSet")
     @JvmStatic
     fun setToString(values: Set<String>?): String {
-        return if (values == null || values.isEmpty()) {
+        return if (values.isNullOrEmpty()) {
             ""
         } else {
             var tmp = ""
